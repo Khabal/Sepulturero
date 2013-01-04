@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+#menu ul {
+	background:transparent url('images/blue.jpg') repeat-x top left;
+	display:block;
+	font-family:'Helvetica, Arial, Verdana, sans-serif';
+	font-size:14pt;
+	height:40px;
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	position:relative;
+	text-transform:uppercase;
+	width:auto;
+}
+
+#menu ul li {
+	border-left:1px solid #FFFFFF;
+	border-right:1px solid #FFFFFF;
+	display:block;
+	float:left;
+	margin:0px;
+	padding:0px;
+}
+
+#menu ul li a {
+	color:#FFFFFF;
+	display:block;
+	float:left;
+	height:30px;
+	padding:10px 20px 0px 20px;
+	text-decoration:none;
+}
+
+#menu ul li a:hover {
+	background:transparent url('images/black.jpg') repeat-x top left;
+	color:#A9A9A9;
+}

@@ -1,0 +1,120 @@
+@charset "utf-8";
+
+#pie {
+	clear:both;
+	font-family:'Times New Roman, Times, Georgia, Serif;';
+	height:120px;
+	margin:5px 0px 5px 0px;
+	padding:10px 10px 10px 10px;
+	text-align:center;
+}
+
+#pie p {
+	color:#D8D8D8;
+	font-size:10pt;
+	font-style:italic;
+	font-weight:bold;
+	margin:10px 15px 10px 30px;
+	position:relative;
+	top:5px;
+}
+
+#pie ul {
+	font-style:normal;
+	list-style-type:none;
+	margin:10px 0px 0px 0px;
+}
+
+#pie ul li {
+	color:#D8D8D8;
+	float:right;
+	margin:0px 0px 0px 5px;
+}
+
+#pie ul li a {
+	color:#D8D8D8;
+	font-size:8pt;
+	font-style:italic;
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+#pie ul li a img {
+	border:none;
+	height:30px;
+	margin:5px 0px 0px 5px;
+	width:85px;
+}
+
+#pie ul li img {
+	border:none;
+	height:50px;
+	margin:-15px 0px 10px 15px;
+	width:150px;
+}
+
+#pie img {
+	border:none;
+	height:50px;
+	margin:-15px 0px 10px 15px;
+	width:150px;
+}
+
+#lopd {
+	color:#D8D8D8 !important;
+	font-size:8pt !important;
+	font-style:italic !important;
+	font-weight:normal !important;
+	position:relative !important;
+	top:-15px !important;
+}
+
+/*
+  <!-- Mesón del Pie Amigo -->
+  <div class="grid_16">
+   <div class="bordes_redondeados degradado_azul_negro" id="pie">
+    <ul>
+     <li> <!-- Logos corporativos -->
+      <ul>
+       <li>
+        <?php echo $this->Html->image('Nuevas_Tecnologias.png', array('alt' => 'Nuevas Tecnologías'));?>
+       </li>
+       <li>
+        <?php echo $this->Html->image('Salud_Consumo.png', array('alt' => 'Salud y Consumo'));?>
+       </li>
+      </ul>
+     </li>
+     <li> <!-- Textos -->
+      <ul>
+       <li>
+        <p class="columna_central">Registro informatizado del cementerio municipal de Motril.</p>
+       </li>
+       <li>
+        <p id="lopd" class="columna_central">
+Los datos personales aquí guardados forman parte de un fichero titularidad del AYUNTAMIENTO DE MOTRIL cuya finalidad es la de mantener el registro de difuntos sepultados en el cementerio municipal y el contacto con los arrendatarios. De acuerdo con la Ley Orgánica 15/1999, un arrendatario puede ejercitar sus derechos de acceso, rectificación, cancelación y, en su caso, oposición enviando una solicitud por escrito, acompañada de una fotocopia de su D.N.I. dirigida a AYUNTAMIENTO DE MOTRIL. PLAZA DE ESPAÑA Nº 1, 18600 MOTRIL (GRANADA).
+        </p>
+       </li>
+      </ul>
+     </li>
+     <li> <!-- Enlaces y varios -->
+      <ul>
+       <li>
+        <a href="http://jigsaw.w3.org/css-validator/check/referer">
+         <?php echo $this->Html->image('valid-xhtml11-blue.png', array('alt' => 'HTML validator'));?>
+        </a>
+       </li>
+       <li>
+        <a href="http://validator.w3.org/check?uri=referer">
+         <?php echo $this->Html->image('valid-css-blue.png', array('alt' => 'CSS validator'));?>
+        </a>
+       </li>
+      </ul>
+      <ul class="columna_derecha">
+       <li><a href="#" id="acerca" rel="olo"> Acerca de</a></li>
+       <li><a href="http://www.motril.es">Motril</a></li>
+      </ul>
+     </li>
+    </ul>
+   </div>
+  </div>
+*/

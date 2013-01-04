@@ -1,0 +1,189 @@
+<?php
+/*
+*1. Atributos
+virtual fields
+data validate
+*2. Asociaciones
+*3. Métodos
+*/
+/*
+notas cakephp modelos
+ si dos entidades con relacion muchos a muchos lo hacen a traves de una tabla con atributos adicionales a las id
+es recomendable hacerlo mediante un modelo virtual, se definen hasmany hacie él y belongsto desde el. Operar como un modelo normal
+si hay multiples relaciones al mismo modelo(como en traslados con tumba) deben ser nombrados distintos
+leer
+ller datos, field lee campo, read lee registro(estruc array, ideal para funciones de editar), find devuelve array de registros
+guardar
+es preferible hacer uso de la fun save y controlar cada guardado aunque en principio se provean de métodos para agilizar esto. se puede usar saveassociated para garantizar que se guarda todo atomicament, esto va bien menos en muchos a muchos
+lo de la id si el guardado es satisfacorio
+constructor
+añadir listas deplegables para vista y selectores
+$this->virtualFields += $this->Author->virtualFields;
+*/
+
+/*controladores
+The render() method is automatically called at the end of each requested controller action $this->render();
+poner recursive a 0 en index para ahorrar tiempo y demás limitando busqueda en la bd
+*/
+
+
+/* otros cake
+For transactions to work correctly in MySQL your tables must use InnoDB engine.utf8
+instalacion plugn-in
+desifeccion de datos
+
+cakepdf->buscar en slideware sobre cakepdf para ver como funciona y es de bonito
+*/
+class Xxxxx extends AppModel {
+
+/*** MODELS ATRIBUTES ***/
+
+/**
+ * Model name
+ *
+ * @var string
+ */
+	public $name = 'Xxxxx';
+
+public $useDbConfig = 'alternate';
+
+public $useTable = 'Xxxxx';
+
+public $tablePrefix = '';
+
+public $primaryKey = 'id';
+
+public $displayField = 'username';
+
+public $recursive = 1;
+
+public $order = array("Model.field" => "ASC", "Model.field2" => "DESC");
+
+public $virtualFields = array();
+
+public $cacheQueries = false;
+
+/*** Virtual fields ***/
+
+/*** MODELS ASSOCIATIONS ***/
+
+/**
+ * hasOne associations
+ *
+ * @var array
+ */
+	public $hasOne = array(
+		'Yz' => array(
+			'className' => 'Yz',
+			'foreignKey' => 'id',
+			'conditions' => array('Yz.published' => '1'),
+			'fields' => '',
+			'order' => array('Yz.last_name' => 'ASC'),
+			'dependent' => true,
+	        ),
+	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Yz' => array(
+			'className' => 'Yz',
+			'foreignKey' => 'user_id',
+			'conditions' => array('Yz.status' => '1'),
+			'order' => array('Yz.created' => 'DESC'),
+			'limit' => '50',
+			'offset' => '',
+			'dependent' => true,
+			'exclusive' => false,
+			'finderQuery' => '',
+			'counterCache' => false, //true sólo en tumba
+			'counterScope' => array('Image.active' => 1),
+		),
+	);
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Persona' => array(
+			'className' => 'Persona',
+			'foreignKey' => 'persona_id',
+			'conditions' => array('Yz.published' => '1'),
+			'type' => 'left',
+			'fields' => '',
+			'order' => '',
+			'counterCache' => '',
+			'counterScope' => '',
+		),
+	);
+
+/**
+ * hasAndBelongsToMany associations
+ *
+ * @var array
+ */
+	public $hasAndBelongsToMany = array(
+		'Funeraria' => array(
+			'className' => 'Funeraria',
+			'joinTable' => 'arrendatarios_funerarias',
+			//'with' => 'funerarias',//Nombre tabla union, crear modelo para manejo datos propios
+			'foreignKey' => 'arrendatario_id',
+			'associationForeignKey' => 'funeraria_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',//array
+			'fields' => '',//array
+			'order' => '',//array
+			'limit' => '50',
+			'offset' => '0',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => '',
+		),
+	);
+
+/*** DATA VALIDATION ***/
+
+/**
+ * Validation rules
+ *
+ * @var array
+ */
+	public $validate = array(
+		'fieldName1' => array(
+			'rule' => 'ruleName', // or: array('ruleName', 'param1', 'param2' ...)
+			'required' => true,
+			'allowEmpty' => false,
+			'on' => 'create', // or: 'update',null, tanto create como update
+			'message' => 'Your Error Message',
+			'last' => true,//o false
+		),
+	);
+
+	public $validate = array(
+		'id' => array(
+			'uuid' => array(
+				'rule' => array('uuid'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'persona_id' => array(
+			'uuid' => array(
+				'rule' => array('uuid'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+
+}

@@ -1,0 +1,316 @@
+<div class="tumbas view">
+<h2><?php  echo __('Tumba'); ?></h2>
+	<dl>
+		<dt><?php echo __('Id'); ?></dt>
+		<dd>
+			<?php echo h($tumba['Tumba']['id']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Patio'); ?></dt>
+		<dd>
+			<?php echo h($tumba['Tumba']['patio']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Poblacion'); ?></dt>
+		<dd>
+			<?php echo h($tumba['Tumba']['poblacion']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Observaciones'); ?></dt>
+		<dd>
+			<?php echo h($tumba['Tumba']['observaciones']); ?>
+			&nbsp;
+		</dd>
+	</dl>
+</div>
+<div class="actions">
+	<h3><?php echo __('Actions'); ?></h3>
+	<ul>
+		<li><?php echo $this->Html->link(__('Edit Tumba'), array('action' => 'edit', $tumba['Tumba']['id'])); ?> </li>
+		<li><?php echo $this->Form->postLink(__('Delete Tumba'), array('action' => 'delete', $tumba['Tumba']['id']), null, __('Are you sure you want to delete # %s?', $tumba['Tumba']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('List Tumbas'), array('action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Tumba'), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Columbarios'), array('controller' => 'columbarios', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Columbario'), array('controller' => 'columbarios', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Exteriores'), array('controller' => 'exteriores', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Exteriore'), array('controller' => 'exteriores', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Nichos'), array('controller' => 'nichos', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Nicho'), array('controller' => 'nichos', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Panteones'), array('controller' => 'panteones', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Panteone'), array('controller' => 'panteones', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Difuntos'), array('controller' => 'difuntos', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Difunto'), array('controller' => 'difuntos', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Enterramientos'), array('controller' => 'enterramientos', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Enterramiento'), array('controller' => 'enterramientos', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Arrendatarios'), array('controller' => 'arrendatarios', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Arrendatario'), array('controller' => 'arrendatarios', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Traslados'), array('controller' => 'traslados', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Traslado'), array('controller' => 'traslados', 'action' => 'add')); ?> </li>
+	</ul>
+</div>
+	<div class="related">
+		<h3><?php echo __('Related Columbarios'); ?></h3>
+	<?php if (!empty($tumba['Columbario'])): ?>
+		<dl>
+			<dt><?php echo __('Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Columbario']['id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Tumba Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Columbario']['tumba_id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Numero Columbario'); ?></dt>
+		<dd>
+	<?php echo $tumba['Columbario']['numero_columbario']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Fila'); ?></dt>
+		<dd>
+	<?php echo $tumba['Columbario']['fila']; ?>
+&nbsp;</dd>
+		</dl>
+	<?php endif; ?>
+		<div class="actions">
+			<ul>
+				<li><?php echo $this->Html->link(__('Edit Columbario'), array('controller' => 'columbarios', 'action' => 'edit', $tumba['Columbario']['id'])); ?></li>
+			</ul>
+		</div>
+	</div>
+		<div class="related">
+		<h3><?php echo __('Related Exteriores'); ?></h3>
+	<?php if (!empty($tumba['Exteriore'])): ?>
+		<dl>
+			<dt><?php echo __('Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Exteriore']['id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Tumba Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Exteriore']['tumba_id']; ?>
+&nbsp;</dd>
+		</dl>
+	<?php endif; ?>
+		<div class="actions">
+			<ul>
+				<li><?php echo $this->Html->link(__('Edit Exteriore'), array('controller' => 'exteriores', 'action' => 'edit', $tumba['Exteriore']['id'])); ?></li>
+			</ul>
+		</div>
+	</div>
+		<div class="related">
+		<h3><?php echo __('Related Nichos'); ?></h3>
+	<?php if (!empty($tumba['Nicho'])): ?>
+		<dl>
+			<dt><?php echo __('Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Nicho']['id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Tumba Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Nicho']['tumba_id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Numero Nicho'); ?></dt>
+		<dd>
+	<?php echo $tumba['Nicho']['numero_nicho']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Fila'); ?></dt>
+		<dd>
+	<?php echo $tumba['Nicho']['fila']; ?>
+&nbsp;</dd>
+		</dl>
+	<?php endif; ?>
+		<div class="actions">
+			<ul>
+				<li><?php echo $this->Html->link(__('Edit Nicho'), array('controller' => 'nichos', 'action' => 'edit', $tumba['Nicho']['id'])); ?></li>
+			</ul>
+		</div>
+	</div>
+		<div class="related">
+		<h3><?php echo __('Related Panteones'); ?></h3>
+	<?php if (!empty($tumba['Panteone'])): ?>
+		<dl>
+			<dt><?php echo __('Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Panteone']['id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Tumba Id'); ?></dt>
+		<dd>
+	<?php echo $tumba['Panteone']['tumba_id']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Numero Panteon'); ?></dt>
+		<dd>
+	<?php echo $tumba['Panteone']['numero_panteon']; ?>
+&nbsp;</dd>
+		<dt><?php echo __('Familia'); ?></dt>
+		<dd>
+	<?php echo $tumba['Panteone']['familia']; ?>
+&nbsp;</dd>
+		</dl>
+	<?php endif; ?>
+		<div class="actions">
+			<ul>
+				<li><?php echo $this->Html->link(__('Edit Panteone'), array('controller' => 'panteones', 'action' => 'edit', $tumba['Panteone']['id'])); ?></li>
+			</ul>
+		</div>
+	</div>
+	<div class="related">
+	<h3><?php echo __('Related Difuntos'); ?></h3>
+	<?php if (!empty($tumba['Difunto'])): ?>
+	<table cellpadding = "0" cellspacing = "0">
+	<tr>
+		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('Persona Id'); ?></th>
+		<th><?php echo __('Tumba Id'); ?></th>
+		<th><?php echo __('Estado'); ?></th>
+		<th><?php echo __('Fecha Defuncion'); ?></th>
+		<th><?php echo __('Edad Defuncion'); ?></th>
+		<th><?php echo __('Causa Defuncion'); ?></th>
+		<th class="actions"><?php echo __('Actions'); ?></th>
+	</tr>
+	<?php
+		$i = 0;
+		foreach ($tumba['Difunto'] as $difunto): ?>
+		<tr>
+			<td><?php echo $difunto['id']; ?></td>
+			<td><?php echo $difunto['persona_id']; ?></td>
+			<td><?php echo $difunto['tumba_id']; ?></td>
+			<td><?php echo $difunto['estado']; ?></td>
+			<td><?php echo $difunto['fecha_defuncion']; ?></td>
+			<td><?php echo $difunto['edad_defuncion']; ?></td>
+			<td><?php echo $difunto['causa_defuncion']; ?></td>
+			<td class="actions">
+				<?php echo $this->Html->link(__('View'), array('controller' => 'difuntos', 'action' => 'view', $difunto['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'difuntos', 'action' => 'edit', $difunto['id'])); ?>
+				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'difuntos', 'action' => 'delete', $difunto['id']), null, __('Are you sure you want to delete # %s?', $difunto['id'])); ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<?php endif; ?>
+
+	<div class="actions">
+		<ul>
+			<li><?php echo $this->Html->link(__('New Difunto'), array('controller' => 'difuntos', 'action' => 'add')); ?> </li>
+		</ul>
+	</div>
+</div>
+<div class="related">
+	<h3><?php echo __('Related Enterramientos'); ?></h3>
+	<?php if (!empty($tumba['Enterramiento'])): ?>
+	<table cellpadding = "0" cellspacing = "0">
+	<tr>
+		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('Difunto Id'); ?></th>
+		<th><?php echo __('Licencia Id'); ?></th>
+		<th><?php echo __('Tumba Id'); ?></th>
+		<th><?php echo __('Fecha'); ?></th>
+		<th class="actions"><?php echo __('Actions'); ?></th>
+	</tr>
+	<?php
+		$i = 0;
+		foreach ($tumba['Enterramiento'] as $enterramiento): ?>
+		<tr>
+			<td><?php echo $enterramiento['id']; ?></td>
+			<td><?php echo $enterramiento['difunto_id']; ?></td>
+			<td><?php echo $enterramiento['licencia_id']; ?></td>
+			<td><?php echo $enterramiento['tumba_id']; ?></td>
+			<td><?php echo $enterramiento['fecha']; ?></td>
+			<td class="actions">
+				<?php echo $this->Html->link(__('View'), array('controller' => 'enterramientos', 'action' => 'view', $enterramiento['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'enterramientos', 'action' => 'edit', $enterramiento['id'])); ?>
+				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'enterramientos', 'action' => 'delete', $enterramiento['id']), null, __('Are you sure you want to delete # %s?', $enterramiento['id'])); ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<?php endif; ?>
+
+	<div class="actions">
+		<ul>
+			<li><?php echo $this->Html->link(__('New Enterramiento'), array('controller' => 'enterramientos', 'action' => 'add')); ?> </li>
+		</ul>
+	</div>
+</div>
+<div class="related">
+	<h3><?php echo __('Related Arrendatarios'); ?></h3>
+	<?php if (!empty($tumba['Arrendatario'])): ?>
+	<table cellpadding = "0" cellspacing = "0">
+	<tr>
+		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('Persona Id'); ?></th>
+		<th><?php echo __('Direccion'); ?></th>
+		<th><?php echo __('Localidad'); ?></th>
+		<th><?php echo __('Provincia'); ?></th>
+		<th><?php echo __('Pais'); ?></th>
+		<th><?php echo __('Codigo Postal'); ?></th>
+		<th><?php echo __('Telefono'); ?></th>
+		<th><?php echo __('Correo Electronico'); ?></th>
+		<th class="actions"><?php echo __('Actions'); ?></th>
+	</tr>
+	<?php
+		$i = 0;
+		foreach ($tumba['Arrendatario'] as $arrendatario): ?>
+		<tr>
+			<td><?php echo $arrendatario['id']; ?></td>
+			<td><?php echo $arrendatario['persona_id']; ?></td>
+			<td><?php echo $arrendatario['direccion']; ?></td>
+			<td><?php echo $arrendatario['localidad']; ?></td>
+			<td><?php echo $arrendatario['provincia']; ?></td>
+			<td><?php echo $arrendatario['pais']; ?></td>
+			<td><?php echo $arrendatario['codigo_postal']; ?></td>
+			<td><?php echo $arrendatario['telefono']; ?></td>
+			<td><?php echo $arrendatario['correo_electronico']; ?></td>
+			<td class="actions">
+				<?php echo $this->Html->link(__('View'), array('controller' => 'arrendatarios', 'action' => 'view', $arrendatario['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'arrendatarios', 'action' => 'edit', $arrendatario['id'])); ?>
+				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'arrendatarios', 'action' => 'delete', $arrendatario['id']), null, __('Are you sure you want to delete # %s?', $arrendatario['id'])); ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<?php endif; ?>
+
+	<div class="actions">
+		<ul>
+			<li><?php echo $this->Html->link(__('New Arrendatario'), array('controller' => 'arrendatarios', 'action' => 'add')); ?> </li>
+		</ul>
+	</div>
+</div>
+<div class="related">
+	<h3><?php echo __('Related Traslados'); ?></h3>
+	<?php if (!empty($tumba['Traslado'])): ?>
+	<table cellpadding = "0" cellspacing = "0">
+	<tr>
+		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('Fecha'); ?></th>
+		<th><?php echo __('Cementerio Origen'); ?></th>
+		<th><?php echo __('Cementerio Destino'); ?></th>
+		<th><?php echo __('Motivo'); ?></th>
+		<th><?php echo __('Observaciones'); ?></th>
+		<th class="actions"><?php echo __('Actions'); ?></th>
+	</tr>
+	<?php
+		$i = 0;
+		foreach ($tumba['Traslado'] as $traslado): ?>
+		<tr>
+			<td><?php echo $traslado['id']; ?></td>
+			<td><?php echo $traslado['fecha']; ?></td>
+			<td><?php echo $traslado['cementerio_origen']; ?></td>
+			<td><?php echo $traslado['cementerio_destino']; ?></td>
+			<td><?php echo $traslado['motivo']; ?></td>
+			<td><?php echo $traslado['observaciones']; ?></td>
+			<td class="actions">
+				<?php echo $this->Html->link(__('View'), array('controller' => 'traslados', 'action' => 'view', $traslado['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'traslados', 'action' => 'edit', $traslado['id'])); ?>
+				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'traslados', 'action' => 'delete', $traslado['id']), null, __('Are you sure you want to delete # %s?', $traslado['id'])); ?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<?php endif; ?>
+
+	<div class="actions">
+		<ul>
+			<li><?php echo $this->Html->link(__('New Traslado'), array('controller' => 'traslados', 'action' => 'add')); ?> </li>
+		</ul>
+	</div>
+</div>

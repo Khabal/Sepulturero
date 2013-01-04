@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+#cabecera {
+	font-family:'Times New Roman, Times, Georgia, Serif';
+	font-weight:bold;
+	margin:5px 0px 0px 0px;
+	padding:15px 15px 15px 15px;
+
+}
+
+#cabecera h1 {
+	color:#006BB6;
+	font-size:24pt;
+	margin:15px 0px 5px 0px;
+	padding:25px 0px 0px 0px;
+	text-align:center;
+	text-decoration:none;
+	text-shadow:2px 2px #848484;
+}
+
+#cabecera h1:hover {
+	color:#004884;
+	text-shadow:2px 2px #848484;
+}
+
+#cabecera img {
+	padding:0px;
+}
+
+.logo {
+	border:none;
+	height:110px;
+	width:225px;
+}
+
+
+.imagen {
+	border:none;
+	height:100px;
+	width:110px;
+}
