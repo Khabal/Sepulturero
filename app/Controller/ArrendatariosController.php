@@ -202,33 +202,36 @@ class ArrendatariosController extends AppController {
             $this->Arrendatario->create();
             
             //Comprobar si ha introducido algo como DNI
-            if (empty($this->request->data['Persona']['dni'])) {
+/*            if (empty($this->request->data['Persona']['dni'])) {
                 $this->Session->setFlash(__('El DNI es obligatorio.'));
                 $this->render();
+            }*/
+            
+            //Comprobar si existe ya una persona con el mismo DNI
+            $persona = NULL;
+            if ($this->request->data['Persona']['dni'] != "Desconocido") {
+                $persona = $this->Arrendatario->Persona->find('first', array(
+                 'conditions' => array(
+                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                 ),
+                 'fields' => array(
+                  'Persona.id'
+                 ),
+                 'contain' => array(
+                  'Arrendatario' => array(
+                   'fields' => array(
+                    'Arrendatario.id', 'Arrendatario.persona_id'
+                   ),
+                  ),
+                 ),
+                ));
             }
             
             //Comprobar si existe ya una persona con el mismo DNI
-            $persona = $this->Arrendatario->Persona->find('first', array(
-             'conditions' => array(
-              'Persona.dni' => $this->request->data['Persona']['dni'],
-             ),
-             'fields' => array(
-              'Persona.id'
-             ),
-             'contain' => array(
-              'Arrendatario' => array(
-               'fields' => array(
-                'Arrendatario.id', 'Arrendatario.persona_id'
-               ),
-              ),
-             ),
-            ));
-            
-            //Comprobar si existe ya una persona con el mismo DNI
             if ($persona) {
-                //Comprobar si esta persona es además un difunto
-                if($persona['Arrendatario']){
-                    $this->Session->setFlash(__('Ya existe un arrendatario con este DNI.'));$this->set('persona', $persona);
+                //Comprobar si esta persona es además un arrendatario
+                if($persona['Arrendatario']['id']){
+                    $this->Session->setFlash(__('Ya existe un arrendatario con este DNI.'));
                     $this->render();
                 }
                 else{
@@ -267,14 +270,11 @@ class ArrendatariosController extends AppController {
                 }
             }
             
-//var_dump($this->request->data);	
             //Guardar y comprobar éxito
             if ($this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
                 $this->Session->setFlash(__('El arrendatario ha sido guardado correctamente.'));
-                //Obtener a donde se redireccionará
-                $accion = $this->request->query['accion'];
                 //Redireccionar según corresponda
-                if ($accion == 'guardar_y_nuevo') {
+                if (isset($this->request->data['guardar_y_nuevo'])) {
                     $this->redirect(array('action' => 'nuevo'));
                 }
                 else {
@@ -297,7 +297,7 @@ class ArrendatariosController extends AppController {
      */
     public function ver($id = null) {
         
-        //Asignar id.pdf
+        //Asignar id
         $this->Arrendatario->id = $id;
         
         //Comprobar si existe el arrendatario
@@ -411,6 +411,7 @@ class ArrendatariosController extends AppController {
             $persona = $this->Arrendatario->Persona->find('first', array(
              'conditions' => array(
               'Persona.dni' => $this->request->data['Persona']['dni'],
+              'Persona.dni' => 'DISTINCT ' . $this->Session->read('Arrendatario.persona_dni'),
              ),
              'fields' => array(
               'Persona.id'
@@ -425,18 +426,22 @@ class ArrendatariosController extends AppController {
             ));
             
             //Comprobar si existe ya una persona, que además es arrendatario, con el mismo DNI
-            if ($persona['Arrendatario'] && ($this->request->data['Persona']['dni'] != $this->Session->read('Arrendatario.persona_dni'))) {
+            if ($persona['Arrendatario']) {
                 $this->Session->setFlash(__('Ya existe un arrendatario con este DNI.'));
                 $this->render();
             }
+else {
+unset($this->Persona->validate['dni']['unico']);
+}
             
             //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
             if (!empty($this->request->data['ArrendatarioTumba'])) {
                 foreach ($this->request->data['ArrendatarioTumba'] as $arrendador) {
-                    if (($arrendador['estado'] == "Actual") && ($arrendador['id'] != $this->request->data['Arrendatario']['id'])) {
+                    if ($arrendador['estado'] == "Actual") {
                         
                         $otro = $this->Arrendatario->ArrendatarioTumba->find('first', array(
                          'conditions' => array(
+                          'ArrendatarioTumba.arrendatario_id' => 'DISTINCT ' . $id,
                           'ArrendatarioTumba.tumba_id' => $arrendador['tumba_id'],
                           'ArrendatarioTumba.estado' => "Actual",
                          ),
@@ -516,7 +521,45 @@ class ArrendatariosController extends AppController {
              ),
             ));
             
+            //Devolver nombres bonitos para entidades relacionadas
+if ($this->request->data['ArrendatarioFuneraria']) {
+$i = 0;
+foreach ($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
+            
+                $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_bonita'] = $funeraria['Funeraria']['nombre'];
+unset($this->request->data['ArrendatarioFuneraria'][$i]['Funeraria']);
+$i++;
+            }
+            }
+
+if ($this->request->data['ArrendatarioTumba']) {
+$i = 0;
+foreach ($this->request->data['ArrendatarioTumba'] as $tumba) {
+                $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] = $tumba['Tumba']['tipo'] . " - ";
+                if ($tumba['Tumba']['Columbario']) {
+                    $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Columbario']['identificador'];
+                }
+                elseif ($tumba['Tumba']['Nicho']) {
+                    $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Nicho']['identificador'];
+                }
+                elseif ($tumba['Tumba']['Panteon']) {
+                    $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Panteon']['identificador'];
+                }
+                elseif ($tumba['Tumba']['Exterior']) {
+                    $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Exterior']['identificador'];
+                }
+
+
+                $this->request->data['ArrendatarioTumba'][$i]['fecha_bonita'] = date('d/m/Y', strtotime($tumba['fecha_arrendamiento']));
+
+unset($this->request->data['ArrendatarioTumba'][$i]['Tumba']);
+$i++;
+            }
+}
+
+            
             //Guardar los datos de sesión del arrendatario
+            $this->Session->write('Arrendatario.id', $this->request->data['Arrendatario']['id']);
             $this->Session->write('Arrendatario.persona_id', $this->request->data['Persona']['id']);
             $this->Session->write('Arrendatario.persona_dni', $this->request->data['Persona']['dni']);
             $this->Session->write('Arrendatario.nombre_completo', $this->request->data['Persona']['nombre_completo']);
@@ -592,7 +635,7 @@ class ArrendatariosController extends AppController {
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $arrendatario['Persona']['nombre_completo'] . " - " . $arrendatario['Persona']['dni'];
         $this->pdfConfig['filename'] = "Arrendatario_" . $arrendatario['Persona']['dni'] . ".pdf";
-        $this->pdfConfig['engine'] = 'CakePdf.Tcpdf';
+        //$this->pdfConfig['engine'] = 'CakePdf.Tcpdf';
         //Redireccionar para la generación
         
         

@@ -7,8 +7,9 @@ App::uses('Sanitize', 'Utility');
  * Difuntos Controller
  *
  * @property Difunto $Difunto
- * @property SessionComponent $Session
+ * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
+ * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
  */
 class DifuntosController extends AppController {

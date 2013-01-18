@@ -95,7 +95,7 @@ class DifuntosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Difunto', 'DifuntoTraslado', 'Persona', 'Traslado', 'Tumba', 'Sanitize');
+    public $uses = array('Difunto', 'DifuntoTraslado', 'Enterramiento', 'Persona', 'Traslado', 'Tumba', 'Sanitize');
     
     /**
      * ---------------------------

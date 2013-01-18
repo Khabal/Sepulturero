@@ -284,10 +284,11 @@ class TumbasController extends AppController {
         
         //Comprobar si existe la tumba
         if (!$this->Tumba->exists()) {
-            throw new NotFoundException(__('La tumba especificada no existe.'));
+         throw new NotFoundException(__('La tumba especificada no existe.'));
         }
         
         //Cargar toda la información relevante relacionada con la tumba
+        $this->Tumba->recursive = -1;
         $tumba = $this->Tumba->find('first', array(
          'conditions' => array(
           'Tumba.id' => $id

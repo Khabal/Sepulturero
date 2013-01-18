@@ -231,7 +231,7 @@ class Arrendatario extends AppModel {
 			'numeric' => array(
 				'rule' => array('email'),
 				'message' => 'El correo electrónico introducido no es válido',
-				'allowEmpty' => true,
+				'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations

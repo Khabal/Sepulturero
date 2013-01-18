@@ -1,12 +1,40 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->request->data['Arrendatario']['id'], $this->Session->read('Arrendatario.nombre_completo')); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Arrendatario.id'), $this->Session->read('Arrendatario.nombre_completo')); ?>
 </div>
 
 <?php echo '<pre>'; ?>
 <?php print_r($this->request->data); ?>
 <?php echo '</pre>'; ?>
+
+<?php
+ /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
+ /* Preparar los datos para una inyección a sheepIt de haberlos */
+ $ini_f = sizeof($this->request->data['ArrendatarioFuneraria']);
+ if ($ini_f > 0) {
+  $data_f = array();
+  foreach($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
+   array_push($data_f, array("ArrendatarioFuneraria#index#FunerariaBonita" => $funeraria['funeraria_bonita'], "ArrendatarioFuneraria#index#FunerariaId" => $funeraria['funeraria_id']));
+  }
+  $data_f = json_encode($data_f);
+ }
+ else {
+  $data_f = "[]";
+ }
+ 
+ $ini_t = sizeof($this->request->data['ArrendatarioTumba']);
+ if ($ini_t > 0) {
+  $data_t = array();
+  foreach($this->request->data['ArrendatarioTumba'] as $tumba) {
+   array_push($data_t, array("ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));
+  }
+  $data_t = json_encode($data_t);
+ }
+ else {
+  $data_t = "[]";
+ }
+?>
 
 <script>
  function autoFunerarias (campo) {
@@ -110,17 +138,9 @@
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
-     <?php /* Cambiar el número iniFormsCount si hay datos para que los muestre */
-      $ini = sizeof($this->request->data['ArrendatarioFuneraria']);
-     ?>
-     iniFormsCount: <?php echo $ini; ?>,
+     iniFormsCount: <?php echo h($ini_f); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las funerarias asociadas?',
-   /*     afterAdd: function(source, newForm) {
-            alert('After add form'+source.toSource());
-        },
-     afterClone: function(source, clone) {
-       alert('After clone form'+clone.toSource());$(clone).children().attr('value', '');
-     }*/
+     data: <?php echo $data_f; ?>
    });
    /* Formulario sheepIt para agregar tumbas */
    $("#SubFormularioTumbas").sheepIt({
@@ -132,16 +152,10 @@
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
-     <?php /* Cambiar el número iniFormsCount si hay datos para que los muestre */
-      $ini = sizeof($this->request->data['ArrendatarioFuneraria']);
-     ?>
-     iniFormsCount: <?php echo $ini; ?>,
+     iniFormsCount: <?php echo h($ini_t); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las tumbas asociadas?',
-     afterClone: function(source, clone) {
-       alert('After clone form'+clone);clone.val("");
-     }
+     data: <?php echo $data_t; ?>
    });
-
  });
 
 </script>

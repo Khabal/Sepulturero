@@ -1071,7 +1071,7 @@
 
             //Modificación casera para que funcione
             if ($(field).is('select')) {
-                type = "select" + (($(field).attr("multiple") == "yes") ? ("-multiple") : ("-one"));
+                type = "select" + (($( field ).attr( "multiple" ) == "yes") ? ("-multiple") : ("-one") );
             }
             // hidden, text, password
             if (type == 'text' || type == 'hidden' || type == 'password') {

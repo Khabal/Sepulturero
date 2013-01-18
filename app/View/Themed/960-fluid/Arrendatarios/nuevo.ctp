@@ -5,10 +5,37 @@
 </div>
 
 <pre>
-<?php print_r($this->request->data);
-print_r($persona);
+<?php //print_r($this->request->data);
 ?>
 </pre>
+
+<?php /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
+ if ($this->request->data && $this->request->data['ArrendatarioFuneraria']) {
+  $ini_f = sizeof($this->request->data['ArrendatarioFuneraria']);
+  $data_f = array();
+  foreach($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
+   array_push($data_f, array("ArrendatarioFuneraria#index#FunerariaBonita" => $funeraria['funeraria_bonita'], "ArrendatarioFuneraria#index#FunerariaId" => $funeraria['funeraria_id']));
+  }
+  $data_f = json_encode($data_f);
+ }
+ else {
+  $ini_f = 0;
+  $data_f = "[]";
+ }
+ 
+ if ($this->request->data && $this->request->data['ArrendatarioTumba']) {
+  $ini_t = sizeof($this->request->data['ArrendatarioTumba']);
+  $data_t = array();
+  foreach($this->request->data['ArrendatarioTumba'] as $tumba) {
+   array_push($data_t, array("ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));//array(selected=> "", "value" =>ArrendatarioTumba#index#Estado)
+  }
+  $data_t = json_encode($data_t);
+ }
+ else {
+  $ini_t = 0;
+  $data_t = "[]";
+ }
+?>
 
 <script>
  function autoFunerarias (campo) {
@@ -112,22 +139,9 @@ print_r($persona);
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
-     <?php /* Cambiar el número iniFormsCount si hay datos para que los muestre */
-      if ($this->request->data) {
-       $ini = sizeof($this->request->data['ArrendatarioFuneraria']);
-      }
-      else {
-       $ini = 0;
-      }
-     ?>
-     iniFormsCount: <?php echo $ini; ?>,
+     iniFormsCount: <?php echo h($ini_f); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las funerarias asociadas?',
-   /*     afterAdd: function(source, newForm) {
-            alert('After add form'+source.toSource());
-        },
-     afterClone: function(source, clone) {
-       alert('After clone form'+clone.toSource());$(clone).children().attr('value', '');
-     }*/
+     data: <?php echo $data_f; ?>
    });
    /* Formulario sheepIt para agregar tumbas */
    $("#SubFormularioTumbas").sheepIt({
@@ -139,21 +153,10 @@ print_r($persona);
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
-     <?php /* Cambiar el número iniFormsCount si hay datos para que los muestre */
-      if ($this->request->data) {
-       $ini = sizeof($this->request->data['ArrendatarioFuneraria']);
-      }
-      else {
-       $ini = 0;
-      }
-     ?>
-     iniFormsCount: <?php echo $ini; ?>,
+     iniFormsCount: <?php echo h($ini_t); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las tumbas asociadas?',
-     afterClone: function(source, clone) {
-       alert('After clone form'+clone);clone.val("");
-     }
+     data: <?php echo $data_t; ?>
    });
-
  });
 
 </script>
@@ -247,8 +250,8 @@ print_r($persona);
   </fieldset>
  <?php /* Botones */
   echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('value' => 'guardar_y_nuevo', 'type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
+  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
   echo $this->Form->end();
  ?>
 </div>

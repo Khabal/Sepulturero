@@ -18,7 +18,8 @@ echo $this->Html->script('1.9.2/jquery-ui.js');
 
 
    /* Copia de scripts */
-   echo $scripts_for_layout;
+echo $this->fetch('script');
+//   echo $scripts_for_layout;
   ?>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
