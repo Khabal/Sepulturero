@@ -4519,3 +4519,767 @@
 2013-01-18 13:59:32 Error: [MissingControllerException] Controller class ThemeController could not be found.
 #0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2013-01-18 14:07:08 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-18 14:07:17 Error: Fatal Error (4): syntax error, unexpected ';' in [/var/www/html/cacaphp/app/View/Themed/960-fluid/Arrendatarios/editar.ctp, line 18]
+2013-01-18 14:07:17 Error: [FatalErrorException] syntax error, unexpected ';'
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/var/www/html/c...', 18)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/var/www/html/c...', 18, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/var/www/html/c...', 18, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-18 14:07:52 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-18 14:08:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-18 14:08:36 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-21 09:08:44 Error: Fatal Error (1): Call to a member function image() on a non-object in [/var/www/html/cacaphp/app/View/Themed/960-fluid/webroot/css/pie.css, line 80]
+2013-01-21 09:08:44 Error: [FatalErrorException] Call to a member function image() on a non-object
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-21 09:08:45 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-21 12:20:51 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-21 12:22:56 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-22 09:21:05 Error: Fatal Error (1): Call to a member function image() on a non-object in [/var/www/html/cacaphp/app/View/Themed/960-fluid/webroot/css/pie.css, line 80]
+2013-01-22 09:21:05 Error: [FatalErrorException] Call to a member function image() on a non-object
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-22 09:21:07 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-22 09:24:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-22 09:24:24 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-22 09:24:31 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-22 09:24:44 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-22 09:24:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 09:10:10 Error: Fatal Error (1): Call to a member function image() on a non-object in [/var/www/html/cacaphp/app/View/Themed/960-fluid/webroot/css/pie.css, line 80]
+2013-01-23 09:10:10 Error: [FatalErrorException] Call to a member function image() on a non-object
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-23 09:10:11 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 10:41:35 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:31:45 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:32:26 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:35:03 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:36:39 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:50:01 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:50:36 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:50:48 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:51:20 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:52:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:53:04 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:59:30 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 11:59:33 Error: [MissingActionException] Action ArrendatariosController::calendario.gif() could not be found.
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-01-23 12:00:11 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 12:00:13 Error: [MissingActionException] Action ArrendatariosController::calendario.gif() could not be found.
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-01-23 12:00:28 Error: [MissingActionException] Action ArrendatariosController::calendario.gif() could not be found.
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-01-23 12:58:26 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 12:58:30 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 12:58:44 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 12:58:44 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:13:05 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:13:05 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:13:25 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:13:25 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:13:43 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:13:43 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:17:54 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:17:54 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:26:47 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:26:48 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:27:59 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:28:06 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:28:27 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:28:44 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:28:45 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:29:42 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:29:52 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:29:53 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:30:00 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:30:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:30:22 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:30:23 Error: [NotFoundException] El arrendatario especificado no existe.
+#0 [internal function]: ArrendatariosController->editar('calendario.gif')
+#1 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(ArrendatariosController), Array)
+#2 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#4 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-01-23 13:30:35 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-23 13:30:40 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-24 09:38:02 Error: Fatal Error (1): Call to a member function image() on a non-object in [/var/www/html/cacaphp/app/View/Themed/960-fluid/webroot/css/pie.css, line 80]
+2013-01-24 09:38:02 Error: [FatalErrorException] Call to a member function image() on a non-object
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-24 09:38:02 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-24 13:00:02 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-24 13:58:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-24 13:59:03 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 09:13:09 Error: Fatal Error (1): Call to a member function image() on a non-object in [/var/www/html/cacaphp/app/View/Themed/960-fluid/webroot/css/pie.css, line 80]
+2013-01-25 09:13:09 Error: [FatalErrorException] Call to a member function image() on a non-object
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-25 09:13:09 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 09:33:09 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 09:36:26 Error: [MissingActionException] Action ArrendatariosController::calendario.gif() could not be found.
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-01-25 12:27:49 Error: Fatal Error (4): syntax error, unexpected '=', expecting ';' in [/var/www/html/cacaphp/app/Controller/TumbasController.php, line 695]
+2013-01-25 12:27:49 Error: [FatalErrorException] syntax error, unexpected '=', expecting ';'
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/var/www/html/c...', 695)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/var/www/html/c...', 695, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/var/www/html/c...', 695, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-25 12:29:19 Error: Fatal Error (4): syntax error, unexpected '<' in [/var/www/html/cacaphp/app/Controller/TumbasController.php, line 695]
+2013-01-25 12:29:19 Error: [FatalErrorException] syntax error, unexpected '<'
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/var/www/html/c...', 695)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/var/www/html/c...', 695, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/var/www/html/c...', 695, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-01-25 12:29:49 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 12:32:05 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 12:32:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:32:20 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:32:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:32:31 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:32:39 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:35:27 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 12:37:46 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 12:37:48 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 12:40:09 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:40:30 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'tipo' cannot be null
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
+#3 /var/www/html/cacaphp/lib/Cake/Model/Model.php(1734): DboSource->create(Object(Tumba), Array, Array)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2229): Model->save(Array, Array)
+#5 /var/www/html/cacaphp/app/Controller/TumbasController.php(716): Model->saveAssociated(Array, Array)
+#6 [internal function]: TumbasController->generar()
+#7 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#8 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#9 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#10 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2013-01-25 12:42:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:44:17 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:46:40 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:46:54 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:47:57 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:49:39 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 12:50:02 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:06:11 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:07:43 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:07:48 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:12:19 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:18:04 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:18:06 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:19:29 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:19:30 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:19:33 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:21:46 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:22:06 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:22:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:22:29 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:28:23 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:28:27 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:29:13 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:29:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:29:58 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:30:25 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:31:56 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:35:32 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:45:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:55:28 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:57:00 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'parseCriteria' at line 1
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('parseCriteria', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('parseCriteria', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(611): DboSource->fetchAll('parseCriteria', Array, Array)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(788): DboSource->query('parseCriteria', Array, Object(AppModel))
+#5 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): Model->__call('parseCriteria', Array)
+#6 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): AppModel->parseCriteria(Array)
+#7 [internal function]: TumbasController->index()
+#8 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#9 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2013-01-25 13:57:11 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'parseCriteria' at line 1
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('parseCriteria', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('parseCriteria', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(611): DboSource->fetchAll('parseCriteria', Array, Array)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(788): DboSource->query('parseCriteria', Array, Object(AppModel))
+#5 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): Model->__call('parseCriteria', Array)
+#6 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): AppModel->parseCriteria(Array)
+#7 [internal function]: TumbasController->index()
+#8 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#9 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2013-01-25 13:57:22 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'parseCriteria' at line 1
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('parseCriteria', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('parseCriteria', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(611): DboSource->fetchAll('parseCriteria', Array, Array)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(788): DboSource->query('parseCriteria', Array, Object(AppModel))
+#5 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): Model->__call('parseCriteria', Array)
+#6 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): AppModel->parseCriteria(Array)
+#7 [internal function]: TumbasController->index()
+#8 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#9 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2013-01-25 13:57:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-01-25 13:57:32 Error: [PDOException] SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'parseCriteria' at line 1
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('parseCriteria', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('parseCriteria', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(611): DboSource->fetchAll('parseCriteria', Array, Array)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(788): DboSource->query('parseCriteria', Array, Object(AppModel))
+#5 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): Model->__call('parseCriteria', Array)
+#6 /var/www/html/cacaphp/app/Controller/TumbasController.php(171): AppModel->parseCriteria(Array)
+#7 [internal function]: TumbasController->index()
+#8 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#9 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2013-01-25 13:59:43 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-01-25 13:59:49 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Columbario.identificador' in 'field list'
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2637): DboSource->read(Object(Tumba), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(173): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1081): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(200): Controller->paginate()
+#8 [internal function]: TumbasController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}

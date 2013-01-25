@@ -37,96 +37,6 @@
 ?>
 
 <script>
- function autoFunerarias (campo) {
-   /* Establecer opciones de 'UI autocomplete' para JQuery */
-   $("#" + campo + "FunerariaBonita").autocomplete({
-     source: function(request, response) {
-       $.ajax({
-         url: "<?php echo $this->Html->url(array('controller' => 'funerarias', 'action' => 'autocomplete')); ?>",
-         dataType: "json",
-         type: "GET",
-         data: {
-           term: request.term
-         },
-         timeout: 2000,
-         success: function(data) {
-           response( $.map(data, function(x) {
-             return {
-               label: x.label,
-               value: x.value
-             }
-           }));
-         }
-       });
-     },
-     minLength: 1,
-     select: function(event, ui) {
-       event.preventDefault(),
-       $("#" + campo + "FunerariaBonita").val(ui.item.label),
-       $("#" + campo + "FunerariaId").val(ui.item.value)
-     },
-     open: function() {
-       $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-     },
-     close: function() {
-       $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-     }
-   });
- };
- 
- function autoTumbas (campo) {
-   /* Establecer opciones de 'UI autocomplete' para JQuery */
-   $("#" + campo + "TumbaBonita").autocomplete({
-     source: function(request, response) {
-       $.ajax({
-         url: "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'autocomplete')); ?>",
-         dataType: "json",
-         type: "GET",
-         data: {
-           term: request.term
-         },
-         timeout: 2000,
-         success: function(data) {
-           response( $.map(data, function(x) {
-             return {
-               label: x.label,
-               value: x.value
-             }
-           }));
-         }
-       });
-     },
-     minLength: 1,
-     select: function(event, ui) {
-       event.preventDefault(),
-       $("#" + campo + "TumbaBonita").val(ui.item.label),
-       $("#" + campo + "TumbaId").val(ui.item.value)
-     },
-     open: function() {
-       $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-     },
-     close: function() {
-       $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-     }
-   });
-   /* Establecer opciones de 'UI datepicker' para JQuery */
-   $("#" + campo + "FechaBonita").datepicker({
-     altField: "#" + campo + "FechaArrendamiento",
-     altFormat: "yy-mm-dd",
-     buttonImage: "calendario.gif",
-     changeMonth: true,
-     changeYear: true,
-     selectOtherMonths: true,
-     showAnim: "slide",
-     showOn: "both",
-     showButtonPanel: true,
-     showOtherMonths: true,
-     showWeek: true,
-   });
- };
-</script>
-
-<script>
  $(function() {
    /* Formulario sheepIt para agregar funerarias */
    $("#SubFormularioFuneraria").sheepIt({
@@ -140,8 +50,49 @@
      minFormsCount: 0,
      iniFormsCount: <?php echo h($ini_f); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las funerarias asociadas?',
-     data: <?php echo $data_f; ?>
+     data: <?php echo $data_f; ?>,
+     afterAdd: function(source, newForm) {
+       /* Obtener identificadores de campos */
+       var auto = "#" + $(newForm).children("div").children("input[id$='FunerariaBonita']").attr("id");
+       var auto_oc = auto.replace("Bonita", "Id");
+       
+       /* Establecer opciones de 'UI Autocomplete' para jQuery */
+       $(auto).autocomplete({
+         source: function(request, response) {
+           $.ajax({
+             url: "<?php echo $this->Html->url(array('controller' => 'funerarias', 'action' => 'autocomplete')); ?>",
+             dataType: "json",
+             type: "GET",
+             data: {
+               term: request.term
+             },
+             timeout: 2000,
+             success: function(data) {
+               response( $.map(data, function(x) {
+                 return {
+                   label: x.label,
+                   value: x.value
+                 }
+               }));
+             }
+           });
+         },
+         minLength: 2,
+         select: function(event, ui) {
+           event.preventDefault(),
+           $(auto).val(ui.item.label),
+           $(auto_oc).val(ui.item.value)
+         },
+         open: function() {
+           $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+         },
+         close: function() {
+           $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+         }
+       });
+     }
    });
+   
    /* Formulario sheepIt para agregar tumbas */
    $("#SubFormularioTumbas").sheepIt({
      separator: '',
@@ -154,7 +105,63 @@
      minFormsCount: 0,
      iniFormsCount: <?php echo h($ini_t); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las tumbas asociadas?',
-     data: <?php echo $data_t; ?>
+     data: <?php echo $data_t; ?>,
+     afterAdd: function(source, newForm) {
+       /* Obtener identificadores de campos */
+       var auto = "#" + $(newForm).children("div").children("input[id$='TumbaBonita']").attr("id");
+       var auto_oc = auto.replace("Bonita", "Id");
+       var fecha = "#" + $(newForm).children("div").children("input[id$='FechaBonita']").attr("id");
+       var fecha_oc = fecha.replace("Bonita", "Arrendamiento");
+       
+       /* Establecer opciones de 'UI Autocomplete' para jQuery */
+       $(auto).autocomplete({
+         source: function(request, response) {
+           $.ajax({
+             url: "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'autocomplete')); ?>",
+             dataType: "json",
+             type: "GET",
+             data: {
+               term: request.term
+             },
+             timeout: 2000,
+             success: function(data) {
+               response( $.map(data, function(x) {
+                 return {
+                   label: x.label,
+                   value: x.value
+                 }
+               }));
+             }
+           });
+         },
+         minLength: 2,
+         select: function(event, ui) {
+           event.preventDefault(),
+           $(auto).val(ui.item.label),
+           $(auto_oc).val(ui.item.value)
+         },
+         open: function() {
+           $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+         },
+         close: function() {
+           $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+         }
+       });
+       /* Establecer opciones de 'UI datepicker' para JQuery */
+       $(fecha).datepicker({
+         altField: fecha_oc,
+         altFormat: "yy-mm-dd",
+         buttonImage: "calendario.gif",
+         changeMonth: true,
+         changeYear: true,
+         selectOtherMonths: true,
+         showAnim: "slide",
+         showOn: "both",
+         showButtonPanel: true,
+         showOtherMonths: true,
+         showWeek: true,
+       });
+     }
    });
  });
 
@@ -187,7 +194,7 @@
     
     <div id="SubFormularioFuneraria_template">
      <?php /* Campos */
-      echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_bonita', array('label' => 'Funeraria:', 'onFocus' => 'autoFunerarias("ArrendatarioFuneraria#index#")')); //Campo imaginario
+      echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_bonita', array('label' => 'Funeraria:')); //Campo imaginario
       echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_id', array('type' => 'hidden'));
      ?>
      <a id="SubFormularioFuneraria_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
@@ -211,7 +218,7 @@
    
    <div id="SubFormularioTumbas_template">
     <?php /* Campos */
-     echo $this->Form->input('ArrendatarioTumba.#index#.tumba_bonita', array('label' => 'Tumba:', 'onFocus' => "autoTumbas('ArrendatarioTumba#index#')")); //Campo imaginario
+     echo $this->Form->input('ArrendatarioTumba.#index#.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
      echo $this->Form->input('ArrendatarioTumba.#index#.tumba_id', array('type' => 'hidden'));
      echo $this->Form->input('ArrendatarioTumba.#index#.fecha_bonita', array('label' => 'Fecha de arrendamiento:')); //Campo imaginario
      echo $this->Form->input('ArrendatarioTumba.#index#.fecha_arrendamiento', array('type' => 'hidden'));

@@ -28,35 +28,16 @@ class Tumba extends AppModel {
  * @var string
  */
 	public $useDbConfig = 'cementerio';
-
-public $displayField = 'id';
 /**
  * Display field
  *
  * @var string
  */
-//public $virtualFields = array('identificador' => 'Tumba.id');
-//public $virtualFields = array('identificador' => 'CONCAT(Columbario.identificador,Nicho.identificador,Panteon.identificador)');
-//	public $displayField = 'identificador';
-//Nombre modelos cambiar
-	/*public $virtualFields = array(
-		'columbario_id' => 'CONCAT("Columbario ",
-			Columbario.numero_columbario, "-", Columbario.fila, "-", Tumba.patio)',
-		'exterior_id' => "Exterior",
-		'nicho_id' => 'CONCAT("Nicho ",
-			Nicho.numero_nicho, "-", Nicho.fila, "-", Tumba.patio)',
-		'panteon_id' => 'CONCAT("Panteón ",
-			Panteon.numero_panteon, "-", Panteon.familia, "-", Tumba.patio)',
-	);*/
-	/*public $virtualFields = array(
-		'identificador' => '',
-		'columbario_id' => 'Columbario.identificador',
+public $displayField = 'tipo';
 
-		'exterior_id' => 'Exterior.identificador',
-		'nicho_id' => 'Nicho.identificador',
-		'panteon_id' => 'Panteon.identificador',
-	);*/
-//if 'SELECT * FROM cementerio.columbarios WHERE cementerio.columbarios.tumda_id = cementerio.tumbas.id' != NULL
+public $virtualFields = array();
+
+
 /**
  * Validation rules
  *
@@ -111,7 +92,7 @@ public $displayField = 'id';
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
 	);
 
 /**
@@ -179,44 +160,7 @@ public $displayField = 'id';
 	);
 
 
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-/*	public $hasAndBelongsToMany = array(
-		'Arrendatario' => array(
-			'className' => 'Arrendatario',
-			'joinTable' => 'arrendatarios_tumbas',
-			'foreignKey' => 'tumba_id',
-			'associationForeignKey' => 'arrendatario_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		),
-		'Traslado' => array(
-			'className' => 'Traslado',
-			'joinTable' => 'traslados_tumbas',
-			'foreignKey' => 'tumba_id',
-			'associationForeignKey' => 'traslado_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		)
-	);
-*/
+
 
 /**
  * Constructor
@@ -228,8 +172,13 @@ public $displayField = 'id';
  */
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
-		/*if()
-		$this->virtualFields['identificador'] = $this->Columbario->virtualFields['identificador'] . $this->Nicho->virtualFields['identificador'] . $this->Panteon->virtualFields['identificador'];*/
+
+		$this->virtualFields += $this->Columbario->virtualFields;
+$this->virtualFields += $this->Exterior->virtualFields;
+$this->virtualFields += $this->Nicho->virtualFields;
+$this->virtualFields += $this->Panteon->virtualFields;
+
+// . $this->Nicho->virtualFields['identificador'] . $this->Panteon->virtualFields['identificador'];*/
 		$this->tipo = array(
 			'Columbario' => __('Columbario', true),
 			'Exterior' => __('Exterior', true),

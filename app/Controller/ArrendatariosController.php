@@ -402,28 +402,31 @@ class ArrendatariosController extends AppController {
             $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
             
             //Comprobar si ha introducido algo como DNI
-            if (empty($this->request->data['Persona']['dni'])) {
+           /* if (empty($this->request->data['Persona']['dni'])) {
                 $this->Session->setFlash(__('El DNI es obligatorio.'));
                 $this->render();
-            }
+            }*/
             
             //Comprobar si existe ya una persona con el mismo DNI
-            $persona = $this->Arrendatario->Persona->find('first', array(
-             'conditions' => array(
-              'Persona.dni' => $this->request->data['Persona']['dni'],
-              'Persona.dni' => 'DISTINCT ' . $this->Session->read('Arrendatario.persona_dni'),
-             ),
-             'fields' => array(
-              'Persona.id'
-             ),
-             'contain' => array(
-              'Arrendatario' => array(
-               'fields' => array(
-                'Arrendatario.id', 'Arrendatario.persona_id'
-               ),
-              ),
-             ),
-            ));
+            $persona = NULL;
+            if ($this->request->data['Persona']['dni'] != "Desconocido") {
+                $persona = $this->Arrendatario->Persona->find('first', array(
+                 'conditions' => array(
+                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                  'Persona.dni' => 'DISTINCT ' . $this->Session->read('Arrendatario.persona_dni'),
+                 ),
+                 'fields' => array(
+                  'Persona.id'
+                 ),
+                 'contain' => array(
+                  'Arrendatario' => array(
+                   'fields' => array(
+                    'Arrendatario.id', 'Arrendatario.persona_id'
+                   ),
+                  ),
+                 ),
+                ));
+            }
             
             //Comprobar si existe ya una persona, que además es arrendatario, con el mismo DNI
             if ($persona['Arrendatario']) {
@@ -461,7 +464,7 @@ unset($this->Persona->validate['dni']['unico']);
             }
             
             //Guardar y comprobar éxito
-            if ($this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
+            if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
                 $this->Session->setFlash(__('El arrendatario ha sido actualizado correctamente.'));
                 //Borrar datos de sesión
                 $this->Session->delete('Arrendatario');
@@ -527,6 +530,7 @@ $i = 0;
 foreach ($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
             
                 $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_bonita'] = $funeraria['Funeraria']['nombre'];
+$this->request->data['ArrendatarioFuneraria'][$i]['funeraria_id'] = $funeraria['funeraria_id'];
 unset($this->request->data['ArrendatarioFuneraria'][$i]['Funeraria']);
 $i++;
             }

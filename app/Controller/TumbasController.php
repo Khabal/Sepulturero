@@ -638,5 +638,101 @@ class TumbasController extends AppController {
         
         echo json_encode($items);
     }
-public function prueba(){}
+    
+    /**
+     * generar method
+     *
+     * @return void
+     */
+    public function generar(){
+        
+        //Devolver las opciones de selección de tipo de tumba
+        $this->set('tipo', $this->Tumba->tipo);
+        
+        //Comprobar si está enviando el formulario
+        if ($this->request->is('post')) {
+            
+            //Desinfectar los datos recibidos del formulario
+            Sanitize::clean($this->request->data);
+            
+            //Procesar y validar datos del formulario
+            if(!ctype_digit($this->request->data['Tumba']['n_tumbas'])){
+                $this->Session->setFlash(__('El número de tumbas por fila debe ser un entero.'));
+                $this->render();
+            }
+            elseif(!ctype_digit($this->request->data['Tumba']['n_filas'])){
+                $this->Session->setFlash(__('El número de filas debe ser un entero.'));
+                $this->render();
+            }
+            elseif(!ctype_digit($this->request->data['Tumba']['n_patio'])){
+                $this->Session->setFlash(__('El número de patio debe ser un entero.'));
+                $this->render();
+            }
+            
+            //Preparar datos a guardar
+            $valores = array();
+            
+            if ($this->request->data['Tumba']['t_tumba'] == "Columbario") {
+                $valores['Columbario']['patio'] = $this->request->data['Tumba']['n_patio'];
+            }
+            elseif ($this->request->data['Tumba']['t_tumba'] == "Nicho") {
+                $valores['Nicho']['patio'] = $this->request->data['Tumba']['n_patio'];
+            }
+            else {
+                $this->Session->setFlash(__('Tipo de tumba no valdío para esta acción'));
+                $this->render();
+            }
+            
+            $valores['Tumba']['tipo'] = $this->request->data['Tumba']['t_tumba'];
+            $valores['Tumba']['poblacion'] = 0;
+            
+            unset($this->request->data['Tumba']['t_tumba']);
+            unset($this->request->data['Tumba']['n_patio']);
+            
+            //Contadores del bucle
+            $contador_tumbas = (int) $this->request->data['Tumba']['n_tumbas'];
+            $contador_filas = (int) $this->request->data['Tumba']['n_filas'];
+            
+            unset($this->request->data['Tumba']['n_tumbas']);
+            unset($this->request->data['Tumba']['n_filas']);
+            
+            //Bucles de guardado estilo clásico
+            for ($i = 1; $i <= $contador_filas; $i++) {
+                for ($j = 1; $j <= $contador_tumbas; $j++) {
+                    
+                    //Crear nueva tumba con id único
+                    $this->Tumba->create();
+                    
+                    //Comprobar tipo de tumba de nuevo
+                    if ($valores['Tumba']['tipo'] == "Columbario") {
+                        $valores['Columbario']['numero_columbario'] = ($i - 1) * $contador_tumbas + $j;
+                        $valores['Columbario']['fila'] = $i;
+                    }
+                    elseif ($valores['Tumba']['tipo'] == "Nicho") {
+                        $valores['Nicho']['numero_nicho'] = ($i - 1) * $contador_tumbas + $j;
+                        $valores['Nicho']['fila'] = $i;
+                    }
+                    else {
+                        $this->Session->setFlash(__('Tipo de tumba no váldio'));
+                        $this->render();
+                    }
+                    
+                    //Guardar y comprobar éxito
+                    if ($this->Tumba->saveAssociated($valores, $this->opciones_guardado)) {
+                        
+                    }
+                    else {
+                        $this->Session->setFlash(__('Ha ocurrido un error mágico al introducir las tumbas.'));
+                        $this->render();
+                    }
+                    
+                }
+            }
+            
+            $this->Session->setFlash(__('Proceso de introducción de tumbas completado con éxito.'));
+            
+        }
+        
+    }
+    
 }
