@@ -4,6 +4,12 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('traslados'); ?>
 </div>
 
+<pre>
+<?php print_r($traslados);
+
+ ?>
+</pre>
+
 <?php /* Tabla traslados */ ?>
 <div class="index box">
  <h2><?php echo __('Traslados'); ?></h2>

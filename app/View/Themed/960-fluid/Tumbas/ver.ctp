@@ -29,7 +29,7 @@
    <dd><?php echo h($tumba['Nicho']['patio']); ?>&nbsp;</dd>
   <?php elseif (!empty($tumba['Panteon']['id'])): ?>
    <dt><?php echo __('Número de panteón:'); ?></dt>
-   <dd><?php echo $tumba['Nicho']['numero_panteon']; ?>&nbsp;</dd>
+   <dd><?php echo $tumba['Panteon']['numero_panteon']; ?>&nbsp;</dd>
    <dt><?php echo __('Familia:'); ?></dt>
    <dd><?php echo $tumba['Panteon']['familia']; ?>&nbsp;</dd>
    <dt><?php echo __('Patio:'); ?></dt>

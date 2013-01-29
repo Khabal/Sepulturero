@@ -57,6 +57,13 @@ class Panteon extends AppModel {
  */
 	public $useTable = 'panteones';
 /**
+ * List of behaviors
+ *
+ * @var array
+ */
+
+	public $actsAs = array('Containable');
+/**
  * Validation rules
  *
  * @var array
@@ -111,11 +118,12 @@ class Panteon extends AppModel {
  *
  * @var array
  */
-	public $hasOne = array(
+	public $belongsTo = array(
 		'Tumba' => array(
 			'className' => 'Tumba',
-			'foreignKey' => 'id',
+			'foreignKey' => 'tumba_id',
 			'conditions' => '',
+            'type' => 'left',
 			'fields' => '',
 			'order' => ''
 		)

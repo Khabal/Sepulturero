@@ -41,20 +41,27 @@ class Exterior extends AppModel {
  */
 	public $useTable = 'exteriores';
 
+
+
+
+	public $virtualFields = array(
+		'identificador' => 'SELECT IF (Exterior.id IS NOT NULL, CONCAT("Exterior"), "")'
+	);
+
 /**
  * Display field
  *
  * @var string
  */
-	//public $displayField = 'id';
+	public $displayField = 'id';
+	//public $displayField = 'identificador';
+/**
+ * List of behaviors
+ *
+ * @var array
+ */
 
-
-	public $virtualFields = array(
-		'identificador' => 'CONCAT("Exterior")'
-	);
-
-	public $displayField = 'identificador';
-
+	public $actsAs = array('Containable');
 
 /**
  * Validation rules
@@ -96,6 +103,7 @@ class Exterior extends AppModel {
 			'className' => 'Tumba',
 			'foreignKey' => 'tumba_id',
 			'conditions' => '',
+            'type' => 'left',
 			'fields' => '',
 			'order' => '',
 		),

@@ -472,7 +472,7 @@ unset($this->Persona->validate['dni']['unico']);
                 $this->redirect(array('action' => 'index'));
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico.sdf El arrendatario no ha podido ser actualizado.'));
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser actualizado.'));
             }
         }
         else {

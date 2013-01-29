@@ -1,68 +1,137 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Tumba Model
  *
  * @property Columbario $Columbario
- * @property Exteriore $Exteriore
+ * @property Exterior $Exterior
  * @property Nicho $Nicho
- * @property Panteone $Panteone
+ * @property Panteon $Panteon
  * @property Difunto $Difunto
  * @property Enterramiento $Enterramiento
  * @property Arrendatario $Arrendatario
  * @property Traslado $Traslado
  */
 class Tumba extends AppModel {
-
-/**
- * Behaviors
- *
- * @var array
- * @access public
- */
-	public $actsAs = array('Containable', 'Search.Searchable');
-
-/**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'cementerio';
-
-public $displayField = 'id';
-/**
- * Display field
- *
- * @var string
- */
-//public $virtualFields = array('identificador' => 'Tumba.id');
-//public $virtualFields = array('identificador' => 'CONCAT(Columbario.identificador,Nicho.identificador,Panteon.identificador)');
-//	public $displayField = 'identificador';
-//Nombre modelos cambiar
-	/*public $virtualFields = array(
-		'columbario_id' => 'CONCAT("Columbario ",
-			Columbario.numero_columbario, "-", Columbario.fila, "-", Tumba.patio)',
-		'exterior_id' => "Exterior",
-		'nicho_id' => 'CONCAT("Nicho ",
-			Nicho.numero_nicho, "-", Nicho.fila, "-", Tumba.patio)',
-		'panteon_id' => 'CONCAT("Panteón ",
-			Panteon.numero_panteon, "-", Panteon.familia, "-", Tumba.patio)',
-	);*/
-	/*public $virtualFields = array(
-		'identificador' => '',
-		'columbario_id' => 'Columbario.identificador',
-
-		'exterior_id' => 'Exterior.identificador',
-		'nicho_id' => 'Nicho.identificador',
-		'panteon_id' => 'Panteon.identificador',
-	);*/
-//if 'SELECT * FROM cementerio.columbarios WHERE cementerio.columbarios.tumda_id = cementerio.tumbas.id' != NULL
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'tumbas';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'tipo';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Tumba';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Tumba';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array();
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array('Containable', 'Search.Searchable');
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
 		'id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
@@ -75,148 +144,104 @@ public $displayField = 'id';
 		),
 
 	);
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasOne associations
+     *
+     * @var array
+     */
+    public $hasOne = array(
+        'Columbario' => array(
+            'className' => 'Columbario',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+        'Exterior' => array(
+            'className' => 'Exterior',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+        'Nicho' => array(
+            'className' => 'Nicho',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+        'Panteon' => array(
+            'className' => 'Panteon',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+    );
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'ArrendatarioTumba' => array(
+            'className' => 'ArrendatarioTumba',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'Difunto' => array(
+            'className' => 'Difunto',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'Enterramiento' => array(
+            'className' => 'Enterramiento',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'TrasladoTumba' => array(
+            'className' => 'TrasladoTumba',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+        ),
+    );
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasOne associations
- *
- * @var array
- */
-	public $hasOne = array(
-		'Columbario' => array(
-			'className' => 'Columbario',
-			'foreignKey' => 'tumba_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Exterior' => array(
-			'className' => 'Exterior',
-			'foreignKey' => 'tumba_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Nicho' => array(
-			'className' => 'Nicho',
-			'foreignKey' => 'tumba_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Panteon' => array(
-			'className' => 'Panteon',
-			'foreignKey' => 'tumba_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Difunto' => array(
-			'className' => 'Difunto',
-			'foreignKey' => 'tumba_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Enterramiento' => array(
-			'className' => 'Enterramiento',
-			'foreignKey' => 'tumba_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'ArrendatarioTumba' => array(
-			'className' => 'ArrendatarioTumba',
-			//'joinTable' => 'arrendatarios_tumbas',
-			'foreignKey' => 'tumba_id',
-			//'associationForeignKey' => 'arrendatario_id',
-			//'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			//'insertQuery' => ''
-		),
-		'TrasladoTumba' => array(
-			'className' => 'TrasladoTumba',
-			//'joinTable' => 'traslados_tumbas',
-			'foreignKey' => 'tumba_id',
-			//'associationForeignKey' => 'traslado_id',
-			//'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			//'insertQuery' => ''
-		)
-	);
-
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-/*	public $hasAndBelongsToMany = array(
-		'Arrendatario' => array(
-			'className' => 'Arrendatario',
-			'joinTable' => 'arrendatarios_tumbas',
-			'foreignKey' => 'tumba_id',
-			'associationForeignKey' => 'arrendatario_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		),
-		'Traslado' => array(
-			'className' => 'Traslado',
-			'joinTable' => 'traslados_tumbas',
-			'foreignKey' => 'tumba_id',
-			'associationForeignKey' => 'traslado_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		)
-	);
-*/
 
 /**
  * Constructor
@@ -227,14 +252,20 @@ public $displayField = 'id';
  * @access public
  */
 	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-		/*if()
-		$this->virtualFields['identificador'] = $this->Columbario->virtualFields['identificador'] . $this->Nicho->virtualFields['identificador'] . $this->Panteon->virtualFields['identificador'];*/
+
+        //Añadir campos virtuales de las distintas tumbas
+        $this->virtualFields['id_columbario'] = $this->Columbario->virtualFields['identificador'];
+        $this->virtualFields['id_exterior'] = $this->Exterior->virtualFields['identificador'];
+        $this->virtualFields['id_nicho'] = $this->Nicho->virtualFields['identificador'];
+        $this->virtualFields['id_panteon'] = $this->Panteon->virtualFields['identificador'];
+
 		$this->tipo = array(
 			'Columbario' => __('Columbario', true),
 			'Exterior' => __('Exterior', true),
 			'Nicho' => __('Nicho', true),
 			'Panteón' => __('Panteón', true));
+
+		parent::__construct($id, $table, $ds);
 	}
 
 /**

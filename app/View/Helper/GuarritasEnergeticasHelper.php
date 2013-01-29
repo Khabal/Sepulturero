@@ -117,11 +117,11 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $numero_paginas = $this->Paginator->counter(array('format' => __('Página {:page} de {:pages}. Mostrando {:current} registros de un total de {:count}, empezando en el registro {:start} y terminando en el {:end}.')));
         
-        $anterior = $this->Paginator->prev(__($this->Html->image('anterior.png', array('alt' => '_', 'style' => 'height:24px; width:24px; position:relative; top:8px;')) . 'Anterior '), array(), null, array('class' => 'prev disabled', 'escape' => false));
+        $anterior = $this->Paginator->prev($this->Html->image('anterior.png', array('alt' => '_', 'style' => 'height:24px; width:24px; position:relative; top:8px;')) . __('Anterior '), array('escape' => false), null, array('class' => 'prev disabled', 'escape' => false));
         
-        $separador = $this->Paginator->numbers(array('separator' => ''));
+        $separador = $this->Paginator->numbers(array('separator' => ' - '));
         
-        $siguiente = $this->Paginator->next(__(' Siguiente' . $this->Html->image('siguiente.png', array('alt' => '_', 'style' => 'height:24px; width:24px; position:relative; top:8px;'))), array(), null, array('class' => 'next disabled', 'escape' => false));
+        $siguiente = $this->Paginator->next(__(' Siguiente') . $this->Html->image('siguiente.png', array('alt' => '_', 'style' => 'height:24px; width:24px; position:relative; top:8px;', 'escape' => false)), array('escape' => false), null, array('class' => 'next disabled', 'escape' => false));
         
         return '<p>' . $numero_paginas . '</p><div class="paging">' . $anterior . $separador . $siguiente . '</div>';
         

@@ -50,11 +50,11 @@ class Nicho extends AppModel {
 	public $useTable = 'nichos';
 
 	public $virtualFields = array(
-		'identificador' => 'CONCAT("Número: ",
+		'id_nicho' => 'CONCAT("Número: ",
 			Nicho.numero_nicho, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio)'
 	);
 
-	public $displayField = 'identificador';
+	public $displayField = 'id_nicho';
 /**
  * List of behaviors
  *

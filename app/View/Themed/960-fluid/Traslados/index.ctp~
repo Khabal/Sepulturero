@@ -4,6 +4,12 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('traslados'); ?>
 </div>
 
+<pre>
+<?php print_r($tralados);
+
+ ?>
+</pre>
+
 <?php /* Tabla traslados */ ?>
 <div class="index box">
  <h2><?php echo __('Traslados'); ?></h2>
@@ -64,7 +70,7 @@
      </td>
      <td><?php echo $traslado['Traslado']['motivo']; ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('traslados', $traslado['Traslado']['id'], $traslado['Traslado']['fecha']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('traslados', $traslado['Traslado']['id'], date('d/m/Y', strtotime($traslado['Traslado']['fecha'])) . " - " . $traslado['Traslado']['motivo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

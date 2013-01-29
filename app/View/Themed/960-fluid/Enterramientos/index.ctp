@@ -4,6 +4,12 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
+<pre>
+<?php print_r($enterramientos);
+
+ ?>
+</pre>
+
 <!-- Tabla enterramientos -->
 <div class="index box">
  <h2><?php __('Enterramientos');?></h2>

@@ -55,7 +55,13 @@ class Columbario extends AppModel {
 	);
 
 	public $displayField = 'identificador';
+/**
+ * List of behaviors
+ *
+ * @var array
+ */
 
+	public $actsAs = array('Containable');
 /**
  * Validation rules
  *
@@ -126,7 +132,7 @@ class Columbario extends AppModel {
 			'className' => 'Tumba',
 			'foreignKey' => 'tumba_id',
 			'conditions' => '',
-			'type' => 'left',
+			 'type' => 'left',
 			'fields' => '',
 			'order' => '',
 			'counterCache' => '',

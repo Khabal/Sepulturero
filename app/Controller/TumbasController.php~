@@ -95,7 +95,7 @@ class TumbasController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Tumba', 'Columbario', 'Exterior', 'Nicho', 'Panteon', 'TrasladoTumba', 'Traslado', 'Persona', 'Difunto', 'DifuntoTraslado', 'ArrendatarioTumba', 'Arrendatario', 'Enterramiento', 'Sanitize');
+    public $uses = array('Tumba', 'Arrendatario', 'ArrendatarioTumba', 'Columbario', 'Difunto', 'DifuntoTraslado', 'Enterramiento', 'Exterior', 'Nicho', 'Panteon', 'Persona', 'Traslado', 'TrasladoTumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -168,32 +168,32 @@ class TumbasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-            'conditions' => $this->Tumba->parseCriteria($this->params->query),
-            'contain' => array(
-             'Columbario' => array(
-              'fields' => array(
-               'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-              ),
-             ),
-             'Nicho' => array(
-              'fields' => array(
-               'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-              ),
-             ),
-             'Panteon' => array(
-              'fields' => array(
-               'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
-              ),
-             ),
-             'Exterior' => array(
-              'fields' => array(
-               'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
-              ),
-             ),
-            ),
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
+         'conditions' => $this->Tumba->parseCriteria($this->params->query),
+         'contain' => array(
+          'Columbario' => array(
+           'fields' => array(
+            //'Columbario.id', 'Columbario.tumba_id', 'Columbario.numero_columbario', 'Columbario.fila', 'Columbario.patio', 'Columbario.identificador'
+           ),
+          ),
+          'Exterior' => array(
+           'fields' => array(
+            //'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+           ),
+          ),
+          'Nicho' => array(
+           'fields' => array(
+            //'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
+           ),
+          ),
+          'Panteon' => array(
+           'fields' => array(
+            //'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+           ),
+          ),
+         ),
+         'fields' => array(
+          'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion', 'Tumba.id_columbario', 'Tumba.id_exterior', 'Tumba.id_nicho', 'Tumba.id_panteon'
+         ),
         );
         
         //Devolver paginación
@@ -638,8 +638,13 @@ class TumbasController extends AppController {
         
         echo json_encode($items);
     }
-
-public function generar(){
+    
+    /**
+     * generar method
+     *
+     * @return void
+     */
+    public function generar(){
         
         //Devolver las opciones de selección de tipo de tumba
         $this->set('tipo', $this->Tumba->tipo);

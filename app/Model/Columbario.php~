@@ -1,18 +1,18 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Nicho Model
+ * Columbario Model
  *
  * @property Tumba $Tumba
  */
-class Nicho extends AppModel {
+class Columbario extends AppModel {
 
 /**
  * Model name
  *
  * @var string
  */
-	public $name = 'Nicho';
+	public $name = 'Columbario';
 
 /**
  * Primary key
@@ -33,7 +33,7 @@ class Nicho extends AppModel {
  *
  * @var string
  */
-	public $table = 'nichos';
+	public $table = 'columbarios';
 
 /**
  * Use database config
@@ -47,14 +47,14 @@ class Nicho extends AppModel {
  *
  * @var string
  */
-	public $useTable = 'nichos';
+	public $useTable = 'columbarios';
 
 	public $virtualFields = array(
-		'identificador' => 'CONCAT("Número: ",
-			Nicho.numero_nicho, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio)'
+		'id_columbario' => 'CONCAT("Número: ",
+			Columbario.numero_columbario, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio)'
 	);
 
-	public $displayField = 'identificador';
+	public $displayField = 'id_columbario';
 /**
  * List of behaviors
  *
@@ -88,7 +88,7 @@ class Nicho extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'numero_nicho' => array(
+		'numero_columbario' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -108,12 +108,22 @@ class Nicho extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'patio' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasOne associations
+ * belongsTo associations
  *
  * @var array
  */
@@ -122,9 +132,11 @@ class Nicho extends AppModel {
 			'className' => 'Tumba',
 			'foreignKey' => 'tumba_id',
 			'conditions' => '',
-            'type' => 'left',
+			 'type' => 'left',
 			'fields' => '',
-			'order' => ''
-		)
+			'order' => '',
+			'counterCache' => '',
+			'counterScope' => '',
+		),
 	);
 }

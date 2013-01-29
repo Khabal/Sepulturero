@@ -1,39 +1,31 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Nicho Model
+ * Exteriore Model
  *
  * @property Tumba $Tumba
  */
-class Nicho extends AppModel {
+class Exterior extends AppModel {
+
+/*	public $virtualFields = array(
+		'identificador' => 'CONCAT("x","x")'
+	);
+
+	public $displayField = 'identificador';*/
 
 /**
  * Model name
  *
  * @var string
  */
-	public $name = 'Nicho';
-
-/**
- * Primary key
- *
- * @var string
- */
-	public $primaryKey = 'id';
-
-/**
- * Number of associations to recurse
- *
- * @var integer
- */
-	public $recursive = 1;
+	public $name = 'Exterior';
 
 /**
  * Database table name
  *
  * @var string
  */
-	public $table = 'nichos';
+	public $table = 'exteriores';
 
 /**
  * Use database config
@@ -47,14 +39,22 @@ class Nicho extends AppModel {
  *
  * @var string
  */
-	public $useTable = 'nichos';
+	public $useTable = 'exteriores';
+
+
+
 
 	public $virtualFields = array(
-		'identificador' => 'CONCAT("Número: ",
-			Nicho.numero_nicho, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio)'
+		'identificador' => 'SELECT IF (Exterior.id <> NULL, CONCAT("Exterior"), "")'
 	);
 
-	public $displayField = 'identificador';
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'id';
+	//public $displayField = 'identificador';
 /**
  * List of behaviors
  *
@@ -62,6 +62,7 @@ class Nicho extends AppModel {
  */
 
 	public $actsAs = array('Containable');
+
 /**
  * Validation rules
  *
@@ -88,26 +89,6 @@ class Nicho extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'numero_nicho' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fila' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -124,7 +105,8 @@ class Nicho extends AppModel {
 			'conditions' => '',
             'type' => 'left',
 			'fields' => '',
-			'order' => ''
-		)
+			'order' => '',
+		),
 	);
+
 }

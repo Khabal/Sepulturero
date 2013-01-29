@@ -48,7 +48,7 @@
       ?> &nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('enterramientos', $enterramiento['Enterramiento']['id'], $enterramiento['Enterramiento']['fecha']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $enterramiento['Enterramiento']['id'], $enterramiento['Enterramiento']['fecha']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

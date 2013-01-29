@@ -243,6 +243,7 @@ class ArrendatariosController extends AppController {
             else {
                 //Truco del almendruco para evitar errores de validación
                 unset($this->Arrendatario->validate['persona_id']);
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             }
             
             //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
