@@ -246,6 +246,36 @@ class Arrendatario extends AppModel {
      */
     
     /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'ArrendatarioFuneraria' => array(
+            'className' => 'ArrendatarioFuneraria',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'ArrendatarioTumba' => array(
+            'className' => 'ArrendatarioTumba',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
+    
+    /**
      * belongsTo associations
      *
      * @var array
@@ -264,40 +294,6 @@ class Arrendatario extends AppModel {
     );
     
     /**
-     * hasMany associations
-     *
-     * @var array
-     */
-    public $hasMany = array(
-        'ArrendatarioFuneraria' => array(
-            'className' => 'ArrendatarioFuneraria',
-            'foreignKey' => 'arrendatario_id',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => '',
-        ),
-        'ArrendatarioTumba' => array(
-            'className' => 'ArrendatarioTumba',
-            'foreignKey' => 'arrendatario_id',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => '',
-        ),
-    );
-    
-    /**
      * ----------------------
      * Model methods
      * ----------------------
@@ -309,7 +305,6 @@ class Arrendatario extends AppModel {
      * @param mixed $id Model ID
      * @param string $table Table name
      * @param string $ds Datasource
-     * @access public
      */
     public function __construct($id = false, $table = null, $ds = null) {
         
@@ -318,8 +313,8 @@ class Arrendatario extends AppModel {
         
         //Vector de estados de arrendamiento de una tumba
         $this->estado = array(
-         'Antiguo' => __('Antiguo', true),
-         'Actual' => __('Actual', true),
+            'Antiguo' => __('Antiguo', true),
+            'Actual' => __('Actual', true),
         );
         
         //Llamar al constructor de la clase padre

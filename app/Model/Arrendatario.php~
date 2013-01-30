@@ -231,7 +231,7 @@ class Arrendatario extends AppModel {
 			'numeric' => array(
 				'rule' => array('email'),
 				'message' => 'El correo electrónico introducido no es válido',
-				'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -244,6 +244,36 @@ class Arrendatario extends AppModel {
      * Model associations
      * ----------------------
      */
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'ArrendatarioFuneraria' => array(
+            'className' => 'ArrendatarioFuneraria',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'ArrendatarioTumba' => array(
+            'className' => 'ArrendatarioTumba',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
     
     /**
      * belongsTo associations
@@ -264,40 +294,6 @@ class Arrendatario extends AppModel {
     );
     
     /**
-     * hasMany associations
-     *
-     * @var array
-     */
-    public $hasMany = array(
-        'ArrendatarioFuneraria' => array(
-            'className' => 'ArrendatarioFuneraria',
-            'foreignKey' => 'arrendatario_id',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => '',
-        ),
-        'ArrendatarioTumba' => array(
-            'className' => 'ArrendatarioTumba',
-            'foreignKey' => 'arrendatario_id',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => '',
-        ),
-    );
-    
-    /**
      * ----------------------
      * Model methods
      * ----------------------
@@ -309,7 +305,6 @@ class Arrendatario extends AppModel {
      * @param mixed $id Model ID
      * @param string $table Table name
      * @param string $ds Datasource
-     * @access public
      */
     public function __construct($id = false, $table = null, $ds = null) {
         

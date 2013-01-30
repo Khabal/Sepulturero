@@ -249,7 +249,6 @@ class Tumba extends AppModel {
  * @param mixed $id Model ID
  * @param string $table Table name
  * @param string $ds Datasource
- * @access public
  */
 	public function __construct($id = false, $table = null, $ds = null) {
 

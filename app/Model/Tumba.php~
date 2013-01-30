@@ -239,7 +239,6 @@ class Tumba extends AppModel {
             'offset' => 0,
             'dependent' => false,
             'exclusive' => false,
-            'finderQuery' => '',
         ),
     );
 

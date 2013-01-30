@@ -2,117 +2,249 @@
 
 App::uses('AppModel', 'Model');
 
+/**
+ * Difunto Model
+ *
+ * @property Enterramiento $Enterramiento
+ * @property Persona $Persona
+ * @property Traslado $Traslado
+ * @property DifuntoTraslado $DifuntoTraslado
+ */
 class Difunto extends AppModel {
-/**
- * Name
- *
- * @var string $name
- * @access public
- */
-	public $name = 'Difunto';
-
-/**
- * Behaviors
- *
- * @var array
- * @access public
- */
-	public $actsAs = array('Containable', 'Search.Searchable');
-/**
- * Validation parameters - initialized in constructor
- *
- * @var array
- * @access public
- */
-	public $validate = array();
-
-/**
- * belongsTo association
- *
- * @var array $belongsTo 
- * @access public
- */
-	public $belongsTo = array(
-		'Persona' => array(
-			'className' => 'Persona',
-			'foreignKey' => 'persona_id',
-		),
-		'Tumba' => array(
-			'className' => 'Tumba',
-			'foreignKey' => 'tumba_id',
-		)
-	);
-/**
- * hasMany association
- *
- * @var array $hasMany
- * @access public
- */
-
-	public $hasOne = array(
-		'Enterramiento' => array(
-			'className' => 'Enterramiento',
-			'foreignKey' => 'difunto_id',
-			'dependent' => false,
-		)
-	);
-
-	public $hasMany = array(
-		'DifuntoTraslado' => array(
-			'className' => 'DifuntoTraslado',
-			'foreignKey' => 'difunto_id',
-			'dependent' => false,
-		)
-	);
-
-/**
- * HABTM association
- *
- * @var array $hasAndBelongsToMany
- * @access public
- */
-
-	public $hasAndBelongsToMany = array(
-		'Traslado' => array(
-			'className' => 'Traslado',
-			'joinTable' => 'difuntos_traslados',
-			'foreignKey' => 'difunto_id',
-			'associationForeignKey' => 'traslado_id',
-			'unique' => true,
-		)
-	);
-
-
-/**
- * Constructor
- *
- * @param mixed $id Model ID
- * @param string $table Table name
- * @param string $ds Datasource
- * @access public
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-		$this->validate = array(
-			'persona_id' => array(
-				'uuid' => array('rule' => array('uuid'), 'required' => true, 'allowEmpty' => false, 'message' => __('Please enter a Persona', true))),
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'difuntos';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'nombre_completo';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Difunto';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Difunto';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array();
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array('Containable', 'Search.Searchable');
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
+'persona_id' => array(
+				'uuid' => array(
+'rule' => array('uuid'),
+ 'required' => true,
+ 'allowEmpty' => false,
+ 'message' => 'Please enter a Persona'
+)
+),
 			'tumba_id' => array(
-				'uuid' => array('rule' => array('uuid'), 'required' => false, 'allowEmpty' => true, 'message' => __('Please enter a Tumba', true))),
+				'uuid' => array('rule' => array('uuid'), 'required' => false, 'allowEmpty' => true, 'message' => 'Please enter a Tumba',)),
 			'estado' => array(
-				'notempty' => array('rule' => array('notempty'), 'required' => true, 'allowEmpty' => false, 'message' => __('Please enter a Estado', true))),
+				'notempty' => array('rule' => array('notempty'), 'required' => true, 'allowEmpty' => false, 'message' => 'Please enter a Estado', )),
 			'edad_defuncion' => array(
-				'numeric' => array('rule' => array('numeric'), 'required' => false, 'allowEmpty' => true, 'message' => __('Please enter a numbre', true))),
+				'numeric' => array('rule' => array('numeric'), 'required' => false, 'allowEmpty' => true, 'message' => 'Please enter a numbre', )),
 			'fecha_defuncion' => array(
-				'date' => array('rule' => array('date'), 'required' => false, 'allowEmpty' => true, 'message' => __('Please enter a Fecha Defuncion', true))),
+				'date' => array('rule' => array('date'), 'required' => false, 'allowEmpty' => true, 'message' => 'Please enter a Fecha Defuncion', )),
 			'causa_defuncion' => array(
-				'text' => array('required' => false, 'allowEmpty' => true, 'message' => __('Please enter a causa Defuncion', true))),
-		);
-		$this->estado = array(
-			'Cadáver' => __('Cadáver', true),
-			'Cenizas' => __('Cenizas', true),
-			'Restos' => __('Restos', true));
-		//$this->virtualFields['nombre_completo'] = $this->Persona->virtualFields['nombre_completo'];
-	}
+				'text' => array('required' => false, 'allowEmpty' => true, 'message' => 'Please enter a causa Defuncion', )),
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasOne associations
+     *
+     * @var array
+     */
+    public $hasOne = array(
+        'Enterramiento' => array(
+            'className' => 'Enterramiento',
+            'foreignKey' => 'difunto_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+    );
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'DifuntoTraslado' => array(
+            'className' => 'DifuntoTraslado',
+            'foreignKey' => 'difunto_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
+    
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Persona' => array(
+            'className' => 'Persona',
+            'foreignKey' => 'persona_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+        'Tumba' => array(
+            'className' => 'Tumba',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     */
+    public function __construct($id = false, $table = null, $ds = null) {
+        
+        //Añadir campos virtuales de "Persona"
+        $this->virtualFields += $this->Persona->virtualFields;
+        
+        //Vector de estados del cuerpo de un difunto
+        $this->estado = array(
+            'Cadáver' => __('Cadáver', true),
+            'Cenizas' => __('Cenizas', true),
+            'Restos' => __('Restos', true),
+        );
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
 
 /**
  * Additional Find types to be used with find($type);
