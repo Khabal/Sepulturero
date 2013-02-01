@@ -196,7 +196,7 @@
         <?php
          echo h($tumba['Tumba']['tipo']) . " - ";
          if ($tumba['Tumba']['Columbario']) {
-          echo h($tumba['Tumba']['Columbario']['localizacion']);
+          echo h($tumba['Tumba']['Columbario']['identificador']);
          }
          elseif ($tumba['Tumba']['Nicho']) {
           echo h($tumba['Tumba']['Nicho']['identificador']);

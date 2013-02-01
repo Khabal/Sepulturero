@@ -1,41 +1,133 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Tasa Model
  *
+ * @property EnterramientoTasa $EnterramientoTasa
  * @property Pago $Pago
- * @property Enterramiento $Enterramiento
  */
 class Tasa extends AppModel {
-
-/**
- * Behaviors
- *
- * @var array
- * @access public
- */
-	public $actsAs = array('Containable', 'Search.Searchable');
-
-/**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'cementerio';
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'tipo';
-
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'tasas';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'tipo_cantidad';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Tasa';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Tasa';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array(
+        'tipo_cantidad' => 'CONCAT(Tasa.tipo, " - ", Tasa.cantidad, " ", Tasa.moneda)'
+    );
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array('Containable', 'Search.Searchable');
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
 		'id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
@@ -86,98 +178,110 @@ class Tasa extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Pago' => array(
-			'className' => 'Pago',
-			'foreignKey' => 'tasa_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	public $hasAndBelongsToMany = array(
-		'Enterramiento' => array(
-			'className' => 'Enterramiento',
-			'joinTable' => 'enterramientos_tasas',
-			'foreignKey' => 'tasa_id',
-			'associationForeignKey' => 'enterramiento_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		)
-	);
-/**
- * Field names accepted
- *
- * @var array
- * @see SearchableBehavior
- */
-	public $filterArgs = array(
-          'clave' => array('type' => 'query', /*'field' => 'generico',*/ 'method' => 'filterNombre'),
-		//array('name' => 'nombre', 'type' => 'like', 'field' => 'Persona.nombre'),
-		/*array('name' => 'apellido1', 'type' => 'like', 'field' => 'Persona.apellido1'),
-		array('name' => 'apellido2', 'type' => 'like', 'field' => 'Persona.apellido2'),*/
-	);
-
-	public function filterNombre($data = array()/*, $field = null*/) {
-		if (empty($data['clave'])) {//$this->params->query
-			return array();
-		}
-		$nombre = '%' . $data['clave'] . '%';
-//print($nombre);
-		return array(
-			'OR'  => array(
-			//	/*$this->alias . */'Persona.nombre_completo LIKE' => $nombre,
-				/*$this->Arrendatario . */'Tasa.tipo LIKE' => $nombre,
-				/*$this->alias . */'Tasa.cantidad LIKE' => $nombre,
-
-
-			));
-	}
-
-/**
- * Constructor
- *
- * @param mixed $id Model ID
- * @param string $table Table name
- * @param string $ds Datasource
- * @access public
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		//$this->virtualFields += $this->Persona->virtualFields;
-		parent::__construct($id, $table, $ds);
-		$this->moneda = array(
-			'Pesetas' => __('Pesetas', true),
-			'Euros (€)' => __('Euros (€)', true));
-
-	}
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'Pago' => array(
+            'className' => 'Pago',
+            'foreignKey' => 'tasa_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'EnterramientoTasa' => array(
+            'className' => 'EnterramientoTasa',
+            'foreignKey' => 'tasa_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Vector con las distintas monedas aceptadas en los pagos
+        $this->moneda = array(
+            'Pesetas' => __('Pesetas', true),
+            'Euros (€)' => __('Euros (€)', true)
+        );
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * ---------------------------
+     * Search Plugin
+     * ---------------------------
+     */
+    
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+    public $filterArgs = array(
+        'clave' => array('type' => 'query', 'method' => 'buscarTasa'),
+    );
+    
+    /**
+     * buscarTasa method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarTasa ($data = array()) {
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['clave'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tasa.tipo LIKE' => $comodin,
+         )
+        );
+        
+    }
 
 }

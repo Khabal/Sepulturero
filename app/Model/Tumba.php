@@ -5,14 +5,14 @@ App::uses('AppModel', 'Model');
 /**
  * Tumba Model
  *
+ * @property ArrendatarioTumba $ArrendatarioTumba
  * @property Columbario $Columbario
+ * @property Difunto $Difunto
+ * @property Enterramiento $Enterramiento
  * @property Exterior $Exterior
  * @property Nicho $Nicho
  * @property Panteon $Panteon
- * @property Difunto $Difunto
- * @property Enterramiento $Enterramiento
- * @property Arrendatario $Arrendatario
- * @property Traslado $Traslado
+ * @property TrasladoTumba $TrasladoTumba
  */
 class Tumba extends AppModel {
     
@@ -239,63 +239,88 @@ class Tumba extends AppModel {
             'offset' => 0,
             'dependent' => false,
             'exclusive' => false,
+            'finderQuery' => '',
         ),
     );
-
-
-/**
- * Constructor
- *
- * @param mixed $id Model ID
- * @param string $table Table name
- * @param string $ds Datasource
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct($id = false, $table = null, $ds = null) {
+        
         //Añadir campos virtuales de las distintas tumbas
-        $this->virtualFields['id_columbario'] = $this->Columbario->virtualFields['identificador'];
-        $this->virtualFields['id_exterior'] = $this->Exterior->virtualFields['identificador'];
-        $this->virtualFields['id_nicho'] = $this->Nicho->virtualFields['identificador'];
-        $this->virtualFields['id_panteon'] = $this->Panteon->virtualFields['identificador'];
-
-		$this->tipo = array(
-			'Columbario' => __('Columbario', true),
-			'Exterior' => __('Exterior', true),
-			'Nicho' => __('Nicho', true),
-			'Panteón' => __('Panteón', true));
-
-		parent::__construct($id, $table, $ds);
-	}
-
-/**
- * Field names accepted
- *
- * @var array
- * @see SearchableBehavior
- */
-	public $filterArgs = array(
-          'clave' => array('type' => 'query', /*'field' => 'generico',*/ 'method' => 'filterNombre'),
-		//array('name' => 'nombre', 'type' => 'like', 'field' => 'Persona.nombre'),
-		/*array('name' => 'apellido1', 'type' => 'like', 'field' => 'Persona.apellido1'),
-		array('name' => 'apellido2', 'type' => 'like', 'field' => 'Persona.apellido2'),*/
-	);
-
-	public function filterNombre($data = array()/*, $field = null*/) {
-		if (empty($data['clave'])) {//$this->params->query
-			return array();
-		}
-		$nombre = '%' . $data['clave'] . '%';
-//print($nombre);
-		return array(
-			'OR'  => array(
-			//	/*$this->alias . */'Persona.nombre_completo LIKE' => $nombre,
-				/*$this->Arrendatario . */'Tumba.tipo LIKE' => $nombre,
-//BUSCAR POR ELEMENTOS SEPARADOS DE CADA TIPO DE TUMBA
-				/*$this->alias . */'CONCAT("Número: ", Columbario.numero_columbario, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $nombre,
-				/*$this->alias . */'CONCAT("Número: ", Nicho.numero_nicho, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $nombre,
-				/*$this->alias . */'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $nombre,
-
-			));
-	}
+        $this->virtualFields['id_columbario'] = $this->Columbario->virtualFields['localizacion'];
+        $this->virtualFields['id_exterior'] = $this->Exterior->virtualFields['localizacion'];
+        $this->virtualFields['id_nicho'] = $this->Nicho->virtualFields['localizacion'];
+        $this->virtualFields['id_panteon'] = $this->Panteon->virtualFields['localizacion'];
+        
+        //Vector con los distintos tipos de tumbas
+        $this->tipo = array(
+            'Columbario' => __('Columbario', true),
+            'Exterior' => __('Exterior', true),
+            'Nicho' => __('Nicho', true),
+            'Panteón' => __('Panteón', true)
+        );
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * ---------------------------
+     * Search Plugin
+     * ---------------------------
+     */
+    
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+    public $filterArgs = array(
+        'clave' => array('type' => 'query', 'method' => 'buscarTumba'),
+    );
+    
+    /**
+     * buscarTumba method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarTumba ($data = array()) {
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['clave'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          //BUSCAR POR ELEMENTOS SEPARADOS DE CADA TIPO DE TUMBA
+          'CONCAT("Número: ", Columbario.numero_columbario, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
 
 }

@@ -42,7 +42,7 @@
          $identificador = $difunto['Tumba']['Nicho']['localizacion'];
         }
         elseif ($difunto['Tumba']['Panteon']) {
-         $identificador = $difunto['Tumba']['Panteon']['localizacion'];
+         $identificador = $difunto['Tumba']['Panteon']['identificador'];
         }
         echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
        }

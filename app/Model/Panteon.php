@@ -1,74 +1,132 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
- * Panteone Model
+ * Panteon Model
  *
  * @property Tumba $Tumba
  */
 class Panteon extends AppModel {
-
-
-	public $virtualFields = array(
-		'identificador' => 'CONCAT("Familia: ",
-			Panteon.familia, " - Número: ",
-			Panteon.numero_panteon,  " - Patio: ", Panteon.patio)'
-	);
-
-	public $displayField = 'identificador';
-/**
- * Model name
- *
- * @var string
- */
-	public $name = 'Panteon';
-
-/**
- * Primary key
- *
- * @var string
- */
-	public $primaryKey = 'id';
-
-/**
- * Number of associations to recurse
- *
- * @var integer
- */
-	public $recursive = 1;
-
-/**
- * Database table name
- *
- * @var string
- */
-	public $table = 'panteones';
-
-/**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'cementerio';
-
-/**
- * Use database table
- *
- * @var string
- */
-	public $useTable = 'panteones';
-/**
- * List of behaviors
- *
- * @var array
- */
-
-	public $actsAs = array('Containable');
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'panteones';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'localizacion';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Panteon';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Panteon';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array(
+        'localizacion' => 'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio)'
+    );
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array();
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
 		'id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
@@ -109,23 +167,50 @@ class Panteon extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasOne associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Tumba' => array(
-			'className' => 'Tumba',
-			'foreignKey' => 'tumba_id',
-			'conditions' => '',
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Tumba' => array(
+            'className' => 'Tumba',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
             'type' => 'left',
-			'fields' => '',
-			'order' => ''
-		)
-	);
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
 }

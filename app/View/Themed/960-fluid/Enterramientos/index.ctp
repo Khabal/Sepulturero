@@ -5,9 +5,7 @@
 </div>
 
 <pre>
-<?php print_r($enterramientos);
-
- ?>
+<?php /*print_r($enterramientos);*/ ?>
 </pre>
 
 <!-- Tabla enterramientos -->
@@ -42,13 +40,13 @@
       <?php /* Obtener identificador de tumba */
        $identificador = "";
        if ($enterramiento['Tumba']['Columbario']) {
-        $identificador = $enterramiento['Tumba']['Columbario']['identificador'];
+        $identificador = $enterramiento['Tumba']['Columbario']['localizacion'];
        }
        elseif ($enterramiento['Tumba']['Nicho']) {
-        $identificador = $enterramiento['Tumba']['Nicho']['identificador'];
+        $identificador = $enterramiento['Tumba']['Nicho']['localizacion'];
        }
        elseif ($enterramiento['Tumba']['Panteon']) {
-        $identificador = $enterramiento['Tumba']['Panteon']['identificador'];
+        $identificador = $enterramiento['Tumba']['Panteon']['localizacion'];
        }
        echo $this->Html->link($enterramiento['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $enterramiento['Enterramiento']['tumba_id']));
       ?> &nbsp;

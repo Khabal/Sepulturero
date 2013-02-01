@@ -184,8 +184,58 @@ class Persona extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasOne associations
+     *
+     * @var array
+     */
+    public $hasOne = array(
+        'Arrendatario' => array(
+            'className' => 'Arrendatario',
+            'foreignKey' => 'persona_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+        'Difunto' => array(
+            'className' => 'Difunto',
+            'foreignKey' => 'persona_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
     public function valida_nif_nie($check) {
 //Copyright ©2005-2011 David Vidal Serra. Bajo licencia GNU GPL.
 //Este software viene SIN NINGUN TIPO DE GARANTIA; para saber mas detalles
@@ -257,35 +307,5 @@ $cif = (string) $check['dni'];
         //Si todavía no se ha verificado devolver error
         return false; //return 0;
     }
-    
-    /**
-     * ----------------------
-     * Model associations
-     * ----------------------
-     */
-    
-    /**
-     * hasOne associations
-     *
-     * @var array
-     */
-    public $hasOne = array(
-        'Arrendatario' => array(
-            'className' => 'Arrendatario',
-            'foreignKey' => 'persona_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'dependent' => true,
-        ),
-        'Difunto' => array(
-            'className' => 'Difunto',
-            'foreignKey' => 'persona_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'dependent' => true,
-        ),
-    );
     
 }

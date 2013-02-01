@@ -174,22 +174,22 @@ class TrasladosController extends AppController {
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
              ),
             ),
             'Exterior' => array(
              'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
+            'Nicho' => array(
+             'fields' => array(
+              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+             ),
+            ),
+            'Panteon' => array(
+             'fields' => array(
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
             'fields' => array(
@@ -400,29 +400,29 @@ foreach($d_t as $x) {
 else{$t0='tumba_destino';$t1='tumba_origen';$t_id=$this->request->data['TrasladoTumba'][1]['tumba_id'];}
 
             if ($this->request->data['TrasladoTumba'][0]['Tumba']['Columbario']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Columbario']['identificador'];
+                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Columbario']['localizacion'];
             }
             elseif ($this->request->data['TrasladoTumba'][0]['Tumba']['Nicho']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Nicho']['identificador'];
+                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Nicho']['localizacion'];
             }
             elseif ($this->request->data['TrasladoTumba'][0]['Tumba']['Panteon']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Panteon']['identificador'];
+                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Panteon']['localizacion'];
             }
             elseif ($this->request->data['TrasladoTumba'][0]['Tumba']['Exterior']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Exterior']['identificador'];
+                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Exterior']['localizacion'];
             }
 
             if ($this->request->data['TrasladoTumba'][1]['Tumba']['Columbario']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Columbario']['identificador'];
+                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Columbario']['localizacion'];
             }
             elseif ($this->request->data['TrasladoTumba'][1]['Tumba']['Nicho']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Nicho']['identificador'];
+                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Nicho']['localizacion'];
             }
             elseif ($this->request->data['TrasladoTumba'][1]['Tumba']['Panteon']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Panteon']['identificador'];
+                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Panteon']['localizacion'];
             }
             elseif ($this->request->data['TrasladoTumba'][1]['Tumba']['Exterior']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Exterior']['identificador'];
+                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Exterior']['localizacion'];
             }
 
 //cargar todos los difuntos de la tumba de origen

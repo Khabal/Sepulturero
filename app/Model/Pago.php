@@ -1,41 +1,133 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Pago Model
  *
- * @property Tasa $Tasa
  * @property Documento $Documento
+ * @property Tasa $Tasa
  */
 class Pago extends AppModel {
-
-/**
- * Behaviors
- *
- * @var array
- * @access public
- */
-	public $actsAs = array('Containable', 'Search.Searchable');
-
-/**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'cementerio';
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'fecha';
-
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'pagos';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'fecha_concepto';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Pago';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Pago';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array(
+        'fecha_concepto' => 'CONCAT(DATE_FORMAT(Pago.fecha,"%d/%m/%Y"), " - ", Pago.concepto)'
+    );
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array('Containable', 'Search.Searchable');
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
 		'id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
@@ -86,89 +178,119 @@ class Pago extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Tasa' => array(
-			'className' => 'Tasa',
-			'foreignKey' => 'tasa_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Documento' => array(
-			'className' => 'Documento',
-			'foreignKey' => 'pago_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
-/**
- * Field names accepted
- *
- * @var array
- * @see SearchableBehavior
- */
-	public $filterArgs = array(
-          'clave' => array('type' => 'query', /*'field' => 'generico',*/ 'method' => 'filterNombre'),
-		//array('name' => 'nombre', 'type' => 'like', 'field' => 'Persona.nombre'),
-		/*array('name' => 'apellido1', 'type' => 'like', 'field' => 'Persona.apellido1'),
-		array('name' => 'apellido2', 'type' => 'like', 'field' => 'Persona.apellido2'),*/
-	);
-
-	public function filterNombre($data = array()/*, $field = null*/) {
-		if (empty($data['clave'])) {//$this->params->query
-			return array();
-		}
-		$nombre = '%' . $data['clave'] . '%';
-//print($nombre);
-		return array(
-			'OR'  => array(
-			//	/*$this->alias . */'Persona.nombre_completo LIKE' => $nombre,
-				/*$this->Arrendatario . */'Pago.motivo LIKE' => $nombre,
-				/*$this->alias . */'DATE_FORMAT(Pago.fecha,"%d/%m/%Y") LIKE' => $nombre,
-				/*$this->alias . */'Tasa.tipo LIKE' => $nombre,
-
-			));
-	}
-/**
- * Constructor
- *
- * @param mixed $id Model ID
- * @param string $table Table name
- * @param string $ds Datasource
- * @access public
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		//$this->virtualFields += $this->Persona->virtualFields;
-		parent::__construct($id, $table, $ds);
-		$this->moneda = array(
-			'Pesetas' => __('Pesetas', true),
-			'Euros (€)' => __('Euros (€)', true));
-
-	}
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'Documento' => array(
+            'className' => 'Documento',
+            'foreignKey' => 'pago_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => true,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
+    
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Tasa' => array(
+            'className' => 'Tasa',
+            'foreignKey' => 'tasa_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Vector con las distintas monedas aceptadas en los pagos
+        $this->moneda = array(
+            'Pesetas' => __('Pesetas', true),
+            'Euros (€)' => __('Euros (€)', true)
+        );
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * ---------------------------
+     * Search Plugin
+     * ---------------------------
+     */
+    
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+    public $filterArgs = array(
+        'clave' => array('type' => 'query', 'method' => 'buscarPago'),
+    );
+    
+    /**
+     * buscarPago method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarPago ($data = array()) {
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['clave'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Pago.concepto LIKE' => $comodin,
+          'DATE_FORMAT(Pago.fecha,"%d/%m/%Y") LIKE' => $comodin,
+          'Tasa.tipo LIKE' => $comodin,
+         )
+        );
+        
+    }
 
 }

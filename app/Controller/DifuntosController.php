@@ -176,22 +176,22 @@ class DifuntosController extends AppController {
           'Tumba' => array(
            'Columbario' => array(
             'fields' => array(
-             'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-            ),
-           ),
-           'Nicho' => array(
-            'fields' => array(
-             'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-            ),
-           ),
-           'Panteon' => array(
-            'fields' => array(
-             'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+             'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
             ),
            ),
            'Exterior' => array(
             'fields' => array(
-             'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+             'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+            ),
+           ),
+           'Nicho' => array(
+            'fields' => array(
+             'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+            ),
+           ),
+           'Panteon' => array(
+            'fields' => array(
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
             ),
            ),
            'fields' => array(
@@ -323,22 +323,22 @@ class DifuntosController extends AppController {
           'Tumba' => array(
            'Columbario' => array(
             'fields' => array(
-             'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-            ),
-           ),
-           'Nicho' => array(
-            'fields' => array(
-             'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-            ),
-           ),
-           'Panteon' => array(
-            'fields' => array(
-             'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+             'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
             ),
            ),
            'Exterior' => array(
             'fields' => array(
-             'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+             'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+            ),
+           ),
+           'Nicho' => array(
+            'fields' => array(
+             'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+            ),
+           ),
+           'Panteon' => array(
+            'fields' => array(
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
             ),
            ),
            'fields' => array(
@@ -349,22 +349,22 @@ class DifuntosController extends AppController {
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
              ),
             ),
             'Exterior' => array(
              'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
+            'Nicho' => array(
+             'fields' => array(
+              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+             ),
+            ),
+            'Panteon' => array(
+             'fields' => array(
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
             'fields' => array(
@@ -386,22 +386,22 @@ class DifuntosController extends AppController {
              'Tumba' => array(
               'Columbario' => array(
                'fields' => array(
-                'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-               ),
-              ),
-              'Nicho' => array(
-               'fields' => array(
-                'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-               ),
-              ),
-              'Panteon' => array(
-               'fields' => array(
-                'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
                ),
               ),
               'Exterior' => array(
                'fields' => array(
-                'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
                ),
               ),
               'fields' => array(
@@ -527,22 +527,22 @@ class DifuntosController extends AppController {
               'Tumba' => array(
                'Columbario' => array(
                 'fields' => array(
-                 'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-                ),
-               ),
-               'Nicho' => array(
-                'fields' => array(
-                 'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-                ),
-               ),
-               'Panteon' => array(
-                'fields' => array(
-                 'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+                 'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
                 ),
                ),
                'Exterior' => array(
                 'fields' => array(
-                 'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+                 'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+                ),
+               ),
+               'Nicho' => array(
+                'fields' => array(
+                 'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+                ),
+               ),
+               'Panteon' => array(
+                'fields' => array(
+                 'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
                 ),
                ),
                'fields' => array(
@@ -560,16 +560,16 @@ class DifuntosController extends AppController {
             if ($this->request->data['Tumba']) {
                 $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - ";
                 if ($this->request->data['Tumba']['Columbario']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Columbario']['identificador'];
-                }
-                elseif ($this->request->data['Tumba']['Nicho']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Nicho']['identificador'];
-                }
-                elseif ($this->request->data['Tumba']['Panteon']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Panteon']['identificador'];
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Columbario']['localizacion'];
                 }
                 elseif ($this->request->data['Tumba']['Exterior']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Exterior']['identificador'];
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Exterior']['localizacion'];
+                }
+                elseif ($this->request->data['Tumba']['Nicho']) {
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Nicho']['localizacion'];
+                }
+                elseif ($this->request->data['Tumba']['Panteon']) {
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Panteon']['localizacion'];
                 }
             }
             

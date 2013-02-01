@@ -329,14 +329,14 @@ foreach($d_t as $x) {
         $this->set(compact('traslado'));
         
     }
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
     public function editar($id = null) {
         
         //Asignar id

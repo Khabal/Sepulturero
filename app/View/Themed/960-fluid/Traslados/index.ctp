@@ -5,9 +5,7 @@
 </div>
 
 <pre>
-<?php print_r($traslados);
-
- ?>
+<?php /*print_r($traslados);*/ ?>
 </pre>
 
 <?php /* Tabla traslados */ ?>
@@ -18,7 +16,7 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Traslado.fecha', 'Fecha');?></th>
-    <th><?php echo $this->Paginator->sort('DifuntoTraslado.Difunto.Persona.nombre_completo', 'Difuntos trasladados');?></th>
+    <th><?php echo $this->Paginator->sort('Traslado.viajeros', 'Difuntos trasladados');?></th>
     <th><?php echo $this->Paginator->sort('Traslado.cementerio_origen', 'Cementerio de origen');?></th>
     <th><?php echo $this->Paginator->sort('TrasladoTumba.Tumba', 'Tumba de origen');?></th>
     <th><?php echo $this->Paginator->sort('Traslado.cementerio_destino', 'Cementerio de destino');?></th>
@@ -47,10 +45,10 @@
       }
      ?>
      <td><?php echo date('d/m/Y', strtotime($traslado['Traslado']['fecha'])); ?>&nbsp;</td>
-     <td><?php echo count($traslado['DifuntoTraslado']); ?>&nbsp;</td>
+     <td><?php echo $traslado['Traslado']['viajeros']; ?>&nbsp;</td>
      <td><?php echo $traslado['Traslado']['cementerio_origen']; ?>&nbsp;</td>
      <?php /* Obtener identificador de tumba */ ?>
-     <?php $identificador = null; if($origen['Tumba']['Columbario']) {$identificador = $origen['Tumba']['Columbario']['identificador'];} elseif($origen['Tumba']['Nicho']) {$identificador = $origen['Tumba']['Nicho']['identificador'];} elseif($origen['Tumba']['Panteon']) {$identificador = $origen['Tumba']['Panteon']['identificador'];} ?>
+     <?php $identificador = null; if($origen['Tumba']['Columbario']) {$identificador = $origen['Tumba']['Columbario']['localizacion'];} elseif($origen['Tumba']['Nicho']) {$identificador = $origen['Tumba']['Nicho']['localizacion'];} elseif($origen['Tumba']['Panteon']) {$identificador = $origen['Tumba']['Panteon']['localizacion'];} ?>
      <td>
       <?php if (strlen($identificador) > 0): ?>
        <?php echo $this->Html->link($origen['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])); ?>
@@ -60,7 +58,7 @@
      </td>
      <td><?php echo $traslado['Traslado']['cementerio_destino']; ?>&nbsp;</td>
      <?php /* Obtener identificador de tumba */ ?>
-     <?php $identificador = null; if($destino['Tumba']['Columbario']) {$identificador = $destino['Tumba']['Columbario']['identificador'];} elseif($destino['Tumba']['Nicho']) {$identificador = $destino['Tumba']['Nicho']['identificador'];} elseif($destino['Tumba']['Panteon']) {$identificador = $destino['Tumba']['Panteon']['identificador'];} ?>
+     <?php $identificador = null; if($destino['Tumba']['Columbario']) {$identificador = $destino['Tumba']['Columbario']['localizacion'];} elseif($destino['Tumba']['Nicho']) {$identificador = $destino['Tumba']['Nicho']['localizacion'];} elseif($destino['Tumba']['Panteon']) {$identificador = $destino['Tumba']['Panteon']['localizacion'];} ?>
      <td>
       <?php if (strlen($identificador) > 0): ?>
        <?php echo $this->Html->link($destino['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])); ?>

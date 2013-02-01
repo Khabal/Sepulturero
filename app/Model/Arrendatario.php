@@ -5,11 +5,11 @@ App::uses('AppModel', 'Model');
 /**
  * Arrendatario Model
  *
- * @property Persona $Persona
- * @property Funeraria $Funeraria
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
- * @property Tumba $Tumba
  * @property ArrendatarioTumba $ArrendatarioTumba
+ * @property Funeraria $Funeraria
+ * @property Persona $Persona
+ * @property Tumba $Tumba
  */
 class Arrendatario extends AppModel {
     
@@ -305,8 +305,9 @@ class Arrendatario extends AppModel {
      * @param mixed $id Model ID
      * @param string $table Table name
      * @param string $ds Datasource
+     * @return class object
      */
-    public function __construct($id = false, $table = null, $ds = null) {
+    public function __construct ($id = false, $table = null, $ds = null) {
         
         //Añadir campos virtuales de "Persona"
         $this->virtualFields += $this->Persona->virtualFields;
@@ -334,15 +335,16 @@ class Arrendatario extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'filterArrendatario'),
+        'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
     );
     
     /**
-     * filterArrendatario method
+     * buscarArrendatario method
      *
+     * @param array $data Search terms
      * @return array
      */
-    public function filterArrendatario ($data = array()) {
+    public function buscarArrendatario ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
@@ -355,7 +357,7 @@ class Arrendatario extends AppModel {
         
         //Devolver resultados de la búsqueda
         return array(
-         'OR'  => array(
+         'OR' => array(
           'Persona.nombre LIKE' => $comodin,
           'Persona.apellido1 LIKE' => $comodin,
           'Persona.apellido2 LIKE' => $comodin,

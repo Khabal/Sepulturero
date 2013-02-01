@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Licencia Model
  *
@@ -7,39 +9,125 @@ App::uses('AppModel', 'Model');
  * @property Documento $Documento
  */
 class Licencia extends AppModel {
-
-/**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'cementerio';
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'numero_licencia';
-
-	public $virtualFields = array('identificador' => 'CONCAT(
-			Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion))'
-	);
-
-/**
- * Behaviors
- *
- * @var array
- * @access public
- */
-	public $actsAs = array('Containable', 'Search.Searchable');
-
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'licencias';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'identificador';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Licencia';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Licencia';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array(
+        'identificador' => 'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion))'
+    );
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array('Containable', 'Search.Searchable');
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
 		'id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
@@ -80,73 +168,111 @@ class Licencia extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasOne associations
- *
- * @var array
- */
-	public $hasOne = array(
-		'Enterramiento' => array(
-			'className' => 'Enterramiento',
-			'foreignKey' => 'licencia_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Documento' => array(
-			'className' => 'Documento',
-			'foreignKey' => 'licencia_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
-/**
- * Field names accepted
- *
- * @var array
- * @see SearchableBehavior
- */
-	public $filterArgs = array(
-          'clave' => array('type' => 'query', /*'field' => 'generico',*/ 'method' => 'filterNombre'),
-		//array('name' => 'nombre', 'type' => 'like', 'field' => 'Persona.nombre'),
-		/*array('name' => 'apellido1', 'type' => 'like', 'field' => 'Persona.apellido1'),
-		array('name' => 'apellido2', 'type' => 'like', 'field' => 'Persona.apellido2'),*/
-	);
-
-	public function filterNombre($data = array()/*, $field = null*/) {
-		if (empty($data['clave'])) {//$this->params->query
-			return array();
-		}
-		$nombre = '%' . $data['clave'] . '%';
-//print($nombre);
-		return array(
-			'OR'  => array(
-			//	/*$this->alias . */'Persona.nombre_completo LIKE' => $nombre,
-				/*$this->Arrendatario . */'DATE_FORMAT(Licencia.fecha_aprobacion,"%d/%m/%Y") LIKE' => $nombre,
-				/*$this->alias . */'Licencia.numero_licencia LIKE' => $nombre,
-				/*$this->alias . */'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion)) LIKE' => $nombre,
-
-			));
-	}
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasOne associations
+     *
+     * @var array
+     */
+    public $hasOne = array(
+        'Enterramiento' => array(
+            'className' => 'Enterramiento',
+            'foreignKey' => 'licencia_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
+    );
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'Documento' => array(
+            'className' => 'Documento',
+            'foreignKey' => 'licencia_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * ---------------------------
+     * Search Plugin
+     * ---------------------------
+     */
+    
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+    public $filterArgs = array(
+        'clave' => array('type' => 'query', 'method' => 'buscarLicencia'),
+    );
+    
+    /**
+     * buscarLicencia method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarLicencia ($data = array()) {
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['clave'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'DATE_FORMAT(Licencia.fecha_aprobacion,"%d/%m/%Y") LIKE' => $comodin,
+          'Licencia.numero_licencia LIKE' => $comodin,
+          'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion)) LIKE' => $comodin,
+         )
+        );
+        
+    }
 
 }

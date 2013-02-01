@@ -1,43 +1,135 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Enterramiento Model
  *
+ * @property EnterramientoTasa $EnterramientoTasa
  * @property Difunto $Difunto
  * @property Licencia $Licencia
  * @property Tumba $Tumba
- * @property Tasa $Tasa
  */
 class Enterramiento extends AppModel {
-
-/**
- * Behaviors
- *
- * @var array
- * @access public
- */
-	public $actsAs = array('Containable', 'Search.Searchable');
-
-/**
- * Use database config
- *
- * @var string
- */
-	public $useDbConfig = 'cementerio';
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'fecha';
-
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
+    
+    /**
+     * ----------------------
+     * Model Attributes
+     * ----------------------
+     */
+    
+    /**
+     * Enable or disable cache queries
+     *
+     * @var boolean
+     */
+    public $cacheQueries = false;
+    
+    /**
+     * Number of associations to recurse
+     *
+     * @var integer
+     */
+    public $recursive = 1;
+    
+    /**
+     * Name of the database connection
+     *
+     * @var string
+     */
+    public $useDbConfig = 'cementerio';
+    
+    /**
+     * Database table name
+     *
+     * @var string
+     */
+    public $useTable = 'enterramientos';
+    
+    /**
+     * Name of the table prefix
+     *
+     * @var string
+     */
+    public $tablePrefix = '';
+    
+    /**
+     * Table primary key
+     *
+     * @var string
+     */
+    public $primaryKey = 'id';
+    
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'fecha_normal';
+    
+    /**
+     * Name of the model
+     *
+     * @var string
+     */
+    public $name = 'Enterramiento';
+    
+    /**
+     * Alias
+     *
+     * @var string
+     */
+    public $alias = 'Enterramiento';
+    
+    /**
+     * List of defaults ordering of data for any find operation
+     *
+     * @var array
+     */
+    public $order = array();
+    
+    /**
+     * Virtual fields
+     *
+     * @var array
+     */
+    public $virtualFields = array(
+        'fecha_normal' => 'DATE_FORMAT(Enterramiento.fecha, "%d/%m/%Y")'
+    );
+    
+    /**
+     * List of behaviors
+     *
+     * @var array
+     */
+    public $actsAs = array('Containable', 'Search.Searchable');
+    
+    /**
+     * ----------------------
+     * Model schema
+     * ----------------------
+     */
+    
+    /**
+     * Metadata describing the model's database table fields
+     *
+     * @var array
+     */
+    public $_schema = array(
+    );
+    
+    /**
+     * ----------------------
+     * Model data validation
+     * ----------------------
+     */
+    
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
 		'id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
@@ -88,135 +180,138 @@ class Enterramiento extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasOne associations
- *
- * @var array
- */
-/*	public $hasOne = array(
-		'Difunto' => array(
-			'className' => 'Difunto',
-			'foreignKey' => 'id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Licencia' => array(
-			'className' => 'Licencia',
-			'foreignKey' => 'id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);*/
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Tumba' => array(
-			'className' => 'Tumba',
-			'foreignKey' => 'tumba_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Difunto' => array(
-			'className' => 'Difunto',
-			'foreignKey' => 'difunto_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Licencia' => array(
-			'className' => 'Licencia',
-			'foreignKey' => 'licencia_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-/*	public $hasAndBelongsToMany = array(
-		'Tasa' => array(
-			'className' => 'Tasa',
-			'joinTable' => 'enterramientos_tasas',
-			'foreignKey' => 'enterramiento_id',
-			'associationForeignKey' => 'tasa_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-		)
-	);*/
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'EnterramientoTasa' => array(
-			'className' => 'EnterramientoTasa',
-			'foreignKey' => 'enterramiento_id',
-			'dependent' => true,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => '',
-		),
-	);
-
-/**
- * Field names accepted
- *
- * @var array
- * @see SearchableBehavior
- */
-	public $filterArgs = array(
-          'clave' => array('type' => 'query', /*'field' => 'generico',*/ 'method' => 'filterNombre'),//condicionesBusquedaRapida
-		//array('name' => 'nombre', 'type' => 'like', 'field' => 'Persona.nombre'),
-		/*array('name' => 'apellido1', 'type' => 'like', 'field' => 'Persona.apellido1'),
-		array('name' => 'apellido2', 'type' => 'like', 'field' => 'Persona.apellido2'),*/
-	);
-
-	public function filterNombre($data = array()/*, $field = null*/) {
-		if (empty($data['clave'])) {//$this->params->query
-			return array();
-		}
-		$nombre = '%' . $data['clave'] . '%';
-//print($nombre);
-		return array(
-			'OR'  => array(
-			//	/*$this->alias . */'Persona.nombre_completo LIKE' => $nombre,
-				/*$this->Arrendatario . */'Enterramiento.fecha LIKE' => $nombre,
-				/*$this->Arrendatario . */'Persona.nombre LIKE' => $nombre,
-				/*$this->alias . */'Persona.apellido1 LIKE' => $nombre,
-				/*$this->alias . */'Persona.apellido2 LIKE' => $nombre,
-				/*$this->alias . */'Persona.dni LIKE' => $nombre,
-				/*$this->alias . */'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $nombre,
-				/*$this->alias . */'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $nombre,
-			));
-	}
+    );
+    
+    /**
+     * ----------------------
+     * Model associations
+     * ----------------------
+     */
+    
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'EnterramientoTasa' => array(
+            'className' => 'EnterramientoTasa',
+            'foreignKey' => 'enterramiento_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+    );
+    
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Tumba' => array(
+            'className' => 'Tumba',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+        'Difunto' => array(
+            'className' => 'Difunto',
+            'foreignKey' => 'difunto_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+        'Licencia' => array(
+            'className' => 'Licencia',
+            'foreignKey' => 'licencia_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+    );
+    
+    /**
+     * ----------------------
+     * Model methods
+     * ----------------------
+     */
+    
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+    public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Llamar al constructor de la clase padre
+        parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * ---------------------------
+     * Search Plugin
+     * ---------------------------
+     */
+    
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+    public $filterArgs = array(
+        'clave' => array('type' => 'query', 'method' => 'buscarEnterramiento'),
+    );
+    
+    /**
+     * buscarEnterramiento method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarEnterramiento ($data = array()) {
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['clave'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'DATE_FORMAT(Enterramiento.fecha, "%d/%m/%Y") LIKE' => $comodin,
+          'Persona.nombre LIKE' => $comodin,
+          'Persona.apellido1 LIKE' => $comodin,
+          'Persona.apellido2 LIKE' => $comodin,
+          'Persona.dni LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+          'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion))' => $comodin,
+         )
+        );
+        
+    }
 
 }
