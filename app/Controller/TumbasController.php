@@ -569,7 +569,7 @@ class TumbasController extends AppController {
             'Columbario.tumba_id = Tumba.id',
            ),*/
            'fields' => array(
-            'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
+            'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
            ),
           ),
           'Nicho' => array(
@@ -577,7 +577,7 @@ class TumbasController extends AppController {
             'Nicho.tumba_id = Tumba.id',
            ),*/
            'fields' => array(
-            'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
+            'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
            ),
           ),
           'Panteon' => array(
@@ -585,7 +585,7 @@ class TumbasController extends AppController {
             'Panteon.tumba_id = Tumba.id',
            ),*/
            'fields' => array(
-            'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+            'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
            ),
           ),
           'Exterior' => array(
@@ -593,7 +593,7 @@ class TumbasController extends AppController {
             'Exterior.tumba_id = Tumba.id',
            ),*/
            'fields' => array(
-            'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+            'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
            ),
           ),
          ),
@@ -618,16 +618,16 @@ class TumbasController extends AppController {
          foreach($resultados as $resultado) {
           $identificador = "";
           if ($resultado['Tumba']['tipo'] == "Columbario") {
-           $identificador = $resultado['Columbario']['identificador'];
+           $identificador = $resultado['Columbario']['localizacion'];
           }
           elseif ($resultado['Tumba']['tipo'] == "Nicho") {
-           $identificador = $resultado['Nicho']['identificador'];
+           $identificador = $resultado['Nicho']['localizacion'];
           }
           elseif ($resultado['Tumba']['tipo'] == "Panteón") {
-           $identificador = $resultado['Panteon']['identificador'];
+           $identificador = $resultado['Panteon']['localizacion'];
           }
           elseif ($resultado['Tumba']['tipo'] == "Exterior") {
-           $identificador = $resultado['Exterior']['identificador'];
+           $identificador = $resultado['Exterior']['localizacion'];
           }
           array_push($items, array("label" => $resultado['Tumba']['tipo'] . " - " . $identificador, "value" => $resultado['Tumba']['id']));
          }

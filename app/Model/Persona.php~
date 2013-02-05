@@ -423,9 +423,6 @@ class Persona extends AppModel {
          ),
          'contain' => array(
           'Difunto' => array(
-           'conditions' => array(
-            'Difunto.id !=' => $id,
-           ),
            'fields' => array(
             'Difunto.id', 'Difunto.persona_id'
            ),

@@ -4,6 +4,14 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
+<?php
+ /*
+ echo '<pre>';
+ print_r($arrendatarios);
+ echo '</pre>';
+ */
+?>
+
 <?php /* Tabla difuntos */ ?>
 <div class="index box">
  <h2><?php echo __('Difuntos'); ?></h2>
@@ -13,7 +21,7 @@
    <tr>
     <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
     <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba.tumba_identificador', 'Tumba'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba', 'Tumba'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.edad_defuncion', 'Edad de defunción'); ?></th>
@@ -42,7 +50,7 @@
          $identificador = $difunto['Tumba']['Nicho']['localizacion'];
         }
         elseif ($difunto['Tumba']['Panteon']) {
-         $identificador = $difunto['Tumba']['Panteon']['identificador'];
+         $identificador = $difunto['Tumba']['Panteon']['localizacion'];
         }
         echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
        }

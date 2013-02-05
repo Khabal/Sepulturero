@@ -3,15 +3,15 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Difunto Model
+ * Arrendatario Model
  *
- * @property DifuntoTraslado $DifuntoTraslado
- * @property Enterramiento $Enterramiento
+ * @property ArrendatarioFuneraria $ArrendatarioFuneraria
+ * @property ArrendatarioTumba $ArrendatarioTumba
+ * @property Funeraria $Funeraria
  * @property Persona $Persona
- * @property Traslado $Traslado
  * @property Tumba $Tumba
  */
-class Difunto extends AppModel {
+class Arrendatario extends AppModel {
     
     /**
      * ----------------------
@@ -45,7 +45,7 @@ class Difunto extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'difuntos';
+    public $useTable = 'arrendatarios';
     
     /**
      * Name of the table prefix
@@ -66,21 +66,21 @@ class Difunto extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'persona_id';
+    public $displayField = 'nombre_completo';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'Difunto';
+    public $name = 'Arrendatario';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Difunto';
+    public $alias = 'Arrendatario';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -147,67 +147,104 @@ class Difunto extends AppModel {
                 'message' => 'Error inesperado al asociar ID de persona.',
             ),
         ),
-        'tumba_id' => array(
-            'uuid' => array(
-                'rule' => array('uuid'),
+        'direccion' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La dirección no se puede dejar en blanco.',
+            ),
+        ),
+        'localidad' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La localidad no se puede dejar en blanco.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La localidad sólo puede contener caracteres alfabéticos (mínimo 2).',
+            ),
+        ),
+        'provincia' => array(
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'Error inesperado al asociar ID de tumba.',
+                'message' => 'La provincia sólo puede contener caracteres alfabéticos (mínimo 2).',
             ),
         ),
-        'estado' => array(
-            'lista_estado' => array(
-                'rule' => array('inList', array('Cadáver', 'Cenizas', 'Restos')),
+        'pais' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El estado del cuerpo del difunto no se encuentra dentro de las opciones posibles.',
+                'message' => 'El país no se puede dejar en blanco.',
             ),
-        ),
-        'fecha_defuncion' => array(
-            'formato_fecha' => array(
-                'rule' => array('date', 'ymd'),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+                'message' => 'El país sólo puede contener caracteres alfabéticos (mínimo 2).',
             ),
         ),
-        'edad_defuncion' => array(
+        'codigo_postal' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El código postal no se puede dejar en blanco.',
+            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El código postal sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'telefono' => array(
+            'solonumeros' => array(
+                'rule' => '/^[0-9]/',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La edad de defunción sólo puede contener caracteres numéricos (0 edad desconocida).',
+                'message' => 'El número de teléfono sólo puede contener caracteres numéricos.',
+            ),
+            'longitud' => array(
+                'rule' => array('minLength', 9),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El número de teléfono debe tener al menos 9 números.',
             ),
         ),
-        'causa_defuncion' => array(
+        'correo_electronico' => array(
+            'correoe' => array(
+                'rule' => array('email'),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El correo electrónico introducido no es válido',
+            ),
         ),
     );
     
     /**
-     * ----------------------
+ true    * ----------------------
      * Model associations
      * ----------------------
      */
-    
-    /**
-     * hasOne associations
-     *
-     * @var array
-     */
-    public $hasOne = array(
-        'Enterramiento' => array(
-            'className' => 'Enterramiento',
-            'foreignKey' => 'difunto_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'dependent' => true,
-        ),
-    );
     
     /**
      * hasMany associations
@@ -215,9 +252,20 @@ class Difunto extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'DifuntoTraslado' => array(
-            'className' => 'DifuntoTraslado',
-            'foreignKey' => 'difunto_id',
+        'ArrendatarioFuneraria' => array(
+            'className' => 'ArrendatarioFuneraria',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'ArrendatarioTumba' => array(
+            'className' => 'ArrendatarioTumba',
+            'foreignKey' => 'arrendatario_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -237,16 +285,6 @@ class Difunto extends AppModel {
         'Persona' => array(
             'className' => 'Persona',
             'foreignKey' => 'persona_id',
-            'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
-            'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
-        ),
-        'Tumba' => array(
-            'className' => 'Tumba',
-            'foreignKey' => 'tumba_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -275,11 +313,10 @@ class Difunto extends AppModel {
         //Añadir campos virtuales de "Persona"
         //$this->virtualFields += $this->Persona->virtualFields;
         
-        //Vector de estados del cuerpo de un difunto
+        //Vector de estados de arrendamiento de una tumba
         $this->estado = array(
-            'Cadáver' => __('Cadáver', true),
-            'Cenizas' => __('Cenizas', true),
-            'Restos' => __('Restos', true),
+            'Antiguo' => __('Antiguo', true),
+            'Actual' => __('Actual', true),
         );
         
         //Llamar al constructor de la clase padre
@@ -299,16 +336,16 @@ class Difunto extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
+        'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
     );
     
     /**
-     * buscarDifunto method
+     * buscarArrendatario method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarDifunto ($data = array()) {
+    public function buscarArrendatario ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
@@ -332,6 +369,5 @@ class Difunto extends AppModel {
         );
         
     }
-
 
 }

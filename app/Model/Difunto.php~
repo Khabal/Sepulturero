@@ -185,6 +185,15 @@ class Difunto extends AppModel {
         ),
         'causa_defuncion' => array(
         ),
+'Persona.dni' => array(
+'unico_difunto' => array(
+                'rule' => array('valida_difunto'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un difunto con este D.N.I./N.I.E.',
+            ),
+),
     );
     
     /**
@@ -332,6 +341,50 @@ class Difunto extends AppModel {
         );
         
     }
-
+    /**
+     * valida_arrendatario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_difunto($check) {
+        
+        //Extraer el DNI del vector
+        $cif = (string) $check['dni'];
+        //print_r($check);print_r($this->data);
+        //Convertir a mayúsculas
+        $cif = strtoupper($cif);
+        
+        //Buscar si hay otro arrendatario con el mismo DNI
+        $persona = $this->find('first', array(
+         'conditions' => array(
+          'Persona.dni' => $cif,
+         ),
+         'fields' => array(
+          'Persona.id'
+         ),
+         'contain' => array(
+          'Difunto' => array(
+           'fields' => array(
+            'Difunto.id', 'Difunto.persona_id'
+           ),
+          ),
+         ),
+        ));
+        
+        //Comprobar si existe un arrendatario con el mismo DNI
+        if(!empty($persona['Difunto']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
 
 }

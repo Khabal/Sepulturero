@@ -15,7 +15,7 @@
  if ($ini_f > 0) {
   $data_f = array();
   foreach($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
-   array_push($data_f, array("ArrendatarioFuneraria#index#Id" => $funeraria['id'], "ArrendatarioFuneraria#index#FunerariaBonita" => $funeraria['funeraria_bonita'], "ArrendatarioFuneraria#index#FunerariaId" => $funeraria['funeraria_id']));
+   array_push($data_f, array("ArrendatarioFuneraria#index#FunerariaBonita" => $funeraria['funeraria_bonita'], "ArrendatarioFuneraria#index#FunerariaId" => $funeraria['funeraria_id']));
   }
   $data_f = json_encode($data_f);
  }
@@ -27,7 +27,7 @@
  if ($ini_t > 0) {
   $data_t = array();
   foreach($this->request->data['ArrendatarioTumba'] as $tumba) {
-   array_push($data_t, array("ArrendatarioTumba#index#Id" => $tumba['id'], "ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));
+   array_push($data_t, array("ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));
   }
   $data_t = json_encode($data_t);
  }

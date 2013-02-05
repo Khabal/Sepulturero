@@ -4,10 +4,13 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
-<pre>
-<?php //print_r($this->request->data);
+<?php
+ /*
+ echo '<pre>';
+ print_r($this->request->data);
+ echo '</pre>';
+ */
 ?>
-</pre>
 
 <?php /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
  if (isset($this->request->data['ArrendatarioFuneraria'])) {

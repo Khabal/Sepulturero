@@ -4,9 +4,13 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Arrendatario.id'), $this->Session->read('Arrendatario.nombre_completo')); ?>
 </div>
 
-<?php echo '<pre>'; ?>
-<?php print_r($this->request->data); ?>
-<?php echo '</pre>'; ?>
+<?php
+ /*
+ echo '<pre>';
+ print_r($this->request->data);
+ echo '</pre>';
+ */
+?>
 
 <?php
  /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */

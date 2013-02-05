@@ -172,7 +172,7 @@ class TumbasController extends AppController {
          'contain' => array(
           'Columbario' => array(
            'fields' => array(
-            //'Columbario.id', 'Columbario.tumba_id', 'Columbario.numero_columbario', 'Columbario.fila', 'Columbario.patio', 'Columbario.identificador'
+            //'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
            ),
           ),
           'Exterior' => array(

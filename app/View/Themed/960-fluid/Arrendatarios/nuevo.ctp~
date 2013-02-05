@@ -4,10 +4,13 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
-<pre>
-<?php //print_r($this->request->data);
+<?php
+ /*
+ echo '<pre>';
+ print_r($arrendatarios);
+ echo '</pre>';
+ */
 ?>
-</pre>
 
 <?php /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
  if (isset($this->request->data['ArrendatarioFuneraria'])) {
@@ -27,7 +30,7 @@
   $ini_t = sizeof($this->request->data['ArrendatarioTumba']);
   $data_t = array();
   foreach($this->request->data['ArrendatarioTumba'] as $tumba) {
-   array_push($data_t, array("ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));//array(selected=> "", "value" =>ArrendatarioTumba#index#Estado)
+   array_push($data_t, array("ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));
   }
   $data_t = json_encode($data_t);
  }

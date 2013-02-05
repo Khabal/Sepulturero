@@ -76,7 +76,7 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $exportar_pdf = $this->Html->link(__($this->Html->image('pdf.png', array('alt' => 'exportar a pdf', 'style' => 'height:24px; width:24px;')) . ' Exportar a PDF'), array('controller' => $controlador, 'action' => 'exportar_pdf', $id . '.pdf'), array('escape' => false));
         
-        $borrar = $this->Html->link(__($this->Html->image('borrar.png', array('alt' => 'borrar', 'style' => 'height:24px; width:24px;')) . ' Borrar'), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
+        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'borrar', 'style' => 'height:24px; width:24px;')) . ' Borrar'), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
         
         return '<ul class="nav"><li>' . $inicio . '</li><li>' . $lista . '</li><li>' . $nuevo . '</li><li>' . $buscar . '</li>' . $separador . '<li>' . $ver . '</li><li>' . $editar . '</li><li>' . $imprimir . '</li><li>' . $exportar_pdf . '</li><li>' . $borrar . '</li></ul>';
         

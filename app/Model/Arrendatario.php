@@ -66,7 +66,7 @@ class Arrendatario extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'nombre_completo';
+    public $displayField = 'persona_id';
     
     /**
      * Name of the model
@@ -129,118 +129,119 @@ class Arrendatario extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'persona_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		/*'nombre' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),*/
-		'direccion' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'La dirección no se puede dejar en blanco',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'localidad' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'caracteres' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'provincia' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'pais' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				'message' => 'El país no puede dejarse en blanco',
-				'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'codigo_postal' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'telefono' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'message' => 'El teléfono contiene caraceteres extraños',
-				'allowEmpty' => true,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'correo_electronico' => array(
-			'numeric' => array(
-				'rule' => array('email'),
-				'message' => 'El correo electrónico introducido no es válido',
-				'allowEmpty' => true,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de arrendatario.',
+            ),
+        ),
+        'persona_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de persona.',
+            ),
+        ),
+        'direccion' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La dirección no se puede dejar en blanco.',
+            ),
+        ),
+        'localidad' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La localidad no se puede dejar en blanco.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La localidad sólo puede contener caracteres alfabéticos (mínimo 2).',
+            ),
+        ),
+        'provincia' => array(
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La provincia sólo puede contener caracteres alfabéticos (mínimo 2).',
+            ),
+        ),
+        'pais' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El país no se puede dejar en blanco.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El país sólo puede contener caracteres alfabéticos (mínimo 2).',
+            ),
+        ),
+        'codigo_postal' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El código postal no se puede dejar en blanco.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', true),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El código postal sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'telefono' => array(
+            'solonumeros' => array(
+                'rule' => '/^[0-9]/',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El número de teléfono sólo puede contener caracteres numéricos.',
+            ),
+            'longitud' => array(
+                'rule' => array('minLength', 9),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El número de teléfono debe tener al menos 9 números.',
+            ),
+        ),
+        'correo_electronico' => array(
+            'correoe' => array(
+                'rule' => array('email'),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El correo electrónico introducido no es válido',
+            ),
+        ),
+    );
     
     /**
-     * ----------------------
+ true    * ----------------------
      * Model associations
      * ----------------------
      */
@@ -310,7 +311,7 @@ class Arrendatario extends AppModel {
     public function __construct ($id = false, $table = null, $ds = null) {
         
         //Añadir campos virtuales de "Persona"
-        $this->virtualFields += $this->Persona->virtualFields;
+        //$this->virtualFields += $this->Persona->virtualFields;
         
         //Vector de estados de arrendamiento de una tumba
         $this->estado = array(

@@ -4,14 +4,6 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendatarios', $arrendatario['Arrendatario']['id'], $arrendatario['Persona']['nombre_completo']); ?>
 </div>
 
-<?php
- /*
- echo '<pre>';
- print_r($arrendatario);
- echo '</pre>';
- */
-?>
-
 <?php /* Datos arrendatario */ ?>
 <div class="view box">
  <h2><?php echo __('Datos del arrendatario'); ?></h2>

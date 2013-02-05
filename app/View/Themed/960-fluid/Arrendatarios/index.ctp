@@ -4,9 +4,13 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
-<pre>
-<?php /*print_r($arrendatarios);*/ ?>
-</pre>
+<?php
+ /*
+ echo '<pre>';
+ print_r($arrendatarios);
+ echo '</pre>';
+ */
+?>
 
 <?php /* Tabla arrendatarios */ ?>
 <div class="index box">

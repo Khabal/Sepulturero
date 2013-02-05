@@ -98,7 +98,7 @@ class ArrendatarioTumba extends AppModel {
      *
      * @var array
      */
-    public $actsAs = array();
+    public $actsAs = array('Containable');
     
     /**
      * ----------------------
@@ -126,36 +126,65 @@ class ArrendatarioTumba extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'arrendatario_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tumba_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de arrendatario-tumba.',
+            ),
+        ),
+        'arrendatario_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de arrendatario.',
+            ),
+        ),
+        'tumba_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de tumba.',
+            ),
+        ),
+        'fecha_arrendamiento' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de arrendamiento no se puede dejar en blanco.',
+            ),
+            'formato_fecha' => array(
+                'rule' => array('date', 'ymd'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'estado' => array(
+            'lista_estado' => array(
+                'rule' => array('inList', array('Antiguo', 'Actual')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El estado del arrendamiento no se encuentra dentro de las opciones posibles.',
+            ),
+            'solo_un_actual' => array(
+                'rule' => array('valida_arrendamiento'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya hay asociado otro arrendatario actual para esta tumba.',
+            ),
+        ),
     );
     
     /**
@@ -210,6 +239,77 @@ class ArrendatarioTumba extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_arrendatario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_arrendamiento($check) {
+        print_r($check);print_r($this->data);
+        //Extraer el DNI del vector
+        /*$cif = (string) $check['estado'];
+print_r($check);print_r($kk);
+            //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
+            if (isset($this->request->data['ArrendatarioTumba'])) {
+                foreach ($this->request->data['ArrendatarioTumba'] as $arrendador) {
+                    if ($arrendador['estado'] == "Actual") {
+                        
+                        $otro = $this->Arrendatario->ArrendatarioTumba->find('first', array(
+                         'conditions' => array(
+                          'ArrendatarioTumba.tumba_id' => $arrendador['tumba_id'],
+                          'ArrendatarioTumba.estado' => "Actual",
+                         ),
+                         'fields' => array(
+                          'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
+                         ),
+                         'contain' => array(
+                         ),
+                        ));
+                        
+                        if(!empty($otro)) {
+                            $this->Session->setFlash(__('Ya hay otro arrendatario actual para la tumba.'));
+                            $this->render();
+                        }
+                    }
+                }
+            }
+
+        //Convertir a mayúsculas
+        $cif = strtoupper($cif);
+        
+        //Buscar si hay otro arrendatario con el mismo DNI
+        $persona = $this->find('first', array(
+         'conditions' => array(
+          'Persona.dni' => $cif,
+         ),
+         'fields' => array(
+          'Persona.id'
+         ),
+         'contain' => array(
+          'Arrendatario' => array(
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+          ),
+         ),
+        ));
+        
+        //Comprobar si existe un arrendatario con el mismo DNI
+        if(!empty($persona['Arrendatario']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;*/
+        return true;
     }
     
 }

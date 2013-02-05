@@ -3,15 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Difunto Model
+ * ArrendatarioTumba Model
  *
- * @property DifuntoTraslado $DifuntoTraslado
- * @property Enterramiento $Enterramiento
- * @property Persona $Persona
- * @property Traslado $Traslado
+ * @property Arrendatario $Arrendatario
  * @property Tumba $Tumba
  */
-class Difunto extends AppModel {
+class ArrendatarioTumba extends AppModel {
     
     /**
      * ----------------------
@@ -45,7 +42,7 @@ class Difunto extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'difuntos';
+    public $useTable = 'arrendatarios_tumbas';
     
     /**
      * Name of the table prefix
@@ -66,21 +63,21 @@ class Difunto extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'persona_id';
+    public $displayField = 'id';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'Difunto';
+    public $name = 'ArrendatarioTumba';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Difunto';
+    public $alias = 'ArrendatarioTumba';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -101,7 +98,7 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $actsAs = array('Containable', 'Search.Searchable');
+    public $actsAs = array('Containable');
     
     /**
      * ----------------------
@@ -135,37 +132,35 @@ class Difunto extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de arrendatario.',
+                'message' => 'Error inesperado al generar ID de arrendatario-tumba.',
             ),
         ),
-        'persona_id' => array(
+        'arrendatario_id' => array(
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al asociar ID de persona.',
+                'message' => 'Error inesperado al asociar ID de arrendatario.',
             ),
         ),
         'tumba_id' => array(
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => true,
+                'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de tumba.',
             ),
         ),
-        'estado' => array(
-            'lista_estado' => array(
-                'rule' => array('inList', array('Cadáver', 'Cenizas', 'Restos')),
+        'fecha_arrendamiento' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El estado del cuerpo del difunto no se encuentra dentro de las opciones posibles.',
+                'message' => 'La fecha de arrendamiento no se puede dejar en blanco.',
             ),
-        ),
-        'fecha_defuncion' => array(
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
                 'required' => true,
@@ -174,16 +169,21 @@ class Difunto extends AppModel {
                 'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
             ),
         ),
-        'edad_defuncion' => array(
-            'numeronatural' => array(
-                'rule' => array('naturalNumber', true),
-                'required' => false,
-                'allowEmpty' => true,
+        'estado' => array(
+            'lista_estado' => array(
+                'rule' => array('inList', array('Antiguo', 'Actual')),
+                'required' => true,
+                'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La edad de defunción sólo puede contener caracteres numéricos (0 edad desconocida).',
+                'message' => 'El estado del arrendamiento no se encuentra dentro de las opciones posibles.',
             ),
-        ),
-        'causa_defuncion' => array(
+            'solo_un_actual' => array(
+                'rule' => array('valida_arrendamiento'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya hay asociado otro arrendatario actual para esta tumba.',
+            ),
         ),
     );
     
@@ -194,49 +194,14 @@ class Difunto extends AppModel {
      */
     
     /**
-     * hasOne associations
-     *
-     * @var array
-     */
-    public $hasOne = array(
-        'Enterramiento' => array(
-            'className' => 'Enterramiento',
-            'foreignKey' => 'difunto_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'dependent' => true,
-        ),
-    );
-    
-    /**
-     * hasMany associations
-     *
-     * @var array
-     */
-    public $hasMany = array(
-        'DifuntoTraslado' => array(
-            'className' => 'DifuntoTraslado',
-            'foreignKey' => 'difunto_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-    );
-    
-    /**
      * belongsTo associations
      *
      * @var array
      */
     public $belongsTo = array(
-        'Persona' => array(
-            'className' => 'Persona',
-            'foreignKey' => 'persona_id',
+        'Arrendatario' => array(
+            'className' => 'Arrendatario',
+            'foreignKey' => 'arrendatario_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -272,66 +237,79 @@ class Difunto extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Añadir campos virtuales de "Persona"
-        //$this->virtualFields += $this->Persona->virtualFields;
-        
-        //Vector de estados del cuerpo de un difunto
-        $this->estado = array(
-            'Cadáver' => __('Cadáver', true),
-            'Cenizas' => __('Cenizas', true),
-            'Restos' => __('Restos', true),
-        );
-        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
     
     /**
-     * ---------------------------
-     * Search Plugin
-     * ---------------------------
-     */
-    
-    /**
-     * Field names accepted
+     * valida_arrendatario method
      *
-     * @var array
-     * @see SearchableBehavior
+     * @param array $check elements for validate
+     * @return boolean
      */
-    public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
-    );
-    
-    /**
-     * buscarDifunto method
-     *
-     * @param array $data Search terms
-     * @return array
-     */
-    public function buscarDifunto ($data = array()) {
+    public function valida_arrendamiento($check) {
         
-        //Comprobar que se haya introducido un término de búsqueda
-        if (empty($data['clave'])) {
-            //Devolver resultados de la búsqueda
-            return array();
+        //Extraer el DNI del vector
+        /*$cif = (string) $check['estado'];
+print_r($check);print_r($kk);
+            //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
+            if (isset($this->request->data['ArrendatarioTumba'])) {
+                foreach ($this->request->data['ArrendatarioTumba'] as $arrendador) {
+                    if ($arrendador['estado'] == "Actual") {
+                        
+                        $otro = $this->Arrendatario->ArrendatarioTumba->find('first', array(
+                         'conditions' => array(
+                          'ArrendatarioTumba.tumba_id' => $arrendador['tumba_id'],
+                          'ArrendatarioTumba.estado' => "Actual",
+                         ),
+                         'fields' => array(
+                          'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
+                         ),
+                         'contain' => array(
+                         ),
+                        ));
+                        
+                        if(!empty($otro)) {
+                            $this->Session->setFlash(__('Ya hay otro arrendatario actual para la tumba.'));
+                            $this->render();
+                        }
+                    }
+                }
+            }
+
+        //Convertir a mayúsculas
+        $cif = strtoupper($cif);
+        
+        //Buscar si hay otro arrendatario con el mismo DNI
+        $persona = $this->find('first', array(
+         'conditions' => array(
+          'Persona.dni' => $cif,
+         ),
+         'fields' => array(
+          'Persona.id'
+         ),
+         'contain' => array(
+          'Arrendatario' => array(
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+          ),
+         ),
+        ));
+        
+        //Comprobar si existe un arrendatario con el mismo DNI
+        if(!empty($persona['Arrendatario']['id'])) {
+            //Devolver error
+            return false;
         }
-	
-        //Construir comodín para búsqueda
-        $comodin = '%' . $data['clave'] . '%';
+        else{
+            //Devolver válido
+            return true;
+        }
         
-        //Devolver resultados de la búsqueda
-        return array(
-         'OR' => array(
-          'Persona.nombre LIKE' => $comodin,
-          'Persona.apellido1 LIKE' => $comodin,
-          'Persona.apellido2 LIKE' => $comodin,
-          'Persona.dni LIKE' => $comodin,
-          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
-          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
-         )
-        );
-        
+        //Devolver error
+        return false;*/
+        return true;
     }
-
-
+    
 }

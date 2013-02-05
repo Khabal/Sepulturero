@@ -191,7 +191,7 @@ class DifuntosController extends AppController {
            ),
            'Panteon' => array(
             'fields' => array(
-             'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
             ),
            ),
            'fields' => array(
@@ -225,43 +225,33 @@ class DifuntosController extends AppController {
             //Crear nuevo difunto con id único
             $this->Difunto->create();
             
-            //Buscar si existe ya una persona con el mismo DNI
-            $persona = $this->Difunto->Persona->find('first', array(
-             'conditions' => array(
-              'Persona.dni' => $this->request->data['Persona']['dni'],
-             ),
-             'fields' => array(
-              'Persona.id'
-             ),
-             'contain' => array(
-              'Difunto' => array(
-               'fields' => array(
-                'Difunto.id', 'Difunto.persona_id'
-               ),
-              ),
-             ),
-            ));
+            //Convertir a mayúsculas el carácter del DNI
+            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             
-            //Comprobar si existe ya una persona con el mismo DNI
-            if ($persona) {
-                //Comprobar si esta persona es además un difunto
-                if($persona['Difunto']){
-                    $this->Session->setFlash(__('Ya existe un difunto con este DNI.'));
-                    $this->render();
-                }
-                else{
-                    //Establecer claves externas de la persona ya existente para evitar duplicidad
+            //Comprobar si ha introducido un DNI
+            if (!empty($this->request->data['Persona']['dni'])) {
+                
+                //Buscar si existe ya una persona con el mismo DNI
+                $persona = $this->Difunto->Persona->find('first', array(
+                 'conditions' => array(
+                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                 ),
+                 'fields' => array(
+                  'Persona.id'
+                 ),
+                 'contain' => array(
+                 ),
+                ));
+                
+                //Establecer claves externas de la persona si ya existe para evitar duplicidad
+                if(!empty($persona['Persona']['id'])) {
                     $this->request->data['Difunto']['persona_id'] = $persona['Persona']['id'];
                     $this->request->data['Persona']['id'] = $persona['Persona']['id'];
                 }
-            }
-            else {
-                //Truco del almendruco para evitar errores de validación
-                unset($this->Difunto->validate['persona_id']);
-            }
-            
+            }print_r($this->request->data);
+            $this->Difunto->Persona->set( $this->request->data );
             //Comprobar si se ha introducido una tumba
-            if ($this->request->data['Difunto']['tumba_id']) {
+            if (!empty($this->request->data['Difunto']['tumba_id'])) {
                 //Aumentar la población de la tumba
                 $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
                 $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
@@ -269,16 +259,13 @@ class DifuntosController extends AppController {
             else {
                 //Truco del almendruco para evitar errores de validación
                 $this->request->data['Difunto']['tumba_id'] = NULL;
-                unset($this->Difunto->validate['tumba_id']);
             }
             
             //Guardar y comprobar éxito
             if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
                 $this->Session->setFlash(__('El difunto ha sido guardado correctamente.'));
-                //Obtener a donde se redireccionará
-                $accion = $this->request->query['accion'];
                 //Redireccionar según corresponda
-                if ($accion == 'guardar_y_nuevo') {
+                if (isset($this->request->data['guardar_y_nuevo'])) {
                     $this->redirect(array('action' => 'nuevo'));
                 }
                 else {
@@ -338,7 +325,7 @@ class DifuntosController extends AppController {
            ),
            'Panteon' => array(
             'fields' => array(
-             'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
             ),
            ),
            'fields' => array(
@@ -364,7 +351,7 @@ class DifuntosController extends AppController {
             ),
             'Panteon' => array(
              'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
             'fields' => array(
@@ -401,7 +388,7 @@ class DifuntosController extends AppController {
               ),
               'Panteon' => array(
                'fields' => array(
-                'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
                ),
               ),
               'fields' => array(
@@ -421,6 +408,18 @@ class DifuntosController extends AppController {
         //(Comentario vital para entender el código de la función)
         $this->set(compact('difunto'));
         
+    }
+    
+    /**
+     * find method
+     *
+     * @return void
+     */
+    public function buscar() {
+        
+        //Redireccionar
+        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
+        $this->redirect(array('action' => 'index'));
     }
     
     /**
@@ -449,31 +448,29 @@ class DifuntosController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Buscar si existe ya una persona con el mismo DNI
-            $persona = $this->Difunto->Persona->find('first', array(
-             'conditions' => array(
-              'Persona.dni' => $this->request->data['Persona']['dni'],
-             ),
-             'fields' => array(
-              'Persona.id'
-             ),
-             'contain' => array(
-              'Difunto' => array(
-               'fields' => array(
-                'Difunto.id', 'Difunto.persona_id'
-               ),
-              ),
-             ),
-            ));
+            //Convertir a mayúsculas el carácter del DNI
+            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             
-            //Comprobar si existe ya una persona con el mismo DNI
-            if ($persona) {
-                //Comprobar si esta persona es además un difunto
-                if($persona['Difunto']){
-                    $this->Session->setFlash(__('Ya existe un difunto con este DNI.'));
-                    $this->render();
+            //Comprobar si ha introducido un DNI
+            if (!empty($this->request->data['Persona']['dni'])) {
+                
+                //Buscar si existe ya una persona con el mismo DNI
+                $persona = $this->Difunto->Persona->find('first', array(
+                 'conditions' => array(
+                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                 ),
+                 'fields' => array(
+                  'Persona.id'
+                 ),
+                 'contain' => array(
+                 ),
+                ));
+                
+                //Establecer claves externas de la persona si ya existe para evitar duplicidad
+                if(!empty($persona['Persona']['id'])) {
+                    $this->request->data['Difunto']['persona_id'] = $persona['Persona']['id'];
+                    $this->request->data['Persona']['id'] = $persona['Persona']['id'];
                 }
-            }
             
             //Cargar datos de la sesión
             $this->request->data['Difunto']['id'] = $this->Session->read('Difunto.id');
@@ -542,7 +539,7 @@ class DifuntosController extends AppController {
                ),
                'Panteon' => array(
                 'fields' => array(
-                 'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+                 'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
                 ),
                ),
                'fields' => array(
@@ -569,7 +566,7 @@ class DifuntosController extends AppController {
                     $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Nicho']['localizacion'];
                 }
                 elseif ($this->request->data['Tumba']['Panteon']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Panteon']['identificador'];
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Panteon']['localizacion'];
                 }
             }
             
@@ -734,60 +731,5 @@ class DifuntosController extends AppController {
         $this->layout = 'ajax';
         $this->render('kk');
     }
-
-    public function prueba2() {
-        
-        // Only accessible via requestAction()
-        /*if (empty($this->request->params['requested'])){
-            throw new ForbiddenException();
-        }*/
-        
-        //Término de búsqueda con comodines
-        //$palabro = '%'.$this->request->query['term'].'%';
-        $palabro = '00c8e280-1788-11e2-81a3-7e37b4abc839';
-        //Búsqueda de coincidencias
-        $resultados = $this->Difunto->Tumba->find('first', array(
-         'conditions' => array(
-          'Tumba.id' => $palabro,
-         ),
-         'contain' => array(
-          'Difunto' => array(
-           'Persona' => array(
-            'fields' => array(
-             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
-            ),
-           ),
-           'fields' => array(
-            'Difunto.id', 'Difunto.persona_id'
-           ),
-          ),
-         ),
-         'fields' => array(
-          'Tumba.id'
-         ),
-         'limit' => 20,
-        ));
-        
-        //Procesamiento y codificación en JSON
-        $items = array();
-        
-        if (empty($resultados)) {
-         array_push($items, array("label"=>"La tumba está vacía.", "value"=>""));
-        }
-        else {
-         foreach($resultados['Difunto'] as $resultado) {
-          array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Persona']['dni'], "value" => $resultado['id']));
-         }
-        }
-        
-        //$this->layout = 'ajax';
-        //$this->autoRender = false;
-        
-        //echo json_encode($items);//echo '<pre>';print_r($this->Session);echo '</pre>';
-$difuntos = $resultados;$this->set('difuntos', $difuntos);$this->set('palabro', $palabro);
-    }
-    public function kk() {
-}
-
 
 }

@@ -98,7 +98,7 @@ class ArrendatarioFuneraria extends AppModel {
      *
      * @var array
      */
-    public $actsAs = array('Containable');
+    public $actsAs = array();
     
     /**
      * ----------------------
