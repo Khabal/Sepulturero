@@ -224,31 +224,7 @@ class ArrendatariosController extends AppController {
                     $this->request->data['Arrendatario']['persona_id'] = $persona['Persona']['id'];
                     $this->request->data['Persona']['id'] = $persona['Persona']['id'];
                 }
-            }
-            
-            //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
-            if (isset($this->request->data['ArrendatarioTumba'])) {
-                foreach ($this->request->data['ArrendatarioTumba'] as $arrendador) {
-                    if ($arrendador['estado'] == "Actual") {
-                        
-                        $otro = $this->Arrendatario->ArrendatarioTumba->find('first', array(
-                         'conditions' => array(
-                          'ArrendatarioTumba.tumba_id' => $arrendador['tumba_id'],
-                          'ArrendatarioTumba.estado' => "Actual",
-                         ),
-                         'fields' => array(
-                          'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
-                         ),
-                         'contain' => array(
-                         ),
-                        ));
-                        
-                        if(!empty($otro)) {
-                            $this->Session->setFlash(__('Ya hay otro arrendatario actual para la tumba.'));
-                            $this->render();
-                        }
-                    }
-                }
+                
             }
             
             //Guardar y comprobar éxito
@@ -383,34 +359,9 @@ class ArrendatariosController extends AppController {
             //Cargar datos de la sesión
             $this->request->data['Arrendatario']['id'] = $id;
             $this->request->data['Persona']['arrendatario_id'] = $id;
+            $this->request->data['ArrendatarioTumba']['arrendatario_id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Arrendatario.persona_id');
             $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
-            
-            //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
-            if (!empty($this->request->data['ArrendatarioTumba'])) {
-                foreach ($this->request->data['ArrendatarioTumba'] as $arrendador) {
-                    if ($arrendador['estado'] == "Actual") {
-                        
-                        $otro = $this->Arrendatario->ArrendatarioTumba->find('first', array(
-                         'conditions' => array(
-                          'ArrendatarioTumba.arrendatario_id' => 'DISTINCT ' . $id,
-                          'ArrendatarioTumba.tumba_id' => $arrendador['tumba_id'],
-                          'ArrendatarioTumba.estado' => "Actual",
-                         ),
-                         'fields' => array(
-                          'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
-                         ),
-                         'contain' => array(
-                         ),
-                        ));
-                        
-                        if(!empty($otro)) {
-                            $this->Session->setFlash(__('Ya hay otro arrendatario actual para la tumba.'));
-                            $this->render();
-                        }
-                    }
-                }
-            }
             
             //Guardar y comprobar éxito
             if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -531,7 +482,8 @@ class ArrendatariosController extends AppController {
         
         //Comprobar si existe el arrendatario
         if (!$this->Arrendatario->exists()) {
-            throw new NotFoundException(__('El arrendatario especificado no existe.'));
+             $this->Session->setFlash(__('El arrendatario especificado no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
         //Cargar toda la información relevante relacionada con el arrendatario
@@ -556,22 +508,22 @@ class ArrendatariosController extends AppController {
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
              ),
             ),
             'Exterior' => array(
              'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
+            'Nicho' => array(
+             'fields' => array(
+              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+             ),
+            ),
+            'Panteon' => array(
+             'fields' => array(
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
             'fields' => array(
@@ -609,7 +561,8 @@ class ArrendatariosController extends AppController {
         
         //Comprobar si existe el arrendatario
         if (!$this->Arrendatario->exists()) {
-            throw new NotFoundException(__('El arrendatario especificado no existe.'));
+             $this->Session->setFlash(__('El arrendatario especificado no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
         //Cargar toda la información relevante relacionada con el arrendatario
@@ -634,22 +587,22 @@ class ArrendatariosController extends AppController {
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
              ),
             ),
             'Exterior' => array(
              'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
+            'Nicho' => array(
+             'fields' => array(
+              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+             ),
+            ),
+            'Panteon' => array(
+             'fields' => array(
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
             'fields' => array(

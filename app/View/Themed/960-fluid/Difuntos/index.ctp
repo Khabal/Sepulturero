@@ -46,6 +46,9 @@
         if ($difunto['Tumba']['Columbario']) {
          $identificador = $difunto['Tumba']['Columbario']['localizacion'];
         }
+        elseif ($difunto['Tumba']['Exterior']) {
+         $identificador = $difunto['Tumba']['Exterior']['localizacion'];
+        }
         elseif ($difunto['Tumba']['Nicho']) {
          $identificador = $difunto['Tumba']['Nicho']['localizacion'];
         }

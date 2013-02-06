@@ -734,5 +734,53 @@ class TumbasController extends AppController {
         }
         
     }
+    /**
+     * muertos_tumba method
+     *
+     * @throws ForbiddenException
+     * @return JSON array
+     */
+    public function muertos_tumba() {
+        
+        //Término de búsqueda con comodines
+        $palabro = $this->request->query['term'];
+        
+        //Búsqueda de coincidencias
+        $resultados = $this->Difunto->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $palabro,
+         ),
+         'contain' => array(
+          'Difunto' => array(
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            ),
+           ),
+           'fields' => array(
+            'Difunto.id', 'Difunto.persona_id'
+           ),
+          ),
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+        ));
+        
+        //Procesamiento del resultado de la búsqueda
+        $i = 0;
+        $items = array();
+        
+        if (!empty($resultados)) {
+            foreach($resultados['Difunto'] as $resultado) {
+                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Persona']['dni'], "value" => $resultado['id']));
+            }
+        }
+        
+        $this->set('moridos', $items);
+        
+        $this->layout = 'ajax';
+        $this->render('kk');
+    }
     
 }

@@ -7,7 +7,7 @@
 <?php
  /*
  echo '<pre>';
- print_r($arrendatarios);
+ print_r($difuntos);
  echo '</pre>';
  */
 ?>

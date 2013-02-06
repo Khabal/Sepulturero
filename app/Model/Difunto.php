@@ -94,7 +94,10 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'fecha_bonita' => 'DATE_FORMAT(Difunto.fecha_defuncion, "%d/%m/%Y")',
+        'tumba_bonita' => '',
+    );
     
     /**
      * List of behaviors
@@ -166,15 +169,29 @@ class Difunto extends AppModel {
             ),
         ),
         'fecha_defuncion' => array(
+/*            'formato_fecha' => array(
+                'rule' => array('valida_fecha'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => '',
+            ),*/
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
             ),
         ),
         'edad_defuncion' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 3),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La edad de defunción debe tener como máximo 3 caracteres.',
+            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
                 'required' => false,
@@ -184,6 +201,38 @@ class Difunto extends AppModel {
             ),
         ),
         'causa_defuncion' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 150),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La causa de defunción debe tener como máximo 150 caracteres.',
+            ),
+        ),
+        'fecha_bonita' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de defunción no se puede dejar en blanco.',
+            ),
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'tumba_bonita' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de defunción no se puede dejar en blanco.',
+            ),
         ),
     );
     
@@ -285,6 +334,66 @@ class Difunto extends AppModel {
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
+    
+    /**
+     * valida_arrendatario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    /*public function valida_fecha($check) {
+        
+        //Extraer el DNI del vector
+        $cif = (string) $check['dni'];
+        
+        //Convertir a mayúsculas
+        $cif = strtoupper($cif);
+        
+        //Extraer el ID del arrendatario
+        if (!empty($this->data['Difunto']['fecha_bonita'])) {
+            $fecha = $this->data['Difunto']['fecha_bonita'];
+        }
+        else {
+            //Mensaje de error
+            $this->validationErrors['fecha_bonita'] = "La fecha de defunción no se puede dejar en blanco.";
+            //Devolver error
+            return false;
+        }
+        //$this->Model->validationErrors['limitTime'] = "time is less than 30";
+        //Buscar si hay otro arrendatario con el mismo DNI
+        $persona = $this->find('first', array(
+         'conditions' => array(
+          'Persona.dni' => $cif,
+         ),
+         'fields' => array(
+          'Persona.id'
+         ),
+         'contain' => array(
+          'Arrendatario' => array(
+           'conditions' => array(
+            'Arrendatario.id !=' => $id,
+           ),
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+          ),
+         ),
+        ));
+        
+        //Comprobar si existe un arrendatario con el mismo DNI
+        if(!empty($persona['Arrendatario']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }*/
     
     /**
      * ---------------------------

@@ -248,68 +248,62 @@ class ArrendatarioTumba extends AppModel {
      * @return boolean
      */
     public function valida_arrendamiento($check) {
-        print_r($check);print_r($this->data);
-        //Extraer el DNI del vector
-        /*$cif = (string) $check['estado'];
-print_r($check);print_r($kk);
-            //Comprobar si ya había otro arrendatario "Actual" para cada tumba concreta
-            if (isset($this->request->data['ArrendatarioTumba'])) {
-                foreach ($this->request->data['ArrendatarioTumba'] as $arrendador) {
-                    if ($arrendador['estado'] == "Actual") {
-                        
-                        $otro = $this->Arrendatario->ArrendatarioTumba->find('first', array(
-                         'conditions' => array(
-                          'ArrendatarioTumba.tumba_id' => $arrendador['tumba_id'],
-                          'ArrendatarioTumba.estado' => "Actual",
-                         ),
-                         'fields' => array(
-                          'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
-                         ),
-                         'contain' => array(
-                         ),
-                        ));
-                        
-                        if(!empty($otro)) {
-                            $this->Session->setFlash(__('Ya hay otro arrendatario actual para la tumba.'));
-                            $this->render();
-                        }
-                    }
-                }
-            }
-
-        //Convertir a mayúsculas
-        $cif = strtoupper($cif);
         
-        //Buscar si hay otro arrendatario con el mismo DNI
-        $persona = $this->find('first', array(
-         'conditions' => array(
-          'Persona.dni' => $cif,
-         ),
-         'fields' => array(
-          'Persona.id'
-         ),
-         'contain' => array(
-          'Arrendatario' => array(
-           'fields' => array(
-            'Arrendatario.id', 'Arrendatario.persona_id'
-           ),
-          ),
-         ),
-        ));
+        //Extraer el estado del arrendamiento del vector
+        $estado = (string) $check['estado'];
         
-        //Comprobar si existe un arrendatario con el mismo DNI
-        if(!empty($persona['Arrendatario']['id'])) {
-            //Devolver error
-            return false;
+        //Extraer el ID de la tumba
+        if (isset($this->data['ArrendatarioTumba']['tumba_id'])) {
+            $tumba = $this->data['ArrendatarioTumba']['tumba_id'];
         }
-        else{
+        else {
+            $tumba = '';
+        }
+        
+        //Extraer el ID del arrendatario
+        if (isset($this->data['ArrendatarioTumba']['arrendatario_id'])) {
+            $arrendatario = $this->data['ArrendatarioTumba']['arrendatario_id'];
+        }
+        else {
+            $arrendatario = '';
+        }
+        
+print_r($check);print_r($this->data);
+        //Comprobar si el estado del arrendamiento es "Actual"
+        if ($estado == "Actual") {
+            //Buscar si ya había otro arrendatario "Actual" para esta tumba
+            $arrendador = $this->find('first', array(
+             'conditions' => array(
+              'ArrendatarioTumba.arrendatario_id !=' => $arrendatario,
+              'ArrendatarioTumba.tumba_id' => $tumba,
+              'ArrendatarioTumba.estado' => "Actual",
+             ),
+             'fields' => array(
+              'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un arrendatario con el mismo DNI
+            if (!empty($arrendador['ArrendatarioTumba']['arrendatario_id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        else {
             //Devolver válido
             return true;
         }
         
         //Devolver error
-        return false;*/
-        return true;
+        return false;
+        
     }
     
 }

@@ -145,6 +145,13 @@ class Persona extends AppModel {
                 'on' => null,
                 'message' => 'El D.N.I./N.I.E. no se puede dejar en blanco.',
             ),
+            'longitud' => array(
+                'rule' => array('between', 8, 9),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El D.N.I./N.I.E. debe tener entre 8 y 9 caracteres.',
+            ),
             'validar' => array(
                 'rule' => array('valida_nif_nie'),
                 'required' => true,
@@ -175,12 +182,19 @@ class Persona extends AppModel {
                 'on' => null,
                 'message' => 'El nombre no se puede dejar en blanco.',
             ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+            'longitud' => array(
+                'rule' => array('between', 2, 100),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El nombre sólo puede contener caracteres alfabéticos (mínimo 2).',
+                'message' => 'El nombre debe tener entre 2 y 100 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El nombre sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'apellido1' => array(
@@ -191,24 +205,45 @@ class Persona extends AppModel {
                 'on' => null,
                 'message' => 'El primer apellido no se puede dejar en blanco.',
             ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+            'longitud' => array(
+                'rule' => array('between', 2, 100),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El primer apellido sólo puede contener caracteres alfabéticos (mínimo 2).',
+                'message' => 'El primer apellido debe tener entre 2 y 100 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El primer apellido sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'apellido2' => array(
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+            'longitud' => array(
+                'rule' => array('between', 2, 100),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'El segundo apellido sólo puede contener caracteres alfabéticos (mínimo 2).',
+                'message' => 'El segundo apellido debe tener entre 2 y 100 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El segundo apellido sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
         ),
     );
     
@@ -423,6 +458,9 @@ class Persona extends AppModel {
          ),
          'contain' => array(
           'Difunto' => array(
+           'conditions' => array(
+            'Difunto.id !=' => $id,
+           ),
            'fields' => array(
             'Difunto.id', 'Difunto.persona_id'
            ),

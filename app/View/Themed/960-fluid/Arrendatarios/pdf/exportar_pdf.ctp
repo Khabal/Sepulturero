@@ -1,120 +1,180 @@
-<!-- Datos arrendatario -->
-<div class="arrendatarios view box">
- <h2><?php  echo __('Arrendatario'); ?></h2>
+<?php
+ /*
+ echo '<pre>';
+ print_r($arrendatario);
+ echo '</pre>';
+ */
+?>
+
+<?php /* Datos arrendatario */ ?>
+<div class="view box">
+ <h2><?php echo __('Datos del arrendatario'); ?></h2>
  <dl>
   <dt><?php echo __('Nombre'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Persona']['nombre_completo']); ?>&nbsp;
-  </dd>
+  <dd><?php echo h($arrendatario['Persona']['nombre_completo']); ?>&nbsp;</dd>
   <dt><?php echo __('D.N.I.'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Persona']['dni']); ?>&nbsp;
-  </dd>
+  <dd><?php echo h($arrendatario['Persona']['dni']); ?>&nbsp;</dd>
   <dt><?php echo __('Dirección'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;
-  </dd>
+  <dd><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</dd>
   <dt><?php echo __('Localidad'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;
-  </dd>
+  <dd><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</dd>
   <dt><?php echo __('Provincia'); ?>:</dt>
   <dd>
-   <?php echo h($arrendatario['Arrendatario']['provincia']); ?>&nbsp;
+   <?php
+    if ($arrendatario['Arrendatario']['provincia']) {
+     echo h($arrendatario['Arrendatario']['provincia']);
+    }
+    else {
+     echo h("Desconocida");
+    }
+   ?>&nbsp;
   </dd>
   <dt><?php echo __('País'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;
-  </dd>
+  <dd><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</dd>
   <dt><?php echo __('Código postal'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;
-  </dd>
+  <dd><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</dd>
   <dt><?php echo __('Teléfono'); ?>:</dt>
   <dd>
-   <?php echo h($arrendatario['Arrendatario']['telefono']); ?>&nbsp;
+   <?php
+    if ($arrendatario['Arrendatario']['telefono']) {
+     echo h($arrendatario['Arrendatario']['telefono']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
   </dd>
   <dt><?php echo __('Correo electrónico'); ?>:</dt>
-  <dd>
-   <?php echo h($arrendatario['Arrendatario']['correo_electronico']); ?>&nbsp;
+  <dd class="email">
+   <?php
+    if ($arrendatario['Arrendatario']['correo_electronico']) {
+     echo h($arrendatario['Arrendatario']['correo_electronico']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
   </dd>
+  <dt><?php echo __('Anotaciones'); ?>:</dt>
+  <dd><?php echo h($arrendatario['Persona']['observaciones']); ?>&nbsp;</dd>
  </dl>
 </div>
 
-<!-- Funerarias relacionadas -->
+<?php /* Funerarias relacionadas */ ?>
 <div class="related box">
  <h2><?php echo __('Funerarias contratadas'); ?></h2>
-	<?php if (!empty($arrendatario['Funeraria'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Nombre'); ?></th>
-		<th><?php echo __('Direccion'); ?></th>
-		<th><?php echo __('Telefono'); ?></th>
-		<th><?php echo __('Web'); ?></th>
-		<th><?php echo __('Correo Electronico'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($arrendatario['Funeraria'] as $funeraria): ?>
-		<tr>
-			<td><?php echo $funeraria['id']; ?></td>
-			<td><?php echo $funeraria['nombre']; ?></td>
-			<td><?php echo $funeraria['direccion']; ?></td>
-			<td><?php echo $funeraria['telefono']; ?></td>
-			<td><?php echo $funeraria['web']; ?></td>
-			<td><?php echo $funeraria['correo_electronico']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'funerarias', 'action' => 'view', $funeraria['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'funerarias', 'action' => 'edit', $funeraria['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'funerarias', 'action' => 'delete', $funeraria['id']), null, __('Are you sure you want to delete # %s?', $funeraria['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
-
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Funeraria'), array('controller' => 'funerarias', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
+ <?php if (!empty($arrendatario['ArrendatarioFuneraria'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Nombre'); ?></th>
+     <th><?php echo __('Dirección'); ?></th>
+     <th><?php echo __('Teléfono'); ?></th>
+     <th><?php echo __('Fax'); ?></th>
+     <th><?php echo __('Correo electrónico'); ?></th>
+     <th><?php echo __('Página web'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Listado de funerarias */ ?>
+   <tbody>
+    <?php $i = 0; ?>
+    <?php foreach ($arrendatario['ArrendatarioFuneraria'] as $funeraria): ?>
+     <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
+     <tr<?php echo $class; ?>>
+      <td><?php echo h($funeraria['Funeraria']['nombre']); ?>&nbsp;</td>
+      <td><?php echo h($funeraria['Funeraria']['direccion']); ?>&nbsp;</td>
+      <td><?php echo h($funeraria['Funeraria']['telefono']); ?>&nbsp;</td>
+      <td>
+       <?php
+        if ($funeraria['Funeraria']['fax']) {
+         echo h($funeraria['Funeraria']['fax']);
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
+      <td class="email">
+       <?php
+        if ($funeraria['Funeraria']['correo_electronico']) {
+         echo h($funeraria['Funeraria']['correo_electronico']);
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
+      <td>
+       <?php
+        if ($funeraria['Funeraria']['pagina_web']) {
+         echo $this->Html->link(__($funeraria['Funeraria']['pagina_web']), $funeraria['Funeraria']['pagina_web'], array('escape' => false, 'target' => '_blank'));
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
+      <td class="actions">
+       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'funerarias', 'action' => 'ver', $funeraria['Funeraria']['id']), array('escape' => false)); ?>
+      </td>
+     </tr>
+    <?php endforeach; ?>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
 </div>
 
-<!-- Tumbas relacionadas -->
+<?php /* Tumbas relacionadas */ ?>
 <div class="related box">
  <h2><?php echo __('Tumbas arrendadas'); ?></h2>
-	<?php if (!empty($arrendatario['Tumba'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Patio'); ?></th>
-		<th><?php echo __('Poblacion'); ?></th>
-		<th><?php echo __('Observaciones'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($arrendatario['Tumba'] as $tumba): ?>
-		<tr>
-			<td><?php echo $tumba['id']; ?></td>
-			<td><?php echo $tumba['patio']; ?></td>
-			<td><?php echo $tumba['poblacion']; ?></td>
-			<td><?php echo $tumba['observaciones']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'tumbas', 'action' => 'view', $tumba['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'tumbas', 'action' => 'edit', $tumba['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'tumbas', 'action' => 'delete', $tumba['id']), null, __('Are you sure you want to delete # %s?', $tumba['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
-
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Tumba'), array('controller' => 'tumbas', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
+  <?php if (!empty($arrendatario['ArrendatarioTumba'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Fecha de arrendamiento'); ?></th>
+     <th><?php echo __('Estado arrendamiento'); ?></th>
+     <th><?php echo __('Identificación de tumba'); ?></th>
+     <th><?php echo __('Población de la tumba'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Listado de tumbas */ ?>
+   <tbody>
+    <?php $i = 0; ?>
+    <?php foreach ($arrendatario['ArrendatarioTumba'] as $tumba): ?>
+     <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
+     <tr<?php echo $class; ?>>
+      <td><?php echo date('d/m/Y', strtotime($tumba['fecha_arrendamiento'])); ?>&nbsp;</td>
+      <td><?php echo h($tumba['estado']); ?>&nbsp;</td>
+      <td><?php echo h($tumba['Tumba']['tipo']) . " - ";
+       if ($tumba['Tumba']['Columbario']) {
+        echo h($tumba['Tumba']['Columbario']['localizacion']);
+       }
+       elseif ($tumba['Tumba']['Exterior']) {
+        echo h($tumba['Tumba']['Exterior']['localizacion']);
+       }
+       elseif ($tumba['Tumba']['Nicho']) {
+        echo h($tumba['Tumba']['Nicho']['localizacion']);
+       }
+       elseif ($tumba['Tumba']['Panteon']) {
+        echo h($tumba['Tumba']['Panteon']['localizacion']);
+       }
+       ?>&nbsp;
+      </td>
+      <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
+      <td class="actions">
+       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id']), array('escape' => false)); ?>
+      </td>
+     </tr>
+    <?php endforeach; ?>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
 </div>

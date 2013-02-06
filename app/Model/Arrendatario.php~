@@ -66,7 +66,7 @@ class Arrendatario extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'nombre_completo';
+    public $displayField = 'persona_id';
     
     /**
      * Name of the model
@@ -155,6 +155,13 @@ class Arrendatario extends AppModel {
                 'on' => null,
                 'message' => 'La dirección no se puede dejar en blanco.',
             ),
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 150),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La dirección debe tener como máximo 150 caracteres.',
+            ),
         ),
         'localidad' => array(
             'novacio' => array(
@@ -164,21 +171,35 @@ class Arrendatario extends AppModel {
                 'on' => null,
                 'message' => 'La localidad no se puede dejar en blanco.',
             ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La localidad sólo puede contener caracteres alfabéticos (mínimo 2).',
+                'message' => 'La localidad debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La localidad sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'provincia' => array(
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La provincia sólo puede contener caracteres alfabéticos (mínimo 2).',
+                'message' => 'La provincia debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La provincia sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'pais' => array(
@@ -189,12 +210,19 @@ class Arrendatario extends AppModel {
                 'on' => null,
                 'message' => 'El país no se puede dejar en blanco.',
             ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑáéíóúÁÉÍÓÚü]{2,}$/i',
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El país sólo puede contener caracteres alfabéticos (mínimo 2).',
+                'message' => 'El país debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El país sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'codigo_postal' => array(
@@ -205,6 +233,13 @@ class Arrendatario extends AppModel {
                 'on' => null,
                 'message' => 'El código postal no se puede dejar en blanco.',
             ),
+            'longitud' => array(
+                'rule' => array('between', 2, 6),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El código postal debe tener entre 2 y 6 caracteres.',
+            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
                 'required' => true,
@@ -214,6 +249,13 @@ class Arrendatario extends AppModel {
             ),
         ),
         'telefono' => array(
+            'longitud' => array(
+                'rule' => array('between', 9, 12),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El número de teléfono debe tener entre 9 y 12 caracteres.',
+            ),
             'solonumeros' => array(
                 'rule' => '/^[0-9]/',
                 'required' => false,
@@ -221,15 +263,15 @@ class Arrendatario extends AppModel {
                 'on' => null,
                 'message' => 'El número de teléfono sólo puede contener caracteres numéricos.',
             ),
+        ),
+        'correo_electronico' => array(
             'longitud' => array(
-                'rule' => array('minLength', 9),
+                'rule' => array('between', 5, 100),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'El número de teléfono debe tener al menos 9 números.',
+                'message' => 'El correo electrónico debe tener entre 5 y 100 caracteres.',
             ),
-        ),
-        'correo_electronico' => array(
             'correoe' => array(
                 'rule' => array('email'),
                 'required' => false,

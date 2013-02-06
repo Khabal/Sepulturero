@@ -4,6 +4,14 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
+<?php
+ /*
+ echo '<pre>';
+ print_r($this->request->data);
+ echo '</pre>';
+ */
+?>
+
 <script>
  $(function() {
    /* Establecer opciones de 'UI datepicker' para JQuery */

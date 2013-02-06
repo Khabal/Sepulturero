@@ -93,7 +93,7 @@ timeout: 20000,
  <?php /* Botones */
   echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
   echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('value' => 'guardar_y_nuevo', 'type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
   echo $this->Form->end();
  ?>
 </div>
