@@ -5,11 +5,11 @@
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
- print_r($arrendatarios);
+ print_r($this->request->data);
  echo '</pre>';
- */
+ 
 ?>
 
 <?php /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
@@ -38,9 +38,24 @@
   $ini_t = 0;
   $data_t = "[]";
  }
+ 
+ //Cargar mensajes de error para los campos generados con sheepIt
+$error_tumbas = array();
+      if (isset($this->validationErrors['ArrendatarioTumba'])) {
+$i=0;
+      foreach($this->validationErrors['ArrendatarioTumba'] as $error_tum) {
+array_push($error_tumbas, array("TumbaBonita" . $i => $error_tum['tumba_bonita'][0], "FechaBonita" . $i => $error_tum['fecha_bonita'][0], "Estado" . $i => $error_tum['estado'][0]));
+       //echo '<div class="error-message">' . $this->validationErrors['ArrendatarioTumba'][(int) '#index#']['tumba_bonita'][(int) '#index#'] . '</div>';
+       //unset($this->validationErrors['ArrendatarioTumba'][(int) '#index#']['tumba_bonita'][(int) '#index#']);
+      }
+$error_tumbas = json_encode($error_tumbas);
+}
+
 ?>
 
 <script>
+var mensajes_tumbas = <?php echo $error_tumbas; ?>;
+
  $(function() {
    /* Formulario sheepIt para agregar funerarias */
    $("#SubFormularioFuneraria").sheepIt({
@@ -52,6 +67,7 @@
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
+     continuousIndex: false,
      iniFormsCount: <?php echo h($ini_f); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las funerarias asociadas?',
      data: <?php echo $data_f; ?>,
@@ -107,6 +123,7 @@
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
+     continuousIndex: false,
      iniFormsCount: <?php echo h($ini_t); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las tumbas asociadas?',
      data: <?php echo $data_t; ?>,
@@ -151,6 +168,10 @@
            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
          }
        });
+/*if(mensajes_tumbas['TumbaBonita#index#'] !== ""){
+$(auto).parent().append('<div class="error-message">' + mensajes_tumbas['TumbaBonita#index#'] + '</div>');
+}
+*/
        /* Establecer opciones de 'UI datepicker' para JQuery */
        $(fecha).datepicker({
          altField: fecha_oc,
@@ -233,10 +254,28 @@
     <div id="SubFormularioTumbas_template">
      <?php /* Campos */
       echo $this->Form->input('ArrendatarioTumba.#index#.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
+?>
+<script>
+if(mensajes_tumbas['TumbaBonita#index#'] !== undefined){
+$("#" + 'ArrendatarioTumba#index#TumbaBonita').parent().append('<div class="error-message">' + mensajes_tumbas['TumbaBonita#index#'] + '</div>');
+alert(mensajes_tumbas['TumbaBonita#index#']);alert('TumbaBonita#index#');
+}
+</script>
+<?php
+//if (isset($this->validationErrors['ArrendatarioTumba'][(int) '#index#']['tumba_bonita'][(int) '#index#'])) {
+//       echo '<div class="error-message">' . $this->validationErrors['ArrendatarioTumba'][(int) '#index#']['tumba_bonita'][(int) '#index#'] . '</div>';
+       //unset($this->validationErrors['ArrendatarioTumba'][(int) '#index#']['tumba_bonita'][(int) '#index#']);
+//      }
       echo $this->Form->input('ArrendatarioTumba.#index#.tumba_id', array('type' => 'hidden'));
       echo $this->Form->input('ArrendatarioTumba.#index#.fecha_bonita', array('label' => 'Fecha de arrendamiento:')); //Campo imaginario
+      if (isset($this->validationErrors['ArrendatarioTumba'][(int) '#index#']['fecha_bonita'])) {
+       echo '<div class="error-message">' . $this->validationErrors['ArrendatarioTumba'][(int) '#index#']['fecha_bonita'][(int) '#index#'] . '</div>';
+      }
       echo $this->Form->input('ArrendatarioTumba.#index#.fecha_arrendamiento', array('type' => 'hidden'));
       echo $this->Form->input('ArrendatarioTumba.#index#.estado', array('label' => 'Estado del arrendamiento:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
+      if (isset($this->validationErrors['ArrendatarioTumba'][(int) '#index#']['estado'])) {
+       echo '<div class="error-message">' . $this->validationErrors['ArrendatarioTumba'][(int) '#index#']['estado'][(int) '#index#'] . '</div>';
+      }
      ?>
      <a id="SubFormularioTumbas_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
     </div>

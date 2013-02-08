@@ -95,8 +95,8 @@ class Difunto extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'fecha_bonita' => 'DATE_FORMAT(Difunto.fecha_defuncion, "%d/%m/%Y")',
-        'tumba_bonita' => '',
+        //'fecha_bonita' => 'DATE_FORMAT(Difunto.fecha_defuncion, "%d/%m/%Y")',
+        //'tumba_bonita' => '',
     );
     
     /**
@@ -117,8 +117,7 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -169,17 +168,10 @@ class Difunto extends AppModel {
             ),
         ),
         'fecha_defuncion' => array(
-/*            'formato_fecha' => array(
-                'rule' => array('valida_fecha'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => '',
-            ),*/
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
             ),
@@ -209,29 +201,23 @@ class Difunto extends AppModel {
                 'message' => 'La causa de defunción debe tener como máximo 150 caracteres.',
             ),
         ),
+        //Campos imaginarios
         'fecha_bonita' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'La fecha de defunción no se puede dejar en blanco.',
-            ),
             'formato_fecha' => array(
                 'rule' => array('date', 'dmy'),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
             ),
         ),
         'tumba_bonita' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
+                'rule' => array('valida_tumba'),
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La fecha de defunción no se puede dejar en blanco.',
+                'message' => 'La tumba especificada no existe.',
             ),
         ),
     );
@@ -336,52 +322,36 @@ class Difunto extends AppModel {
     }
     
     /**
-     * valida_arrendatario method
+     * valida_tumba method
      *
      * @param array $check elements for validate
      * @return boolean
      */
-    /*public function valida_fecha($check) {
+    public function valida_tumba($check) {
         
-        //Extraer el DNI del vector
-        $cif = (string) $check['dni'];
-        
-        //Convertir a mayúsculas
-        $cif = strtoupper($cif);
-        
-        //Extraer el ID del arrendatario
-        if (!empty($this->data['Difunto']['fecha_bonita'])) {
-            $fecha = $this->data['Difunto']['fecha_bonita'];
+        //Extraer el ID de la tumba
+        if (!empty($this->data['Difunto']['tumba_id'])) {
+            $id = $this->data['Difunto']['tumba_id'];
         }
         else {
-            //Mensaje de error
-            $this->validationErrors['fecha_bonita'] = "La fecha de defunción no se puede dejar en blanco.";
             //Devolver error
             return false;
         }
-        //$this->Model->validationErrors['limitTime'] = "time is less than 30";
-        //Buscar si hay otro arrendatario con el mismo DNI
-        $persona = $this->find('first', array(
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->Tumba->find('first', array(
          'conditions' => array(
-          'Persona.dni' => $cif,
+          'Tumba.id' => $id,
          ),
          'fields' => array(
-          'Persona.id'
+          'Tumba.id'
          ),
          'contain' => array(
-          'Arrendatario' => array(
-           'conditions' => array(
-            'Arrendatario.id !=' => $id,
-           ),
-           'fields' => array(
-            'Arrendatario.id', 'Arrendatario.persona_id'
-           ),
-          ),
          ),
         ));
         
-        //Comprobar si existe un arrendatario con el mismo DNI
-        if(!empty($persona['Arrendatario']['id'])) {
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
             //Devolver error
             return false;
         }
@@ -393,7 +363,7 @@ class Difunto extends AppModel {
         //Devolver error
         return false;
         
-    }*/
+    }
     
     /**
      * ---------------------------

@@ -145,7 +145,7 @@ class DifuntosController extends AppController {
             'Difunto' => array('id', 'persona_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad_defuncion', 'causa_defuncion'),
             'Tumba' => array('id', 'poblacion'),
         ),
-        'validate' => 'first',
+        'validate' => false,
     );
     
     /**
@@ -251,36 +251,38 @@ class DifuntosController extends AppController {
                 
             }
             
-            //Comprobar si se ha introducido una tumba
-            if (!empty($this->request->data['Difunto']['tumba_id'])) {
+            //Validar los datos introducidos
+            if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Aumentar la población de la tumba
-                $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
-                $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
-            }
-            else {
-                //Truco del almendruco para evitar errores de validación
-                $this->request->data['Difunto']['tumba_id'] = NULL;
-            }
-            //print_r($this->request->data);
-//print_r($this->Difunto->data);
-//if ($this->Difunto->saveAssociated($this->request->data, array('validate' => 'only'))) {
-//$this->Session->setFlash(__('kkdevaka.'));
-            //Guardar y comprobar éxito
-            if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                $this->Session->setFlash(__('El difunto ha sido guardado correctamente.'));
-                //Redireccionar según corresponda
-                if (isset($this->request->data['guardar_y_nuevo'])) {
-                    $this->redirect(array('action' => 'nuevo'));
+                //Comprobar si se ha introducido una tumba
+                if (!empty($this->request->data['Difunto']['tumba_id'])) {
+                    
+                    //Aumentar la población de la tumba
+                    $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
+                    $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
                 }
                 else {
-                    $this->redirect(array('action' => 'index'));
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Difunto']['tumba_id'] = null;
                 }
-            }//}
+                
+                //Guardar y comprobar éxito
+                if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El difunto ha sido guardado correctamente.'));
+                    //Redireccionar según corresponda
+                    if (isset($this->request->data['guardar_y_nuevo'])) {
+                        $this->redirect(array('action' => 'nuevo'));
+                    }
+                    else {
+                        $this->redirect(array('action' => 'index'));
+                    }
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser guardado.'));
+                }
+            }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser guardado.'));
-//print_r($this->Difunto->data);
-//print_r($this->Difunto->invalidFields());
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         
@@ -486,17 +488,36 @@ class DifuntosController extends AppController {
                 //Truco del almendruco para evitar errores de validación
                 $this->request->data['Difunto']['tumba_id'] = NULL;
             }
-            print_r($this->request->data);//['Difunto']['tumba_id']);//['fecha_defuncion']);
-            //Guardar y comprobar éxito
-            if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                $this->Session->setFlash(__('El difunto ha sido actualizado correctamente.'));
-                //Borrar datos de sesión
-                $this->Session->delete('Difunto');
-                //Redireccionar a index
-                $this->redirect(array('action' => 'index'));
+            
+            //Validar los datos introducidos
+            if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Comprobar si se ha introducido una tumba
+                if (!empty($this->request->data['Difunto']['tumba_id'])) {
+                    
+                    //Aumentar la población de la tumba
+                    $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
+                    $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Difunto']['tumba_id'] = null;
+                }
+                
+                //Guardar y comprobar éxito
+                if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El difunto ha sido actualizado correctamente.'));
+                    //Borrar datos de sesión
+                    $this->Session->delete('Difunto');
+                    //Redireccionar a index
+                    $this->redirect(array('action' => 'index'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser actualizado.'));
+                }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser actualizado.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         else {

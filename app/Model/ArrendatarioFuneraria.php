@@ -111,8 +111,7 @@ class ArrendatarioFuneraria extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -151,6 +150,16 @@ class ArrendatarioFuneraria extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de funeraria.',
+            ),
+        ),
+        //Campos imaginarios
+        'funeraria_bonita' => array(
+            'existe_funeraria' => array(
+                'rule' => array('valida_funeraria'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La funeraria especificada no existe.',
             ),
         ),
     );
@@ -207,6 +216,50 @@ class ArrendatarioFuneraria extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_funeraria method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_funeraria($check) {
+        
+        //Extraer el ID de la funeraria
+        if (!empty($this->data['ArrendatarioFuneraria']['funeraria_id'])) {
+            $id = $this->data['ArrendatarioFuneraria']['funeraria_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una funeraria con el ID especificado
+        $funeraria = $this->Funeraria->find('first', array(
+         'conditions' => array(
+          'Funeraria.id' => $id,
+         ),
+         'fields' => array(
+          'Funeraria.id'
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la funeraria especificada
+        if (empty($funeraria['Funeraria']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
     }
     
 }

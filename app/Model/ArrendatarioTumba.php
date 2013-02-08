@@ -111,8 +111,7 @@ class ArrendatarioTumba extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -166,7 +165,7 @@ class ArrendatarioTumba extends AppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
             ),
         ),
         'estado' => array(
@@ -183,6 +182,32 @@ class ArrendatarioTumba extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Ya hay asociado otro arrendatario actual para esta tumba.',
+            ),
+        ),
+        //Campos imaginarios
+        'fecha_bonita' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de arrendamiento no se puede dejar en blanco.',
+            ),
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'tumba_bonita' => array(
+            'uuid' => array(
+                'rule' => array('valida_tumba'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La tumba especificada no existe.',
             ),
         ),
     );
@@ -242,6 +267,50 @@ class ArrendatarioTumba extends AppModel {
     }
     
     /**
+     * valida_tumba method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba($check) {
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['ArrendatarioTumba']['tumba_id'])) {
+            $id = $this->data['ArrendatarioTumba']['tumba_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+          'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
      * valida_arrendatario method
      *
      * @param array $check elements for validate
@@ -268,7 +337,6 @@ class ArrendatarioTumba extends AppModel {
             $arrendatario = '';
         }
         
-print_r($check);print_r($this->data);
         //Comprobar si el estado del arrendamiento es "Actual"
         if ($estado == "Actual") {
             //Buscar si ya había otro arrendatario "Actual" para esta tumba
@@ -285,7 +353,7 @@ print_r($check);print_r($this->data);
              ),
             ));
             
-            //Comprobar si existe un arrendatario con el mismo DNI
+            //Comprobar si existe otro arrendatario "Actual" para esta tumba
             if (!empty($arrendador['ArrendatarioTumba']['arrendatario_id'])) {
                 //Devolver error
                 return false;

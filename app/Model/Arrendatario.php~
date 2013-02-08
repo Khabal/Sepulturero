@@ -283,7 +283,7 @@ class Arrendatario extends AppModel {
     );
     
     /**
- true    * ----------------------
+    * ----------------------
      * Model associations
      * ----------------------
      */
