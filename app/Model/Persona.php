@@ -7,6 +7,7 @@ App::uses('AppModel', 'Model');
  *
  * @property Arrendatario $Arrendatario
  * @property Difunto $Difunto
+ * @property Medico $Medico
  */
 class Persona extends AppModel {
     
@@ -274,6 +275,14 @@ class Persona extends AppModel {
             'order' => '',
             'dependent' => true,
         ),
+        'Medico' => array(
+            'className' => 'Medico',
+            'foreignKey' => 'persona_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'dependent' => true,
+        ),
     );
     
     /**
@@ -426,7 +435,7 @@ class Persona extends AppModel {
     }
     
     /**
-     * valida_arrendatario method
+     * valida_difunto method
      *
      * @param array $check elements for validate
      * @return boolean
@@ -447,7 +456,7 @@ class Persona extends AppModel {
             $id = '';
         }
         
-        //Buscar si hay otro arrendatario con el mismo DNI
+        //Buscar si hay otro difunto con el mismo DNI
         $persona = $this->find('first', array(
          'conditions' => array(
           'Persona.dni' => $cif,
@@ -467,7 +476,7 @@ class Persona extends AppModel {
          ),
         ));
         
-        //Comprobar si existe un arrendatario con el mismo DNI
+        //Comprobar si existe un difunto con el mismo DNI
         if(!empty($persona['Difunto']['id'])) {
             //Devolver error
             return false;

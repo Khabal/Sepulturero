@@ -188,9 +188,6 @@ class ArrendatariosController extends AppController {
      */
     public function nuevo() {
         
-        //Devolver las opciones de selección de estado del arrendamiento de la tumba
-        $this->set('estado', $this->Arrendatario->estado);
-        
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
             
@@ -259,7 +256,7 @@ class ArrendatariosController extends AppController {
                $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
-        //print_r($this->Arrendatario->invalidFields());
+        
     }
     
     /**

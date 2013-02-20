@@ -14,9 +14,8 @@
 
 <?php
  /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
- /* Preparar los datos para una inyección a sheepIt de haberlos */
- $ini_f = sizeof($this->request->data['ArrendatarioFuneraria']);
- if ($ini_f > 0) {
+ if (isset($this->request->data['ArrendatarioFuneraria'])) {
+  $ini_f = sizeof($this->request->data['ArrendatarioFuneraria']);
   $data_f = array();
   foreach($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
    array_push($data_f, array("ArrendatarioFuneraria#index#FunerariaBonita" => $funeraria['funeraria_bonita'], "ArrendatarioFuneraria#index#FunerariaId" => $funeraria['funeraria_id']));
@@ -24,19 +23,27 @@
   $data_f = json_encode($data_f);
  }
  else {
+  $ini_f = 0;
   $data_f = "[]";
  }
  
- $ini_t = sizeof($this->request->data['ArrendatarioTumba']);
- if ($ini_t > 0) {
-  $data_t = array();
-  foreach($this->request->data['ArrendatarioTumba'] as $tumba) {
-   array_push($data_t, array("ArrendatarioTumba#index#TumbaBonita" => $tumba['tumba_bonita'], "ArrendatarioTumba#index#TumbaId" => $tumba['tumba_id'], "ArrendatarioTumba#index#FechaBonita" => $tumba['fecha_bonita'], "ArrendatarioTumba#index#FechaArrendamiento" => $tumba['fecha_arrendamiento'], "ArrendatarioTumba#index#Estado" => $tumba['estado']));
+ /* Cargar mensajes de error para los campos generados con sheepIt */
+ if (isset($this->validationErrors['ArrendatarioFuneraria'])) {
+  $tam = count($this->validationErrors['ArrendatarioFuneraria']);
+  $mensajes_error = array();
+  for ($i = 0; $tam > 0; $i++) {
+   if (isset($this->validationErrors['ArrendatarioFuneraria'][$i])) {
+    array_push($mensajes_error, array($i + 1 => $this->validationErrors['ArrendatarioFuneraria'][$i]['funeraria_bonita'][0]));
+    $tam--;
+   }
+   else {
+    array_push($mensajes_error, array($i + 1 => ""));
+   }
   }
-  $data_t = json_encode($data_t);
+  $mensajes_error = json_encode($mensajes_error);
  }
  else {
-  $data_t = "[]";
+  $mensajes_error = "[]";
  }
 ?>
 
@@ -88,87 +95,26 @@
            $(auto_oc).val(ui.item.value)
          },
          open: function() {
-           $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+           $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
          },
          close: function() {
-           $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+           $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
          }
        });
-     }
-   });
-   
-   /* Formulario sheepIt para agregar tumbas */
-   $("#SubFormularioTumbas").sheepIt({
-     separator: '',
-     allowRemoveLast: true,
-     allowRemoveCurrent: true,
-     allowRemoveAll: true,
-     allowAdd: true,
-     allowAddN: false,
-     maxFormsCount: 100,
-     minFormsCount: 0,
-     iniFormsCount: <?php echo h($ini_t); ?>,
-     removeAllConfirmationMsg: '¿Eliminar todas las tumbas asociadas?',
-     data: <?php echo $data_t; ?>,
-     afterAdd: function(source, newForm) {
-       /* Obtener identificadores de campos */
-       var auto = "#" + $(newForm).children("div").children("input[id$='TumbaBonita']").attr("id");
-       var auto_oc = auto.replace("Bonita", "Id");
-       var fecha = "#" + $(newForm).children("div").children("input[id$='FechaBonita']").attr("id");
-       var fecha_oc = fecha.replace("Bonita", "Arrendamiento");
        
-       /* Establecer opciones de 'UI Autocomplete' para jQuery */
-       $(auto).autocomplete({
-         source: function(request, response) {
-           $.ajax({
-             url: "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'autocomplete')); ?>",
-             dataType: "json",
-             type: "GET",
-             data: {
-               term: request.term
-             },
-             timeout: 2000,
-             success: function(data) {
-               response( $.map(data, function(x) {
-                 return {
-                   label: x.label,
-                   value: x.value
-                 }
-               }));
-             }
-           });
-         },
-         minLength: 2,
-         select: function(event, ui) {
-           event.preventDefault(),
-           $(auto).val(ui.item.label),
-           $(auto_oc).val(ui.item.value)
-         },
-         open: function() {
-           $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-         },
-         close: function() {
-           $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-         }
-       });
-       /* Establecer opciones de 'UI datepicker' para JQuery */
-       $(fecha).datepicker({
-         altField: fecha_oc,
-         altFormat: "yy-mm-dd",
-         buttonImage: "calendario.gif",
-         changeMonth: true,
-         changeYear: true,
-         selectOtherMonths: true,
-         showAnim: "slide",
-         showOn: "both",
-         showButtonPanel: true,
-         showOtherMonths: true,
-         showWeek: true,
-       });
+       /* Mostrar mensajes de errores si los hubiera */
+       if(errores[num] != undefined) {
+         if(errores[num][num + 1] != "") {
+         $(newForm).append('<div class="error-message">' + errores[num][num + 1] + '</div>');
+       }
+       else {
+       }
+       num++;
+       }
+       
      }
    });
  });
-
 </script>
 
 <?php /* Formulario arrendatario */ ?>
@@ -193,9 +139,7 @@
   </fieldset>
   <fieldset>
    <legend><?php echo __('Funerarias contratadas'); ?></legend>
-   
    <div id="SubFormularioFuneraria">
-    
     <div id="SubFormularioFuneraria_template">
      <?php /* Campos */
       echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_bonita', array('label' => 'Funeraria:')); //Campo imaginario
@@ -203,44 +147,13 @@
      ?>
      <a id="SubFormularioFuneraria_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
     </div>
-    
     <div id="SubFormularioFuneraria_noforms_template">No hay funerarias contratadas</div>
-    
     <div id="SubFormularioFuneraria_controls">
      <a id="SubFormularioFuneraria_add" class="boton"> <?php echo $this->Html->image('nuevo.png', array('alt' => 'nuevo', 'style' => 'height:24px; width:24px;')) . ' Añadir funeraria'; ?> </a>
      <a id="SubFormularioFuneraria_remove_last" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'style' => 'height:24px; width:24px;')) . ' Eliminar última funeraria'; ?> </a>
      <a id="SubFormularioFuneraria_remove_all" class="boton"> <?php echo $this->Html->image('limpiar.png', array('alt' => 'limpiar', 'style' => 'height:24px; width:24px;')) . ' Eliminar todas las funerarias'; ?> </a>
     </div>
-    
    </div>
-   
- </fieldset>
- <fieldset>
-  <legend><?php echo __('Tumbas arrendadas'); ?></legend>
-  
-  <div id="SubFormularioTumbas">
-   
-   <div id="SubFormularioTumbas_template">
-    <?php /* Campos */
-     echo $this->Form->input('ArrendatarioTumba.#index#.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
-     echo $this->Form->input('ArrendatarioTumba.#index#.tumba_id', array('type' => 'hidden'));
-     echo $this->Form->input('ArrendatarioTumba.#index#.fecha_bonita', array('label' => 'Fecha de arrendamiento:')); //Campo imaginario
-     echo $this->Form->input('ArrendatarioTumba.#index#.fecha_arrendamiento', array('type' => 'hidden'));
-     echo $this->Form->input('ArrendatarioTumba.#index#.estado', array('label' => 'Estado del arrendamiento:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
-    ?>
-    <a id="SubFormularioTumbas_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
-   </div>
-   
-   <div id="SubFormularioTumbas_noforms_template">No hay tumbas arrendadas</div>
-   
-   <div id="SubFormularioTumbas_controls">
-    <a id="SubFormularioTumbas_add" class="boton"> <?php echo $this->Html->image('nuevo.png', array('alt' => 'nuevo', 'style' => 'height:24px; width:24px;')) . ' Añadir tumba'; ?> </a>
-    <a id="SubFormularioTumbas_remove_last" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'style' => 'height:24px; width:24px;')) . ' Eliminar última tumba'; ?> </a>
-    <a id="SubFormularioTumbas_remove_all" class="boton"> <?php echo $this->Html->image('limpiar.png', array('alt' => 'limpiar', 'style' => 'height:24px; width:24px;')) . ' Eliminar todas las tumbas'; ?> </a>
-   </div>
-   
-  </div>
-  
  </fieldset>
  <?php /* Botones */
   echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));

@@ -5,8 +5,9 @@ App::uses('AppModel', 'Model');
 /**
  * Arrendatario Model
  *
+ * @property Arrendamiento $Arrendamiento
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
- * @property ArrendatarioTumba $ArrendatarioTumba
+ * @property ArrendatarioPago $ArrendatarioPago
  * @property Funeraria $Funeraria
  * @property Persona $Persona
  * @property Tumba $Tumba
@@ -293,6 +294,17 @@ class Arrendatario extends AppModel {
      * @var array
      */
     public $hasMany = array(
+        'Arrendamiento' => array(
+            'className' => 'Arrendamiento',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
         'ArrendatarioFuneraria' => array(
             'className' => 'ArrendatarioFuneraria',
             'foreignKey' => 'arrendatario_id',
@@ -306,17 +318,6 @@ class Arrendatario extends AppModel {
         ),
         'ArrendatarioPago' => array(
             'className' => 'ArrendatarioPago',
-            'foreignKey' => 'arrendatario_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-        'Arrendamiento' => array(
-            'className' => 'Arrendamiento',
             'foreignKey' => 'arrendatario_id',
             'conditions' => '',
             'order' => '',

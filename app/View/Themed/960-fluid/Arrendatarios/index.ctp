@@ -40,7 +40,16 @@
      <td>
       <?php echo $this->Html->link($arrendatario['Persona']['nombre_completo'], array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id'])); ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Persona']['dni']); ?>&nbsp;</td>
+     <td>
+	 <?php
+       if ($arrendatario['Persona']['dni']) {
+        echo h($arrendatario['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</td>
      <td><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</td>
      <td>
