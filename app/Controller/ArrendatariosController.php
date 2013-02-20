@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Arrendatario', 'ArrendatarioFuneraria', 'ArrendatarioTumba', 'Funeraria', 'Persona', 'Tumba', 'Sanitize');
+    public $uses = array('Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -144,7 +144,6 @@ class ArrendatariosController extends AppController {
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
             'Arrendatario' => array('id', 'persona_id', 'direccion', 'localidad', 'provincia', 'pais', 'codigo_postal', 'telefono', 'correo_electronico'),
             'ArrendatarioFuneraria' => array('id', 'arrendatario_id', 'funeraria_id'),
-            'ArrendatarioTumba' => array('id', 'arrendatario_id', 'tumba_id', 'fecha_arrendamiento', 'estado'),
         ),
         'validate' => false,
     );
@@ -238,17 +237,6 @@ class ArrendatariosController extends AppController {
                 }
             }
             
-            //Comprobar si hay tumbas vacías y eliminarlas
-            if(isset($this->request->data['ArrendatarioTumba'])) {
-                $i = 0;
-                foreach ($this->request->data['ArrendatarioTumba'] as $tumba) {
-                    if (empty($tumba['tumba_bonita']) && empty($tumba['fecha_bonita'])) {
-                        unset($this->request->data['ArrendatarioTumba'][$i]);
-                    }
-                    $i++;
-                }
-            }
-            
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
@@ -310,7 +298,7 @@ class ArrendatariosController extends AppController {
             ),
            ),
           ),
-          'ArrendatarioTumba' => array(
+          'Arrendamiento' => array(
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
@@ -334,6 +322,11 @@ class ArrendatariosController extends AppController {
             ),
             'fields' => array(
              'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
+           ),
+           'Concesion' => array(
+            'fields' => array(
+             'Concesion.id', 'Tumba.tipo', 'Tumba.poblacion'
             ),
            ),
           ),
@@ -415,7 +408,7 @@ class ArrendatariosController extends AppController {
             }
             
             //Guardar y comprobar éxito
-            if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
+            if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
                 $this->Session->setFlash(__('El arrendatario ha sido actualizado correctamente.'));
                 //Borrar datos de sesión
                 $this->Session->delete('Arrendatario');
@@ -445,33 +438,6 @@ class ArrendatariosController extends AppController {
                 ),
                ),
               ),
-              'ArrendatarioTumba' => array(
-               'Tumba' => array(
-                'Columbario' => array(
-                 'fields' => array(
-                  'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-                 ),
-                ),
-                'Nicho' => array(
-                 'fields' => array(
-                  'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
-                 ),
-                ),
-                'Panteon' => array(
-                 'fields' => array(
-                  'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
-                 ),
-                ),
-                'Exterior' => array(
-                 'fields' => array(
-                  'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
-                 ),
-                ),
-                'fields' => array(
-                 'Tumba.id', 'Tumba.tipo'
-                ),
-               ),
-              ),
              ),
             ));
             
@@ -482,30 +448,6 @@ class ArrendatariosController extends AppController {
                     $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_bonita'] = $funeraria['Funeraria']['nombre'];
                     $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_id'] = $funeraria['funeraria_id'];
                     unset($this->request->data['ArrendatarioFuneraria'][$i]['Funeraria']);
-                    $i++;
-                }
-            }
-            
-            if (!empty($this->request->data['ArrendatarioTumba'])) {
-                $i = 0;
-                foreach ($this->request->data['ArrendatarioTumba'] as $tumba) {
-                    $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] = $tumba['Tumba']['tipo'] . " - ";
-                    if (!empty($tumba['Tumba']['Columbario'])) {
-                        $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Columbario']['localizacion'];
-                    }
-                    elseif (!empty($tumba['Tumba']['Exterior'])) {
-                        $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Exterior']['localizacion'];
-                    }
-                    elseif (!empty($tumba['Tumba']['Nicho'])) {
-                        $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Nicho']['localizacion'];
-                    }
-                    elseif (!empty($tumba['Tumba']['Panteon'])) {
-                        $this->request->data['ArrendatarioTumba'][$i]['tumba_bonita'] .= $tumba['Tumba']['Panteon']['localizacion'];
-                    }
-                    
-                    $this->request->data['ArrendatarioTumba'][$i]['fecha_bonita'] = date('d/m/Y', strtotime($tumba['fecha_arrendamiento']));
-                    
-                    unset($this->request->data['ArrendatarioTumba'][$i]['Tumba']);
                     $i++;
                 }
             }

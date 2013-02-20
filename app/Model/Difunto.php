@@ -297,6 +297,7 @@ class Difunto extends AppModel {
      * ----------------------
      */
     
+<<<<<<< HEAD
     /**
      * Constructor
      *
@@ -305,12 +306,23 @@ class Difunto extends AppModel {
      * @param string $ds Datasource
      * @return class object
      */
+=======
+    /**
+     * Constructor
+     *
+     * @param mixed $id Model ID
+     * @param string $table Table name
+     * @param string $ds Datasource
+     * @return class object
+     */
+>>>>>>> 7d9a910239d9dbc2c41514db97a81af64ec241c0
     public function __construct ($id = false, $table = null, $ds = null) {
         
         //Añadir campos virtuales de "Persona"
         //$this->virtualFields += $this->Persona->virtualFields;
         
         //Vector de estados del cuerpo de un difunto
+<<<<<<< HEAD
         $this->estado = array(
             'Cadáver' => __('Cadáver', true),
             'Cenizas' => __('Cenizas', true),
@@ -318,6 +330,15 @@ class Difunto extends AppModel {
         );
         
         //Llamar al constructor de la clase padre
+=======
+        $this->estado = array(
+            'Cadáver' => __('Cadáver', true),
+            'Cenizas' => __('Cenizas', true),
+            'Restos' => __('Restos', true),
+        );
+        
+        //Llamar al constructor de la clase padre
+>>>>>>> 7d9a910239d9dbc2c41514db97a81af64ec241c0
         parent::__construct($id, $table, $ds);
     }
     
@@ -371,12 +392,21 @@ class Difunto extends AppModel {
      * ---------------------------
      */
     
+<<<<<<< HEAD
     /**
      * Field names accepted
      *
      * @var array
      * @see SearchableBehavior
      */
+=======
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+>>>>>>> 7d9a910239d9dbc2c41514db97a81af64ec241c0
     public $filterArgs = array(
         'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
     );
@@ -389,27 +419,47 @@ class Difunto extends AppModel {
      */
     public function buscarDifunto ($data = array()) {
         
+<<<<<<< HEAD
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
             //Devolver resultados de la búsqueda
             return array();
         }
+=======
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+>>>>>>> 7d9a910239d9dbc2c41514db97a81af64ec241c0
 	
         //Construir comodín para búsqueda
         $comodin = '%' . $data['clave'] . '%';
         
         //Devolver resultados de la búsqueda
+<<<<<<< HEAD
         return array(
          'OR' => array(
+=======
+        return array(
+         'OR' => array(
+>>>>>>> 7d9a910239d9dbc2c41514db97a81af64ec241c0
           'Persona.nombre LIKE' => $comodin,
           'Persona.apellido1 LIKE' => $comodin,
           'Persona.apellido2 LIKE' => $comodin,
           'Persona.dni LIKE' => $comodin,
           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
+<<<<<<< HEAD
           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
          )
         );
         
+=======
+          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+         )
+        );
+        
+>>>>>>> 7d9a910239d9dbc2c41514db97a81af64ec241c0
     }
 
 

@@ -126,6 +126,34 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
       </ul>
      </li>
+     <li><!-- Arrendamientos -->
+      <?php echo $this->Html->link(__('Arrendamientos'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
+      <ul>
+       <li>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'arrendamientos', 'action' => 'nuevo')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendamientos', 'action' => 'buscar')); ?>
+       </li>
+      </ul>
+     </li>
+     <li><!-- Concesiones -->
+      <?php echo $this->Html->link(__('Concesiones'), array('controller' => 'concesiones', 'action' => 'index')); ?>
+      <ul>
+       <li>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'concesiones', 'action' => 'index')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'concesiones', 'action' => 'nuevo')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'concesiones', 'action' => 'buscar')); ?>
+       </li>
+      </ul>
+     </li>
      <li><!-- Difuntos -->
       <?php echo $this->Html->link(__('Difuntos'), array('controller' => 'difuntos', 'action' => 'index')); ?>
       <ul>
@@ -137,20 +165,6 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
        <li>
         <?php echo $this->Html->link(__('Buscar'), array('controller' => 'difuntos', 'action' => 'buscar')); ?>
-       </li>
-      </ul>
-     </li>
-     <li><!-- Enterramientos -->
-      <?php echo $this->Html->link(__('Enterramientos'), array('controller' => 'enterramientos', 'action' => 'index')); ?>
-      <ul>
-       <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'enterramientos', 'action' => 'index')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'enterramientos', 'action' => 'nuevo')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'enterramientos', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>
@@ -168,17 +182,31 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
       </ul>
      </li>
-     <li><!-- Licencias -->
-      <?php echo $this->Html->link(__('Licencias'), array('controller' => 'licencias', 'action' => 'index')); ?>
+     <li><!-- Médicos -->
+      <?php echo $this->Html->link(__('Médicos'), array('controller' => 'medicos', 'action' => 'index')); ?>
       <ul>
        <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'licencias', 'action' => 'index')); ?>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'medicos', 'action' => 'index')); ?>
        </li>
        <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'licencias', 'action' => 'nuevo')); ?>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'medicos', 'action' => 'nuevo')); ?>
        </li>
        <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'licencias', 'action' => 'buscar')); ?>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'medicos', 'action' => 'buscar')); ?>
+       </li>
+      </ul>
+     </li>
+     <li><!-- Movimientos -->
+      <?php echo $this->Html->link(__('Movimientos'), array('controller' => 'movimientos', 'action' => 'index')); ?>
+      <ul>
+       <li>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'movimientos', 'action' => 'index')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'movimientos', 'action' => 'nuevo')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'movimientos', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>
@@ -207,20 +235,6 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
        <li>
         <?php echo $this->Html->link(__('Buscar'), array('controller' => 'tasas', 'action' => 'buscar')); ?>
-       </li>
-      </ul>
-     </li>
-     <li><!-- Traslados -->
-      <?php echo $this->Html->link(__('Traslados'), array('controller' => 'traslados', 'action' => 'index')); ?>
-      <ul>
-       <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'traslados', 'action' => 'index')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'traslados', 'action' => 'nuevo')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'traslados', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>

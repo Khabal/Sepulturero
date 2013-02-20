@@ -304,8 +304,19 @@ class Arrendatario extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-        'ArrendatarioTumba' => array(
-            'className' => 'ArrendatarioTumba',
+        'ArrendatarioPago' => array(
+            'className' => 'ArrendatarioPago',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'Arrendamiento' => array(
+            'className' => 'Arrendamiento',
             'foreignKey' => 'arrendatario_id',
             'conditions' => '',
             'order' => '',
@@ -353,12 +364,6 @@ class Arrendatario extends AppModel {
         
         //Añadir campos virtuales de "Persona"
         //$this->virtualFields += $this->Persona->virtualFields;
-        
-        //Vector de estados de arrendamiento de una tumba
-        $this->estado = array(
-            'Antiguo' => __('Antiguo', true),
-            'Actual' => __('Actual', true),
-        );
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);

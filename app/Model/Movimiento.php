@@ -3,14 +3,13 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Enterramiento Model
+ * Traslado Model
  *
- * @property EnterramientoTasa $EnterramientoTasa
- * @property Difunto $Difunto
- * @property Licencia $Licencia
- * @property Tumba $Tumba
+ * @property Documento $Documento
+ * @property DifuntoTraslado $DifuntoTraslado
+ * @property TrasladoTumba $TrasladoTumba
  */
-class Enterramiento extends AppModel {
+class Traslado extends AppModel {
     
     /**
      * ----------------------
@@ -44,7 +43,7 @@ class Enterramiento extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'enterramientos';
+    public $useTable = 'traslados';
     
     /**
      * Name of the table prefix
@@ -65,21 +64,21 @@ class Enterramiento extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'fecha_normal';
+    public $displayField = 'fecha_motivo';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'Enterramiento';
+    public $name = 'Traslado';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Enterramiento';
+    public $alias = 'Traslado';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -94,7 +93,7 @@ class Enterramiento extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'fecha_normal' => 'DATE_FORMAT(Enterramiento.fecha, "%d/%m/%Y")'
+        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Traslado.fecha,"%d/%m/%Y"), " - ", Traslado.motivo)'
     );
     
     /**
@@ -140,39 +139,39 @@ class Enterramiento extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'difunto_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'licencia_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tumba_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'fecha' => array(
 			'date' => array(
 				'rule' => array('date'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'cementerio_origen' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'cementerio_destino' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'motivo' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -194,9 +193,9 @@ class Enterramiento extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'EnterramientoTasa' => array(
-            'className' => 'EnterramientoTasa',
-            'foreignKey' => 'enterramiento_id',
+        'DifuntoTraslado' => array(
+            'className' => 'DifuntoTraslado',
+            'foreignKey' => 'traslado_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -205,43 +204,27 @@ class Enterramiento extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-    );
-    
-    /**
-     * belongsTo associations
-     *
-     * @var array
-     */
-    public $belongsTo = array(
-        'Tumba' => array(
-            'className' => 'Tumba',
-            'foreignKey' => 'tumba_id',
+        'Documento' => array(
+            'className' => 'Documento',
+            'foreignKey' => 'traslado_id',
             'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
             'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => false,
+            'exclusive' => false,
+            'finderQuery' => '',
         ),
-        'Difunto' => array(
-            'className' => 'Difunto',
-            'foreignKey' => 'difunto_id',
+        'TrasladoTumba' => array(
+            'className' => 'TrasladoTumba',
+            'foreignKey' => 'traslado_id',
             'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
             'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
-        ),
-        'Licencia' => array(
-            'className' => 'Licencia',
-            'foreignKey' => 'licencia_id',
-            'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
-            'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => true,
+            'exclusive' => false,
+            'finderQuery' => '',
         ),
     );
     
@@ -278,16 +261,16 @@ class Enterramiento extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarEnterramiento'),
+        'clave' => array('type' => 'query', 'method' => 'buscarTraslado'),
     );
     
     /**
-     * buscarEnterramiento method
+     * buscarTraslado method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarEnterramiento ($data = array()) {
+    public function buscarTraslado ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
@@ -301,14 +284,8 @@ class Enterramiento extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'DATE_FORMAT(Enterramiento.fecha, "%d/%m/%Y") LIKE' => $comodin,
-          'Persona.nombre LIKE' => $comodin,
-          'Persona.apellido1 LIKE' => $comodin,
-          'Persona.apellido2 LIKE' => $comodin,
-          'Persona.dni LIKE' => $comodin,
-          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
-          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
-          'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion))' => $comodin,
+          'DATE_FORMAT(Traslado.fecha,"%d/%m/%Y") LIKE' => $comodin,
+          'Traslado.motivo LIKE' => $comodin,
          )
         );
         

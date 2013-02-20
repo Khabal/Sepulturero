@@ -5,13 +5,10 @@ App::uses('AppModel', 'Model');
 /**
  * Arrendatario Model
  *
- * @property ArrendatarioFuneraria $ArrendatarioFuneraria
- * @property ArrendatarioTumba $ArrendatarioTumba
- * @property Funeraria $Funeraria
  * @property Persona $Persona
- * @property Tumba $Tumba
+ * @property Difunto $Difunto
  */
-class Arrendatario extends AppModel {
+class Medico extends AppModel {
     
     /**
      * ----------------------
@@ -45,7 +42,7 @@ class Arrendatario extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'arrendatarios';
+    public $useTable = 'medicos';
     
     /**
      * Name of the table prefix
@@ -73,14 +70,14 @@ class Arrendatario extends AppModel {
      *
      * @var string
      */
-    public $name = 'Arrendatario';
+    public $name = 'Medico';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Arrendatario';
+    public $alias = 'Medico';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -114,8 +111,7 @@ class Arrendatario extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -135,7 +131,7 @@ class Arrendatario extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de arrendatario.',
+                'message' => 'Error inesperado al generar ID de médico.',
             ),
         ),
         'persona_id' => array(
@@ -147,105 +143,43 @@ class Arrendatario extends AppModel {
                 'message' => 'Error inesperado al asociar ID de persona.',
             ),
         ),
-        'direccion' => array(
+        'numero_colegiado' => array(
             'novacio' => array(
                 'rule' => array('notempty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La dirección no se puede dejar en blanco.',
+                'message' => 'El número de colegiado no se puede dejar en blanco.',
             ),
-            'maximalongitud' => array(
-                'rule' => array('maxLength', 150),
+            'longitud' => array(
+                'rule' => array('between', 4, 10),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La dirección debe tener como máximo 150 caracteres.',
+                'message' => 'El número de colegiado debe tener entre 4 y 10 caracteres.',
             ),
         ),
-        'localidad' => array(
+        'lugar_colegio' => array(
             'novacio' => array(
                 'rule' => array('notempty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La localidad no se puede dejar en blanco.',
+                'message' => 'La localidad del colegio no se puede dejar en blanco.',
             ),
             'longitud' => array(
                 'rule' => array('between', 2, 50),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La localidad debe tener entre 2 y 50 caracteres.',
+                'message' => 'La localidad del colegio debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
                 'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La localidad sólo puede contener caracteres alfabéticos.',
-            ),
-        ),
-        'provincia' => array(
-            'longitud' => array(
-                'rule' => array('between', 2, 50),
-                'required' => false,
-                'allowEmpty' => true,
-                'on' => null,
-                'message' => 'La provincia debe tener entre 2 y 50 caracteres.',
-            ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
-                'required' => false,
-                'allowEmpty' => true,
-                'on' => null,
-                'message' => 'La provincia sólo puede contener caracteres alfabéticos.',
-            ),
-        ),
-        'pais' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El país no se puede dejar en blanco.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 2, 50),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El país debe tener entre 2 y 50 caracteres.',
-            ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El país sólo puede contener caracteres alfabéticos.',
-            ),
-        ),
-        'codigo_postal' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal no se puede dejar en blanco.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 2, 6),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal debe tener entre 2 y 6 caracteres.',
-            ),
-            'numeronatural' => array(
-                'rule' => array('naturalNumber', true),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal sólo puede contener caracteres numéricos.',
+                'message' => 'La localidad del colegio sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'telefono' => array(
@@ -294,20 +228,9 @@ class Arrendatario extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'ArrendatarioFuneraria' => array(
-            'className' => 'ArrendatarioFuneraria',
-            'foreignKey' => 'arrendatario_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-        'ArrendatarioTumba' => array(
-            'className' => 'ArrendatarioTumba',
-            'foreignKey' => 'arrendatario_id',
+        'Difunto' => array(
+            'className' => 'Difunto',
+            'foreignKey' => 'difunto_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -355,12 +278,6 @@ class Arrendatario extends AppModel {
         //Añadir campos virtuales de "Persona"
         //$this->virtualFields += $this->Persona->virtualFields;
         
-        //Vector de estados de arrendamiento de una tumba
-        $this->estado = array(
-            'Antiguo' => __('Antiguo', true),
-            'Actual' => __('Actual', true),
-        );
-        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -378,16 +295,16 @@ class Arrendatario extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
+        'clave' => array('type' => 'query', 'method' => 'buscarMedico'),
     );
     
     /**
-     * buscarArrendatario method
+     * buscarMedico method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarArrendatario ($data = array()) {
+    public function buscarMedico ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {

@@ -3,12 +3,13 @@
 App::uses('AppModel', 'Model');
 
 /**
- * ArrendatarioTumba Model
+ * Arrendamiento Model
  *
  * @property Arrendatario $Arrendatario
+ * @property Concesion $Concesion
  * @property Tumba $Tumba
  */
-class ArrendatarioTumba extends AppModel {
+class Arrendamiento extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +43,7 @@ class ArrendatarioTumba extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'arrendatarios_tumbas';
+    public $useTable = 'arrendamientos';
     
     /**
      * Name of the table prefix
@@ -63,21 +64,21 @@ class ArrendatarioTumba extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'id';
+    public $displayField = 'estado';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'ArrendatarioTumba';
+    public $name = 'Arrendamiento';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'ArrendatarioTumba';
+    public $alias = 'Arrendamiento';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -98,7 +99,7 @@ class ArrendatarioTumba extends AppModel {
      *
      * @var array
      */
-    public $actsAs = array('Containable');
+    public $actsAs = array('Containable', 'Search.Searchable');
     
     /**
      * ----------------------
@@ -131,7 +132,7 @@ class ArrendatarioTumba extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de arrendatario-tumba.',
+                'message' => 'Error inesperado al generar ID de arrendamiento.',
             ),
         ),
         'arrendatario_id' => array(
@@ -141,6 +142,15 @@ class ArrendatarioTumba extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de arrendatario.',
+            ),
+        ),
+        'concesion_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de concesion.',
             ),
         ),
         'tumba_id' => array(
@@ -170,7 +180,7 @@ class ArrendatarioTumba extends AppModel {
         ),
         'estado' => array(
             'lista_estado' => array(
-                'rule' => array('inList', array('Antiguo', 'Actual')),
+                'rule' => array('inList', array('Antiguo', 'Vigente', 'Caducado')),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -182,6 +192,15 @@ class ArrendatarioTumba extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Ya hay asociado otro arrendatario actual para esta tumba.',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
             ),
         ),
         //Campos imaginarios
@@ -199,6 +218,15 @@ class ArrendatarioTumba extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'concesion_bonita' => array(
+            'uuid' => array(
+                'rule' => array('valida_concesion'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La concesión especificada no existe.',
             ),
         ),
         'tumba_bonita' => array(
@@ -234,6 +262,16 @@ class ArrendatarioTumba extends AppModel {
             'counterCache' => '',
             'counterScope' => '',
         ),
+        'Concesion' => array(
+            'className' => 'Concesion',
+            'foreignKey' => 'concesion_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
         'Tumba' => array(
             'className' => 'Tumba',
             'foreignKey' => 'tumba_id',
@@ -262,6 +300,13 @@ class ArrendatarioTumba extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
+        //Vector de estados de arrendamiento de una tumba
+        $this->estado = array(
+            'Antiguo' => __('Antiguo', true),
+            'Vigente' => __('Vigente', true),
+            'Caducado' => __('Caducado', true),
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -275,8 +320,8 @@ class ArrendatarioTumba extends AppModel {
     public function valida_tumba($check) {
         
         //Extraer el ID de la tumba
-        if (!empty($this->data['ArrendatarioTumba']['tumba_id'])) {
-            $id = $this->data['ArrendatarioTumba']['tumba_id'];
+        if (!empty($this->data['Arrendamiento']['tumba_id'])) {
+            $id = $this->data['Arrendamiento']['tumba_id'];
         }
         else {
             //Devolver error
@@ -311,6 +356,50 @@ class ArrendatarioTumba extends AppModel {
     }
     
     /**
+     * valida_concesion method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_concesion($check) {
+        
+        //Extraer el ID de la concesión
+        if (!empty($this->data['Arrendamiento']['concesion_id'])) {
+            $id = $this->data['Arrendamiento']['concesion_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una concesión con el ID especificado
+        $concesion = $this->Concesion->find('first', array(
+         'conditions' => array(
+          'Concesion.id' => $id,
+         ),
+         'fields' => array(
+          'Concesion.id'
+         ),
+          'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la concesión especificada
+        if (empty($concesion['Concesion']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
      * valida_arrendatario method
      *
      * @param array $check elements for validate
@@ -322,39 +411,39 @@ class ArrendatarioTumba extends AppModel {
         $estado = (string) $check['estado'];
         
         //Extraer el ID de la tumba
-        if (isset($this->data['ArrendatarioTumba']['tumba_id'])) {
-            $tumba = $this->data['ArrendatarioTumba']['tumba_id'];
+        if (isset($this->data['Arrendamiento']['tumba_id'])) {
+            $tumba = $this->data['Arrendamiento']['tumba_id'];
         }
         else {
             $tumba = '';
         }
         
         //Extraer el ID del arrendatario
-        if (isset($this->data['ArrendatarioTumba']['arrendatario_id'])) {
-            $arrendatario = $this->data['ArrendatarioTumba']['arrendatario_id'];
+        if (isset($this->data['Arrendamiento']['arrendatario_id'])) {
+            $arrendatario = $this->data['Arrendamiento']['arrendatario_id'];
         }
         else {
             $arrendatario = '';
         }
         
-        //Comprobar si el estado del arrendamiento es "Actual"
-        if ($estado == "Actual") {
+        //Comprobar si el estado del arrendamiento es "Vigente"
+        if ($estado == "Vigente") {
             //Buscar si ya había otro arrendatario "Actual" para esta tumba
             $arrendador = $this->find('first', array(
              'conditions' => array(
-              'ArrendatarioTumba.arrendatario_id !=' => $arrendatario,
-              'ArrendatarioTumba.tumba_id' => $tumba,
-              'ArrendatarioTumba.estado' => "Actual",
+              'Arrendamiento.arrendatario_id !=' => $arrendatario,
+              'Arrendamiento.tumba_id' => $tumba,
+              'Arrendamiento.estado' => "Vigente",
              ),
              'fields' => array(
-              'ArrendatarioTumba.id', 'ArrendatarioTumba.arrendatario_id', 'ArrendatarioTumba.tumba_id'
+              'Arrendamiento.id'
              ),
              'contain' => array(
              ),
             ));
             
-            //Comprobar si existe un arrendatario con el mismo DNI
-            if (!empty($arrendador['ArrendatarioTumba']['arrendatario_id'])) {
+            //Comprobar si existe otro arrendatario "Vigente" para esta tumba
+            if (!empty($arrendador['Arrendamiento']['id'])) {
                 //Devolver error
                 return false;
             }

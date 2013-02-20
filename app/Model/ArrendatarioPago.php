@@ -6,9 +6,9 @@ App::uses('AppModel', 'Model');
  * ArrendatarioFuneraria Model
  *
  * @property Arrendatario $Arrendatario
- * @property Funeraria $Funeraria
+ * @property Pago $Pago
  */
-class ArrendatarioFuneraria extends AppModel {
+class ArrendatarioPago extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +42,7 @@ class ArrendatarioFuneraria extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'arrendatarios_funerarias';
+    public $useTable = 'arrendatarios_pagos';
     
     /**
      * Name of the table prefix
@@ -70,14 +70,14 @@ class ArrendatarioFuneraria extends AppModel {
      *
      * @var string
      */
-    public $name = 'ArrendatarioFuneraria';
+    public $name = 'ArrendatarioPago';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'ArrendatarioFuneraria';
+    public $alias = 'ArrendatarioPago';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -131,7 +131,7 @@ class ArrendatarioFuneraria extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de arrendatario-funeraria.',
+                'message' => 'Error inesperado al generar ID de arrendatario-pago.',
             ),
         ),
         'arrendatario_id' => array(
@@ -143,23 +143,23 @@ class ArrendatarioFuneraria extends AppModel {
                 'message' => 'Error inesperado al asociar ID de arrendatario.',
             ),
         ),
-        'funeraria_id' => array(
+        'pago_id' => array(
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al asociar ID de funeraria.',
+                'message' => 'Error inesperado al asociar ID de pago.',
             ),
         ),
         //Campos imaginarios
-        'funeraria_bonita' => array(
-            'existe_funeraria' => array(
-                'rule' => array('valida_funeraria'),
-                'required' => false,
+        'arrendatario_bonito' => array(
+            'existe_arrendatario' => array(
+                'rule' => array('valida_arrendatario'),
+                'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La funeraria especificada no existe.',
+                'message' => 'El arrendatario especificado no existe.',
             ),
         ),
     );
@@ -186,9 +186,9 @@ class ArrendatarioFuneraria extends AppModel {
             'counterCache' => '',
             'counterScope' => '',
         ),
-        'Funeraria' => array(
-            'className' => 'Funeraria',
-            'foreignKey' => 'funeraria_id',
+        'Pago' => array(
+            'className' => 'Pago',
+            'foreignKey' => 'pago_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -219,36 +219,36 @@ class ArrendatarioFuneraria extends AppModel {
     }
     
     /**
-     * valida_funeraria method
+     * valida_arrendatario method
      *
      * @param array $check elements for validate
      * @return boolean
      */
-    public function valida_funeraria($check) {
+    public function valida_arrendatario($check) {
         
-        //Extraer el ID de la funeraria
-        if (!empty($this->data['ArrendatarioFuneraria']['funeraria_id'])) {
-            $id = $this->data['ArrendatarioFuneraria']['funeraria_id'];
+        //Extraer el ID del arrendatario
+        if (!empty($this->data['ArrendatarioPago']['arrendatario_id'])) {
+            $id = $this->data['ArrendatarioPago']['arrendatario_id'];
         }
         else {
             //Devolver error
             return false;
         }
         
-        //Buscar si hay existe una funeraria con el ID especificado
-        $funeraria = $this->Funeraria->find('first', array(
+        //Buscar si hay existe un arrendatario con el ID especificado
+        $arrendatario = $this->Arrendatario->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id,
+          'Arrendatario.id' => $id,
          ),
          'fields' => array(
-          'Funeraria.id'
+          'Arrendatario.id'
          ),
          'contain' => array(
          ),
         ));
         
-        //Comprobar si existe la funeraria especificada
-        if (empty($funeraria['Funeraria']['id'])) {
+        //Comprobar si existe el arrendatario especificado
+        if (empty($arrendatario['Arrendatario']['id'])) {
             //Devolver error
             return false;
         }

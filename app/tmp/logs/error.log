@@ -1921,3 +1921,78 @@ Stack Trace:
 #1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendatariosController), Object(CakeRequest), Object(CakeResponse))
 #2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2013-02-20 08:35:55 Error: Fatal Error (1): Call to a member function image() on a non-object in [C:\wamp\www\cacaphp\app\View\Themed\960-fluid\webroot\css\pie.css, line 80]
+2013-02-20 08:35:55 Error: [FatalErrorException] Call to a member function image() on a non-object
+Stack Trace:
+#0 C:\wamp\www\cacaphp\lib\Cake\Error\ErrorHandler.php(183): ErrorHandler::handleFatalError(1, 'Call to a membe...', 'C:\wamp\www\cac...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', 'C:\wamp\www\cac...', 80, Array)
+#2 C:\wamp\www\cacaphp\lib\Cake\Core\App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', 'C:\wamp\www\cac...', 80, Array)
+#3 C:\wamp\www\cacaphp\lib\Cake\Core\App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-02-20 08:35:58 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-02-20 08:41:53 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-02-20 08:41:57 Error: [MissingControllerException] Controller class ArrendamientosController could not be found.
+Exception Attributes: array (
+  'class' => 'ArrendamientosController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/arrendamientos
+Stack Trace:
+#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-02-20 08:42:58 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-02-20 08:49:25 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-02-20 08:49:27 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-02-20 08:49:28 Error: [MissingViewException] View file "C:\wamp\www\cacaphp\app\View\Themed\960-fluid\Arrendamientos\index.ctp" is missing.
+Exception Attributes: array (
+  'file' => 'C:\\wamp\\www\\cacaphp\\app\\View\\Themed\\960-fluid\\Arrendamientos\\index.ctp',
+)
+Request URL: /cacaphp/arrendamientos
+Stack Trace:
+#0 C:\wamp\www\cacaphp\lib\Cake\View\View.php(467): View->_getViewFileName(NULL)
+#1 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(947): View->render(NULL, NULL)
+#2 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(193): Controller->render()
+#3 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendamientosController), Object(CakeRequest), Object(CakeResponse))
+#4 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}

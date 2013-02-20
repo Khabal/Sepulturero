@@ -4,15 +4,15 @@ App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 
 /**
- * Arrendatarios Controller
+ * Arrendamientos Controller
  *
- * @property Arrendatario $Arrendatario
+ * @property Arrendamiento $Arrendamiento
  * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
  */
-class ArrendatariosController extends AppController {
+class ArrendamientosController extends AppController {
     
     /**
      * ----------------------
@@ -53,14 +53,14 @@ class ArrendatariosController extends AppController {
      *
      * @var string
      */
-    public $modelClass = 'Arrendatario';
+    public $modelClass = 'Arrendamiento';
     
     /**
      * Controller name
      *
      * @var string
      */
-    public $name = 'Arrendatarios';
+    public $name = 'Arrendamientos';
     
     /**
      * Theme name
@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Arrendatario', 'ArrendatarioFuneraria', 'ArrendatarioTumba', 'Funeraria', 'Persona', 'Tumba', 'Sanitize');
+    public $uses = array('Arrendamiento', 'Arrendatario', 'Concesion', 'Tumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -144,7 +144,6 @@ class ArrendatariosController extends AppController {
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
             'Arrendatario' => array('id', 'persona_id', 'direccion', 'localidad', 'provincia', 'pais', 'codigo_postal', 'telefono', 'correo_electronico'),
             'ArrendatarioFuneraria' => array('id', 'arrendatario_id', 'funeraria_id'),
-            'ArrendatarioTumba' => array('id', 'arrendatario_id', 'tumba_id', 'fecha_arrendamiento', 'estado'),
         ),
         'validate' => false,
     );
@@ -167,13 +166,45 @@ class ArrendatariosController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Arrendatario->parseCriteria($this->params->query),
+         'conditions' => $this->Arrendamiento->parseCriteria($this->params->query),
          'contain' => array(
+'Arrendatario' => array(
           'Persona' => array(
            'fields' => array(
             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
            ),
           ),
+),
+'Concesion' => array(
+           'fields' => array(
+'Concesion.id'
+),
+),
+           'Tumba' => array(
+            'Columbario' => array(
+             'fields' => array(
+              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+             ),
+            ),
+            'Nicho' => array(
+             'fields' => array(
+              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+             ),
+            ),
+            'Panteon' => array(
+             'fields' => array(
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+             ),
+            ),
+            'Exterior' => array(
+             'fields' => array(
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
+            'fields' => array(
+             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
+           ),
          ),
         );
         
@@ -238,17 +269,6 @@ class ArrendatariosController extends AppController {
                 }
             }
             
-            //Comprobar si hay tumbas vacías y eliminarlas
-            if(isset($this->request->data['ArrendatarioTumba'])) {
-                $i = 0;
-                foreach ($this->request->data['ArrendatarioTumba'] as $tumba) {
-                    if (empty($tumba['tumba_bonita']) && empty($tumba['fecha_bonita'])) {
-                        unset($this->request->data['ArrendatarioTumba'][$i]);
-                    }
-                    $i++;
-                }
-            }
-            
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
@@ -271,7 +291,6 @@ class ArrendatariosController extends AppController {
                $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
-        print_r($this->Arrendatario->invalidFields());
     }
     
     /**

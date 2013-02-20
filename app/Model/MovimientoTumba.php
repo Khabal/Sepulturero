@@ -3,12 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * DifuntoTraslado Model
+ * TrasladoTumba Model
  *
- * @property Difunto $Difunto
  * @property Traslado $Traslado
+ * @property Tumba $Tumba
  */
-class DifuntoTraslado extends AppModel {
+class TrasladoTumba extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +42,7 @@ class DifuntoTraslado extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'difuntos_traslados';
+    public $useTable = 'traslados_tumbas';
     
     /**
      * Name of the table prefix
@@ -70,14 +70,14 @@ class DifuntoTraslado extends AppModel {
      *
      * @var string
      */
-    public $name = 'DifuntoTraslado';
+    public $name = 'TrasladoTumba';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'DifuntoTraslado';
+    public $alias = 'TrasladoTumba';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -136,7 +136,7 @@ class DifuntoTraslado extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'difunto_id' => array(
+		'traslado_id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
@@ -146,7 +146,7 @@ class DifuntoTraslado extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'traslado_id' => array(
+		'tumba_id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
@@ -170,9 +170,9 @@ class DifuntoTraslado extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Difunto' => array(
-            'className' => 'Difunto',
-            'foreignKey' => 'difunto_id',
+        'Traslado' => array(
+            'className' => 'Traslado',
+            'foreignKey' => 'traslado_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -180,9 +180,9 @@ class DifuntoTraslado extends AppModel {
             'counterCache' => '',
             'counterScope' => '',
         ),
-        'Traslado' => array(
-            'className' => 'Traslado',
-            'foreignKey' => 'traslado_id',
+        'Tumba' => array(
+            'className' => 'Tumba',
+            'foreignKey' => 'tumba_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',

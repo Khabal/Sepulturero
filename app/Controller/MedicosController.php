@@ -6,13 +6,13 @@ App::uses('Sanitize', 'Utility');
 /**
  * Difuntos Controller
  *
- * @property Difunto $Difunto
+ * @property Medico $Medico
  * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
  */
-class DifuntosController extends AppController {
+class MedicosController extends AppController {
     
     /**
      * ----------------------
@@ -53,14 +53,14 @@ class DifuntosController extends AppController {
      *
      * @var string
      */
-    public $modelClass = 'Difunto';
+    public $modelClass = 'Medico';
     
     /**
      * Controller name
      *
      * @var string
      */
-    public $name = 'Difuntos';
+    public $name = 'Medicos';
     
     /**
      * Theme name
@@ -95,7 +95,7 @@ class DifuntosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Difunto', 'DifuntoTraslado', 'Enterramiento', 'Persona', 'Traslado', 'Tumba', 'Sanitize');
+    public $uses = array('Medico', 'Difunto', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -142,8 +142,7 @@ class DifuntosController extends AppController {
         'deep' => false,
         'fieldList' => array(
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
-            'Difunto' => array('id', 'persona_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad_defuncion', 'causa_defuncion'),
-            'Tumba' => array('id', 'poblacion'),
+            'Medico' => array('id', 'persona_id', 'numero_colegiado', 'colegio', 'telefono', 'correo_electronico'),
         ),
         'validate' => false,
     );
@@ -225,11 +224,11 @@ class DifuntosController extends AppController {
             //Crear nuevo difunto con id único
             $this->Difunto->create();
             
-            //Convertir a mayúsculas el carácter del DNI
-            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-            
             //Comprobar si ha introducido un DNI
             if (!empty($this->request->data['Persona']['dni'])) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Buscar si existe ya una persona con el mismo DNI
                 $persona = $this->Difunto->Persona->find('first', array(

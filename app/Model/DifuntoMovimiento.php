@@ -3,12 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Arrendatario Model
+ * DifuntoTraslado Model
  *
- * @property Enterramiento $Enterramiento
- * @property Tasa $Tasa
+ * @property Difunto $Difunto
+ * @property Traslado $Traslado
  */
-class EnterramientoTasa extends AppModel {
+class DifuntoTraslado extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +42,7 @@ class EnterramientoTasa extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'enterramientos_tasas';
+    public $useTable = 'difuntos_traslados';
     
     /**
      * Name of the table prefix
@@ -70,14 +70,14 @@ class EnterramientoTasa extends AppModel {
      *
      * @var string
      */
-    public $name = 'EnterramientoTasa';
+    public $name = 'DifuntoTraslado';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'EnterramientoTasa';
+    public $alias = 'DifuntoTraslado';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -136,7 +136,7 @@ class EnterramientoTasa extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'enterramiento_id' => array(
+		'difunto_id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
@@ -146,7 +146,7 @@ class EnterramientoTasa extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'tasa_id' => array(
+		'traslado_id' => array(
 			'uuid' => array(
 				'rule' => array('uuid'),
 				//'message' => 'Your custom message here',
@@ -170,9 +170,9 @@ class EnterramientoTasa extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Enterramiento' => array(
-            'className' => 'Enterramiento',
-            'foreignKey' => 'enterramiento_id',
+        'Difunto' => array(
+            'className' => 'Difunto',
+            'foreignKey' => 'difunto_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -180,9 +180,9 @@ class EnterramientoTasa extends AppModel {
             'counterCache' => '',
             'counterScope' => '',
         ),
-        'Tasa' => array(
-            'className' => 'Tasa',
-            'foreignKey' => 'tasa_id',
+        'Traslado' => array(
+            'className' => 'Traslado',
+            'foreignKey' => 'traslado_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
