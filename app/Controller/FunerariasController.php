@@ -88,14 +88,14 @@ class FunerariasController extends AppController {
      *
      * @var array
      */
-    public $methods = array('index', 'nuevo', 'ver', 'buscar', 'editar', 'imprimir', 'pdf');
+    public $methods = array('index', 'nuevo', 'ver', 'buscar', 'editar', 'imprimir', 'exportar_pdf');
     
     /**
      * Uses
      *
      * @var array
      */
-    public $uses = array('Funeraria', 'Sanitize');
+    public $uses = array('Funeraria', 'ArrendatarioFuneraria', 'Sanitize');
     
     /**
      * ---------------------------
@@ -120,7 +120,8 @@ class FunerariasController extends AppController {
         ),
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
-        'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
+        //'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
+        'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -141,9 +142,9 @@ class FunerariasController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Funeraria' => array('id', 'nombre', 'direccion', 'telefono', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
+            'Funeraria' => array('id', 'cif', 'nombre', 'direccion', 'telefono', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
         ),
-        'validate' => 'first',
+        'validate' => false,
     );
     
     /**
@@ -164,12 +165,12 @@ class FunerariasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-            'conditions' => $this->Funeraria->parseCriteria($this->params->query),
-            'contain' => array(
-            ),
-            'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
-            ),
+         'fields' => array(
+          'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
+         ),
+		 'conditions' => $this->Funeraria->parseCriteria($this->passedArgs),
+         'contain' => array(
+         ),
         );
         
         //Devolver paginación
@@ -193,21 +194,26 @@ class FunerariasController extends AppController {
             //Crear nueva funeraria con id único
             $this->Funeraria->create();
             
-            //Guardar y comprobar éxito
-            if ($this->Funeraria->save($this->request->data)) {
-                $this->Session->setFlash(__('La funeraria ha sido guardada correctamente.'));
-                //Obtener a donde se redireccionará
-                $accion = $this->request->query['accion'];
-                //Redireccionar según corresponda
-                if ($accion == 'guardar_y_nuevo') {
-                    $this->redirect(array('action' => 'nuevo'));
+            //Validar los datos introducidos
+            if ($this->Funeraria->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Guardar y comprobar éxito
+                if ($this->Funeraria->save($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('La funeraria ha sido guardada correctamente.'));
+                    //Redireccionar según corresponda
+                    if (isset($this->request->data['guardar_y_nuevo'])) {
+                        $this->redirect(array('action' => 'nuevo'));
+                    }
+                    else {
+                        $this->redirect(array('action' => 'index'));
+                    }
                 }
                 else {
-                    $this->redirect(array('action' => 'index'));
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser guardada.'));
                 }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser guardada.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         
@@ -216,7 +222,6 @@ class FunerariasController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -227,7 +232,8 @@ class FunerariasController extends AppController {
         
         //Comprobar si existe la funeraria
         if (!$this->Funeraria->exists()) {
-            throw new NotFoundException(__('La funeraria especificada no existe.'));
+             $this->Session->setFlash(__('La funeraria especificada no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
         //Cargar toda la información relevante relacionada con la funeraria
@@ -253,13 +259,13 @@ class FunerariasController extends AppController {
     public function buscar() {
         
         //Redireccionar
+        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
         $this->redirect(array('action' => 'index'));
     }
     
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -267,11 +273,11 @@ class FunerariasController extends AppController {
         
         //Asignar id
         $this->Funeraria->id = $id;
-        $this->request->data['Funeraria']['id'] = $id;
         
         //Comprobar si existe la funeraria
         if (!$this->Funeraria->exists()) {
-            throw new NotFoundException(__('La funeraria especificada no existe.'));
+             $this->Session->setFlash(__('La funeraria especificada no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
         //Comprobar si se está enviando el formulario
@@ -280,14 +286,26 @@ class FunerariasController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Guardar y comprobar éxito
-            if ($this->Funeraria->save($this->request->data)) {
-                $this->Session->setFlash(__('La funeraria ha sido actualizada correctamente.'));
-                //Redireccionar a index
-                $this->redirect(array('action' => 'index'));
+            //Cargar datos de la sesión
+            $this->request->data['Funeraria']['id'] = $id;
+            
+            //Validar los datos introducidos
+            if ($this->Funeraria->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Guardar y comprobar éxito
+                if ($this->Funeraria->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('La funeraria ha sido actualizada correctamente.'));
+                    //Borrar datos de sesión
+                    $this->Session->delete('Funeraria');
+                    //Redireccionar a index
+                    $this->redirect(array('action' => 'index'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser actualizada.'));
+                            }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser actualizada.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         else {
@@ -299,6 +317,10 @@ class FunerariasController extends AppController {
              'contain' => array(
              ),
             ));
+            
+           //Guardar los datos de sesión de la funeraria
+            $this->Session->write('Funeraria.id', $this->request->data['Funeraria']['id']);
+            $this->Session->write('Funeraria.nombre', $this->request->data['Funeraria']['nombre']);
         }
         
     }
@@ -313,111 +335,70 @@ class FunerariasController extends AppController {
     public function imprimir($id = null) {
         
         //Asignar id
-        $this->Arrendatario->id = $id;
+        $this->Funeraria->id = $id;
         
-        //Comprobar si existe el arrendatario
-        if (!$this->Arrendatario->exists()) {
-            throw new NotFoundException(__('El arrendatario especificado no existe.'));
+        //Comprobar si existe la funeraria
+        if (!$this->Funeraria->exists()) {
+            $this->Session->setFlash(__('La funeraria especificada no existe.'));
+            $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con el arrendatario
-        $arrendatario = $this->Arrendatario->find('first', array(
+        //Cargar toda la información relevante relacionada con la funeraria
+        $funeraria = $this->Funeraria->find('first', array(
          'conditions' => array(
-          'Arrendatario.id' => $id
+          'Funeraria.id' => $id
          ),
          'contain' => array(
-          'Persona' => array(
-           'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
-           ),
-          ),
-          'ArrendatarioFuneraria' => array(
-           'Funeraria' => array(
-            'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
-            ),
-           ),
-          ),
-          'ArrendatarioTumba' => array(
-           'Tumba' => array(
-            'Columbario','Nicho','Panteon','Exterior',
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
-           ),
-          ),
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $arrendatario['Persona']['nombre_completo'] . " - " . $arrendatario['Persona']['dni'];
-        $this->pdfConfig['filename'] = "Arrendatario_" . $arrendatario['Persona']['dni'] . ".pdf";
+        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
+        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
         
         //Redireccionar para la generación
         
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('arrendatario'));
+        $this->set(compact('funeraria'));
         
     }
     
     /**
-     * pdf method
+     * exportar_pdf method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
-    public function pdf($id = null) {
+    public function exportar_pdf($id = null) {
         
         //Asignar id
-        $this->Arrendatario->id = $id;
+        $this->Funeraria->id = $id;
         
-        //Comprobar si existe el arrendatario
-        if (!$this->Arrendatario->exists()) {
-            throw new NotFoundException(__('El arrendatario especificado no existe.'));
+        //Comprobar si existe la funeraria
+        if (!$this->Funeraria->exists()) {
+            $this->Session->setFlash(__('La funeraria especificada no existe.'));
+            $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con el arrendatario
-        $arrendatario = $this->Arrendatario->find('first', array(
+        //Cargar toda la información relevante relacionada con la funeraria
+        $funeraria = $this->Funeraria->find('first', array(
          'conditions' => array(
-          'Arrendatario.id' => $id
+          'Funeraria.id' => $id
          ),
          'contain' => array(
-          'Persona' => array(
-           'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
-           ),
-          ),
-          'ArrendatarioFuneraria' => array(
-           'Funeraria' => array(
-            'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
-            ),
-           ),
-          ),
-          'ArrendatarioTumba' => array(
-           'Tumba' => array(
-            'Columbario','Nicho','Panteon','Exterior',
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
-           ),
-          ),
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $arrendatario['Persona']['nombre_completo'] . " - " . $arrendatario['Persona']['dni'];
-        $this->pdfConfig['filename'] = "Arrendatario_" . $arrendatario['Persona']['dni'] . ".pdf";
-        
-        //Redireccionar para la generación
-        
+        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
+        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
+        $this->pdfConfig['download'] = true;
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('arrendatario'));
+        $this->set(compact('funeraria'));
         
     }
     
@@ -447,11 +428,11 @@ class FunerariasController extends AppController {
         //Borrar y comprobar éxito
         if ($this->Funeraria->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.funeraria_id' => $id), false, false) && $this->Funeraria->delete()) {
             $this->Session->setFlash(__('La funeraria ha sido eliminada correctamente.'));
-            //Redireccionar a index
-            $this->redirect(array('action' => 'index'));
+        }
+        else {
+            $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser eliminada.'));
         }
         
-        $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser eliminada.'));
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         
@@ -500,7 +481,6 @@ class FunerariasController extends AppController {
         $this->autoRender = false;
         
         echo json_encode($items);
-        
     }
 
 }

@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
+    public $uses = array('X', 'Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -357,9 +357,6 @@ class ArrendatariosController extends AppController {
      */
     public function editar($id = null) {
         
-        //Devolver las opciones de selección de estado del arrendamiento de la tumba
-        $this->set('estado', $this->Arrendatario->estado);
-        
         //Asignar id
         $this->Arrendatario->id = $id;
         
@@ -378,7 +375,6 @@ class ArrendatariosController extends AppController {
             //Cargar datos de la sesión
             $this->request->data['Arrendatario']['id'] = $id;
             $this->request->data['Persona']['arrendatario_id'] = $id;
-            $this->request->data['ArrendatarioTumba']['arrendatario_id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Arrendatario.persona_id');
             $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
             
@@ -393,28 +389,25 @@ class ArrendatariosController extends AppController {
                 }
             }
             
-            //Comprobar si hay tumbas vacías y eliminarlas
-            if(isset($this->request->data['ArrendatarioTumba'])) {
-                $i = 0;
-                foreach ($this->request->data['ArrendatarioTumba'] as $tumba) {
-                    if (empty($tumba['tumba_bonita'])) {
-                        unset($this->request->data['ArrendatarioTumba'][$i]);
-                    }
-                    $i++;
+            //Validar los datos introducidos
+            if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Guardar y comprobar éxito
+                if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El arrendatario ha sido actualizado correctamente.'));
+                    //Borrar datos de sesión
+                    $this->Session->delete('Arrendatario');
+                    //Redireccionar a index
+                    $this->redirect(array('action' => 'index'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser actualizado.'));
                 }
             }
-            
-            //Guardar y comprobar éxito
-            if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                $this->Session->setFlash(__('El arrendatario ha sido actualizado correctamente.'));
-                //Borrar datos de sesión
-                $this->Session->delete('Arrendatario');
-                //Redireccionar a index
-                $this->redirect(array('action' => 'index'));
-            }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser actualizado.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
+            
         }
         else {
             //Devolver los datos actuales del arrendatario
@@ -461,7 +454,6 @@ class ArrendatariosController extends AppController {
     /**
      * print method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -472,8 +464,8 @@ class ArrendatariosController extends AppController {
         
         //Comprobar si existe el arrendatario
         if (!$this->Arrendatario->exists()) {
-             $this->Session->setFlash(__('El arrendatario especificado no existe.'));
-             $this->redirect(array('action' => 'index'));
+            $this->Session->setFlash(__('El arrendatario especificado no existe.'));
+            $this->redirect(array('action' => 'index'));
         }
         
         //Cargar toda la información relevante relacionada con el arrendatario
@@ -605,8 +597,8 @@ class ArrendatariosController extends AppController {
         
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $arrendatario['Persona']['nombre_completo'] . " - " . $arrendatario['Persona']['dni'];
-        $this->pdfConfig['download'] = true;
         $this->pdfConfig['filename'] = "Arrendatario_" . $arrendatario['Persona']['dni'] . ".pdf";
+        $this->pdfConfig['download'] = true;
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)

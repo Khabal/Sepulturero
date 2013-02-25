@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Arrendatario.id'), $this->Session->read('Arrendatario.nombre_completo')); ?>
 </div>
 
 <?php
@@ -48,9 +48,6 @@
 ?>
 
 <script>
- var errores = <?php echo $mensajes_error; ?>;
- var num = 0;
- 
  $(function() {
    /* Formulario sheepIt para agregar funerarias */
    $("#SubFormularioFuneraria").sheepIt({
@@ -62,7 +59,6 @@
      allowAddN: false,
      maxFormsCount: 100,
      minFormsCount: 0,
-     continuousIndex: false,
      iniFormsCount: <?php echo h($ini_f); ?>,
      removeAllConfirmationMsg: '¿Eliminar todas las funerarias asociadas?',
      data: <?php echo $data_f; ?>,
@@ -83,7 +79,7 @@
              },
              timeout: 2000,
              success: function(data) {
-               response($.map(data, function(x) {
+               response( $.map(data, function(x) {
                  return {
                    label: x.label,
                    value: x.value
@@ -121,8 +117,8 @@
  });
 </script>
 
-<?php /* Formulario nuevo arrendatario */ ?>
-<div class="add form">
+<?php /* Formulario arrendatario */ ?>
+<div class="edit form">
  <?php echo $this->Form->create('Arrendatario'); ?>
   <fieldset>
    <legend><?php echo __('Datos del arrendatario'); ?></legend>
@@ -132,10 +128,10 @@
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
     echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
     echo $this->Form->input('Arrendatario.direccion', array('label' => 'Dirección:'));
-    echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:', 'default' => 'Motril'));
-    echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:', 'default' => 'Granada'));
-    echo $this->Form->input('Arrendatario.pais', array('label' => 'País:', 'default' => 'España'));
-    echo $this->Form->input('Arrendatario.codigo_postal', array('label' => 'Código postal:', 'default' => '18600'));
+    echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:'));
+    echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:'));
+    echo $this->Form->input('Arrendatario.pais', array('label' => 'País:'));
+    echo $this->Form->input('Arrendatario.codigo_postal', array('label' => 'Código postal:'));
     echo $this->Form->input('Arrendatario.telefono', array('label' => 'Teléfono:'));
     echo $this->Form->input('Arrendatario.correo_electronico', array('label' => 'Correo electrónico:'));
     echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
@@ -158,11 +154,10 @@
      <a id="SubFormularioFuneraria_remove_all" class="boton"> <?php echo $this->Html->image('limpiar.png', array('alt' => 'limpiar', 'style' => 'height:24px; width:24px;')) . ' Eliminar todas las funerarias'; ?> </a>
     </div>
    </div>
-  </fieldset>
+ </fieldset>
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
+  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
   echo $this->Form->end();
  ?>
 </div>

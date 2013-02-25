@@ -7,34 +7,34 @@
 <?php
  /*
  echo '<pre>';
- print_r($arrendatarios);
+ print_r($arrendamientos);
  echo '</pre>';
  */
 ?>
 
-<?php /* Tabla arrendatarios */ ?>
+<?php /* Tabla arrendamientos */ ?>
 <div class="index box">
- <h2><?php echo __('Arrendatarios'); ?></h2>
+ <h2><?php echo __('Arrendamientos'); ?></h2>
  <table cellpadding="0" cellspacing="0">
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
-    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.direccion', 'Dirección'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.localidad', 'Localidad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.provincia', 'Provincia'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.pais', 'País'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Localidad'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Provincia'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.pais', 'País'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.codigo_postal', 'Código postal'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.telefono', 'Teléfono'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.correo_electronico', 'Correo electrónico'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
-  <?php /* Listado de arrendatarios */ ?>
+  <?php /* Listado de arrendamientos */ ?>
   <tbody>
    <?php $i = 0; ?>
-   <?php foreach($arrendatarios as $arrendatario): ?>
+   <?php foreach($arrendamientos as $arrendatario): ?>
     <?php $class = null; if($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
     <tr<?php echo $class; ?>>
      <td>
@@ -42,7 +42,7 @@
      </td>
      <td>
 	 <?php
-       if (!empty($arrendatario['Persona']['dni'])) {
+       if ($arrendatario['Persona']['dni']) {
         echo h($arrendatario['Persona']['dni']);
        }
        else {
@@ -54,7 +54,7 @@
      <td><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['provincia'])) {
+       if ($arrendatario['Arrendatario']['provincia']) {
         echo h($arrendatario['Arrendatario']['provincia']);
        }
        else {
@@ -66,7 +66,7 @@
      <td><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono'])) {
+       if ($arrendatario['Arrendatario']['telefono']) {
         echo h($arrendatario['Arrendatario']['telefono']);
        }
        else {
@@ -76,7 +76,7 @@
      </td>
      <td class="email">
       <?php
-       if (!empty($arrendatario['Arrendatario']['correo_electronico'])) {
+       if ($arrendatario['Arrendatario']['correo_electronico']) {
         echo h($arrendatario['Arrendatario']['correo_electronico']);
        }
        else {

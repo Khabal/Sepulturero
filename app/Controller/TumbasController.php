@@ -95,7 +95,7 @@ class TumbasController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Tumba', 'Arrendatario', 'ArrendatarioTumba', 'Columbario', 'Difunto', 'DifuntoTraslado', 'Enterramiento', 'Exterior', 'Nicho', 'Panteon', 'Persona', 'Traslado', 'TrasladoTumba', 'Sanitize');
+    public $uses = array('Tumba', 'Arrendamiento', 'Columbario', 'Difunto', 'Exterior', 'MovimientoTumba', 'Nicho', 'Panteon', 'Sanitize');
     
     /**
      * ---------------------------
@@ -142,12 +142,12 @@ class TumbasController extends AppController {
         'deep' => false,
         'fieldList' => array(
             'Tumba' => array('id', 'tipo', 'poblacion', 'observaciones'),
-            'Columbario' => array('id', 'tumba_id', 'numero_columbario', 'fila', 'patio'),
+            'Columbario' => array('id', 'tumba_id', 'numero_columbario', 'letra', 'fila', 'patio'),
             'Exterior' => array('id', 'tumba_id'),
-            'Nicho' => array('id', 'tumba_id', 'numero_nicho', 'fila', 'patio'),
+            'Nicho' => array('id', 'tumba_id', 'numero_nicho', 'letra', 'fila', 'patio'),
             'Panteon' => array('id', 'tumba_id', 'numero_panteon', 'familia', 'patio'),
         ),
-        'validate' => 'first',
+        'validate' => false,
     );
     
     /**
@@ -167,32 +167,32 @@ class TumbasController extends AppController {
         $this->Prg->commonProcess();
         
         //Establecer parámetros de paginación
-        $this->paginate = array( 
-         'conditions' => $this->Tumba->parseCriteria($this->params->query),
+        $this->paginate = array(
+         'fields' => array(
+          'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+         ),
+         'conditions' => $this->Tumba->parseCriteria($this->passedArgs),
          'contain' => array(
           'Columbario' => array(
            'fields' => array(
-            //'Columbario.id', 'Columbario.tumba_id', 'Columbario.identificador'
+            'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
            ),
           ),
           'Exterior' => array(
            'fields' => array(
-            //'Exterior.id', 'Exterior.tumba_id', 'Exterior.identificador'
+            'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
            ),
           ),
           'Nicho' => array(
            'fields' => array(
-            //'Nicho.id', 'Nicho.tumba_id', 'Nicho.identificador'
+            'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
            ),
           ),
           'Panteon' => array(
            'fields' => array(
-            //'Panteon.id', 'Panteon.tumba_id', 'Panteon.identificador'
+            'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
            ),
           ),
-         ),
-         'fields' => array(
-          'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion', 'Tumba.id_columbario', 'Tumba.id_exterior', 'Tumba.id_nicho', 'Tumba.id_panteon'
          ),
         );
         

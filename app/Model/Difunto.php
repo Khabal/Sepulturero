@@ -6,9 +6,8 @@ App::uses('AppModel', 'Model');
  * Difunto Model
  *
  * @property DifuntoTraslado $DifuntoTraslado
- * @property Enterramiento $Enterramiento
+ * @property Medico $Medico
  * @property Persona $Persona
- * @property Traslado $Traslado
  * @property Tumba $Tumba
  */
 class Difunto extends AppModel {
@@ -66,7 +65,7 @@ class Difunto extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'persona_id';
+    public $displayField = 'certificado_defuncion';
     
     /**
      * Name of the model
@@ -94,10 +93,7 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array(
-        //'fecha_bonita' => 'DATE_FORMAT(Difunto.fecha_defuncion, "%d/%m/%Y")',
-        //'tumba_bonita' => '',
-    );
+    public $virtualFields = array();
     
     /**
      * List of behaviors
@@ -229,22 +225,6 @@ class Difunto extends AppModel {
      */
     
     /**
-     * hasOne associations
-     *
-     * @var array
-     */
-    public $hasOne = array(
-        'Enterramiento' => array(
-            'className' => 'Enterramiento',
-            'foreignKey' => 'difunto_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'dependent' => true,
-        ),
-    );
-    
-    /**
      * hasMany associations
      *
      * @var array
@@ -297,7 +277,6 @@ class Difunto extends AppModel {
      * ----------------------
      */
     
-
     /**
      * Constructor
      *
@@ -306,23 +285,13 @@ class Difunto extends AppModel {
      * @param string $ds Datasource
      * @return class object
      */
-
-    /**
-     * Constructor
-     *
-     * @param mixed $id Model ID
-     * @param string $table Table name
-     * @param string $ds Datasource
-     * @return class object
-     */
-
+    
     public function __construct ($id = false, $table = null, $ds = null) {
         
         //Añadir campos virtuales de "Persona"
         //$this->virtualFields += $this->Persona->virtualFields;
         
         //Vector de estados del cuerpo de un difunto
-
         $this->estado = array(
             'Cadáver' => __('Cadáver', true),
             'Cenizas' => __('Cenizas', true),
@@ -330,15 +299,6 @@ class Difunto extends AppModel {
         );
         
         //Llamar al constructor de la clase padre
-
-        $this->estado = array(
-            'Cadáver' => __('Cadáver', true),
-            'Cenizas' => __('Cenizas', true),
-            'Restos' => __('Restos', true),
-        );
-        
-        //Llamar al constructor de la clase padre
-
         parent::__construct($id, $table, $ds);
     }
     
@@ -392,21 +352,13 @@ class Difunto extends AppModel {
      * ---------------------------
      */
     
-
     /**
      * Field names accepted
      *
      * @var array
      * @see SearchableBehavior
      */
-
-    /**
-     * Field names accepted
-     *
-     * @var array
-     * @see SearchableBehavior
-     */
-
+    
     public $filterArgs = array(
         'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
     );
@@ -419,48 +371,27 @@ class Difunto extends AppModel {
      */
     public function buscarDifunto ($data = array()) {
         
-
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
             //Devolver resultados de la búsqueda
             return array();
         }
-
-        //Comprobar que se haya introducido un término de búsqueda
-        if (empty($data['clave'])) {
-            //Devolver resultados de la búsqueda
-            return array();
-        }
-
 	
         //Construir comodín para búsqueda
         $comodin = '%' . $data['clave'] . '%';
         
         //Devolver resultados de la búsqueda
-
         return array(
          'OR' => array(
-
-        return array(
-         'OR' => array(
-
           'Persona.nombre LIKE' => $comodin,
           'Persona.apellido1 LIKE' => $comodin,
           'Persona.apellido2 LIKE' => $comodin,
           'Persona.dni LIKE' => $comodin,
           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
-
           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
          )
         );
         
-
-          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
-         )
-        );
-        
-
     }
-
-
+    
 }

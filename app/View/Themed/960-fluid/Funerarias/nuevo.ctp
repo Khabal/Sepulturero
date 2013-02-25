@@ -1,15 +1,24 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu('funerarias'); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
+
+<?php
+ /*
+ echo '<pre>';
+ print_r($this->request->data);
+ echo '</pre>';
+ */
+?>
 
 <?php /* Formulario nueva funeraria */ ?>
 <div class="add form">
- <?php echo $this->Form->create('Funeraria', array('type' => 'post')); ?>
+ <?php echo $this->Form->create('Funeraria'); ?>
   <fieldset>
    <legend><?php echo __('Datos de la funeraria'); ?></legend>
    <?php /* Campos */
+    echo $this->Form->input('Funeraria.cif', array('label' => 'C.I.F.:'));
     echo $this->Form->input('Funeraria.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Funeraria.direccion', array('label' => 'Dirección:'));
     echo $this->Form->input('Funeraria.telefono', array('label' => 'Teléfono:'));
@@ -21,8 +30,8 @@
   </fieldset>
  <?php /* Botones */
   echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('value' => 'guardar_y_nuevo', 'type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
+  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
   echo $this->Form->end();
  ?>
 </div>

@@ -5,14 +5,13 @@ App::uses('AppModel', 'Model');
 /**
  * Tumba Model
  *
- * @property ArrendatarioTumba $ArrendatarioTumba
+ * @property Arrendamiento $Arrendamiento
  * @property Columbario $Columbario
  * @property Difunto $Difunto
- * @property Enterramiento $Enterramiento
  * @property Exterior $Exterior
+ * @property MovimientoTumba $MovimientoTumba
  * @property Nicho $Nicho
  * @property Panteon $Panteon
- * @property TrasladoTumba $TrasladoTumba
  */
 class Tumba extends AppModel {
     
@@ -132,17 +131,56 @@ class Tumba extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de tumba.',
+            ),
+        ),
+        'tipo' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de tumba no se puede dejar en blanco.',
+            ),
+            'lista_estado' => array(
+                'rule' => array('inList', array('Columbario', 'Exterior', 'Nicho', 'Panteón')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de tumba no se encuentra dentro de las opciones posibles.',
+            ),
+        ),
+        'poblacion' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La población de la tumba no se puede dejar en blanco.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', true),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La población de la tumba sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
 	);
     
     /**
@@ -197,8 +235,8 @@ class Tumba extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'ArrendatarioTumba' => array(
-            'className' => 'ArrendatarioTumba',
+        'Arrendamiento' => array(
+            'className' => 'Arrendamiento',
             'foreignKey' => 'tumba_id',
             'conditions' => '',
             'order' => '',
@@ -219,19 +257,8 @@ class Tumba extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-        'Enterramiento' => array(
-            'className' => 'Enterramiento',
-            'foreignKey' => 'tumba_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-        'TrasladoTumba' => array(
-            'className' => 'TrasladoTumba',
+        'MovimientoTumba' => array(
+            'className' => 'MovimientoTumba',
             'foreignKey' => 'tumba_id',
             'conditions' => '',
             'order' => '',
@@ -260,10 +287,10 @@ class Tumba extends AppModel {
     public function __construct($id = false, $table = null, $ds = null) {
         
         //Añadir campos virtuales de las distintas tumbas
-        $this->virtualFields['id_columbario'] = $this->Columbario->virtualFields['localizacion'];
-        $this->virtualFields['id_exterior'] = $this->Exterior->virtualFields['localizacion'];
-        $this->virtualFields['id_nicho'] = $this->Nicho->virtualFields['localizacion'];
-        $this->virtualFields['id_panteon'] = $this->Panteon->virtualFields['localizacion'];
+        //$this->virtualFields['id_columbario'] = $this->Columbario->virtualFields['localizacion'];
+        //$this->virtualFields['id_exterior'] = $this->Exterior->virtualFields['localizacion'];
+        //$this->virtualFields['id_nicho'] = $this->Nicho->virtualFields['localizacion'];
+        //$this->virtualFields['id_panteon'] = $this->Panteon->virtualFields['localizacion'];
         
         //Vector con los distintos tipos de tumbas
         $this->tipo = array(
@@ -303,20 +330,22 @@ class Tumba extends AppModel {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
-            //Devolver resultados de la búsqueda
+            //Devolver condiciones de la búsqueda
             return array();
         }
 	
         //Construir comodín para búsqueda
         $comodin = '%' . $data['clave'] . '%';
         
-        //Devolver resultados de la búsqueda
+        //Devolver condiciones de la búsqueda
         return array(
          'OR'  => array(
           'Tumba.tipo LIKE' => $comodin,
-          //BUSCAR POR ELEMENTOS SEPARADOS DE CADA TIPO DE TUMBA
-          'CONCAT("Número: ", Columbario.numero_columbario, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
-          'CONCAT("Número: ", Nicho.numero_nicho, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
           'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
          )
         );

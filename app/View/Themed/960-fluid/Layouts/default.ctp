@@ -182,17 +182,17 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
       </ul>
      </li>
-     <li><!-- Médicos -->
-      <?php echo $this->Html->link(__('Médicos'), array('controller' => 'medicos', 'action' => 'index')); ?>
+     <li><!-- Forenses -->
+      <?php echo $this->Html->link(__('Forenses'), array('controller' => 'forenses', 'action' => 'index')); ?>
       <ul>
        <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'medicos', 'action' => 'index')); ?>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'forenses', 'action' => 'index')); ?>
        </li>
        <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'medicos', 'action' => 'nuevo')); ?>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'forenses', 'action' => 'nuevo')); ?>
        </li>
        <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'medicos', 'action' => 'buscar')); ?>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'forenses', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>

@@ -27,7 +27,7 @@
   <dt><?php echo __('Provincia'); ?>:</dt>
   <dd>
    <?php
-    if (!empty($arrendatario['Arrendatario']['provincia'])) {
+    if ($arrendatario['Arrendatario']['provincia']) {
      echo h($arrendatario['Arrendatario']['provincia']);
     }
     else {
@@ -42,7 +42,7 @@
   <dt><?php echo __('Teléfono'); ?>:</dt>
   <dd>
    <?php
-    if (!empty($arrendatario['Arrendatario']['telefono'])) {
+    if ($arrendatario['Arrendatario']['telefono']) {
      echo h($arrendatario['Arrendatario']['telefono']);
     }
     else {
@@ -53,7 +53,7 @@
   <dt><?php echo __('Correo electrónico'); ?>:</dt>
   <dd class="email">
    <?php
-    if (!empty($arrendatario['Arrendatario']['correo_electronico'])) {
+    if ($arrendatario['Arrendatario']['correo_electronico']) {
      echo h($arrendatario['Arrendatario']['correo_electronico']);
     }
     else {
@@ -94,7 +94,7 @@
       <td><?php echo h($funeraria['Funeraria']['telefono']); ?>&nbsp;</td>
       <td>
        <?php
-        if (!empty($funeraria['Funeraria']['fax'])) {
+        if ($funeraria['Funeraria']['fax']) {
          echo h($funeraria['Funeraria']['fax']);
         }
         else {
@@ -104,7 +104,7 @@
       </td>
       <td class="email">
        <?php
-        if (!empty($funeraria['Funeraria']['correo_electronico'])) {
+        if ($funeraria['Funeraria']['correo_electronico']) {
          echo h($funeraria['Funeraria']['correo_electronico']);
         }
         else {
@@ -114,7 +114,7 @@
       </td>
       <td>
        <?php
-        if (!empty($funeraria['Funeraria']['pagina_web'])) {
+        if ($funeraria['Funeraria']['pagina_web']) {
          echo $this->Html->link(__($funeraria['Funeraria']['pagina_web']), $funeraria['Funeraria']['pagina_web'], array('escape' => false, 'target' => '_blank'));
         }
         else {
@@ -134,7 +134,7 @@
  <?php endif; ?>
 </div>
 
-<?php /* Arrendamientos relacionados */ ?>
+<?php /* Tumbas relacionadas */ ?>
 <div class="related box">
  <h2><?php echo __('Tumbas arrendadas'); ?></h2>
   <?php if (!empty($arrendatario['ArrendatarioTumba'])): ?>

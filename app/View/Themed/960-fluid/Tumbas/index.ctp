@@ -1,8 +1,16 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu('tumbas'); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
+
+<?php
+ /*
+ echo '<pre>';
+ print_r($tumbas);
+ echo '</pre>';
+ */
+?>
 
 <?php /* Tabla tumbas */ ?>
 <div class="index box">
@@ -12,7 +20,7 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Tumba.tipo', 'Tipo de tumba'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba.identificador', 'Localicación'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Localicación'); ?></th>
     <th><?php echo $this->Paginator->sort('Tumba.poblacion', 'Población'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
@@ -24,18 +32,31 @@
     <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
     <tr<?php echo $class; ?>>
      <td><?php echo h($tumba['Tumba']['tipo']); ?>&nbsp;</td>
-    <?php /* Obtener identificador de tumba */ ?>
-    <?php $identificador = ""; if($tumba['Tumba']['id_columbario']) {$identificador = $tumba['Tumba']['id_columbario'];} elseif($tumba['Tumba']['id_exterior']) {$identificador = $tumba['Tumba']['id_exterior'];} elseif($tumba['Tumba']['id_nicho']) {$identificador = $tumba['Tumba']['id_nicho'];} elseif($tumba['Tumba']['id_panteon']) {$identificador = $tumba['Tumba']['id_panteon'];} ?>
+     <?php /* Obtener la localización de tumba */
+      $localizacion = "";
+      if (!empty($tumba['Tumba']['Columbario'])) {
+       $localizacion = $tumba['Tumba']['Columbario']['localizacion'];
+      }
+      elseif(!empty($tumba['Tumba']['Exterior'])) {
+       $localizacion = $tumba['Tumba']['Exterior']['localizacion'];
+      }
+      elseif(!empty($tumba['Tumba']['Nicho'])) {
+       $localizacion = $tumba['Tumba']['Nicho']['localizacion'];
+      }
+      elseif(!empty($tumba['Tumba']['Panteon'])) {
+       $localizacion = $tumba['Tumba']['Panteon']['localizacion'];
+      }
+     ?>
      <td>
-      <?php if (strlen($identificador) > 0): ?>
-       <?php echo $this->Html->link($identificador, array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id'])); ?>
+      <?php if (strlen($localizacion) > 0): ?>
+       <?php echo $this->Html->link($localizacion, array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id'])); ?>
       <?php else: ?>
        Sin información
       <?php endif; ?>&nbsp;
      </td>
      <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('tumbas', $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $identificador); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $localizacion); ?>
      </td>
     </tr>
    <?php endforeach; ?>

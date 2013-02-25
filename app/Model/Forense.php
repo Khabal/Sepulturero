@@ -3,12 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Arrendatario Model
+ * Forense Model
  *
  * @property Persona $Persona
  * @property Difunto $Difunto
  */
-class Medico extends AppModel {
+class Forense extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +42,7 @@ class Medico extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'medicos';
+    public $useTable = 'forenses';
     
     /**
      * Name of the table prefix
@@ -63,21 +63,21 @@ class Medico extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'persona_id';
+    public $displayField = 'numero_colegiado';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'Medico';
+    public $name = 'Forense';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Medico';
+    public $alias = 'Forense';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -131,7 +131,7 @@ class Medico extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de médico.',
+                'message' => 'Error inesperado al generar ID de médico forense.',
             ),
         ),
         'persona_id' => array(
@@ -151,6 +151,20 @@ class Medico extends AppModel {
                 'on' => null,
                 'message' => 'El número de colegiado no se puede dejar en blanco.',
             ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', true),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de colegiado sólo puede contener caracteres numéricos.',
+            ),
+            'unico' => array(
+                'rule' => array('isUnique'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de colegiado introducido ya está en uso.',
+            ),
             'longitud' => array(
                 'rule' => array('between', 4, 10),
                 'required' => true,
@@ -159,7 +173,7 @@ class Medico extends AppModel {
                 'message' => 'El número de colegiado debe tener entre 4 y 10 caracteres.',
             ),
         ),
-        'lugar_colegio' => array(
+        'colegio' => array(
             'novacio' => array(
                 'rule' => array('notempty'),
                 'required' => true,
@@ -295,27 +309,27 @@ class Medico extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarMedico'),
+        'clave' => array('type' => 'query', 'method' => 'buscarForense'),
     );
     
     /**
-     * buscarMedico method
+     * buscarForense method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarMedico ($data = array()) {
+    public function buscarForense ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
-            //Devolver resultados de la búsqueda
+            //Devolver condiciones de la búsqueda
             return array();
         }
 	
         //Construir comodín para búsqueda
         $comodin = '%' . $data['clave'] . '%';
         
-        //Devolver resultados de la búsqueda
+        //Devolver condiciones de la búsqueda
         return array(
          'OR' => array(
           'Persona.nombre LIKE' => $comodin,

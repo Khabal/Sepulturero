@@ -7,7 +7,7 @@ App::uses('AppModel', 'Model');
  *
  * @property Arrendatario $Arrendatario
  * @property Difunto $Difunto
- * @property Medico $Medico
+ * @property Forense $Forense
  */
 class Persona extends AppModel {
     
@@ -173,6 +173,13 @@ class Persona extends AppModel {
                 'on' => null,
                 'message' => 'Ya existe un difunto con este D.N.I./N.I.E.',
             ),
+            'unico_forense' => array(
+                'rule' => array('valida_forense'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un médico forense con este D.N.I./N.I.E.',
+            ),
         ),
         'nombre' => array(
             'novacio' => array(
@@ -275,8 +282,8 @@ class Persona extends AppModel {
             'order' => '',
             'dependent' => true,
         ),
-        'Medico' => array(
-            'className' => 'Medico',
+        'Forense' => array(
+            'className' => 'Forense',
             'foreignKey' => 'persona_id',
             'conditions' => '',
             'fields' => '',
@@ -478,6 +485,63 @@ class Persona extends AppModel {
         
         //Comprobar si existe un difunto con el mismo DNI
         if(!empty($persona['Difunto']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_forense method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_forense($check) {
+        
+        //Extraer el DNI del vector
+        $cif = (string) $check['dni'];
+        
+        //Convertir a mayúsculas
+        $cif = strtoupper($cif);
+        
+        //Extraer el ID del médico forense
+        if (isset($this->data['Persona']['forense_id'])) {
+            $id = $this->data['Persona']['forense_id'];
+        }
+        else {
+            $id = '';
+        }
+        
+        //Buscar si hay otro médico forense con el mismo DNI
+        $persona = $this->find('first', array(
+         'conditions' => array(
+          'Persona.dni' => $cif,
+         ),
+         'fields' => array(
+          'Persona.id'
+         ),
+         'contain' => array(
+          'Forense' => array(
+           'conditions' => array(
+            'Forense.id !=' => $id,
+           ),
+           'fields' => array(
+            'Forense.id', 'Forense.persona_id'
+           ),
+          ),
+         ),
+        ));
+        
+        //Comprobar si existe un médico forense con el mismo DNI
+        if(!empty($persona['Forense']['id'])) {
             //Devolver error
             return false;
         }

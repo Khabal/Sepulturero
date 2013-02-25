@@ -4,15 +4,15 @@ App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 
 /**
- * Concesiones Controller
+ * Forenses Controller
  *
- * @property Concesion $Concesion
+ * @property Forense $Forense
  * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
  */
-class ConcesionesController extends AppController {
+class ForensesController extends AppController {
     
     /**
      * ----------------------
@@ -53,14 +53,14 @@ class ConcesionesController extends AppController {
      *
      * @var string
      */
-    public $modelClass = 'Concesion';
+    public $modelClass = 'Forense';
     
     /**
      * Controller name
      *
      * @var string
      */
-    public $name = 'Concesiones';
+    public $name = 'Forenses';
     
     /**
      * Theme name
@@ -95,7 +95,7 @@ class ConcesionesController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Concesion', 'Arrendamiento', 'Sanitize');
+    public $uses = array('Forense', 'Difunto', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -142,7 +142,8 @@ class ConcesionesController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Concesion' => array('id', 'tipo', 'anos_concesion', 'observaciones'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
+            'Forense' => array('id', 'persona_id', 'numero_colegiado', 'colegio', 'telefono', 'correo_electronico'),
         ),
         'validate' => false,
     );
@@ -165,16 +166,18 @@ class ConcesionesController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'fields' => array(
-          'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
-         ),
-		 'conditions' => $this->Concesion->parseCriteria($this->passedArgs),
+         'conditions' => $this->Forense->parseCriteria($this->passedArgs),
          'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+           ),
+          ),
          ),
         );
         
         //Devolver paginación
-        $this->set('concesiones', $this->paginate());
+        $this->set('forenses', $this->paginate());  
         
     }
     
@@ -191,15 +194,41 @@ class ConcesionesController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Crear nueva concesión con id único
-            $this->Concesion->create();
+            //Crear nuevo médico forense con id único
+            $this->Forense->create();
+            
+            //Comprobar si ha introducido un DNI
+            if (!empty($this->request->data['Persona']['dni'])) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                
+                //Buscar si existe ya una persona con el mismo DNI
+                $persona = $this->Forense->Persona->find('first', array(
+                 'conditions' => array(
+                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                 ),
+                 'fields' => array(
+                  'Persona.id'
+                 ),
+                 'contain' => array(
+                 ),
+                ));
+                
+                //Establecer claves externas de la persona si ya existe para evitar duplicidad
+                if(!empty($persona['Persona']['id'])) {
+                    $this->request->data['Forense']['persona_id'] = $persona['Persona']['id'];
+                    $this->request->data['Persona']['id'] = $persona['Persona']['id'];
+                }
+                
+            }
             
             //Validar los datos introducidos
-            if ($this->Concesion->saveAll($this->request->data, array('validate' => 'only'))) {
+            if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Concesion->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('La concesión ha sido guardada correctamente.'));
+                if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El médico forense ha sido guardado correctamente.'));
                     //Redireccionar según corresponda
                     if (isset($this->request->data['guardar_y_nuevo'])) {
                         $this->redirect(array('action' => 'nuevo'));
@@ -209,7 +238,7 @@ class ConcesionesController extends AppController {
                     }
                 }
                 else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser guardada.'));
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser guardado.'));
                 }
             }
             else {
@@ -222,33 +251,37 @@ class ConcesionesController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function ver($id = null) {
         
         //Asignar id
-        $this->Concesion->id = $id;
+        $this->Forense->id = $id;
         
-        //Comprobar si existe la concesión
-        if (!$this->Concesion->exists()) {
-             $this->Session->setFlash(__('La concesión especificado no existe.'));
-             $this->redirect(array('action' => 'index'));
+        //Comprobar si existe el médico forense
+        if (!$this->Forense->exists()) {
+            $this->Session->setFlash(__('El médico forense especificado no existe.'));
+            $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la concesión
-        $concesion = $this->Concesion->find('first', array(
+        //Cargar toda la información relevante relacionada con el médico forense
+        $forense = $this->Forense->find('first', array(
          'conditions' => array(
-          'Concesion.id' => $id
+          'Forense.id' => $id
          ),
          'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+           ),
+          ),
          ),
         ));
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('concesion'));
+        $this->set(compact('forense'));
         
     }
     
@@ -267,18 +300,17 @@ class ConcesionesController extends AppController {
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function editar($id = null) {
         
         //Asignar id
-        $this->Concesion->id = $id;
+        $this->Forense->id = $id;
         
-        //Comprobar si existe la concesión
-        if (!$this->Concesion->exists()) {
-            $this->Session->setFlash(__('La concesión especificada no existe.'));
+        //Comprobar si existe el médico forense
+        if (!$this->Forense->exists()) {
+            $this->Session->setFlash(__('El médico forense especificado no existe.'));
             $this->redirect(array('action' => 'index'));
         }
         
@@ -288,22 +320,27 @@ class ConcesionesController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
+            //Convertir a mayúsculas el carácter del DNI
+            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+            
             //Cargar datos de la sesión
-            $this->request->data['Concesion']['id'] = $id;
+            $this->request->data['Forense']['id'] = $this->Session->read('Forense.id');
+            $this->request->data['Persona']['id'] = $this->Session->read('Forense.persona_id');
+            $this->request->data['Forense']['persona_id'] = $this->Session->read('Forense.persona_id');
             
             //Validar los datos introducidos
-            if ($this->Concesion->saveAll($this->request->data, array('validate' => 'only'))) {
+            if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Concesion->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('La concesión ha sido actualizada correctamente.'));
+                if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El médico forense ha sido actualizado correctamente.'));
                     //Borrar datos de sesión
-                    $this->Session->delete('Concesion');
+                    $this->Session->delete('Forense');
                     //Redireccionar a index
                     $this->redirect(array('action' => 'index'));
                 }
                 else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser actualizada.'));
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser actualizado.'));
                 }
             }
             else {
@@ -311,18 +348,21 @@ class ConcesionesController extends AppController {
             }
         }
         else {
-            //Devolver los datos actuales de la concesión
-            $this->request->data = $this->Concesion->find('first', array(
+            //Devolver los datos actuales del médico forense
+            $this->request->data = $this->Forense->find('first', array(
              'conditions' => array(
-              'Concesion.id' => $id
+              'Forense.id' => $id
              ),
              'contain' => array(
+              'Persona' => array(
+              ),
              ),
             ));
             
-            //Guardar los datos de sesión de la concesión
-            $this->Session->write('Concesion.id', $this->request->data['Concesion']['id']);
-            $this->Session->write('Concesion.tipo', $this->request->data['Concesion']['tipo']);
+            //Guardar los datos de sesión del médico forense
+            $this->Session->write('Forense.id', $this->request->data['Forense']['id']);
+            $this->Session->write('Forense.persona_id', $this->request->data['Forense']['persona_id']);
+            $this->Session->write('Forense.nombre_completo', $this->request->data['Persona']['nombre_completo']);
         }
         
     }
@@ -336,73 +376,81 @@ class ConcesionesController extends AppController {
     public function imprimir($id = null) {
         
         //Asignar id
-        $this->Concesion->id = $id;
+        $this->Forense->id = $id;
         
-        //Comprobar si existe la concesión
-        if (!$this->Concesion->exists()) {
-            $this->Session->setFlash(__('La concesión especificada no existe.'));
+        //Comprobar si existe el médico forense
+        if (!$this->Forense->exists()) {
+            $this->Session->setFlash(__('El médico forense especificado no existe.'));
             $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la concesión
-        $concesion = $this->Concesion->find('first', array(
+        //Cargar toda la información relevante relacionada con el médico forense
+        $forense = $this->Forense->find('first', array(
          'conditions' => array(
-          'Concesion.id' => $id
+          'Forense.id' => $id
          ),
          'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+           ),
+          ),
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
-        $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
+        $this->pdfConfig['title'] = $forense['Persona']['nombre_completo'] . " - " . $forense['Forense']['numero_colegiado'] . "(" . $forense['Forense']['colegio'] . ")";
+        $this->pdfConfig['filename'] = "Forense_" . $forense['Forense']['numero_colegiado'] . ".pdf";
         
         //Redireccionar para la generación
         
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('concesion'));
+        $this->set(compact('forense'));
         
     }
     
     /**
      * export pdf method
      *
+     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function exportar_pdf($id = null) {
         
         //Asignar id
-        $this->Concesion->id = $id;
+        $this->Forense->id = $id;
         
-        //Comprobar si existe la concesión
-        if (!$this->Concesion->exists()) {
-            $this->Session->setFlash(__('La concesión especificada no existe.'));
+        //Comprobar si existe el médico forense
+        if (!$this->Forense->exists()) {
+            $this->Session->setFlash(__('El médico forense especificado no existe.'));
             $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la concesión
-        $concesion = $this->Concesion->find('first', array(
+        //Cargar toda la información relevante relacionada con el médico forense
+        $forense = $this->Forense->find('first', array(
          'conditions' => array(
-          'Concesion.id' => $id
+          'Forense.id' => $id
          ),
          'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+           ),
+          ),
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
-        $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
+        $this->pdfConfig['title'] = $forense['Persona']['nombre_completo'] . " - " . $forense['Forense']['numero_colegiado'] . "(" . $forense['Forense']['colegio'] . ")";
+        $this->pdfConfig['filename'] = "Forense_" . $forense['Forense']['numero_colegiado'] . ".pdf";
         $this->pdfConfig['download'] = true;
-        
-        //Redireccionar para la generación
-        
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('concesion'));
+        $this->set(compact('forense'));
         
     }
     
@@ -422,31 +470,41 @@ class ConcesionesController extends AppController {
         }
         
         //Asignar id
-        $this->Concesion->id = $id;
+        $this->Forense->id = $id;
         
-        //Comprobar si existe la concesión
-        if (!$this->Concesion->exists()) {
-            throw new NotFoundException(__('La concesión especificada no existe.'));
+        //Comprobar si existe el médico forense
+        if (!$this->Forense->exists()) {
+            throw new NotFoundException(__('El médico forense especificado no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Concesion->delete()) {
-            $this->Session->setFlash(__('La concesión ha sido eliminado correctamente.'));
+        //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo tmabién
+        $persona = $this->Forense->field('persona_id', array('Forense.id' => $id));
+        $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+        $arrendatario = $this->Forense->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
+        
+        if (empty($difunto) || empty($arrendatario)) {
+            //Borrar y comprobar éxito (Persona y Forense)
+            if ($this->Forense->Persona->delete($persona) && $this->Forense->delete()) {
+                $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+            }
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser eliminado.'));
+            //Borrar y comprobar éxito (Forense)
+            if ($this->Forense->delete()) {
+                $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+            }
         }
         
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         
     }
-    
-    /**
-     * ---------------------------
-     * Extra Controller Actions
-     * ---------------------------
-     */
     
     /**
      * autocomplete method
@@ -459,15 +517,38 @@ class ConcesionesController extends AppController {
         $palabro = '%'.$this->request->query['term'].'%';
         
         //Búsqueda de coincidencias
-        $resultados = $this->Concesion->find('all', array(
+        $resultados = $this->Forense->find('all', array(
+         'joins' => array(
+          array(
+           'table' => 'personas',
+           'alias' => 'Persona',
+           'type' => 'LEFT',
+           'foreignKey' => false,
+           'conditions' => array(
+            'Persona.id = Forense.persona_id'
+           ),
+          ),
+         ),
          'conditions' => array(
-          'OR' =>  array(
-           'Concesion.tipo LIKE' => $palabro,
-           'Concesion.anos_concesion' => $palabro,
+          'OR' => array(
+           'Persona.dni LIKE' => $palabro,
+           'Persona.nombre LIKE' => $palabro,
+           'Persona.apellido1 LIKE' => $palabro,
+           'Persona.apellido2 LIKE' => $palabro,
+           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro,
+           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
+           'Persona.numero_colegiado LIKE' => $palabro,
+          ),
+         ),
+         'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+           ),
           ),
          ),
          'fields' => array(
-          'Concesion.id', 'Concesion.tipo',
+          'Forense.id', 'Forense.persona_id', 'Forense.numero_colegiado', 'Forense.colegio'
          ),
          'limit' => 20,
         ));
@@ -480,7 +561,7 @@ class ConcesionesController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Concesion']['tipo'], "value" => $resultado['Concesion']['id']));
+                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Forense']['numero_colegiado'], "value" => $resultado['Forense']['id']));
             }
         }
         
@@ -489,5 +570,5 @@ class ConcesionesController extends AppController {
         
         echo json_encode($items);
     }
-
+    
 }

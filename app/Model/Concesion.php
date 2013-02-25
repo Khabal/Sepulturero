@@ -3,12 +3,11 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Licencia Model
+ * Concesion Model
  *
- * @property Enterramiento $Enterramiento
- * @property Documento $Documento
- */
-class Licencia extends AppModel {
+ * @property Arrendamiento $Arrendamiento
+  */
+class Concesion extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +41,7 @@ class Licencia extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'licencias';
+    public $useTable = 'concesiones';
     
     /**
      * Name of the table prefix
@@ -63,21 +62,21 @@ class Licencia extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'identificador';
+    public $displayField = 'tipo';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'Licencia';
+    public $name = 'Concesion';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Licencia';
+    public $alias = 'Concesion';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -91,9 +90,7 @@ class Licencia extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array(
-        'identificador' => 'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion))'
-    );
+    public $virtualFields = array();
     
     /**
      * List of behaviors
@@ -128,46 +125,63 @@ class Licencia extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'numero_licencia' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fecha_aprobacion' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'anos_concesion' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de concesión.',
+            ),
+        ),
+        'tipo' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de concesión no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de concesión debe tener entre 2 y 50 caracteres.',
+            ),
+        ),
+        'anos_concesion' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Los años de concesión no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 1, 3),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Los años de concesión debe tener entre 1 y 3 caracteres.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Los años de concesión sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
     );
     
     /**
@@ -177,30 +191,14 @@ class Licencia extends AppModel {
      */
     
     /**
-     * hasOne associations
-     *
-     * @var array
-     */
-    public $hasOne = array(
-        'Enterramiento' => array(
-            'className' => 'Enterramiento',
-            'foreignKey' => 'licencia_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'dependent' => true,
-        ),
-    );
-    
-    /**
      * hasMany associations
      *
      * @var array
      */
     public $hasMany = array(
-        'Documento' => array(
-            'className' => 'Documento',
-            'foreignKey' => 'licencia_id',
+        'Arrendamiento' => array(
+            'className' => 'Arrendamiento',
+            'foreignKey' => 'concesion_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -244,35 +242,34 @@ class Licencia extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarLicencia'),
+        'clave' => array('type' => 'query', 'method' => 'buscarConcesion'),
     );
     
     /**
-     * buscarLicencia method
+     * buscarConcesion method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarLicencia ($data = array()) {
+    public function buscarConcesion ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
-            //Devolver resultados de la búsqueda
+            //Devolver condiciones de la búsqueda
             return array();
         }
 	
         //Construir comodín para búsqueda
         $comodin = '%' . $data['clave'] . '%';
         
-        //Devolver resultados de la búsqueda
+        //Devolver condiciones de la búsqueda
         return array(
          'OR'  => array(
-          'DATE_FORMAT(Licencia.fecha_aprobacion,"%d/%m/%Y") LIKE' => $comodin,
-          'Licencia.numero_licencia LIKE' => $comodin,
-          'CONCAT(Licencia.numero_licencia, "/", EXTRACT(YEAR FROM Licencia.fecha_aprobacion)) LIKE' => $comodin,
+          'Concesion.tipo LIKE' => $comodin,
+          'Concesion.anos_concesion' => $comodin,
          )
         );
         
     }
-
+    
 }

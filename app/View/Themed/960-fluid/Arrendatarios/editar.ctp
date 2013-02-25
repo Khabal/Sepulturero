@@ -105,7 +105,7 @@
        /* Mostrar mensajes de errores si los hubiera */
        if(errores[num] != undefined) {
          if(errores[num][num + 1] != "") {
-         $(newForm).append('<div class="error-message">' + errores[num][num + 1] + '</div>');
+           $(newForm).append('<div class="error-message">' + errores[num][num + 1] + '</div>');
        }
        else {
        }
@@ -117,12 +117,12 @@
  });
 </script>
 
-<?php /* Formulario arrendatario */ ?>
+<?php /* Formulario editar arrendatario */ ?>
 <div class="edit form">
  <?php echo $this->Form->create('Arrendatario'); ?>
   <fieldset>
    <legend><?php echo __('Datos del arrendatario'); ?></legend>
-   <?php
+   <?php /* Campos */
     echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));

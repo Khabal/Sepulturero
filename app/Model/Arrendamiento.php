@@ -186,12 +186,12 @@ class Arrendamiento extends AppModel {
                 'on' => null,
                 'message' => 'El estado del arrendamiento no se encuentra dentro de las opciones posibles.',
             ),
-            'solo_un_actual' => array(
+            'solo_un_vigente' => array(
                 'rule' => array('valida_arrendamiento'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Ya hay asociado otro arrendatario actual para esta tumba.',
+                'message' => 'Ya hay un arrendamiento vigente para esta tumba.',
             ),
         ),
         'observaciones' => array(
@@ -218,6 +218,15 @@ class Arrendamiento extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'arrendatario_bonito' => array(
+            'uuid' => array(
+                'rule' => array('valida_arrendatario'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El arrendatario especificado no existe.',
             ),
         ),
         'concesion_bonita' => array(
@@ -312,36 +321,100 @@ class Arrendamiento extends AppModel {
     }
     
     /**
-     * valida_tumba method
+     * valida_arrendamiento method
      *
      * @param array $check elements for validate
      * @return boolean
      */
-    public function valida_tumba($check) {
+    public function valida_arrendamiento($check) {
+        
+        //Extraer el estado del arrendamiento del vector
+        $estado = (string) $check['estado'];
         
         //Extraer el ID de la tumba
-        if (!empty($this->data['Arrendamiento']['tumba_id'])) {
-            $id = $this->data['Arrendamiento']['tumba_id'];
+        if (isset($this->data['Arrendamiento']['tumba_id'])) {
+            $tumba = $this->data['Arrendamiento']['tumba_id'];
+        }
+        else {
+            $tumba = '';
+        }
+        
+        //Extraer el ID del arrendatario
+        if (isset($this->data['Arrendamiento']['arrendatario_id'])) {
+            $arrendatario = $this->data['Arrendamiento']['arrendatario_id'];
+        }
+        else {
+            $arrendatario = '';
+        }
+        
+        //Comprobar si el estado del arrendamiento es "Vigente"
+        if ($estado == "Vigente") {
+            //Buscar si ya había otro arrendatario "Vigente" para esta tumba
+            $arrendador = $this->find('first', array(
+             'conditions' => array(
+              'Arrendamiento.arrendatario_id !=' => $arrendatario,
+              'Arrendamiento.tumba_id' => $tumba,
+              'Arrendamiento.estado' => "Vigente",
+             ),
+             'fields' => array(
+              'Arrendamiento.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe otro arrendatario "Vigente" para esta tumba
+            if (!empty($arrendador['Arrendamiento']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_arrendatario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_arrendatario($check) {
+        
+        //Extraer el ID del arrendatario
+        if (!empty($this->data['Arrendamiento']['arrendatario_id'])) {
+            $id = $this->data['Arrendamiento']['arrendatario_id'];
         }
         else {
             //Devolver error
             return false;
         }
         
-        //Buscar si hay existe una tumba con el ID especificado
-        $tumba = $this->Tumba->find('first', array(
+        //Buscar si hay existe un arrendatario con el ID especificado
+        $arrendatario = $this->Arrendatario->find('first', array(
          'conditions' => array(
-          'Tumba.id' => $id,
+          'Arrendatario.id' => $id,
          ),
          'fields' => array(
-          'Tumba.id'
+          'Arrendatario.id'
          ),
           'contain' => array(
          ),
         ));
         
-        //Comprobar si existe la tumba especificada
-        if (empty($tumba['Tumba']['id'])) {
+        //Comprobar si existe el arrendatario especificado
+        if (empty($arrendatario['Arrendatario']['id'])) {
             //Devolver error
             return false;
         }
@@ -400,58 +473,38 @@ class Arrendamiento extends AppModel {
     }
     
     /**
-     * valida_arrendatario method
+     * valida_tumba method
      *
      * @param array $check elements for validate
      * @return boolean
      */
-    public function valida_arrendamiento($check) {
-        
-        //Extraer el estado del arrendamiento del vector
-        $estado = (string) $check['estado'];
+    public function valida_tumba($check) {
         
         //Extraer el ID de la tumba
-        if (isset($this->data['Arrendamiento']['tumba_id'])) {
-            $tumba = $this->data['Arrendamiento']['tumba_id'];
+        if (!empty($this->data['Arrendamiento']['tumba_id'])) {
+            $id = $this->data['Arrendamiento']['tumba_id'];
         }
         else {
-            $tumba = '';
+            //Devolver error
+            return false;
         }
         
-        //Extraer el ID del arrendatario
-        if (isset($this->data['Arrendamiento']['arrendatario_id'])) {
-            $arrendatario = $this->data['Arrendamiento']['arrendatario_id'];
-        }
-        else {
-            $arrendatario = '';
-        }
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+          'contain' => array(
+         ),
+        ));
         
-        //Comprobar si el estado del arrendamiento es "Vigente"
-        if ($estado == "Vigente") {
-            //Buscar si ya había otro arrendatario "Actual" para esta tumba
-            $arrendador = $this->find('first', array(
-             'conditions' => array(
-              'Arrendamiento.arrendatario_id !=' => $arrendatario,
-              'Arrendamiento.tumba_id' => $tumba,
-              'Arrendamiento.estado' => "Vigente",
-             ),
-             'fields' => array(
-              'Arrendamiento.id'
-             ),
-             'contain' => array(
-             ),
-            ));
-            
-            //Comprobar si existe otro arrendatario "Vigente" para esta tumba
-            if (!empty($arrendador['Arrendamiento']['id'])) {
-                //Devolver error
-                return false;
-            }
-            else{
-                //Devolver válido
-                return true;
-            }
-            
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
         }
         else {
             //Devolver válido

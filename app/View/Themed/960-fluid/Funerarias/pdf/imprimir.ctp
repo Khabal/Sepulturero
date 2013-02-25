@@ -1,17 +1,3 @@
-<?php /* Menú de accciones */ ?>
-<div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $funeraria['Funeraria']['id'], $funeraria['Funeraria']['nombre']); ?>
-</div>
-
-<?php
- /*
- echo '<pre>';
- print_r($funeraria);
- echo '</pre>';
- */
-?>
-
 <?php /* Datos funeraria */ ?>
 <div class="view box">
  <h2><?php echo __('Datos de la funeraria'); ?></h2>
