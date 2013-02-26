@@ -1,880 +1,215 @@
-2013-02-22 10:14:59 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:30:30 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:15:15 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forenses_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:15:52 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:16:17 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:18:12 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:18:14 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:19:06 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:23:30 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:23:34 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:24:37 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:26:08 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:26:13 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:26:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:30:33 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:26:30 Error: [PDOException] SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`cementerio`.`forenses`, CONSTRAINT `fk_forense_persona` FOREIGN KEY (`personas_id`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)
-Request URL: /cacaphp/forenses/nuevo
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('INSERT INTO `ce...', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1007): DboSource->execute('INSERT INTO `ce...')
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(1734): DboSource->create(Object(Forense), Array, Array)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2237): Model->save(Array, Array)
-#5 C:\wamp\www\cacaphp\app\Controller\ForensesController.php(230): Model->saveAssociated(Array, Array)
-#6 [internal function]: ForensesController->nuevo()
-#7 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(ForensesController), Array)
-#8 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#9 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(ForensesController), Object(CakeRequest), Object(CakeResponse))
-#10 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#11 {main}
-2013-02-22 10:27:43 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:30:37 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:28:26 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:30:41 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:28:34 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:37:10 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:34:12 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:37:14 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:34:21 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:37:23 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:37:11 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:37:23 Error: [MissingActionException] Action ArrendamientosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'ArrendamientosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/arrendamientos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendamientosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-02-26 13:44:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 10:37:50 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:50:19 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:04:39 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:50:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:05:06 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:55:20 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:05:09 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 13:55:20 Error: [MissingActionException] Action ArrendamientosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'ArrendamientosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/arrendamientos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendamientosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-02-26 14:00:40 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:10:08 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 14:00:40 Error: [MissingActionException] Action ArrendamientosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'ArrendamientosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/arrendamientos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendamientosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-02-26 14:01:45 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:10:14 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
+2013-02-26 14:01:46 Error: [MissingActionException] Action ArrendamientosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'ArrendamientosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/arrendamientos/calendario.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendatario), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:17:43 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:17:44 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:17:51 Error: [MissingControllerException] Controller class ThemeController could not be found.
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArrendamientosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-02-26 14:02:25 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:18:01 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:20:53 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:21:06 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:31:12 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:31:14 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:31:17 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:31:20 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 14:02:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 11:31:24 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:51:15 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:51:17 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:51:19 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:51:21 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:51:22 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:55:04 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 11:55:08 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 12:11:44 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 12:15:06 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 12:15:07 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Tumba.id' in 'field list'
-Request URL: /cacaphp/tumbas
-Stack Trace:
-#0 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(459): PDOStatement->execute(Array)
-#1 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(425): DboSource->_execute('SELECT `Tumba`....', Array)
-#2 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(669): DboSource->execute('SELECT `Tumba`....', Array, Array)
-#3 C:\wamp\www\cacaphp\lib\Cake\Model\Datasource\DboSource.php(1080): DboSource->fetchAll('SELECT `Tumba`....', false)
-#4 C:\wamp\www\cacaphp\lib\Cake\Model\Model.php(2674): DboSource->read(Object(Arrendamiento), Array)
-#5 C:\wamp\www\cacaphp\lib\Cake\Controller\Component\PaginatorComponent.php(195): Model->find('all', Array)
-#6 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
-#7 C:\wamp\www\cacaphp\app\Controller\TumbasController.php(200): Controller->paginate()
-#8 [internal function]: TumbasController->index()
-#9 C:\wamp\www\cacaphp\lib\Cake\Controller\Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
-#10 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
-#11 C:\wamp\www\cacaphp\lib\Cake\Routing\Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
-#12 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#13 {main}
-2013-02-22 12:17:05 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 14:02:36 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 12:28:45 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 14:02:44 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 12:32:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 14:02:52 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
-2013-02-22 12:33:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+2013-02-26 14:02:55 Error: [MissingControllerException] Controller class ThemeController could not be found.
 Exception Attributes: array (
   'class' => 'ThemeController',
   'plugin' => NULL,
 )
 Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:33:20 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:34:00 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:34:02 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:34:09 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:34:13 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:34:23 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:34:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:35:24 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:35:27 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:35:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:38:51 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:39:03 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:39:14 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:40:35 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:42:31 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:42:33 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:42:36 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:42:46 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:42:50 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:43:07 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#1 {main}
-2013-02-22 12:50:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
-Exception Attributes: array (
-  'class' => 'ThemeController',
-  'plugin' => NULL,
-)
-Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
-Stack Trace:
-#0 C:\wamp\www\cacaphp\app\webroot\index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}

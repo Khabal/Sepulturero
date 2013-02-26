@@ -3,12 +3,11 @@
 App::uses('AppModel', 'Model');
 
 /**
- * MovimientoTumba Model
+ * Exterior Model
  *
- * @property Movimiento $Movimiento
  * @property Tumba $Tumba
  */
-class MovimientoTumba extends AppModel {
+class Exterior extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +41,7 @@ class MovimientoTumba extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'movimientos_tumbas';
+    public $useTable = 'exteriores';
     
     /**
      * Name of the table prefix
@@ -63,21 +62,21 @@ class MovimientoTumba extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'id';
+    public $displayField = 'localizacion';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'MovimientoTumba';
+    public $name = 'Exterior';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'MovimientoTumba';
+    public $alias = 'Exterior';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -91,14 +90,16 @@ class MovimientoTumba extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'localizacion' => 'SELECT IF (Exterior.id IS NOT NULL, CONCAT("Exterior"), "")'
+    );
     
     /**
      * List of behaviors
      *
      * @var array
      */
-    public $actsAs = array('Containable');
+    public $actsAs = array();
     
     /**
      * ----------------------
@@ -111,7 +112,8 @@ class MovimientoTumba extends AppModel {
      *
      * @var array
      */
-    public $_schema = array();
+    public $_schema = array(
+    );
     
     /**
      * ----------------------
@@ -131,16 +133,7 @@ class MovimientoTumba extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de movimiento-tumba.',
-            ),
-        ),
-        'movimiento_id' => array(
-            'uuid' => array(
-                'rule' => array('uuid'),
-                'required' => false,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'Error inesperado al asociar ID de movimiento.',
+                'message' => 'Error inesperado al generar ID de exterior.',
             ),
         ),
         'tumba_id' => array(
@@ -150,22 +143,6 @@ class MovimientoTumba extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de tumba.',
-            ),
-        ),
-        'origen_destino' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El origen/destino del movimiento no se puede dejar en blanco.',
-            ),
-            'lista' => array(
-                'rule' => array('inList', array('Origen', 'Destino')),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El origen/destino del movimiento no se encuentra dentro de las opciones posibles.',
             ),
         ),
     );
@@ -182,16 +159,6 @@ class MovimientoTumba extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Movimiento' => array(
-            'className' => 'Movimiento',
-            'foreignKey' => 'movimiento_id',
-            'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
-            'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
-        ),
         'Tumba' => array(
             'className' => 'Tumba',
             'foreignKey' => 'tumba_id',
@@ -219,12 +186,6 @@ class MovimientoTumba extends AppModel {
      * @return class object
      */
     public function __construct ($id = false, $table = null, $ds = null) {
-        
-        //Vector de tipos de origen y destino
-        $this->lugar = array(
-            'Destino' => __('Destino', true),
-            'Origen' => __('Origen', true),
-        );
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);

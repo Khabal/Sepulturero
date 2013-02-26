@@ -4,15 +4,15 @@ App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 
 /**
- * Funerarias Controller
+ * Concesiones Controller
  *
- * @property Funeraria $Funeraria
+ * @property Concesion $Concesion
  * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
- * @property Search.PrgComponent $Search.Prgg
+ * @property Search.PrgComponent $Search.Prg
  */
-class FunerariasController extends AppController {
+class ConcesionesController extends AppController {
     
     /**
      * ----------------------
@@ -53,14 +53,15 @@ class FunerariasController extends AppController {
      *
      * @var string
      */
-    public $modelClass = 'Funeraria';
+    //public $modelClass = 'Concesion';
+public $modelClass = 'asdfasdf';
     
     /**
      * Controller name
      *
      * @var string
      */
-    public $name = 'Funerarias';
+    public $name = 'Concesiones';
     
     /**
      * Theme name
@@ -95,7 +96,7 @@ class FunerariasController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Funeraria', 'ArrendatarioFuneraria', 'Sanitize');
+    public $uses = array('Concesion', 'Arrendamiento', 'Sanitize');
     
     /**
      * ---------------------------
@@ -142,7 +143,7 @@ class FunerariasController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Funeraria' => array('id', 'cif', 'nombre', 'direccion', 'telefono', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
+            'Concesion' => array('id', 'tipo', 'anos_concesion', 'observaciones'),
         ),
         'validate' => false,
     );
@@ -165,13 +166,13 @@ class FunerariasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Funeraria->parseCriteria($this->passedArgs),
+         'conditions' => $this->Concesion->parseCriteria($this->passedArgs),
          'contain' => array(
          ),
         );
         
         //Devolver paginación
-        $this->set('funerarias', $this->paginate());
+        $this->set('concesiones', $this->paginate());
         
     }
     
@@ -188,15 +189,15 @@ class FunerariasController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Crear nueva funeraria con id único
-            $this->Funeraria->create();
+            //Crear nueva concesión con id único
+            $this->Concesion->create();
             
             //Validar los datos introducidos
-            if ($this->Funeraria->saveAll($this->request->data, array('validate' => 'only'))) {
+            if ($this->Concesion->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Funeraria->save($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('La funeraria ha sido guardada correctamente.'));
+                if ($this->Concesion->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('La concesión ha sido guardada correctamente.'));
                     //Redireccionar según corresponda
                     if (isset($this->request->data['guardar_y_nuevo'])) {
                         $this->redirect(array('action' => 'nuevo'));
@@ -206,7 +207,7 @@ class FunerariasController extends AppController {
                     }
                 }
                 else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser guardada.'));
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser guardada.'));
                 }
             }
             else {
@@ -219,24 +220,25 @@ class FunerariasController extends AppController {
     /**
      * view method
      *
+     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function ver($id = null) {
         
         //Asignar id
-        $this->Funeraria->id = $id;
+        $this->Concesion->id = $id;
         
-        //Comprobar si existe la funeraria
-        if (!$this->Funeraria->exists()) {
-             $this->Session->setFlash(__('La funeraria especificada no existe.'));
+        //Comprobar si existe la concesión
+        if (!$this->Concesion->exists()) {
+             $this->Session->setFlash(__('La concesión especificada no existe.'));
              $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la funeraria
-        $funeraria = $this->Funeraria->find('first', array(
+        //Cargar toda la información relevante relacionada con la concesión
+        $concesion = $this->Concesion->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id
+          'Concesion.id' => $id
          ),
          'contain' => array(
          ),
@@ -244,7 +246,7 @@ class FunerariasController extends AppController {
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('funeraria'));
+        $this->set(compact('concesion'));
         
     }
     
@@ -263,18 +265,19 @@ class FunerariasController extends AppController {
     /**
      * edit method
      *
+     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function editar($id = null) {
         
         //Asignar id
-        $this->Funeraria->id = $id;
+        $this->Concesion->id = $id;
         
-        //Comprobar si existe la funeraria
-        if (!$this->Funeraria->exists()) {
-             $this->Session->setFlash(__('La funeraria especificada no existe.'));
-             $this->redirect(array('action' => 'index'));
+        //Comprobar si existe la concesión
+        if (!$this->Concesion->exists()) {
+            $this->Session->setFlash(__('La concesión especificada no existe.'));
+            $this->redirect(array('action' => 'index'));
         }
         
         //Comprobar si se está enviando el formulario
@@ -284,40 +287,40 @@ class FunerariasController extends AppController {
             Sanitize::clean($this->request->data);
             
             //Cargar datos de la sesión
-            $this->request->data['Funeraria']['id'] = $id;
+            $this->request->data['Concesion']['id'] = $id;
             
             //Validar los datos introducidos
-            if ($this->Funeraria->saveAll($this->request->data, array('validate' => 'only'))) {
+            if ($this->Concesion->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Funeraria->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('La funeraria ha sido actualizada correctamente.'));
+                if ($this->Concesion->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('La concesión ha sido actualizada correctamente.'));
                     //Borrar datos de sesión
-                    $this->Session->delete('Funeraria');
+                    $this->Session->delete('Concesion');
                     //Redireccionar a index
                     $this->redirect(array('action' => 'index'));
                 }
                 else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser actualizada.'));
-                            }
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser actualizada.'));
+                }
             }
             else {
                $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         else {
-            //Devolver los datos actuales de la funeraria
-            $this->request->data = $this->Funeraria->find('first', array(
+            //Devolver los datos actuales de la concesión
+            $this->request->data = $this->Concesion->find('first', array(
              'conditions' => array(
-              'Funeraria.id' => $id
+              'Concesion.id' => $id
              ),
              'contain' => array(
              ),
             ));
             
-           //Guardar los datos de sesión de la funeraria
-            $this->Session->write('Funeraria.id', $this->request->data['Funeraria']['id']);
-            $this->Session->write('Funeraria.nombre', $this->request->data['Funeraria']['nombre']);
+            //Guardar los datos de sesión de la concesión
+            $this->Session->write('Concesion.id', $this->request->data['Concesion']['id']);
+            $this->Session->write('Concesion.tipo', $this->request->data['Concesion']['tipo']);
         }
         
     }
@@ -325,45 +328,44 @@ class FunerariasController extends AppController {
     /**
      * print method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function imprimir($id = null) {
         
         //Asignar id
-        $this->Funeraria->id = $id;
+        $this->Concesion->id = $id;
         
-        //Comprobar si existe la funeraria
-        if (!$this->Funeraria->exists()) {
-            $this->Session->setFlash(__('La funeraria especificada no existe.'));
+        //Comprobar si existe la concesión
+        if (!$this->Concesion->exists()) {
+            $this->Session->setFlash(__('La concesión especificada no existe.'));
             $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la funeraria
-        $funeraria = $this->Funeraria->find('first', array(
+        //Cargar toda la información relevante relacionada con la concesión
+        $concesion = $this->Concesion->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id
+          'Concesion.id' => $id
          ),
          'contain' => array(
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
-        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
+        $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
+        $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         
         //Redireccionar para la generación
         
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('funeraria'));
+        $this->set(compact('concesion'));
         
     }
     
     /**
-     * exportar_pdf method
+     * export pdf method
      *
      * @param string $id
      * @return void
@@ -371,31 +373,34 @@ class FunerariasController extends AppController {
     public function exportar_pdf($id = null) {
         
         //Asignar id
-        $this->Funeraria->id = $id;
+        $this->Concesion->id = $id;
         
-        //Comprobar si existe la funeraria
-        if (!$this->Funeraria->exists()) {
-            $this->Session->setFlash(__('La funeraria especificada no existe.'));
+        //Comprobar si existe la concesión
+        if (!$this->Concesion->exists()) {
+            $this->Session->setFlash(__('La concesión especificada no existe.'));
             $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la funeraria
-        $funeraria = $this->Funeraria->find('first', array(
+        //Cargar toda la información relevante relacionada con la concesión
+        $concesion = $this->Concesion->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id
+          'Concesion.id' => $id
          ),
          'contain' => array(
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
-        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
+        $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
+        $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         $this->pdfConfig['download'] = true;
+        
+        //Redireccionar para la generación
+        
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('funeraria'));
+        $this->set(compact('concesion'));
         
     }
     
@@ -415,19 +420,19 @@ class FunerariasController extends AppController {
         }
         
         //Asignar id
-        $this->Funeraria->id = $id;
+        $this->Concesion->id = $id;
         
-        //Comprobar si existe la funeraria
-        if (!$this->Funeraria->exists()) {
-            throw new NotFoundException(__('La funeraria especificada no existe.'));
+        //Comprobar si existe la concesión
+        if (!$this->Concesion->exists()) {
+            throw new NotFoundException(__('La concesión especificada no existe.'));
         }
         
         //Borrar y comprobar éxito
-        if ($this->Funeraria->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.funeraria_id' => $id), false, false) && $this->Funeraria->delete()) {
-            $this->Session->setFlash(__('La funeraria ha sido eliminada correctamente.'));
+        if ($this->Concesion->delete()) {
+            $this->Session->setFlash(__('La concesión ha sido eliminado correctamente.'));
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser eliminada.'));
+            $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser eliminado.'));
         }
         
         //Redireccionar a index
@@ -452,12 +457,14 @@ class FunerariasController extends AppController {
         $palabro = '%'.$this->request->query['term'].'%';
         
         //Búsqueda de coincidencias
-        $resultados = $this->Funeraria->find('all', array(
-         'conditions' => array(
-          'Funeraria.nombre LIKE' => $palabro,
+        $resultados = $this->Concesion->find('all', array(
+         'contain' => array(
          ),
-         'fields' => array(
-          'Funeraria.id', 'Funeraria.nombre'
+         'conditions' => array(
+          'OR' =>  array(
+           'Concesion.tipo LIKE' => $palabro,
+           'Concesion.anos_concesion' => $palabro,
+          ),
          ),
          'limit' => 20,
         ));
@@ -470,7 +477,7 @@ class FunerariasController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Funeraria']['nombre'], "value" => $resultado['Funeraria']['id']));
+                array_push($items, array("label" => $resultado['Concesion']['tipo'], "value" => $resultado['Concesion']['id']));
             }
         }
         

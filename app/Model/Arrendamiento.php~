@@ -494,7 +494,7 @@ class Arrendamiento extends AppModel {
          'conditions' => array(
           'Tumba.id' => $id,
          ),
-         'fields' => array(
+         'fields' => array(Arrendamiento
           'Tumba.id'
          ),
           'contain' => array(

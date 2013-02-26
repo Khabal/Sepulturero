@@ -177,7 +177,7 @@ class Arrendatario extends AppModel {
                 'message' => 'La localidad debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -193,7 +193,7 @@ class Arrendatario extends AppModel {
                 'message' => 'La provincia debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,

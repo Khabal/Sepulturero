@@ -112,8 +112,7 @@ class Exterior extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -127,26 +126,24 @@ class Exterior extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tumba_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de exterior.',
+            ),
+        ),
+        'tumba_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de tumba.',
+            ),
+        ),
     );
     
     /**

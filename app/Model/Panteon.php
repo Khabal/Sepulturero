@@ -112,8 +112,7 @@ class Panteon extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -127,46 +126,93 @@ class Panteon extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tumba_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'numero_panteon' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'familia' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de panteón.',
+            ),
+        ),
+        'tumba_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de tumba.',
+            ),
+        ),
+        'familia' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La familia no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 100),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La familia debe tener entre 2 y 100 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La familia sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'numero_panteon' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de panteón no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 1, 4),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de panteón debe tener entre 1 y 4 caracteres.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de panteón sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'patio' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El patio no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 1, 2),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El patio debe tener entre 1 y 2 caracteres.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El patio sólo puede contener caracteres numéricos.',
+            ),
+        ),
     );
     
     /**

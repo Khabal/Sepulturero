@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('X', 'Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
+    public $uses = array('Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -166,7 +166,7 @@ class ArrendatariosController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Arrendatario->parseCriteria($this->params->query),
+         'conditions' => $this->Arrendatario->parseCriteria($this->passedArgs),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -660,14 +660,10 @@ class ArrendatariosController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Arrendatario->find('all', array(
-         'joins' => array(
-          array(
-           'table' => 'personas',
-           'alias' => 'Persona',
-           'type' => 'LEFT',
-           'foreignKey' => false,
-           'conditions' => array(
-            'Persona.id = Arrendatario.persona_id'
+         'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
            ),
           ),
          ),
@@ -680,16 +676,6 @@ class ArrendatariosController extends AppController {
            'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro, 
            'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro, 
           ),
-         ),
-         'contain' => array(
-          'Persona' => array(
-           'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
-           ),
-          ),
-         ),
-         'fields' => array(
-          'Arrendatario.id', 'Arrendatario.persona_id'
          ),
          'limit' => 20,
         ));

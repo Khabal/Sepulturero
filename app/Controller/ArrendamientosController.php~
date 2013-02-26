@@ -221,7 +221,7 @@ class ArrendamientosController extends AppController {
      */
     public function nuevo() {
         
-        //Devolver las opciones de selección de estado del arrendamiento de una tumba
+        //Devolver las opciones de selección de estado del arrendamiento de la tumba
         $this->set('estado', $this->Arrendamiento->estado);
         
         //Comprobar si está enviando el formulario

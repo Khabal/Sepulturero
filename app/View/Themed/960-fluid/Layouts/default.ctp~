@@ -112,20 +112,6 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
    <!-- Menú -->
    <div class="grid_16 bordes_redondeados">
     <ul class="nav main">
-     <li><!-- Arrendamientos -->
-      <?php echo $this->Html->link(__('Arrendamientos'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
-      <ul>
-       <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'arrendamientos', 'action' => 'nuevo')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendamientos', 'action' => 'buscar')); ?>
-       </li>
-      </ul>
-     </li>
      <li><!-- Arrendatarios -->
       <?php echo $this->Html->link(__('Arrendatarios'), array('controller' => 'arrendatarios', 'action' => 'index')); ?>
       <ul>
@@ -137,6 +123,20 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
        <li>
         <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendatarios', 'action' => 'buscar')); ?>
+       </li>
+      </ul>
+     </li>
+     <li><!-- Arrendamientos -->
+      <?php echo $this->Html->link(__('Arrendamientos'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
+      <ul>
+       <li>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'arrendamientos', 'action' => 'nuevo')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendamientos', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>

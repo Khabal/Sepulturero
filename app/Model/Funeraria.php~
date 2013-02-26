@@ -3,14 +3,11 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Arrendatario Model
+ * Funeraria Model
  *
- * @property Arrendamiento $Arrendamiento
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
- * @property ArrendatarioPago $ArrendatarioPago
- * @property Persona $Persona
  */
-class Arrendatario extends AppModel {
+class Funeraria extends AppModel {
     
     /**
      * ----------------------
@@ -44,7 +41,7 @@ class Arrendatario extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'arrendatarios';
+    public $useTable = 'funerarias';
     
     /**
      * Name of the table prefix
@@ -65,21 +62,21 @@ class Arrendatario extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'persona_id';
+    public $displayField = 'nombre';
     
     /**
      * Name of the model
      *
      * @var string
      */
-    public $name = 'Arrendatario';
+    public $name = 'Funeraria';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Arrendatario';
+    public $alias = 'Funeraria';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -113,7 +110,8 @@ class Arrendatario extends AppModel {
      *
      * @var array
      */
-    public $_schema = array();
+    public $_schema = array(
+    );
     
     /**
      * ----------------------
@@ -133,16 +131,53 @@ class Arrendatario extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de arrendatario.',
+                'message' => 'Error inesperado al generar ID de funeraria.',
             ),
         ),
-        'persona_id' => array(
-            'uuid' => array(
-                'rule' => array('uuid'),
-                'required' => false,
+        'cif' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al asociar ID de persona.',
+                'message' => 'El C.I.F. no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 8, 9),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El C.I.F. debe tener entre 8 y 9 caracteres.',
+            ),
+            'validar' => array(
+                'rule' => array('valida_cif'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El C.I.F. introducido no es válido (Ejemplo: 12345678X)',
+            ),
+        ),
+        'nombre' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El nombre no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 100),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El nombre debe tener entre 2 y 100 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El nombre sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'direccion' => array(
@@ -161,105 +196,43 @@ class Arrendatario extends AppModel {
                 'message' => 'La dirección debe tener como máximo 150 caracteres.',
             ),
         ),
-        'localidad' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'La localidad no se puede dejar en blanco.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 2, 50),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'La localidad debe tener entre 2 y 50 caracteres.',
-            ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'La localidad sólo puede contener caracteres alfabéticos.',
-            ),
-        ),
-        'provincia' => array(
-            'longitud' => array(
-                'rule' => array('between', 2, 50),
-                'required' => false,
-                'allowEmpty' => true,
-                'on' => null,
-                'message' => 'La provincia debe tener entre 2 y 50 caracteres.',
-            ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
-                'required' => false,
-                'allowEmpty' => true,
-                'on' => null,
-                'message' => 'La provincia sólo puede contener caracteres alfabéticos.',
-            ),
-        ),
-        'pais' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El país no se puede dejar en blanco.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 2, 50),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El país debe tener entre 2 y 50 caracteres.',
-            ),
-            'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El país sólo puede contener caracteres alfabéticos.',
-            ),
-        ),
-        'codigo_postal' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal no se puede dejar en blanco.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 2, 6),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal debe tener entre 2 y 6 caracteres.',
-            ),
-            'numeronatural' => array(
-                'rule' => array('naturalNumber', true),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal sólo puede contener caracteres numéricos.',
-            ),
-        ),
         'telefono' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de teléfono no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 9, 12),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de teléfono debe tener entre 9 y 12 caracteres.',
+            ),
+            'solonumeros' => array(
+                'rule' => '/^[0-9]/',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de teléfono sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'fax' => array(
             'longitud' => array(
                 'rule' => array('between', 9, 12),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'El número de teléfono debe tener entre 9 y 12 caracteres.',
+                'message' => 'El número de fax debe tener entre 9 y 12 caracteres.',
             ),
             'solonumeros' => array(
                 'rule' => '/^[0-9]/',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'El número de teléfono sólo puede contener caracteres numéricos.',
+                'message' => 'El número de fax sólo puede contener caracteres numéricos.',
             ),
         ),
         'correo_electronico' => array(
@@ -278,10 +251,35 @@ class Arrendatario extends AppModel {
                 'message' => 'El correo electrónico introducido no es válido',
             ),
         ),
+        'pagina_web' => array(
+            'longitud' => array(
+                'rule' => array('between', 5, 100),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La página web debe tener entre 5 y 100 caracteres.',
+            ),
+            'web' => array(
+                'rule' => array('url', true),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La página web introducida no es válida',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
     );
     
     /**
-    * ----------------------
+     * ----------------------
      * Model associations
      * ----------------------
      */
@@ -292,20 +290,9 @@ class Arrendatario extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'Arrendamiento' => array(
-            'className' => 'Arrendamiento',
-            'foreignKey' => 'arrendatario_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
         'ArrendatarioFuneraria' => array(
             'className' => 'ArrendatarioFuneraria',
-            'foreignKey' => 'arrendatario_id',
+            'foreignKey' => 'funeraria_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -313,35 +300,6 @@ class Arrendatario extends AppModel {
             'dependent' => false,
             'exclusive' => false,
             'finderQuery' => '',
-        ),
-        'ArrendatarioPago' => array(
-            'className' => 'ArrendatarioPago',
-            'foreignKey' => 'arrendatario_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-    );
-    
-    /**
-     * belongsTo associations
-     *
-     * @var array
-     */
-    public $belongsTo = array(
-        'Persona' => array(
-            'className' => 'Persona',
-            'foreignKey' => 'persona_id',
-            'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
-            'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
         ),
     );
     
@@ -361,11 +319,56 @@ class Arrendatario extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Añadir campos virtuales de "Persona"
-        //$this->virtualFields += $this->Persona->virtualFields;
-        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_cif method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_cif($check) {
+        
+        //Extraer el CIF del vector
+        $cif = (string) $check['cif'];
+
+        //Convertir a mayúsculas
+        $cif = strtoupper($cif);
+        
+        //Comprobar si tiene un formato válido
+        if (!preg_match('/((^[A-Z]{1}[0-9]{7}[A-Z0-9]{1}$|^[T]{1}[A-Z0-9]{8}$)|^[0-9]{8}[A-Z]{1}$)/', $cif)) {
+            //Devolver error
+            return false;
+        }
+        
+        //Extraer los caracteres de la cadena a un vector
+        for ($i = 0; $i < 9; $i++) {
+            $num[$i] = substr($cif, $i, 1);
+        }
+        
+        //Algoritmo para la comprobación de códigos tipo CIF
+        $suma = $num[2] + $num[4] + $num[6];
+        for ($i = 1; $i < 8; $i += 2) {
+            $suma += substr((2 * $num[$i]), 0, 1) + substr((2 * $num[$i]), 1, 1);
+        }
+        $n = 10 - substr($suma, strlen($suma) - 1, 1);
+        
+        //Comprobar si se trata de un CIF
+        if (preg_match('/^[ABCDEFGHJNPQRSUVW]{1}/', $cif)) {
+            if ($num[8] == chr(64 + $n) || $num[8] == substr($n, strlen($n) - 1, 1)) {
+                //Devolver válido
+                return true;
+            }
+            else {
+                //Devolver error
+                return false;
+            }
+        }
+        
+        //Si todavía no se ha verificado devolver error
+        return false;
     }
     
     /**
@@ -381,38 +384,34 @@ class Arrendatario extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
+        'clave' => array('type' => 'query', 'method' => 'buscarFuneraria'),
     );
     
     /**
-     * buscarArrendatario method
+     * buscarFuneraria method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarArrendatario ($data = array()) {
+    public function buscarFuneraria ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
-            //Devolver resultados de la búsqueda
+            //Devolver condiciones de la búsqueda
             return array();
         }
 	
         //Construir comodín para búsqueda
         $comodin = '%' . $data['clave'] . '%';
         
-        //Devolver resultados de la búsqueda
+        //Devolver condiciones de la búsqueda
         return array(
-         'OR' => array(
-          'Persona.nombre LIKE' => $comodin,
-          'Persona.apellido1 LIKE' => $comodin,
-          'Persona.apellido2 LIKE' => $comodin,
-          'Persona.dni LIKE' => $comodin,
-          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
-          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+         'OR'  => array(
+          'Funeraria.cif LIKE' => $comodin,
+          'Funeraria.nombre LIKE' => $comodin,
          )
         );
         
     }
-
+    
 }

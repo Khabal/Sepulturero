@@ -144,7 +144,7 @@ class Nicho extends AppModel {
                 'message' => 'Error inesperado al asociar ID de tumba.',
             ),
         ),
-        'numero_nicho' => array(
+        'numero_columbario' => array(
             'novacio' => array(
                 'rule' => array('notempty'),
                 'required' => true,

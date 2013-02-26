@@ -5,11 +5,11 @@
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
  print_r($tumbas);
  echo '</pre>';
- */
+ 
 ?>
 
 <?php /* Tabla tumbas */ ?>

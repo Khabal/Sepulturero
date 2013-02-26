@@ -120,8 +120,8 @@ class ConcesionesController extends AppController {
         ),
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
-        //'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
+        'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
+        //'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -165,10 +165,7 @@ class ConcesionesController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'fields' => array(
-          'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
-         ),
-		 'conditions' => $this->Concesion->parseCriteria($this->passedArgs),
+         'conditions' => $this->Concesion->parseCriteria($this->passedArgs),
          'contain' => array(
          ),
         );
@@ -233,7 +230,7 @@ class ConcesionesController extends AppController {
         
         //Comprobar si existe la concesión
         if (!$this->Concesion->exists()) {
-             $this->Session->setFlash(__('La concesión especificado no existe.'));
+             $this->Session->setFlash(__('La concesión especificada no existe.'));
              $this->redirect(array('action' => 'index'));
         }
         
@@ -460,14 +457,13 @@ class ConcesionesController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Concesion->find('all', array(
+         'contain' => array(
+         ),
          'conditions' => array(
           'OR' =>  array(
            'Concesion.tipo LIKE' => $palabro,
            'Concesion.anos_concesion' => $palabro,
           ),
-         ),
-         'fields' => array(
-          'Concesion.id', 'Concesion.tipo',
          ),
          'limit' => 20,
         ));

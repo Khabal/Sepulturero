@@ -120,8 +120,8 @@ class ForensesController extends AppController {
         ),
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
-        'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        //'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
+        //'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
+        'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );

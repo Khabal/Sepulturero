@@ -5,11 +5,11 @@
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
  print_r($arrendamientos);
  echo '</pre>';
- */
+ 
 ?>
 
 <?php /* Tabla arrendamientos */ ?>
@@ -20,30 +20,28 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
     <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.direccion', 'Dirección'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Localidad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Provincia'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.pais', 'País'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.codigo_postal', 'Código postal'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.telefono', 'Teléfono'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.correo_electronico', 'Correo electrónico'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.anos_concesion', 'Años de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Fecha de arrendamiento'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Estado del arrendamiento'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
   <?php /* Listado de arrendamientos */ ?>
   <tbody>
    <?php $i = 0; ?>
-   <?php foreach($arrendamientos as $arrendatario): ?>
+   <?php foreach($arrendamientos as $arrendamiento): ?>
     <?php $class = null; if($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
     <tr<?php echo $class; ?>>
      <td>
-      <?php echo $this->Html->link($arrendatario['Persona']['nombre_completo'], array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id'])); ?>&nbsp;
+      <?php echo $this->Html->link($arrendamiento['Persona']['nombre_completo'], array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendatario']['id'])); ?>&nbsp;
      </td>
      <td>
 	 <?php
-       if ($arrendatario['Persona']['dni']) {
-        echo h($arrendatario['Persona']['dni']);
+       if (!empty($arrendamiento['Persona']['dni'])) {
+        echo h($arrendamiento['Persona']['dni']);
        }
        else {
         echo h("Desconocido");
@@ -85,7 +83,7 @@
       ?>&nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $arrendatario['Arrendatario']['id'], $arrendatario['Persona']['nombre_completo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $arrendamiento['Arrendatario']['id'], $arrendamiento['Persona']['nombre_completo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

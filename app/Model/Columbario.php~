@@ -3,11 +3,11 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Nicho Model
+ * Columbario Model
  *
  * @property Tumba $Tumba
  */
-class Nicho extends AppModel {
+class Columbario extends AppModel {
     
     /**
      * ----------------------
@@ -41,7 +41,7 @@ class Nicho extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'nichos';
+    public $useTable = 'columbarios';
     
     /**
      * Name of the table prefix
@@ -69,14 +69,14 @@ class Nicho extends AppModel {
      *
      * @var string
      */
-    public $name = 'Nicho';
+    public $name = 'Columbario';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Nicho';
+    public $alias = 'Columbario';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -91,7 +91,7 @@ class Nicho extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'localizacion' => 'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio)'
+        'localizacion' => 'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio)'
     );
     
     /**
@@ -112,7 +112,8 @@ class Nicho extends AppModel {
      *
      * @var array
      */
-    public $_schema = array();
+    public $_schema = array(
+    );
     
     /**
      * ----------------------
@@ -132,7 +133,7 @@ class Nicho extends AppModel {
                 'required' => false,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'Error inesperado al generar ID de nicho.',
+                'message' => 'Error inesperado al generar ID de columbario.',
             ),
         ),
         'tumba_id' => array(
@@ -144,27 +145,27 @@ class Nicho extends AppModel {
                 'message' => 'Error inesperado al asociar ID de tumba.',
             ),
         ),
-        'numero_nicho' => array(
+        'numero_columbario' => array(
             'novacio' => array(
                 'rule' => array('notempty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El número de nicho no se puede dejar en blanco.',
+                'message' => 'El número de columbario no se puede dejar en blanco.',
             ),
             'longitud' => array(
                 'rule' => array('between', 1, 4),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El número de nicho debe tener entre 1 y 4 caracteres.',
+                'message' => 'El número de columbario debe tener entre 1 y 4 caracteres.',
             ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', false),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El número de nicho sólo puede contener caracteres numéricos.',
+                'message' => 'El número de columbario sólo puede contener caracteres numéricos.',
             ),
         ),
         'letra' => array(
@@ -173,14 +174,14 @@ class Nicho extends AppModel {
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La letra de nicho debe tener 1 caracteres como máximo.',
+                'message' => 'La letra de columbario debe tener 1 caracteres como máximo.',
             ),
             'sololetras' => array(
                 'rule' => '/^[a-zñÑ]{1}$/i',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La letra de nicho sólo puede contener caracteres alfabéticos.',
+                'message' => 'La letra de columbario sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'fila' => array(

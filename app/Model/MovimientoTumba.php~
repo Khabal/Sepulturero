@@ -220,12 +220,6 @@ class MovimientoTumba extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Vector de tipos de origen y destino
-        $this->lugar = array(
-            'Destino' => __('Destino', true),
-            'Origen' => __('Origen', true),
-        );
-        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }

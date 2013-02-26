@@ -156,6 +156,43 @@
  <?php endif; ?>
 </div>
 
+<?php /* Enterramientos relacionados */ ?>
+<div class="related box">
+ <h2><?php echo __('Enterramientos habidos en la tumba'); ?></h2>
+  <?php if (!empty($tumba['Enterramiento'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Fecha'); ?></th>
+     <th><?php echo __('Difunto'); ?></th>
+     <th><?php echo __('D.N.I.'); ?></th>
+     <th><?php echo __('Licencia '); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Información de los enterramientos */ ?>
+   <tbody>
+   <?php $i = 0; ?>
+   <?php foreach ($tumba['Enterramiento'] as $enterramiento): ?>
+    <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
+    <tr<?php echo $class; ?>>
+     <td><?php echo date('d/m/Y', strtotime($enterramiento['fecha'])); ?>&nbsp;</td>
+     <td><?php echo h($enterramiento['Difunto']['Persona']['nombre_completo']); ?>&nbsp;</td>
+     <td><?php echo h($enterramiento['Difunto']['Persona']['dni']); ?>&nbsp;</td>
+     <td><?php echo h($enterramiento['Licencia']['identificador']); ?>&nbsp;</td>
+     <td class="actions">
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'enterramientos', 'action' => 'ver', $enterramiento['id']), array('escape' => false)); ?>
+     </td>
+    </tr>
+   <?php endforeach; ?>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
+</div>
+
 <?php /* Movimientos relacionados */ ?>
 <div class="related box">
  <h2><?php echo __('Histórico de movimientos habidos en la tumba'); ?></h2>

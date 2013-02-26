@@ -248,16 +248,16 @@ class Movimiento extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarMovimiento'),
+        'clave' => array('type' => 'query', 'method' => 'buscarTraslado'),
     );
     
     /**
-     * buscarMovimiento method
+     * buscarTraslado method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarMovimiento ($data = array()) {
+    public function buscarTraslado ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
@@ -271,8 +271,8 @@ class Movimiento extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y") LIKE' => $comodin,
-          'Movimiento.motivo LIKE' => $comodin,
+          'DATE_FORMAT(Traslado.fecha,"%d/%m/%Y") LIKE' => $comodin,
+          'Traslado.motivo LIKE' => $comodin,
          )
         );
         
