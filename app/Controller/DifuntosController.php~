@@ -563,7 +563,19 @@ class DifuntosController extends AppController {
             }
             
             if ($this->request->data['Tumba']) {
-                $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $this->request->data['Tumba'][$this->request->data['Tumba']['tipo']]['localizacion'];
+                $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - ";
+                if ($this->request->data['Tumba']['Columbario']) {
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Columbario']['localizacion'];
+                }
+                elseif ($this->request->data['Tumba']['Exterior']) {
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Exterior']['localizacion'];
+                }
+                elseif ($this->request->data['Tumba']['Nicho']) {
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Nicho']['localizacion'];
+                }
+                elseif ($this->request->data['Tumba']['Panteon']) {
+                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Panteon']['localizacion'];
+                }
             }
             
             //Guardar los datos de sesión del difunto

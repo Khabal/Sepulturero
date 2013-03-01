@@ -131,7 +131,14 @@ class ConcesionesController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+public $presetVars = array(
+'clave'=> array( // overriding/extending the model defaults
+        'type' => 'method',
+        'encode' => true,
+	'model' => 'Concesion',
+    ),
+);
     
     /**
      * Opciones de guardado específicas de este controlador

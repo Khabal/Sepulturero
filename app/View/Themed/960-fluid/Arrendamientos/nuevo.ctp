@@ -5,11 +5,11 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($this->request->data);
  echo '</pre>';
- 
+ */
 ?>
 
 <script>
@@ -139,7 +139,7 @@
  <?php echo $this->Form->create('Arrendamiento'); ?>
   <fieldset>
    <legend><?php echo __('Datos del arrendamiento'); ?></legend>
-   <?php
+   <?php /* Campos */
     echo $this->Form->input('Arrendamiento.arrendatario_bonito', array('label' => 'Arrendatario:')); //Campo imaginario
     echo $this->Form->input('Arrendamiento.arrendatario_id', array('type' => 'hidden'));
     echo $this->Form->input('Arrendamiento.concesion_bonita', array('label' => 'Tipo de concesión:')); //Campo imaginario

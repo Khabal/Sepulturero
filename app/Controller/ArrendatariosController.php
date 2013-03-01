@@ -323,7 +323,7 @@ class ArrendatariosController extends AppController {
            ),
            'Concesion' => array(
             'fields' => array(
-             'Concesion.id', 'Tumba.tipo', 'Tumba.poblacion'
+             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
             ),
            ),
           ),
@@ -486,16 +486,11 @@ class ArrendatariosController extends AppController {
             ),
            ),
           ),
-          'ArrendatarioTumba' => array(
+          'Arrendamiento' => array(
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
               'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
              ),
             ),
             'Nicho' => array(
@@ -508,8 +503,18 @@ class ArrendatariosController extends AppController {
               'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
+            'Exterior' => array(
+             'fields' => array(
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
             'fields' => array(
              'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
+           ),
+           'Concesion' => array(
+            'fields' => array(
+             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
             ),
            ),
           ),
@@ -565,16 +570,11 @@ class ArrendatariosController extends AppController {
             ),
            ),
           ),
-          'ArrendatarioTumba' => array(
+          'Arrendamiento' => array(
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
               'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
              ),
             ),
             'Nicho' => array(
@@ -587,8 +587,18 @@ class ArrendatariosController extends AppController {
               'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
+            'Exterior' => array(
+             'fields' => array(
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
             'fields' => array(
              'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
+           ),
+           'Concesion' => array(
+            'fields' => array(
+             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
             ),
            ),
           ),
@@ -630,7 +640,7 @@ class ArrendatariosController extends AppController {
         }
         
         //Borrar y comprobar éxito
-        if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.arrendatario_id' => $id), false, false) && $this->Arrendatario->delete()) {
+        if ($this->Arrendatario->delete()) {
             $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
         }
         else {
