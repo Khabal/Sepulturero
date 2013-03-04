@@ -151,6 +151,13 @@ class Forense extends AppModel {
                 'on' => null,
                 'message' => 'El número de colegiado no se puede dejar en blanco.',
             ),
+            'longitud' => array(
+                'rule' => array('between', 4, 10),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de colegiado debe tener entre 4 y 10 caracteres.',
+            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
                 'required' => true,
@@ -164,13 +171,6 @@ class Forense extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'El número de colegiado introducido ya está en uso.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 4, 10),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El número de colegiado debe tener entre 4 y 10 caracteres.',
             ),
         ),
         'colegio' => array(
@@ -189,7 +189,7 @@ class Forense extends AppModel {
                 'message' => 'La localidad del colegio debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -288,9 +288,6 @@ class Forense extends AppModel {
      * @return class object
      */
     public function __construct ($id = false, $table = null, $ds = null) {
-        
-        //Añadir campos virtuales de "Persona"
-        //$this->virtualFields += $this->Persona->virtualFields;
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);

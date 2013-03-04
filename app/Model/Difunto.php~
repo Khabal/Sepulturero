@@ -382,7 +382,7 @@ class Difunto extends AppModel {
          ),
         ));
         
-        //Comprobar si existe el médico forense especificado
+        //Comprobar si existe el médico forense especificada
         if (empty($forense['Forense']['id'])) {
             //Devolver error
             return false;

@@ -20,6 +20,17 @@
   <dd><?php echo h($arrendatario['Persona']['nombre_completo']); ?>&nbsp;</dd>
   <dt><?php echo __('D.N.I.'); ?>:</dt>
   <dd><?php echo h($arrendatario['Persona']['dni']); ?>&nbsp;</dd>
+  <dt><?php echo __('Nacionalidad'); ?>:</dt>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Persona']['nacionalidad'])) {
+     echo h($arrendatario['Persona']['nacionalidad']);
+    }
+    else {
+     echo h("Desconocida");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Dirección'); ?>:</dt>
   <dd><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</dd>
   <dt><?php echo __('Localidad'); ?>:</dt>

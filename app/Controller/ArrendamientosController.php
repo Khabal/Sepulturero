@@ -164,7 +164,7 @@ class ArrendamientosController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Arrendamiento->parseCriteria($this->passedArgs),
+         'conditions' => $this->Arrendamiento->parseCriteria($this->params->query),
          'contain' => array(
           'Arrendatario' => array(
            'Persona' => array(

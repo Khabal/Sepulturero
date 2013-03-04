@@ -142,7 +142,7 @@ class ForensesController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
             'Forense' => array('id', 'persona_id', 'numero_colegiado', 'colegio', 'telefono', 'correo_electronico'),
         ),
         'validate' => false,
@@ -166,7 +166,7 @@ class ForensesController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Forense->parseCriteria($this->passedArgs),
+         'conditions' => $this->Forense->parseCriteria($this->params->query),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -324,7 +324,8 @@ class ForensesController extends AppController {
             $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             
             //Cargar datos de la sesión
-            $this->request->data['Forense']['id'] = $this->Session->read('Forense.id');
+            $this->request->data['Persona']['forense_id'] = $id;
+            $this->request->data['Forense']['id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Forense.persona_id');
             $this->request->data['Forense']['persona_id'] = $this->Session->read('Forense.persona_id');
             
@@ -537,7 +538,7 @@ class ForensesController extends AppController {
            'Persona.apellido2 LIKE' => $palabro,
            'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro,
            'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
-           'Persona.numero_colegiado LIKE' => $palabro,
+           'Forense.numero_colegiado LIKE' => $palabro,
           ),
          ),
          'contain' => array(

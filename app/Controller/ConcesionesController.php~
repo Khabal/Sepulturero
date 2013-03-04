@@ -131,14 +131,14 @@ class ConcesionesController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
-/*public $presetVars = array(
-'clave'=> array( // overriding/extending the model defaults
-        'type' => 'method',
-        'encode' => true,
-	'model' => 'Concesion',
-    ),
-);*/
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+	    'model' => 'Concesion',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -172,7 +172,7 @@ class ConcesionesController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Concesion->parseCriteria($this->passedArgs),
+         'conditions' => $this->Concesion->parseCriteria($this->params->query),
          'contain' => array(
          ),
         );
@@ -226,7 +226,6 @@ class ConcesionesController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -271,7 +270,6 @@ class ConcesionesController extends AppController {
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */

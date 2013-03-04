@@ -161,10 +161,10 @@ class ArrendamientosController extends AppController {
         
         //Iniciar proceso de paginación
         $this->Prg->commonProcess();
-        
+        print_r($this->params->query);
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Arrendamiento->parseCriteria($this->passedArgs),
+         'conditions' => $this->Arrendamiento->parseCriteria($this->param->query),
          'contain' => array(
           'Arrendatario' => array(
            'Persona' => array(
@@ -664,40 +664,7 @@ class ArrendamientosController extends AppController {
         $palabro = '%'.$this->request->query['term'].'%';
         
         //Búsqueda de coincidencias
-        $resultados = $this->Arrendatario->find('all', array(
-         'joins' => array(
-          array(
-           'table' => 'personas',
-           'alias' => 'Persona',
-           'type' => 'LEFT',
-           'foreignKey' => false,
-           'conditions' => array(
-            'Persona.id = Arrendatario.persona_id'
-           ),
-          ),
-         ),
-         'conditions' => array(
-          'OR' => array(
-           'Persona.dni LIKE' => $palabro,
-           'Persona.nombre LIKE' => $palabro,
-           'Persona.apellido1 LIKE' => $palabro, 
-           'Persona.apellido2 LIKE' => $palabro, 
-           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro, 
-           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro, 
-          ),
-         ),
-         'contain' => array(
-          'Persona' => array(
-           'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
-           ),
-          ),
-         ),
-         'fields' => array(
-          'Arrendatario.id', 'Arrendatario.persona_id'
-         ),
-         'limit' => 20,
-        ));
+        $resultados = null;
         
         //Procesamiento y codificación en JSON
         $items = array();
@@ -707,7 +674,7 @@ class ArrendamientosController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Persona']['dni'], "value" => $resultado['Arrendatario']['id']));
+                array_push($items, array("label" => $resultado, "value" => $resultado));
             }
         }
         

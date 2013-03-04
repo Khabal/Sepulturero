@@ -173,7 +173,7 @@ class Funeraria extends AppModel {
                 'message' => 'El nombre debe tener entre 2 y 100 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,

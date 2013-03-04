@@ -38,72 +38,112 @@
  </dl>
 </div>
 
-
-<?php /* Datos arrendatario */ ?>
+<?php /* Arrendatario relacionado */ ?>
 <div class="related box">
- <h2><?php echo __('Datos del arrendatario'); ?></h2>
- <dl>
-  <dt><?php echo __('Nombre'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</dd>
-  <dt><?php echo __('D.N.I.'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['Persona']['dni']); ?>&nbsp;</dd>
-  <dt><?php echo __('Dirección'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['direccion']); ?>&nbsp;</dd>
-  <dt><?php echo __('Localidad'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['localidad']); ?>&nbsp;</dd>
-  <dt><?php echo __('Provincia'); ?>:</dt>
-  <dd>
-   <?php
-    if ($arrendamiento['Arrendatario']['provincia']) {
-     echo h($arrendamiento['Arrendatario']['provincia']);
-    }
-    else {
-     echo h("Desconocida");
-    }
-   ?>&nbsp;
-  </dd>
-  <dt><?php echo __('País'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['pais']); ?>&nbsp;</dd>
-  <dt><?php echo __('Código postal'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['codigo_postal']); ?>&nbsp;</dd>
-  <dt><?php echo __('Teléfono'); ?>:</dt>
-  <dd>
-   <?php
-    if ($arrendamiento['Arrendatario']['telefono']) {
-     echo h($arrendamiento['Arrendatario']['telefono']);
-    }
-    else {
-     echo h("Desconocido");
-    }
-   ?>&nbsp;
-  </dd>
-  <dt><?php echo __('Correo electrónico'); ?>:</dt>
-  <dd class="email">
-   <?php
-    if ($arrendamiento['Arrendatario']['correo_electronico']) {
-     echo h($arrendamiento['Arrendatario']['correo_electronico']);
-    }
-    else {
-     echo h("Desconocido");
-    }
-   ?>&nbsp;
-  </dd>
-  <dt><?php echo __('Anotaciones'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Arrendatario']['Persona']['observaciones']); ?>&nbsp;</dd>
- </dl>
+ <h2><?php echo __('Arrendatario actual'); ?></h2>
+  <?php if (!empty($arrendamiento['Arrendatario'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Nombre'); ?></th>
+     <th><?php echo __('D.N.I.'); ?></th>
+     <th><?php echo __('Dirección'); ?></th>
+     <th><?php echo __('Localidad'); ?></th>
+     <th><?php echo __('Provincia'); ?></th>
+     <th><?php echo __('País'); ?></th>
+     <th><?php echo __('Código postal'); ?></th>
+     <th><?php echo __('Teléfono'); ?></th>
+     <th><?php echo __('Correo electrónico'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Información del arrendatario */ ?>
+   <tbody>
+    <tr class="altrow">
+     <td><?php echo h($arrendamiento['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Persona']['dni'])) {
+        echo h($arrendatario['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td><?php echo h($arrendamiento['Arrendatario']['direccion']); ?>&nbsp;</td>
+     <td><?php echo h($arrendamiento['Arrendatario']['localidad']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['provincia'])) {
+        echo h($arrendatario['Arrendatario']['provincia']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td><?php echo h($arrendamiento['Arrendatario']['pais']); ?>&nbsp;</td>
+     <td><?php echo h($arrendamiento['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['telefono'])) {
+        echo h($arrendatario['Arrendatario']['telefono']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td class="email">
+      <?php
+       if (!empty($arrendatario['Arrendatario']['correo_electronico'])) {
+        echo h($arrendatario['Arrendatario']['correo_electronico']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td class="actions">
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendamiento']['arrendatario_id']), array('escape' => false)); ?>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
 </div>
 
-<?php /* Datos tumba */ ?>
+<?php /* Tumba relacionada */ ?>
 <div class="related box">
- <h2><?php echo __('Datos de la tumba'); ?></h2>
- <dl>
-  <dt><?php echo __('Tipo de tumba:'); ?></dt>
-  <dd><?php echo h($arrendamiento['Tumba']['tipo']); ?>&nbsp;</dd>
-  <dt><?php echo __('Localización:'); ?></dt>
-  <dd><?php echo h($arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion']); ?>&nbsp;</dd>
-  <dt><?php echo __('Población:'); ?></dt>
-  <dd><?php echo h($arrendamiento['Tumba']['poblacion']); ?>&nbsp;</dd>
-  <dt><?php echo __('Anotaciones:'); ?></dt>
-  <dd><?php echo h($arrendamiento['Tumba']['observaciones']); ?>&nbsp;</dd>
- </dl>
+ <h2><?php echo __('Tumba actual'); ?></h2>
+  <?php if (!empty($arrendamiento['Tumba'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Tipo de tumba'); ?></th>
+     <th><?php echo __('Localización'); ?></th>
+     <th><?php echo __('Población'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Información de la tumba */ ?>
+   <tbody>
+    <tr class="altrow">
+     <td><?php echo h($arrendamiento['Tumba']['tipo']); ?>&nbsp;</td>
+     <td><?php echo h($arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion']); ?>&nbsp;</td>
+     <td><?php echo h($arrendamiento['Tumba']['poblacion']); ?>&nbsp;</td>
+     <td class="actions">
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Arrendamiento']['tumba_id']), array('escape' => false)); ?>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
 </div>

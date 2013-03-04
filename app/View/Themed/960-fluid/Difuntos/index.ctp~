@@ -24,8 +24,9 @@
     <th><?php echo $this->Paginator->sort('Tumba', 'Tumba'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.edad_defuncion', 'Edad de defunción'); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.edad', 'Edad'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.causa_defuncion', 'Causa de defunción'); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.certificado_defuncion', 'Certificado de defunción'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
@@ -40,19 +41,9 @@
      </td>
      <td><?php echo h($difunto['Persona']['dni']); ?>&nbsp;</td>
      <td class="enlace">
-      <?php /* Obtener identificador de tumba */
+      <?php
        if ($difunto['Difunto']['tumba_id']) {
-        $identificador = "";
-        if ($difunto['Tumba']['Columbario']) {
-         $identificador = $difunto['Tumba']['Columbario']['localizacion'];
-        }
-        elseif ($difunto['Tumba']['Nicho']) {
-         $identificador = $difunto['Tumba']['Nicho']['localizacion'];
-        }
-        elseif ($difunto['Tumba']['Panteon']) {
-         $identificador = $difunto['Tumba']['Panteon']['localizacion'];
-        }
-        echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
+        echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $difunto['Tumba'][$difunto['Tumba']['tipo']]['localizacion'], array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
        }
        else {
         echo h("Tumba desconocida");
@@ -72,8 +63,8 @@
      </td>
      <td>
       <?php
-       if ($difunto['Difunto']['edad_defuncion']) {
-        echo h($difunto['Difunto']['edad_defuncion']);
+       if ($difunto['Difunto']['edad']) {
+        echo h($difunto['Difunto']['edad']);
        }
        else {
         echo h("Desconocida");

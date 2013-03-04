@@ -141,7 +141,7 @@ class ArrendatariosController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
             'Arrendatario' => array('id', 'persona_id', 'direccion', 'localidad', 'provincia', 'pais', 'codigo_postal', 'telefono', 'correo_electronico'),
             'ArrendatarioFuneraria' => array('id', 'arrendatario_id', 'funeraria_id'),
         ),
@@ -166,7 +166,7 @@ class ArrendatariosController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Arrendatario->parseCriteria($this->passedArgs),
+         'conditions' => $this->Arrendatario->parseCriteria($this->params->query),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -237,6 +237,9 @@ class ArrendatariosController extends AppController {
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
+                //Establecer el sexo como desconocido
+                $this->request->data['Persona']['sexo'] = null;
+                
                 //Guardar y comprobar éxito
                 if ($this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
                     $this->Session->setFlash(__('El arrendatario ha sido guardado correctamente.'));
@@ -262,7 +265,6 @@ class ArrendatariosController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -285,7 +287,7 @@ class ArrendatariosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'ArrendatarioFuneraria' => array(
@@ -351,7 +353,6 @@ class ArrendatariosController extends AppController {
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -377,6 +378,12 @@ class ArrendatariosController extends AppController {
             $this->request->data['Persona']['arrendatario_id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Arrendatario.persona_id');
             $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
+            
+            //Establecer el sexo como desconocido
+            $this->request->data['Persona']['sexo'] = null;
+            
+            //Convertir a mayúsculas el carácter del DNI
+            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             
             //Comprobar si hay funerarias vacías y eliminarlas
             if (isset($this->request->data['ArrendatarioFuneraria'])) {
@@ -418,7 +425,7 @@ class ArrendatariosController extends AppController {
              'contain' => array(
               'Persona' => array(
                'fields' => array(
-                'Persona.id', 'Persona.dni', 'Persona.nombre', 'Persona.apellido1', 'Persona.apellido2', 'Persona.observaciones', 'Persona.nombre_completo'
+                'Persona.id', 'Persona.dni', 'Persona.nombre', 'Persona.apellido1', 'Persona.apellido2', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
                ),
               ),
               'ArrendatarioFuneraria' => array(
@@ -476,7 +483,7 @@ class ArrendatariosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'ArrendatarioFuneraria' => array(
@@ -560,7 +567,7 @@ class ArrendatariosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'ArrendatarioFuneraria' => array(
@@ -640,7 +647,7 @@ class ArrendatariosController extends AppController {
         }
         
         //Borrar y comprobar éxito
-        if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.arrendatario_id' => $id), false, false) && $this->Arrendatario->delete()) {
+        if ($this->Arrendatario->delete()) {
             $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
         }
         else {

@@ -111,9 +111,7 @@
          if(errores[num][num + 1] != "") {
            $(newForm).append('<div class="error-message">' + errores[num][num + 1] + '</div>');
        }
-       else {
-       }
-       num++;
+         num++;
        }
        
      }
@@ -131,6 +129,7 @@
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
     echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
+    echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
     echo $this->Form->input('Arrendatario.direccion', array('label' => 'Dirección:'));
     echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:', 'default' => 'Motril'));
     echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:', 'default' => 'Granada'));

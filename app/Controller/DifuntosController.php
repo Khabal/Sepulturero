@@ -95,7 +95,7 @@ class DifuntosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Difunto', 'DifuntoTraslado', 'Enterramiento', 'Persona', 'Traslado', 'Tumba', 'Sanitize');
+    public $uses = array('Difunto', 'DifuntoMovimiento', 'Forense', 'Persona', 'Tumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -141,8 +141,8 @@ class DifuntosController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
-            'Difunto' => array('id', 'persona_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad_defuncion', 'causa_defuncion'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
+            'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'causa_defuncion', 'certificado_defuncion'),
             'Tumba' => array('id', 'poblacion'),
         ),
         'validate' => false,
@@ -215,6 +215,8 @@ class DifuntosController extends AppController {
         
         //Devolver las opciones de selección de estados del cuerpo
         $this->set('estado', $this->Difunto->estado);
+        //Devolver las opciones de selección de sexo
+        $this->set('sexo', $this->Difunto->Persona->sexo);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
@@ -256,10 +258,9 @@ class DifuntosController extends AppController {
                 
                 //Comprobar si se ha introducido una tumba
                 if (!empty($this->request->data['Difunto']['tumba_id'])) {
-                    
                     //Aumentar la población de la tumba
                     $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
-                    $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
+                    $this->request->data['Tumba']['población'] = ((int) $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id']))) + 1;
                 }
                 else {
                     //Truco del almendruco para evitar errores de validación
@@ -291,7 +292,6 @@ class DifuntosController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -435,7 +435,6 @@ class DifuntosController extends AppController {
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -448,7 +447,7 @@ class DifuntosController extends AppController {
         $this->Difunto->id = $id;
         
         //Comprobar si existe el difunto
-        if (!$this->Difunto->exists()) {
+        if (!$this->Difunto->exists()) {$this->Session->read('Forense.id');
             $this->Session->setFlash(__('El difunto especificado no existe.'));
             $this->redirect(array('action' => 'index'));
         }
@@ -463,7 +462,8 @@ class DifuntosController extends AppController {
             $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             
             //Cargar datos de la sesión
-            $this->request->data['Difunto']['id'] = $this->Session->read('Difunto.id');
+            $this->request->data['Difunto']['id'] = $id;
+            $this->request->data['Persona']['difunto_id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Difunto.persona_id');
             $this->request->data['Difunto']['persona_id'] = $this->Session->read('Difunto.persona_id');
             

@@ -331,26 +331,26 @@ class Arrendamiento extends AppModel {
         //Extraer el estado del arrendamiento del vector
         $estado = (string) $check['estado'];
         
-        //Extraer el ID de la tumba
-        if (isset($this->data['Arrendamiento']['tumba_id'])) {
-            $tumba = $this->data['Arrendamiento']['tumba_id'];
-        }
-        else {
-            $tumba = '';
-        }
-        
         //Extraer el ID del arrendatario
-        if (isset($this->data['Arrendamiento']['arrendatario_id'])) {
+        if (!empty($this->data['Arrendamiento']['arrendatario_id'])) {
             $arrendatario = $this->data['Arrendamiento']['arrendatario_id'];
         }
         else {
             $arrendatario = '';
         }
         
+        //Extraer el ID de la tumba
+        if (!empty($this->data['Arrendamiento']['tumba_id'])) {
+            $tumba = $this->data['Arrendamiento']['tumba_id'];
+        }
+        else {
+            $tumba = '';
+        }
+        
         //Comprobar si el estado del arrendamiento es "Vigente"
         if ($estado == "Vigente") {
             //Buscar si ya había otro arrendatario "Vigente" para esta tumba
-            $arrendador = $this->find('first', array(
+            $arrendador = $this->find('count', array(
              'conditions' => array(
               'Arrendamiento.arrendatario_id !=' => $arrendatario,
               'Arrendamiento.tumba_id' => $tumba,
@@ -364,7 +364,7 @@ class Arrendamiento extends AppModel {
             ));
             
             //Comprobar si existe otro arrendatario "Vigente" para esta tumba
-            if (!empty($arrendador['Arrendamiento']['id'])) {
+            if ($arrendador > 1) {
                 //Devolver error
                 return false;
             }
