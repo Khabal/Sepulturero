@@ -200,13 +200,10 @@ class ArrendatariosController extends AppController {
             //Comprobar si ha introducido un DNI
             if (!empty($this->request->data['Persona']['dni'])) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-                
                 //Buscar si existe ya una persona con el mismo DNI
                 $persona = $this->Arrendatario->Persona->find('first', array(
                  'conditions' => array(
-                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                  'Persona.dni' => strtoupper($this->request->data['Persona']['dni']),
                  ),
                  'fields' => array(
                   'Persona.id'
@@ -234,11 +231,17 @@ class ArrendatariosController extends AppController {
                 }
             }
             
+            //Indicar que se trata de un arrendatario
+            $this->request->data['Persona']['arrendatario_id'] = '';
+            
+            //Establecer el sexo como desconocido
+            $this->request->data['Persona']['sexo'] = 'Desconocido';
+            
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Establecer el sexo como desconocido
-                $this->request->data['Persona']['sexo'] = null;
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -374,13 +377,11 @@ class ArrendatariosController extends AppController {
             Sanitize::clean($this->request->data);
             
             //Cargar datos de la sesión
-            $this->request->data['Arrendatario']['id'] = $id;
-            $this->request->data['Persona']['arrendatario_id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Arrendatario.persona_id');
+            $this->request->data['Persona']['arrendatario_id'] = $id;
+            $this->request->data['Persona']['sexo'] = $this->Session->read('Arrendatario.sexo');
+            $this->request->data['Arrendatario']['id'] = $id;
             $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
-            
-            //Convertir a mayúsculas el carácter del DNI
-            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
             
             //Comprobar si hay funerarias vacías y eliminarlas
             if (isset($this->request->data['ArrendatarioFuneraria'])) {
@@ -396,8 +397,8 @@ class ArrendatariosController extends AppController {
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Establecer el sexo como desconocido
-                $this->request->data['Persona']['sexo'] = null;
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -425,7 +426,7 @@ class ArrendatariosController extends AppController {
              'contain' => array(
               'Persona' => array(
                'fields' => array(
-                'Persona.id', 'Persona.dni', 'Persona.nombre', 'Persona.apellido1', 'Persona.apellido2', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
+                'Persona.id', 'Persona.dni', 'Persona.nombre', 'Persona.apellido1', 'Persona.apellido2', 'Persona.sexo', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
                ),
               ),
               'ArrendatarioFuneraria' => array(
@@ -454,6 +455,7 @@ class ArrendatariosController extends AppController {
             $this->Session->write('Arrendatario.persona_id', $this->request->data['Persona']['id']);
             $this->Session->write('Arrendatario.persona_dni', $this->request->data['Persona']['dni']);
             $this->Session->write('Arrendatario.nombre_completo', $this->request->data['Persona']['nombre_completo']);
+            $this->Session->write('Arrendatario.sexo', $this->request->data['Persona']['sexo']);
         }
         
     }
@@ -646,12 +648,28 @@ class ArrendatariosController extends AppController {
             throw new NotFoundException(__('El arrendatario especificado no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Arrendatario->delete()) {
-            $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+        //Comprobar si la persona está asociada con algún difunto o médico forense para en caso contrario eliminarlo también
+        $persona = $this->Arrendatario->field('persona_id', array('Arrendatario.id' => $id));
+        $difunto = $this->Arrendatario->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+        $forense = $this->Arrendatario->Persona->Forense->field('id', array('Forense.persona_id' => $persona));
+        
+        if (empty($difunto) && empty($forense)) {
+            //Borrar y comprobar éxito (Persona y Arrendatario)
+            if ($this->Arrendatario->Persona->delete($persona) && $this->Arrendatario->delete()) {
+                $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+            }
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+            //Borrar y comprobar éxito (Arrendatario)
+            if ($this->Arrendatario->delete()) {
+                $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+            }
         }
         
         //Redireccionar a index

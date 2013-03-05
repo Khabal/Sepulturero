@@ -154,6 +154,27 @@ class Tumba extends AppModel {
                 'on' => null,
                 'message' => 'El tipo de tumba no se encuentra dentro de las opciones posibles.',
             ),
+            'unico_columbario' => array(
+                'rule' => array('valida_columbario'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un columbario con ese número, letra, fila y patio',
+            ),
+            'unico_nicho' => array(
+                'rule' => array('valida_nicho'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un nicho con ese número, letra, fila y patio',
+            ),
+            'unico_panteon' => array(
+                'rule' => array('valida_panteon'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un panteón con esa familia, número y patio',
+            ),
         ),
         'poblacion' => array(
             'novacio' => array(
@@ -301,6 +322,59 @@ class Tumba extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_columbario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_columbario($check) {
+        
+        //Comprobar si se trata de un columbario
+        if (isset($this->data['Tumba']['columbario_id'])) {
+            
+            //Extraer el ID del arrendatario
+            if (!empty($this->data['Persona']['arrendatario_id'])) {
+                $id = $this->data['Persona']['arrendatario_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Buscar si hay otro columbario con los mismos datos
+            $columbario = $this->Columbario->find('first', array(
+             'conditions' => array(
+              'Columbario.numero_columbario' => $cif,
+              'Columbario.letra' => $cif,
+              'Columbario.fila' => $cif,
+              'Columbario.patio' => $cif,
+             ),
+             'fields' => array(
+              'Columbario.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un columbario con los mismos datos
+            if(!empty($columbario['Columbario']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+            //Devolver error
+            return false;
+            
+        }
+        
+        //Devolver válido
+        return true;
     }
     
     /**

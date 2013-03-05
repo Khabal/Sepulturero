@@ -17,7 +17,7 @@
  <?php echo $this->Form->create('Forense');?>
   <fieldset>
    <legend><?php echo __('Datos del médico forense'); ?></legend>
-   <?php
+   <?php /* Campos */
     echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));

@@ -263,7 +263,7 @@ class Funeraria extends AppModel {
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La página web introducida no es válida',
+                'message' => 'La página web introducida no es válida (Ejemplo: http://www.algo.es).',
             ),
         ),
         'observaciones' => array(

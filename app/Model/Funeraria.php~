@@ -110,8 +110,7 @@ class Funeraria extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -260,7 +259,7 @@ class Funeraria extends AppModel {
                 'message' => 'La página web debe tener entre 5 y 100 caracteres.',
             ),
             'web' => array(
-                'rule' => array('url', true),
+                'rule' => array('url', false),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,

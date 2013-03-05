@@ -27,7 +27,6 @@
     echo $this->Form->input('Forense.telefono', array('label' => 'Teléfono:'));
     echo $this->Form->input('Forense.correo_electronico', array('label' => 'Correo electrónico:'));
     echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
-    echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
    ?>
   </fieldset>
  <?php /* Botones */

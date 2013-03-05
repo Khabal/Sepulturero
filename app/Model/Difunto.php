@@ -212,7 +212,7 @@ class Difunto extends AppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El certificado de defunción no se puede dejar en blanco.',
+                'message' => 'El certificado de defunción no se puede dejar en blanco (Desconocido: 000000000).',
             ),
             'longitud' => array(
                 'rule' => array('between', 9, 10),

@@ -200,9 +200,6 @@ class ForensesController extends AppController {
             //Comprobar si ha introducido un DNI
             if (!empty($this->request->data['Persona']['dni'])) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-                
                 //Buscar si existe ya una persona con el mismo DNI
                 $persona = $this->Forense->Persona->find('first', array(
                  'conditions' => array(
@@ -223,8 +220,17 @@ class ForensesController extends AppController {
                 
             }
             
+            //Indicar que se trata de un médico forense
+            $this->request->data['Persona']['forense_id'] = '';
+            
+            //Establecer el sexo como desconocido
+            $this->request->data['Persona']['sexo'] = 'Desconocido';
+            
             //Validar los datos introducidos
             if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -273,7 +279,7 @@ class ForensesController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
          ),
@@ -320,17 +326,18 @@ class ForensesController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Convertir a mayúsculas el carácter del DNI
-            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-            
             //Cargar datos de la sesión
-            $this->request->data['Persona']['forense_id'] = $id;
-            $this->request->data['Forense']['id'] = $id;
             $this->request->data['Persona']['id'] = $this->Session->read('Forense.persona_id');
+            $this->request->data['Persona']['forense_id'] = $id;
+            $this->request->data['Persona']['sexo'] = $this->Session->read('Forense.sexo');
+            $this->request->data['Forense']['id'] = $id;
             $this->request->data['Forense']['persona_id'] = $this->Session->read('Forense.persona_id');
             
             //Validar los datos introducidos
             if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -364,6 +371,7 @@ class ForensesController extends AppController {
             $this->Session->write('Forense.id', $this->request->data['Forense']['id']);
             $this->Session->write('Forense.persona_id', $this->request->data['Forense']['persona_id']);
             $this->Session->write('Forense.nombre_completo', $this->request->data['Persona']['nombre_completo']);
+            $this->Session->write('Forense.sexo', $this->request->data['Persona']['sexo']);
         }
         
     }
@@ -415,7 +423,6 @@ class ForensesController extends AppController {
     /**
      * export pdf method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -478,12 +485,12 @@ class ForensesController extends AppController {
             throw new NotFoundException(__('El médico forense especificado no existe.'));
         }
         
-        //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo tmabién
+        //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo también
         $persona = $this->Forense->field('persona_id', array('Forense.id' => $id));
-        $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
         $arrendatario = $this->Forense->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
+        $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
         
-        if (empty($difunto) || empty($arrendatario)) {
+        if (empty($arrendatario) && empty($difunto)) {
             //Borrar y comprobar éxito (Persona y Forense)
             if ($this->Forense->Persona->delete($persona) && $this->Forense->delete()) {
                 $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
@@ -508,6 +515,12 @@ class ForensesController extends AppController {
     }
     
     /**
+     * ---------------------------
+     * Extra Controller Actions
+     * ---------------------------
+     */
+    
+    /**
      * autocomplete method
      *
      * @return JSON array
@@ -519,28 +532,6 @@ class ForensesController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Forense->find('all', array(
-         'joins' => array(
-          array(
-           'table' => 'personas',
-           'alias' => 'Persona',
-           'type' => 'LEFT',
-           'foreignKey' => false,
-           'conditions' => array(
-            'Persona.id = Forense.persona_id'
-           ),
-          ),
-         ),
-         'conditions' => array(
-          'OR' => array(
-           'Persona.dni LIKE' => $palabro,
-           'Persona.nombre LIKE' => $palabro,
-           'Persona.apellido1 LIKE' => $palabro,
-           'Persona.apellido2 LIKE' => $palabro,
-           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro,
-           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
-           'Forense.numero_colegiado LIKE' => $palabro,
-          ),
-         ),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -548,8 +539,16 @@ class ForensesController extends AppController {
            ),
           ),
          ),
-         'fields' => array(
-          'Forense.id', 'Forense.persona_id', 'Forense.numero_colegiado', 'Forense.colegio'
+         'conditions' => array(
+          'OR' => array(
+           'Persona.dni LIKE' => $palabro,
+           'Persona.nombre LIKE' => $palabro,
+           'Persona.apellido1 LIKE' => $palabro, 
+           'Persona.apellido2 LIKE' => $palabro, 
+           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro, 
+           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
+           'Forense.numero_colegiado LIKE' => $palabro, 
+          ),
          ),
          'limit' => 20,
         ));
@@ -562,7 +561,7 @@ class ForensesController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Forense']['numero_colegiado'], "value" => $resultado['Forense']['id']));
+                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Forense']['numero_colegiado'] . " (" . $resultado['Forense']['colegio'] . ")", "value" => $resultado['Forense']['id']));
             }
         }
         

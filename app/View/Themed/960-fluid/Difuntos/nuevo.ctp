@@ -50,7 +50,7 @@
          }
        });
      },
-     minLength: 1,
+     minLength: 2,
      select: function(event, ui) {
        event.preventDefault(),
        $("#DifuntoForenseBonito").val(ui.item.label),
@@ -85,7 +85,7 @@
          }
        });
      },
-     minLength: 1,
+     minLength: 2,
      select: function(event, ui) {
        event.preventDefault(),
        $("#DifuntoTumbaBonita").val(ui.item.label),
@@ -106,7 +106,7 @@
  <?php echo $this->Form->create('Difunto');?>
   <fieldset>
   <legend><?php echo __('Datos del difunto'); ?></legend>
-   <?php
+   <?php /* Campos */
     echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
@@ -125,7 +125,7 @@
    ?>
   </fieldset>
   <fieldset>
-   <legend><?php echo __('Tumba de descanso actual'); ?></legend>
+   <legend><?php echo __('Tumba de descanso actual (Opcional)'); ?></legend>
    <?php /* Campos */
     echo $this->Form->input('Difunto.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
     echo $this->Form->input('Difunto.tumba_id', array('type' => 'hidden'));

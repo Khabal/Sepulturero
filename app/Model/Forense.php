@@ -244,7 +244,7 @@ class Forense extends AppModel {
     public $hasMany = array(
         'Difunto' => array(
             'className' => 'Difunto',
-            'foreignKey' => 'difunto_id',
+            'foreignKey' => 'forense_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -335,6 +335,7 @@ class Forense extends AppModel {
           'Persona.dni LIKE' => $comodin,
           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+          'Forense.numero_colegiado LIKE' => $comodin, 
          )
         );
         

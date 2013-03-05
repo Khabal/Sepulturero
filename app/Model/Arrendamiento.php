@@ -332,12 +332,12 @@ class Arrendamiento extends AppModel {
         $estado = (string) $check['estado'];
         
         //Extraer el ID del arrendatario
-        if (!empty($this->data['Arrendamiento']['arrendatario_id'])) {
+        /*if (!empty($this->data['Arrendamiento']['arrendatario_id'])) {
             $arrendatario = $this->data['Arrendamiento']['arrendatario_id'];
         }
         else {
             $arrendatario = '';
-        }
+        }*/
         
         //Extraer el ID de la tumba
         if (!empty($this->data['Arrendamiento']['tumba_id'])) {
@@ -352,7 +352,7 @@ class Arrendamiento extends AppModel {
             //Buscar si ya había otro arrendatario "Vigente" para esta tumba
             $arrendador = $this->find('count', array(
              'conditions' => array(
-              'Arrendamiento.arrendatario_id !=' => $arrendatario,
+              //'Arrendamiento.arrendatario_id !=' => $arrendatario,
               'Arrendamiento.tumba_id' => $tumba,
               'Arrendamiento.estado' => "Vigente",
              ),

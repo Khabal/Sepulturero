@@ -25,7 +25,7 @@
     <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.edad', 'Edad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.causa_defuncion', 'Causa de defunción'); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.causa_fallecimiento', 'Causa de fallecimiento'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.certificado_defuncion', 'Certificado de defunción'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
@@ -48,7 +48,7 @@
        else {
         echo h("Tumba desconocida");
        }
-      ?> &nbsp;
+      ?>&nbsp;
      </td>
      <td><?php echo h($difunto['Difunto']['estado']); ?>&nbsp;</td>
      <td>
@@ -73,14 +73,15 @@
      </td>
      <td>
       <?php
-       if ($difunto['Difunto']['causa_defuncion']) {
-        echo h($difunto['Difunto']['causa_defuncion']);
+       if ($difunto['Difunto']['causa_fallecimiento']) {
+        echo h($difunto['Difunto']['causa_fallecimiento']);
        }
        else {
         echo h("Desconocida");
        }
       ?>&nbsp;
      </td>
+     <td><?php echo h($difunto['Difunto']['certificado_defuncion']); ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $difunto['Difunto']['id'], $difunto['Persona']['nombre_completo']); ?>
      </td>

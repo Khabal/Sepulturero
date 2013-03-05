@@ -1,15 +1,15 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Difunto.id'), $this->Session->read('Difunto.nombre_completo')); ?>
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
- print_r($this->request->data);
+ print_r($this->request->data);print_r($this->validationErrors;);
  echo '</pre>';
- */
+ 
 ?>
 
 <script>
@@ -101,12 +101,12 @@
  });
 </script>
 
-<?php /* Formulario nuevo difunto */ ?>
-<div class="add form">
+<?php /* Formulario editar difunto */ ?>
+<div class="edit form">
  <?php echo $this->Form->create('Difunto');?>
   <fieldset>
-  <legend><?php echo __('Datos del difunto'); ?></legend>
-   <?php
+   <legend><?php echo __('Datos del difunto'); ?></legend>
+   <?php /* Campos */
     echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
@@ -132,9 +132,8 @@
    ?>
   </fieldset>
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
+  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
   echo $this->Form->end();
  ?>
 </div>

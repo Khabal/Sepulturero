@@ -76,7 +76,7 @@ class Panteon extends AppModel {
      *
      * @var string
      */
-    public $alias = 'Panteon';
+    public $alias = 'Panteón';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -153,14 +153,14 @@ class Panteon extends AppModel {
                 'message' => 'La familia no se puede dejar en blanco.',
             ),
             'longitud' => array(
-                'rule' => array('between', 2, 50),
+                'rule' => array('between', 2, 100),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La familia debe tener entre 2 y 50 caracteres.',
+                'message' => 'La familia debe tener entre 2 y 100 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
