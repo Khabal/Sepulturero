@@ -168,7 +168,7 @@ class TumbasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array(
-         'conditions' => $this->Tumba->parseCriteria($this->passedArgs),
+         'conditions' => $this->Tumba->parseCriteria($this->params->query),
          'contain' => array(
           'Columbario' => array(
            'fields' => array(
@@ -317,7 +317,7 @@ class TumbasController extends AppController {
             ),
            ),
            'fields' => array(
-            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimento', 'Difunto.certificado_defuncion'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
            ),
           ),
           'MovimientoTumba' => array(
@@ -461,19 +461,19 @@ class TumbasController extends AppController {
             $this->Session->write('Tumba.id', $this->request->data['Tumba']['id']);
             $this->Session->write('Tumba.tipo', $this->request->data['Tumba']['tipo']);
             $this->Session->write('Tumba.poblacion', $this->request->data['Tumba']['poblacion']);
-            if (!empty($this->request->data['Columbario']['localizacion'])) {
+            if (!empty($this->request->data['Columbario']['id'])) {
                 $this->Session->write('Tumba.localizacion', $this->request->data['Columbario']['localizacion']);
                 $this->Session->write('Tumba.columbario_id', $this->request->data['Columbario']['id']);
             }
-            elseif (!empty($this->request->data['Exterior']['localizacion'])) {
+            elseif (!empty($this->request->data['Exterior']['id'])) {
                 $this->Session->write('Tumba.localizacion', $this->request->data['Exterior']['localizacion']);
                 $this->Session->write('Tumba.exterior_id', $this->request->data['Exterior']['id']);
             }
-            elseif (!empty($this->request->data['Nicho']['localizacion'])) {
+            elseif (!empty($this->request->data['Nicho']['id'])) {
                 $this->Session->write('Tumba.localizacion', $this->request->data['Nicho']['localizacion']);
                 $this->Session->write('Tumba.nicho_id', $this->request->data['Nicho']['id']);
             }
-            elseif (!empty($this->request->data['Panteon']['localizacion'])) {
+            elseif (!empty($this->request->data['Panteon']['id'])) {
                 $this->Session->write('Tumba.localizacion', $this->request->data['Panteon']['localizacion']);
                 $this->Session->write('Tumba.panteon_id', $this->request->data['Panteon']['id']);
             }
@@ -505,9 +505,40 @@ class TumbasController extends AppController {
           'Tumba.id' => $id
          ),
          'contain' => array(
-          'Persona' => array(
+          'Columbario','Nicho','Panteon','Exterior',
+          'Arrendamiento' => array(
+           'Arrendatario' => array(
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+             ),
+            ),
+            'fields' => array(
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+           ),
+          ),
+          'Difunto' => array(
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            ),
+           ),
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+           ),
+          ),
+          'MovimientoTumba' => array(
+           'Movimiento' => array(
+            'fields' => array(
+             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+            ),
+           ),
+           'Tumba' => array(
+            'Columbario','Nicho','Panteon','Exterior',
+            'fields' => array(
+             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
            ),
           ),
          ),
@@ -532,12 +563,18 @@ class TumbasController extends AppController {
         $this->pdfConfig['title'] = $tumba['Tumba']['tipo'] . " - " . $localizacion;
         $this->pdfConfig['filename'] = "Tumba_" . $tumba['Tumba']['tipo'] . $localizacion . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('tumba'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -564,22 +601,77 @@ class TumbasController extends AppController {
           'Tumba.id' => $id
          ),
          'contain' => array(
-          'Persona' => array(
+          'Columbario','Nicho','Panteon','Exterior',
+          'Arrendamiento' => array(
+           'Arrendatario' => array(
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+             ),
+            ),
+            'fields' => array(
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+           ),
+          ),
+          'Difunto' => array(
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            ),
+           ),
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+           ),
+          ),
+          'MovimientoTumba' => array(
+           'Movimiento' => array(
+            'fields' => array(
+             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+            ),
+           ),
+           'Tumba' => array(
+            'Columbario','Nicho','Panteon','Exterior',
+            'fields' => array(
+             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
            ),
           ),
          ),
         ));
+        
+        //Obtener localización de la tumba
+        $localizacion = "";
+        if (!empty($tumba['Columbario']['localizacion'])) {
+            $localizacion = $tumba['Columbario']['localizacion'];
+        }
+        elseif(!empty($tumba['Exterior']['localizacion'])) {
+            $localizacion = $tumba['Exterior']['localizacion'];
+        }
+        elseif(!empty($tumba['Nicho']['localizacion'])) {
+            $localizacion = $tumba['Nicho']['localizacion'];
+        }
+        elseif(!empty($tumba['Panteon']['localizacion'])) {
+            $localizacion = $tumba['Panteon']['localizacion'];
+        }
         
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $tumba['Tumba']['tipo'] . " - " . $localizacion;
         $this->pdfConfig['filename'] = "Tumba_" . $tumba['Tumba']['tipo'] . $localizacion . ".pdf";
         $this->pdfConfig['download'] = true;
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('tumba'));
+        
+        //Redireccionar para la generación
+        
         
     }
     

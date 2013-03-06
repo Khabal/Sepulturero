@@ -259,11 +259,11 @@ class Funeraria extends AppModel {
                 'message' => 'La página web debe tener entre 5 y 100 caracteres.',
             ),
             'web' => array(
-                'rule' => array('url', false),
+                'rule' => array('url', true),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La página web introducida no es válida',
+                'message' => 'La página web introducida no es válida (Ejemplo: http://www.algo.es).',
             ),
         ),
         'observaciones' => array(

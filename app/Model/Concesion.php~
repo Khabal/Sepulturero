@@ -265,7 +265,7 @@ class Concesion extends AppModel {
         return array(
          'OR'  => array(
           'Concesion.tipo LIKE' => $comodin,
-          'Concesion.anos_concesion' => $comodin,
+          'Concesion.anos_concesion LIKE' => $comodin,
          )
         );
         

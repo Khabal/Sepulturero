@@ -3165,3 +3165,1436 @@ Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
 Stack Trace:
 #0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2013-03-06 09:36:16 Error: Fatal Error (1): Call to a member function image() on a non-object in [/var/www/html/cacaphp/app/View/Themed/960-fluid/webroot/css/pie.css, line 80]
+2013-03-06 09:36:16 Error: [FatalErrorException] Call to a member function image() on a non-object
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(183): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 80)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 80, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-03-06 09:36:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:43:42 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:44:17 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:54:47 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:54:59 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:56:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:56:16 Error: [MissingActionException] Action DifuntosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'DifuntosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/difuntos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(DifuntosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 09:57:48 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:58:01 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:59:48 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 09:59:48 Error: [MissingActionException] Action DifuntosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'DifuntosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/difuntos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(DifuntosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 10:00:25 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:00:36 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:01:16 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:01:16 Error: [MissingActionException] Action DifuntosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'DifuntosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/difuntos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(DifuntosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 10:01:58 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:02:07 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:09:57 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:09:57 Error: [MissingActionException] Action DifuntosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'DifuntosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/difuntos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(DifuntosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 10:10:39 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:10:48 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:20:42 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:20:47 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:21:25 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:21:30 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:23:38 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:23:52 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:23:59 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:25:01 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 10:26:37 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:08:40 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:10:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:23:37 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:23:44 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Difunto.causa_fallecimento' in 'field list'
+Request URL: /cacaphp/tumbas/ver/512b5fce-6908-4a29-a51f-650a0ea21257
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Difunto...', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Difunto...', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1342): DboSource->fetchAll('SELECT `Difunto...', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1204): DboSource->fetchAssociated(Object(Tumba), 'SELECT `Difunto...', Array)
+#5 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1115): DboSource->queryAssociation(Object(Tumba), Object(Difunto), 'hasMany', 'Difunto', Array, Array, true, Array, 2, Array)
+#6 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2674): DboSource->read(Object(Tumba), Array)
+#7 /var/www/html/cacaphp/app/Controller/TumbasController.php(337): Model->find('first', Array)
+#8 [internal function]: TumbasController->ver('512b5fce-6908-4...')
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-03-06 11:24:39 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:25:06 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:30:05 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:30:09 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:57:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:57:21 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:57:33 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 11:57:40 Error: [MissingViewException] View file "/var/www/html/cacaphp/app/View/Themed/960-fluid/Tumbas/pdf/exportar_pdf.ctp" is missing.
+Exception Attributes: array (
+  'file' => '/var/www/html/cacaphp/app/View/Themed/960-fluid/Tumbas/pdf/exportar_pdf.ctp',
+)
+Request URL: /cacaphp/tumbas/exportar_pdf/512b6080-9004-4c37-bb0a-65080ea21257.pdf
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/View/View.php(467): View->_getViewFileName(NULL)
+#1 /var/www/html/cacaphp/app/Plugin/CakePdf/View/PdfView.php(88): View->render(NULL, NULL)
+#2 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(947): PdfView->render(NULL, NULL)
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(193): Controller->render()
+#4 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#5 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#6 {main}
+2013-03-06 11:59:06 Error: [MissingViewException] View file "/var/www/html/cacaphp/app/View/Themed/960-fluid/Tumbas/pdf/exportar_pdf.ctp" is missing.
+Exception Attributes: array (
+  'file' => '/var/www/html/cacaphp/app/View/Themed/960-fluid/Tumbas/pdf/exportar_pdf.ctp',
+)
+Request URL: /cacaphp/tumbas/exportar_pdf/512b6080-9004-4c37-bb0a-65080ea21257.pdf
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/View/View.php(467): View->_getViewFileName(NULL)
+#1 /var/www/html/cacaphp/app/Plugin/CakePdf/View/PdfView.php(88): View->render(NULL, NULL)
+#2 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(947): PdfView->render(NULL, NULL)
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(193): Controller->render()
+#4 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#5 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#6 {main}
+2013-03-06 12:00:56 Error: [MissingViewException] View file "/var/www/html/cacaphp/app/View/Themed/960-fluid/Tumbas/pdf/exportar_pdf.ctp" is missing.
+Exception Attributes: array (
+  'file' => '/var/www/html/cacaphp/app/View/Themed/960-fluid/Tumbas/pdf/exportar_pdf.ctp',
+)
+Request URL: /cacaphp/tumbas/exportar_pdf/512b6080-9004-4c37-bb0a-65080ea21257.pdf
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/View/View.php(467): View->_getViewFileName(NULL)
+#1 /var/www/html/cacaphp/app/Plugin/CakePdf/View/PdfView.php(88): View->render(NULL, NULL)
+#2 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(947): PdfView->render(NULL, NULL)
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(193): Controller->render()
+#4 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#5 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#6 {main}
+2013-03-06 12:18:38 Error: Fatal Error (4): syntax error, unexpected T_RETURN, expecting T_FUNCTION in [/var/www/html/cacaphp/app/Model/Tumba.php, line 376]
+2013-03-06 12:18:38 Error: [FatalErrorException] syntax error, unexpected T_RETURN, expecting T_FUNCTION
+Request URL: /cacaphp/tumbas/ver/512b6080-9004-4c37-bb0a-65080ea21257
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(183): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/var/www/html/c...', 376)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/var/www/html/c...', 376, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/var/www/html/c...', 376, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-03-06 12:19:11 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:19:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:19:23 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:21:03 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:21:33 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:23:23 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:23:28 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:29:54 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:30:10 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:30:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:30:55 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:31:10 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Nicho.numero_columbario' in 'where clause'
+Request URL: /cacaphp/tumbas/nuevo
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Nicho`....', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Nicho`....', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Nicho`....', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2674): DboSource->read(Object(Nicho), Array)
+#5 /var/www/html/cacaphp/app/Model/Tumba.php(408): Model->find('first', Array)
+#6 [internal function]: Tumba->valida_nicho(Array, Array)
+#7 /var/www/html/cacaphp/lib/Cake/Model/Validator/CakeValidationRule.php(277): call_user_func_array(Array, Array)
+#8 /var/www/html/cacaphp/lib/Cake/Model/Validator/CakeValidationSet.php(136): CakeValidationRule->process('tipo', Array, Array)
+#9 /var/www/html/cacaphp/lib/Cake/Model/ModelValidator.php(259): CakeValidationSet->validate(Array, false)
+#10 /var/www/html/cacaphp/lib/Cake/Model/ModelValidator.php(99): ModelValidator->errors(Array)
+#11 /var/www/html/cacaphp/lib/Cake/Model/Model.php(3048): ModelValidator->validates(Array)
+#12 /var/www/html/cacaphp/lib/Cake/Model/ModelValidator.php(134): Model->validates(Array)
+#13 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2357): ModelValidator->validateAssociated(Array, Array)
+#14 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2042): Model->validateAssociated(Array, Array)
+#15 /var/www/html/cacaphp/app/Controller/TumbasController.php(253): Model->saveAll(Array, Array)
+#16 [internal function]: TumbasController->nuevo()
+#17 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(TumbasController), Array)
+#18 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#19 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TumbasController), Object(CakeRequest), Object(CakeResponse))
+#20 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#21 {main}
+2013-03-06 12:31:41 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:31:47 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:37:26 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:39:19 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:39:19 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 12:47:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:47:49 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 12:48:12 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:48:12 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 12:48:43 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:48:43 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 12:49:05 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 12:49:05 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:02:43 Error: Fatal Error (4): syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ')' in [/var/www/html/cacaphp/app/Model/Tasa.php, line 169]
+2013-03-06 13:02:43 Error: [FatalErrorException] syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ')'
+Request URL: /cacaphp/tasas
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(183): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/var/www/html/c...', 169)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/var/www/html/c...', 169, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/var/www/html/c...', 169, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-03-06 13:03:04 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:09:48 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:10:07 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:10:07 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:19:56 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:19:56 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:30:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:30:29 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:33:41 Error: [MissingControllerException] Controller class MovimientosController could not be found.
+Exception Attributes: array (
+  'class' => 'MovimientosController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/movimientos
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:33:48 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:33:48 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:39:02 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:39:02 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:40:05 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:40:05 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:40:20 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:40:20 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:40:37 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:40:37 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:41:35 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:41:55 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:41:55 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:42:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:47:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:47:49 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:48:13 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:48:13 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:48:29 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:48:29 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:48:42 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:48:42 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:55:46 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:55:47 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:57:06 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:57:06 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:57:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:57:24 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 13:57:24 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 13:57:46 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:09:31 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:09:37 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:09:37 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:09:51 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:09:51 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:15:18 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:15:19 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:16:40 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:16:41 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:16:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:16:50 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:24:41 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:24:46 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:24:46 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:25:13 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:25:13 Error: [MissingActionException] Action TasasController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'TasasController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/tasas/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 14:25:33 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:32:26 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:35:26 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:35:33 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:39:43 Error: Fatal Error (1): Call to a member function parseCriteria() on a non-object in [/var/www/html/cacaphp/app/Controller/MovimientosController.php, line 171]
+2013-03-06 14:39:43 Error: [FatalErrorException] Call to a member function parseCriteria() on a non-object
+Request URL: /cacaphp/movimientos
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Error/ErrorHandler.php(183): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/html/c...', 171)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/html/c...', 171, Array)
+#2 /var/www/html/cacaphp/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/html/c...', 171, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-03-06 14:40:10 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Traslado.fecha' in 'field list'
+Request URL: /cacaphp/movimientos
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(459): PDOStatement->execute(Array)
+#1 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(425): DboSource->_execute('SELECT `Movimie...', Array)
+#2 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(669): DboSource->execute('SELECT `Movimie...', Array, Array)
+#3 /var/www/html/cacaphp/lib/Cake/Model/Datasource/DboSource.php(1080): DboSource->fetchAll('SELECT `Movimie...', false)
+#4 /var/www/html/cacaphp/lib/Cake/Model/Model.php(2674): DboSource->read(Object(Movimiento), Array)
+#5 /var/www/html/cacaphp/lib/Cake/Controller/Component/PaginatorComponent.php(195): Model->find('all', Array)
+#6 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(1073): PaginatorComponent->paginate(NULL, Array, Array)
+#7 /var/www/html/cacaphp/app/Controller/MovimientosController.php(204): Controller->paginate()
+#8 [internal function]: MovimientosController->index()
+#9 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(485): ReflectionMethod->invokeArgs(Object(MovimientosController), Array)
+#10 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#11 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(MovimientosController), Object(CakeRequest), Object(CakeResponse))
+#12 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#13 {main}
+2013-03-06 14:41:15 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:41:49 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:47:46 Error: [MissingViewException] View file "/var/www/html/cacaphp/app/View/Themed/960-fluid/Tasas/pdf/exportar_pdf.ctp" is missing.
+Exception Attributes: array (
+  'file' => '/var/www/html/cacaphp/app/View/Themed/960-fluid/Tasas/pdf/exportar_pdf.ctp',
+)
+Request URL: /cacaphp/tasas/exportar_pdf/513743cc-9f0c-40d9-884a-16a80ea21257.pdf
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/View/View.php(467): View->_getViewFileName(NULL)
+#1 /var/www/html/cacaphp/app/Plugin/CakePdf/View/PdfView.php(88): View->render(NULL, NULL)
+#2 /var/www/html/cacaphp/lib/Cake/Controller/Controller.php(947): PdfView->render(NULL, NULL)
+#3 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(193): Controller->render()
+#4 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(TasasController), Object(CakeRequest), Object(CakeResponse))
+#5 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#6 {main}
+2013-03-06 14:47:52 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:48:00 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:48:12 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:49:02 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 14:58:11 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 15:02:55 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 15:03:01 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 15:03:02 Error: [MissingActionException] Action MovimientosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'MovimientosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/movimientos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(MovimientosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-03-06 15:16:03 Error: [MissingControllerException] Controller class ThemeController could not be found.
+Exception Attributes: array (
+  'class' => 'ThemeController',
+  'plugin' => NULL,
+)
+Request URL: /cacaphp/theme/960-fluid/img/switch_minus.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-03-06 15:16:03 Error: [MissingActionException] Action MovimientosController::calendario.gif() could not be found.
+Exception Attributes: array (
+  'controller' => 'MovimientosController',
+  'action' => 'calendario.gif',
+)
+Request URL: /cacaphp/movimientos/calendario.gif
+Stack Trace:
+#0 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /var/www/html/cacaphp/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(MovimientosController), Object(CakeRequest), Object(CakeResponse))
+#2 /var/www/html/cacaphp/app/webroot/index.php(97): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

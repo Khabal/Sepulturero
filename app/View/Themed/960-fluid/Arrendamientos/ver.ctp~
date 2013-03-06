@@ -62,7 +62,16 @@
    <tbody>
     <tr class="altrow">
      <td><?php echo h($arrendamiento['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</td>
-     <td><?php echo h($arrendamiento['Arrendatario']['Persona']['dni']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Persona']['dni'])) {
+        echo h($arrendatario['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td><?php echo h($arrendamiento['Arrendatario']['direccion']); ?>&nbsp;</td>
      <td><?php echo h($arrendamiento['Arrendatario']['localidad']); ?>&nbsp;</td>
      <td>

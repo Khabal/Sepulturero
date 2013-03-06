@@ -655,7 +655,7 @@ class ArrendatariosController extends AppController {
         
         if (empty($difunto) && empty($forense)) {
             //Borrar y comprobar éxito (Persona y Arrendatario)
-            if ($this->Arrendatario->Persona->delete($persona) && $this->Arrendatario->delete()) {
+            if ($this->Arrendatario->Persona->delete($persona)) {
                 $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
             }
             else {

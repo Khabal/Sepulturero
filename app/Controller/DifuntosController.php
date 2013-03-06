@@ -859,7 +859,7 @@ class DifuntosController extends AppController {
         
         if (empty($arrendatario) && empty($forense)) {
             //Borrar y comprobar éxito (Persona y Difunto)
-            if ($this->Difunto->Persona->delete($persona) && $this->Difunto->delete()) {
+            if ($this->Difunto->Persona->delete($persona)) {
                 $this->Session->setFlash(__('El difunto ha sido eliminado correctamente.'));
             }
             else {

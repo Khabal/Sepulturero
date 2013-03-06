@@ -92,7 +92,7 @@ class Movimiento extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Traslado.fecha,"%d/%m/%Y"), " - ", Traslado.motivo)'
+        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y"), " - ", Movimiento.motivo)'
     );
     
     /**
@@ -198,7 +198,7 @@ class Movimiento extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -231,6 +231,13 @@ class Movimiento extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
+        //Vector de tipos de movimientos
+        $this->tipo = array(
+            'Exhumación' => __('Exhumación', true),
+            'Inhumación' => __('Inhumación', true),
+            'Traslado' => __('Traslado', true),
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -248,16 +255,16 @@ class Movimiento extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarTraslado'),
+        'clave' => array('type' => 'query', 'method' => 'buscarMovimiento'),
     );
     
     /**
-     * buscarTraslado method
+     * buscarMovimiento method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarTraslado ($data = array()) {
+    public function buscarMovimiento ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
@@ -271,8 +278,8 @@ class Movimiento extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'DATE_FORMAT(Traslado.fecha,"%d/%m/%Y") LIKE' => $comodin,
-          'Traslado.motivo LIKE' => $comodin,
+          'DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y") LIKE' => $comodin,
+          'Movimiento.motivo LIKE' => $comodin,
          )
         );
         

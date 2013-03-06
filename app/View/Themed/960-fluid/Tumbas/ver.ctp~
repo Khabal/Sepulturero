@@ -90,18 +90,54 @@
    </thead>
    <?php /* Información de los arrendatarios */ ?>
    <tbody>
-    <?php $arrendatario = $tumba['ArrendatarioTumba'][0]; ?>
+    <?php $arrendatario = $tumba['Arrendamiento'][0]; ?>
     <tr class="altrow">
      <td><?php echo date('d/m/Y', strtotime($arrendatario['fecha_arrendamiento'])); ?></td>
      <td><?php echo h($arrendatario['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['Persona']['dni']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['Persona']['dni'])) {
+        echo h($arrendatario['Arrendatario']['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</td>
      <td><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['provincia']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['provincia'])) {
+        echo h($arrendatario['Arrendatario']['provincia']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
      <td><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</td>
      <td><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['telefono']); ?>&nbsp;</td>
-     <td class="email"><?php echo h($arrendatario['Arrendatario']['correo_electronico']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['telefono'])) {
+        echo h($arrendatario['Arrendatario']['telefono']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td class="email">
+      <?php
+       if (!empty($arrendatario['Arrendatario']['correo_electronico'])) {
+        echo h($arrendatario['Arrendatario']['correo_electronico']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id']), array('escape' => false)); ?>
      </td>
@@ -146,43 +182,6 @@
      <td><?php echo h($difunto['certificado_defuncion']); ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'difuntos', 'action' => 'ver', $difunto['id']), array('escape' => false)); ?>
-     </td>
-    </tr>
-   <?php endforeach; ?>
-   </tbody>
-  </table>
- <?php else: ?>
-  <p> No hay información disponible </p>
- <?php endif; ?>
-</div>
-
-<?php /* Enterramientos relacionados */ ?>
-<div class="related box">
- <h2><?php echo __('Enterramientos habidos en la tumba'); ?></h2>
-  <?php if (!empty($tumba['Enterramiento'])): ?>
-  <table cellpadding = "0" cellspacing = "0">
-   <?php /* Cabecera de la tabla */ ?>
-   <thead>
-    <tr>
-     <th><?php echo __('Fecha'); ?></th>
-     <th><?php echo __('Difunto'); ?></th>
-     <th><?php echo __('D.N.I.'); ?></th>
-     <th><?php echo __('Licencia '); ?></th>
-     <th class="actions">&nbsp;</th>
-    </tr>
-   </thead>
-   <?php /* Información de los enterramientos */ ?>
-   <tbody>
-   <?php $i = 0; ?>
-   <?php foreach ($tumba['Enterramiento'] as $enterramiento): ?>
-    <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
-    <tr<?php echo $class; ?>>
-     <td><?php echo date('d/m/Y', strtotime($enterramiento['fecha'])); ?>&nbsp;</td>
-     <td><?php echo h($enterramiento['Difunto']['Persona']['nombre_completo']); ?>&nbsp;</td>
-     <td><?php echo h($enterramiento['Difunto']['Persona']['dni']); ?>&nbsp;</td>
-     <td><?php echo h($enterramiento['Licencia']['identificador']); ?>&nbsp;</td>
-     <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'enterramientos', 'action' => 'ver', $enterramiento['id']), array('escape' => false)); ?>
      </td>
     </tr>
    <?php endforeach; ?>

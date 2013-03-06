@@ -222,7 +222,7 @@ class Difunto extends AppModel {
                 'message' => 'El certificado de defunción debe tener entre 9 y 10 caracteres.',
             ),
             'solonumeros' => array(
-                'rule' => '/^[0-9]/',
+                'rule' => '/^[0-9]{9,10}/',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,

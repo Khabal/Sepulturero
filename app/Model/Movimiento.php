@@ -92,7 +92,7 @@ class Movimiento extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Traslado.fecha,"%d/%m/%Y"), " - ", Traslado.motivo)'
+        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y"), " - ", Movimiento.motivo)'
     );
     
     /**
@@ -198,7 +198,7 @@ class Movimiento extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -230,6 +230,13 @@ class Movimiento extends AppModel {
      * @return class object
      */
     public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Vector de tipos de movimientos
+        $this->tipos = array(
+            'Exhumación' => __('Exhumación', true),
+            'Inhumación' => __('Inhumación', true),
+            'Traslado' => __('Traslado', true),
+        );
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);

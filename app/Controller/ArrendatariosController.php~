@@ -653,7 +653,7 @@ class ArrendatariosController extends AppController {
         $difunto = $this->Arrendatario->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
         $forense = $this->Arrendatario->Persona->Forense->field('id', array('Forense.persona_id' => $persona));
         
-        if (empty($difunto) || empty($forense)) {
+        if (empty($difunto) && empty($forense)) {
             //Borrar y comprobar éxito (Persona y Arrendatario)
             if ($this->Arrendatario->Persona->delete($persona) && $this->Arrendatario->delete()) {
                 $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));

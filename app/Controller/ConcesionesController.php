@@ -121,7 +121,6 @@ class ConcesionesController extends AppController {
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
         'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        //'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -359,12 +358,18 @@ class ConcesionesController extends AppController {
         $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
         $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('concesion'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -399,12 +404,18 @@ class ConcesionesController extends AppController {
         $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         $this->pdfConfig['download'] = true;
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('concesion'));
+        
+        //Redireccionar para la generación
+        
         
     }
     

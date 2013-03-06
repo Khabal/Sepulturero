@@ -5,6 +5,14 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tasas', $this->Session->read('Tasa.id'), $this->Session->read('Tasa.tipo')); ?>
 </div>
 
+<?php
+ /*
+ echo '<pre>';
+ print_r($this->request->data);
+ echo '</pre>';
+ */
+?>
+
 <script>
  /* Establecer opciones de 'UI datepicker' para JQuery */
  $(function() {

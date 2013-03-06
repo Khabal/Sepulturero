@@ -4,15 +4,15 @@ App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 
 /**
- * Traslados Controller
+ * Movimientos Controller
  *
- * @property Traslado $Traslado
+ * @property Movimiento $Movimiento
  * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
  */
-class TrasladosController extends AppController {
+class MovimientosController extends AppController {
     
     /**
      * ----------------------
@@ -53,14 +53,14 @@ class TrasladosController extends AppController {
      *
      * @var string
      */
-    public $modelClass = 'Traslado';
+    public $modelClass = 'Movimiento';
     
     /**
      * Controller name
      *
      * @var string
      */
-    public $name = 'Traslados';
+    public $name = 'Movimientos';
     
     /**
      * Theme name
@@ -95,7 +95,7 @@ class TrasladosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Traslado', 'DifuntoTraslado', 'TrasladoTumba', 'Difunto', 'Tumba', 'Sanitize');
+    public $uses = array('Movimiento', 'DifuntoMovimiento', 'MovimientoTumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -141,13 +141,13 @@ class TrasladosController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Traslado' => array('id', 'fecha', 'cementerio_origen', 'cementerio_destino', 'motivo', 'observaciones'),
-            'DifuntoTraslado' => array('id', 'difunto_id', 'traslado_id'),
-            'TrasladoTumba' => array('id', 'traslado_id', 'tumba_id', 'origen_destino'),
-            'Difunto' => array('tumba_id'),
-            'Tumba' => array('poblacion'),
+            'Movimiento' => array('id', 'fecha', 'cementerio_origen', 'cementerio_destino', 'motivo', 'observaciones'),
+            'DifuntoMovimiento' => array('id', 'difunto_id', 'traslado_id'),
+            'MovimientoTumba' => array('id', 'traslado_id', 'tumba_id', 'origen_destino'),
+            'Difunto' => array('id', 'tumba_id'),
+            'Tumba' => array('id', 'poblacion'),
         ),
-        'validate' => 'first',
+        'validate' => false,
     );
     
     /**
@@ -168,9 +168,9 @@ class TrasladosController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Traslado->parseCriteria($this->params->query),
+         'conditions' => $this->Movimiento->parseCriteria($this->params->query),
          'contain' => array(
-          'TrasladoTumba' => array(
+          'MovimientoTumba' => array(
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
@@ -201,7 +201,7 @@ class TrasladosController extends AppController {
         );
         
         //Devolver paginación
-        $this->set('traslados', $this->paginate());
+        $this->set('movimientos', $this->paginate());
         
     }
     

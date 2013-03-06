@@ -359,12 +359,18 @@ class ConcesionesController extends AppController {
         $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
         $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('concesion'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -399,12 +405,18 @@ class ConcesionesController extends AppController {
         $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         $this->pdfConfig['download'] = true;
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('concesion'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -467,7 +479,7 @@ class ConcesionesController extends AppController {
          'conditions' => array(
           'OR' =>  array(
            'Concesion.tipo LIKE' => $palabro,
-           'Concesion.anos_concesion' => $palabro,
+           'Concesion.anos_concesion LIKE' => $palabro,
           ),
          ),
          'limit' => 20,

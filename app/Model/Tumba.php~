@@ -333,23 +333,21 @@ class Tumba extends AppModel {
     public function valida_columbario($check) {
         
         //Comprobar si se trata de un columbario
-        if (isset($this->data['Tumba']['columbario_id'])) {
+        if ($this->data['Tumba']['tipo'] == "Columbario") {
             
-            //Extraer el ID del arrendatario
-            if (!empty($this->data['Persona']['arrendatario_id'])) {
-                $id = $this->data['Persona']['arrendatario_id'];
-            }
-            else {
-                $id = '';
-            }
+            //Extraer datos del columbario
+            $numero = $this->data['Columbario']['numero_columbario'];
+            $letra = $this->data['Columbario']['letra'];
+            $fila = $this->data['Columbario']['fila'];
+            $patio = $this->data['Columbario']['patio'];
             
             //Buscar si hay otro columbario con los mismos datos
             $columbario = $this->Columbario->find('first', array(
              'conditions' => array(
-              'Columbario.numero_columbario' => $cif,
-              'Columbario.letra' => $cif,
-              'Columbario.fila' => $cif,
-              'Columbario.patio' => $cif,
+              'Columbario.numero_columbario' => $numero,
+              'Columbario.letra' => $letra,
+              'Columbario.fila' => $fila,
+              'Columbario.patio' => $patio,
              ),
              'fields' => array(
               'Columbario.id'
@@ -358,8 +356,108 @@ class Tumba extends AppModel {
              ),
             ));
             
-            //Comprobar si existe un arrendatario con el mismo DNI
+            //Comprobar si existe un columbario con los mismos datos
             if(!empty($columbario['Columbario']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+            //Devolver error
+            return false;
+            
+        }
+        
+        //Devolver válido
+        return true;
+    }
+    
+    /**
+     * valida_nicho method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_nicho($check) {
+        
+        //Comprobar si se trata de un nicho
+        if ($this->data['Tumba']['tipo'] == "Nicho") {
+            
+            //Extraer datos del nicho
+            $numero = $this->data['Nicho']['numero_nicho'];
+            $letra = $this->data['Nicho']['letra'];
+            $fila = $this->data['Nicho']['fila'];
+            $patio = $this->data['Nicho']['patio'];
+            
+            //Buscar si hay otro nicho con los mismos datos
+            $nicho = $this->Nicho->find('first', array(
+             'conditions' => array(
+              'Nicho.numero_columbario' => $numero,
+              'Nicho.letra' => $letra,
+              'Nicho.fila' => $fila,
+              'Nicho.patio' => $patio,
+             ),
+             'fields' => array(
+              'Nicho.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un nicho con los mismos datos
+            if(!empty($nicho['Nicho']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+            //Devolver error
+            return false;
+            
+        }
+        
+        //Devolver válido
+        return true;
+    }
+    
+    /**
+     * valida_panteon method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_panteon($check) {
+        
+        //Comprobar si se trata de un panteón
+        if ($this->data['Tumba']['tipo'] == "Panteón") {
+            
+            //Extraer datos del panteón
+            $numero = $this->data['Panteon']['numero_nicho'];
+            $familia = $this->data['Panteon']['fila'];
+            $patio = $this->data['Panteon']['patio'];
+            
+            //Buscar si hay otro panteón con los mismos datos
+            $panteon = $this->Panteon->find('first', array(
+             'conditions' => array(
+              'Panteon.numero_panteon' => $numero,
+              'Panteon.familia' => $familia,
+              'Panteon.patio' => $patio,
+             ),
+             'fields' => array(
+              'Panteon.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un panteón con los mismos datos
+            if(!empty($panteon['Panteon']['id'])) {
                 //Devolver error
                 return false;
             }

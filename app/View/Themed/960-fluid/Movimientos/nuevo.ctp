@@ -1,13 +1,16 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu('traslados'); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
 </div>
 
-<pre>
-<?php print_r($this->Session->read()); ?>
-<?php print_r($this->request->data); ?>
-</pre>
+<?php
+ 
+ echo '<pre>';
+ print_r($this->request->data);
+ echo '</pre>';
+ 
+?>
 
 <script>
  $(function() {

@@ -296,7 +296,7 @@ class Funeraria extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),

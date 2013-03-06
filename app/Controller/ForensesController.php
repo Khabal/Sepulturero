@@ -121,7 +121,6 @@ class ForensesController extends AppController {
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
         'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        //'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -411,12 +410,18 @@ class ForensesController extends AppController {
         $this->pdfConfig['title'] = $forense['Persona']['nombre_completo'] . " - " . $forense['Forense']['numero_colegiado'] . "(" . $forense['Forense']['colegio'] . ")";
         $this->pdfConfig['filename'] = "Forense_" . $forense['Forense']['numero_colegiado'] . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('forense'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -456,9 +461,18 @@ class ForensesController extends AppController {
         $this->pdfConfig['filename'] = "Forense_" . $forense['Forense']['numero_colegiado'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('forense'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -492,7 +506,7 @@ class ForensesController extends AppController {
         
         if (empty($arrendatario) && empty($difunto)) {
             //Borrar y comprobar éxito (Persona y Forense)
-            if ($this->Forense->Persona->delete($persona) && $this->Forense->delete()) {
+            if ($this->Forense->Persona->delete($persona)) {
                 $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
             }
             else {
