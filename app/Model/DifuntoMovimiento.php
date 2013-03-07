@@ -3,12 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * DifuntoTraslado Model
+ * DifuntoMovimiento Model
  *
  * @property Difunto $Difunto
- * @property Traslado $Traslado
+ * @property Movimiento $Movimiento
  */
-class DifuntoTraslado extends AppModel {
+class DifuntoMovimiento extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +42,7 @@ class DifuntoTraslado extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'difuntos_traslados';
+    public $useTable = 'difuntos_movimientos';
     
     /**
      * Name of the table prefix
@@ -70,14 +70,14 @@ class DifuntoTraslado extends AppModel {
      *
      * @var string
      */
-    public $name = 'DifuntoTraslado';
+    public $name = 'DifuntoMovimiento';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'DifuntoTraslado';
+    public $alias = 'DifuntoMovimiento';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -98,7 +98,7 @@ class DifuntoTraslado extends AppModel {
      *
      * @var array
      */
-    public $actsAs = array();
+    public $actsAs = array('Containable');
     
     /**
      * ----------------------
@@ -111,8 +111,7 @@ class DifuntoTraslado extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -126,36 +125,43 @@ class DifuntoTraslado extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'difunto_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'traslado_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de difunto-movimiento.',
+            ),
+        ),
+        'difunto_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de difunto.',
+            ),
+        ),
+        'movimiento_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de movimiento.',
+            ),
+        ),
+        //Campos imaginarios
+        'difunto_bonita' => array(
+            'existe_funeraria' => array(
+                'rule' => array('valida_difunto'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El difunto especificado no existe.',
+            ),
+        ),
     );
     
     /**
@@ -180,9 +186,9 @@ class DifuntoTraslado extends AppModel {
             'counterCache' => '',
             'counterScope' => '',
         ),
-        'Traslado' => array(
-            'className' => 'Traslado',
-            'foreignKey' => 'traslado_id',
+        'Movimiento' => array(
+            'className' => 'Movimiento',
+            'foreignKey' => 'movimiento_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -210,6 +216,50 @@ class DifuntoTraslado extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_difunto method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_difunto($check) {
+        
+        //Extraer el ID de la difunto
+        if (!empty($this->data['DifuntoMovimiento']['difunto_id'])) {
+            $id = $this->data['DifuntoMovimiento']['difunto_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe un difunto con el ID especificado
+        $difunto = $this->Difunto->find('first', array(
+         'conditions' => array(
+          'Difunto.id' => $id,
+         ),
+         'fields' => array(
+          'Difunto.id'
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe el difunto especificado
+        if (empty($difunto['Difunto']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
     }
     
 }

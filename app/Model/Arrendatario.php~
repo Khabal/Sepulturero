@@ -163,7 +163,7 @@ class Arrendatario extends AppModel {
         ),
         'localidad' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -360,9 +360,6 @@ class Arrendatario extends AppModel {
      * @return class object
      */
     public function __construct ($id = false, $table = null, $ds = null) {
-        
-        //Añadir campos virtuales de "Persona"
-        //$this->virtualFields += $this->Persona->virtualFields;
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);

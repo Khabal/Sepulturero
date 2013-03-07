@@ -140,13 +140,6 @@ class Tumba extends AppModel {
             ),
         ),
         'tipo' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El tipo de tumba no se puede dejar en blanco.',
-            ),
             'lista_estado' => array(
                 'rule' => array('inList', array('Columbario', 'Exterior', 'Nicho', 'Panteón')),
                 'required' => true,
@@ -178,7 +171,7 @@ class Tumba extends AppModel {
         ),
         'poblacion' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -335,6 +328,14 @@ class Tumba extends AppModel {
         //Comprobar si se trata de un columbario
         if ($this->data['Tumba']['tipo'] == "Columbario") {
             
+            //Extraer el ID del columbario
+            if (isset($this->data['Tumba']['columbario_id'])) {
+                $id = $this->data['Tumba']['columbario_id'];
+            }
+            else {
+                $id = '';
+            }
+            
             //Extraer datos del columbario
             $numero = $this->data['Columbario']['numero_columbario'];
             $letra = $this->data['Columbario']['letra'];
@@ -344,6 +345,7 @@ class Tumba extends AppModel {
             //Buscar si hay otro columbario con los mismos datos
             $columbario = $this->Columbario->find('first', array(
              'conditions' => array(
+              'Columbario.id !=' => $id,
               'Columbario.numero_columbario' => $numero,
               'Columbario.letra' => $letra,
               'Columbario.fila' => $fila,
@@ -386,6 +388,14 @@ class Tumba extends AppModel {
         //Comprobar si se trata de un nicho
         if ($this->data['Tumba']['tipo'] == "Nicho") {
             
+            //Extraer el ID del nicho
+            if (isset($this->data['Tumba']['nicho_id'])) {
+                $id = $this->data['Tumba']['nicho_id'];
+            }
+            else {
+                $id = '';
+            }
+            
             //Extraer datos del nicho
             $numero = $this->data['Nicho']['numero_nicho'];
             $letra = $this->data['Nicho']['letra'];
@@ -395,7 +405,8 @@ class Tumba extends AppModel {
             //Buscar si hay otro nicho con los mismos datos
             $nicho = $this->Nicho->find('first', array(
              'conditions' => array(
-              'Nicho.numero_columbario' => $numero,
+              'Nicho.id !=' => $id,
+              'Nicho.numero_nicho' => $numero,
               'Nicho.letra' => $letra,
               'Nicho.fila' => $fila,
               'Nicho.patio' => $patio,
@@ -437,14 +448,23 @@ class Tumba extends AppModel {
         //Comprobar si se trata de un panteón
         if ($this->data['Tumba']['tipo'] == "Panteón") {
             
+            //Extraer el ID del panteón
+            if (isset($this->data['Tumba']['panteon_id'])) {
+                $id = $this->data['Tumba']['panteon_id'];
+            }
+            else {
+                $id = '';
+            }
+            
             //Extraer datos del panteón
-            $numero = $this->data['Panteon']['numero_nicho'];
-            $familia = $this->data['Panteon']['fila'];
+            $numero = $this->data['Panteon']['numero_panteon'];
+            $familia = $this->data['Panteon']['familia'];
             $patio = $this->data['Panteon']['patio'];
             
             //Buscar si hay otro panteón con los mismos datos
             $panteon = $this->Panteon->find('first', array(
              'conditions' => array(
+              'Panteon.id !=' => $id,
               'Panteon.numero_panteon' => $numero,
               'Panteon.familia' => $familia,
               'Panteon.patio' => $patio,

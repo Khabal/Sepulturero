@@ -197,18 +197,18 @@ class Difunto extends AppModel {
                 'message' => 'La edad de defunción sólo puede contener caracteres numéricos (0 edad desconocida).',
             ),
         ),
-        'causa_defuncion' => array(
+        'causa_fallecimiento' => array(
             'maximalongitud' => array(
                 'rule' => array('maxLength', 150),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La causa de defunción debe tener como máximo 150 caracteres.',
+                'message' => 'La causa de fallecimiento debe tener como máximo 150 caracteres.',
             ),
         ),
         'certificado_defuncion' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -271,8 +271,8 @@ class Difunto extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'DifuntoTraslado' => array(
-            'className' => 'DifuntoTraslado',
+        'DifuntoMovimiento' => array(
+            'className' => 'DifuntoMovimiento',
             'foreignKey' => 'difunto_id',
             'conditions' => '',
             'order' => '',

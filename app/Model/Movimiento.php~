@@ -127,56 +127,127 @@ class Movimiento extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fecha' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'cementerio_origen' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'cementerio_destino' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'motivo' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de movimiento.',
+            ),
+        ),
+        'tipo' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de movimiento no se puede dejar en blanco.',
+            ),
+            'lista_movimiento' => array(
+                'rule' => array('inList', array('Exhumación', 'Inhumación', 'Traslado')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de movimiento no se encuentra dentro de las opciones posibles.',
+            ),
+        ),
+        'fecha' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'ymd'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
+            ),
+        ),
+        'viajeros' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de difuntos meneados no se puede dejar en blanco.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', true),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de difuntos meneados sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'cementerio_origen' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El cementerio de origen no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El cementerio de origen debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El cementerio de origen sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'cementerio_destino' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El cementerio de destino no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El cementerio de destino debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El cementerio de destino sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'motivo' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El motivo no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 250),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El motivo debe tener entre 2 y 250 caracteres.',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
     );
     
     /**
@@ -232,7 +303,7 @@ class Movimiento extends AppModel {
     public function __construct ($id = false, $table = null, $ds = null) {
         
         //Vector de tipos de movimientos
-        $this->tipo = array(
+        $this->tipos = array(
             'Exhumación' => __('Exhumación', true),
             'Inhumación' => __('Inhumación', true),
             'Traslado' => __('Traslado', true),

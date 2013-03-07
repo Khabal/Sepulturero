@@ -147,7 +147,7 @@ class Arrendatario extends AppModel {
         ),
         'direccion' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -163,7 +163,7 @@ class Arrendatario extends AppModel {
         ),
         'localidad' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -202,7 +202,7 @@ class Arrendatario extends AppModel {
         ),
         'pais' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -225,7 +225,7 @@ class Arrendatario extends AppModel {
         ),
         'codigo_postal' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
