@@ -387,6 +387,8 @@ class TumbasController extends AppController {
             //Comprobar el tipo de tumba
             if ($this->request->data['Tumba']['tipo'] == "Columbario") {
                 //Truco del almendruco para evitar errores de validación
+                $this->request->data['Tumba']['columbario_id'] = $this->Session->read('Tumba.columbario_id');
+                unset($this->request->data['Exterior']);
                 unset($this->request->data['Nicho']);
                 unset($this->request->data['Panteon']);
                 //Convertir a mayúsculas el carácter de la letra
@@ -396,20 +398,25 @@ class TumbasController extends AppController {
                 //Truco del almendruco para guardar una entidad vacía salvo id y clave externa
                 $this->request->data['Exterior']['algo'] = "";
                 //Truco del almendruco para evitar errores de validación
+                $this->request->data['Tumba']['exterior_id'] = $this->Session->read('Tumba.exterior_id');
                 unset($this->request->data['Columbario']);
                 unset($this->request->data['Nicho']);
                 unset($this->request->data['Panteon']);
             }
             elseif ($this->request->data['Tumba']['tipo'] == "Nicho") {
                 //Truco del almendruco para evitar errores de validación
+                $this->request->data['Tumba']['nicho_id'] = $this->Session->read('Tumba.nicho_id');
                 unset($this->request->data['Columbario']);
+                unset($this->request->data['Exterior']);
                 unset($this->request->data['Panteon']);
                 //Convertir a mayúsculas el carácter de la letra
                 $this->request->data['Nicho']['letra'] = strtoupper($this->request->data['Nicho']['letra']);
             }
             elseif ($this->request->data['Tumba']['tipo'] == "Panteón") {
                 //Truco del almendruco para evitar errores de validación
+                $this->request->data['Tumba']['panteon_id'] = $this->Session->read('Tumba.panteon_id');
                 unset($this->request->data['Columbario']);
+                unset($this->request->data['Exterior']);
                 unset($this->request->data['Nicho']);
             }
             
@@ -698,18 +705,39 @@ class TumbasController extends AppController {
             throw new NotFoundException(__('La tumba especificada no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Tumba->delete()) {
-            $this->Session->setFlash(__('La tumba ha sido eliminada correctamente.'));
+        //Buscar si la tumba está en uso en algún arrendamiento
+        $arrendamiento = $this->Tumba->Arrendamiento->find('first', array(
+         'conditions' => array(
+          'Arrendamiento.tumba_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si la tumba está en uso en arrendamientos
+        if (!empty($arrendamiento)) {
+            $this->Session->setFlash(__('La tumba especificada está asociada a un arrendamiento.'));
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser eliminado.'));
+            //Borrar y comprobar éxito
+            if ($this->Tumba->delete()) {
+                $this->Session->setFlash(__('La tumba ha sido eliminada correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser eliminado.'));
+            }
         }
         
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         
     }
+    
+    /**
+     * ---------------------------
+     * Extra Controller Actions
+     * ---------------------------
+     */
     
     /**
      * autocomplete method
@@ -748,8 +776,8 @@ class TumbasController extends AppController {
          'conditions' => array(
           'OR' => array(
            'Tumba.tipo LIKE' => $palabro,
-           'CONCAT(Columbario.numero_columbario," ",Columbario.fila," ",Columbario.patio) LIKE' => $palabro,
-           'CONCAT(Nicho.numero_nicho," ",Nicho.fila," ",Nicho.patio) LIKE' => $palabro,
+           'CONCAT(Columbario.numero_columbario, Columbario.letra," ",Columbario.fila," ",Columbario.patio) LIKE' => $palabro,
+           'CONCAT(Nicho.numero_nicho, Nicho.letra," ",Nicho.fila," ",Nicho.patio) LIKE' => $palabro,
            'CONCAT(Panteon.familia," ",Panteon.numero_panteon," ",Panteon.patio) LIKE' => $palabro,
           ),
          ),

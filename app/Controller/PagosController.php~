@@ -4,15 +4,15 @@ App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 
 /**
- * Tasas Controller
+ * Pagos Controller
  *
- * @property Tasa $Tasa
+ * @property Pago $Pago
  * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
- * @property Search.PrgComponent $Search.Prg
+ * @property Search.PrgComponent $Search.Prgg
  */
-class TasasController extends AppController {
+class PagosController extends AppController {
     
     /**
      * ----------------------
@@ -53,14 +53,14 @@ class TasasController extends AppController {
      *
      * @var string
      */
-    public $modelClass = 'Tasa';
+    public $modelClass = 'Pago';
     
     /**
      * Controller name
      *
      * @var string
      */
-    public $name = 'Tasas';
+    public $name = 'Pagos';
     
     /**
      * Theme name
@@ -95,7 +95,7 @@ class TasasController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Tasa', 'PagoTasa', 'Sanitize');
+    public $uses = array('Pago', 'ArrendatarioPago', 'PagoTasa', 'Sanitize');
     
     /**
      * ---------------------------
@@ -141,7 +141,9 @@ class TasasController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Tasa' => array('id', 'concepto', 'cantidad', 'moneda', 'inicio_validez', 'fin_validez', 'observaciones'),
+            'Pago' => array('id', 'fecha', 'total', 'moneda', 'observaciones'),
+            'ArrendatarioPago' => array('id', 'arrendatario_id', 'pago_id', ),
+            'PagoTasa' => array('id', 'pago_id', 'tasa_id', ),
         ),
         'validate' => false,
     );
@@ -164,13 +166,20 @@ class TasasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Tasa->parseCriteria($this->params->query),
+         'conditions' => $this->Pago->parseCriteria($this->params->query),
          'contain' => array(
+          'PagoTasa' => array(
+           'Tasa' => array(
+            'fields' => array(
+             'Tasa.id', 'Tasa.tipo'
+            ),
+           ),
+          ),
          ),
         );
         
         //Devolver paginación
-        $this->set('tasas', $this->paginate());
+        $this->set('pagos', $this->paginate());
         
     }
     
@@ -182,7 +191,7 @@ class TasasController extends AppController {
     public function nuevo() {
         
         //Devolver las opciones de selección de monedas
-        $this->set('monedas', $this->Tasa->moneda);
+        $this->set('monedas', $this->Pago->moneda);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
@@ -190,20 +199,15 @@ class TasasController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Crear nueva tasa con id único
-            $this->Tasa->create();
+            //Crear nuevo pago con id único
+            $this->Pago->create();
             
             //Validar los datos introducidos
-            if ($this->Tasa->saveAll($this->request->data, array('validate' => 'only'))) {
-                
-                //Convertir la cantidad al formato numérico pirata
-                $this->request->data['Tasa']['cantidad'] = str_replace('.', '', $this->request->data['Tasa']['cantidad']);
-                $this->request->data['Tasa']['cantidad'] = str_replace(',', '.', $this->request->data['Tasa']['cantidad']);
-                $this->request->data['Tasa']['cantidad'] = number_format($this->request->data['Tasa']['cantidad'], 2, '.', '');
+            if ($this->Pago->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Tasa->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('La tasa ha sido guardada correctamente.'));
+                if ($this->Pago->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El pago ha sido guardado correctamente.'));
                     //Redireccionar según corresponda
                     if (isset($this->request->data['guardar_y_nuevo'])) {
                         $this->redirect(array('action' => 'nuevo'));
@@ -213,7 +217,7 @@ class TasasController extends AppController {
                     }
                 }
                 else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La tasa no ha podido ser guardada.'));
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser guardado.'));
                 }
             }
             else {
@@ -232,26 +236,33 @@ class TasasController extends AppController {
     public function ver($id = null) {
         
         //Asignar id
-        $this->Tasa->id = $id;
+        $this->Pago->id = $id;
         
-        //Comprobar si existe la tasa
-        if (!$this->Tasa->exists()) {
-             $this->Session->setFlash(__('La tasa especificada no existe.'));
+        //Comprobar si existe el pago
+        if (!$this->Pago->exists()) {
+             $this->Session->setFlash(__('El pago especificado no existe.'));
              $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la tasa
-        $tasa = $this->Tasa->find('first', array(
+        //Cargar toda la información relevante relacionada con el pago
+        $pago = $this->Pago->find('first', array(
          'conditions' => array(
-          'Tasa.id' => $id
+          'Pago.id' => $id
          ),
          'contain' => array(
+          'PagoTasa' => array(
+           'Tasa' => array(
+            'fields' => array(
+             'Tasa.id', 'Tasa.tipo', 'Tasa.cantidad', 'Tasa.moneda'
+            ),
+           ),
+          ),
          ),
         ));
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('tasa'));
+        $this->set(compact('pago'));
         
     }
     
@@ -276,63 +287,54 @@ class TasasController extends AppController {
     public function editar($id = null) {
         
         //Devolver las opciones de selección de monedas
-        $this->set('monedas', $this->Tasa->moneda);
+        $this->set('monedas', $this->Pago->moneda);
         
         //Asignar id
-        $this->Tasa->id = $id;
+        $this->Pago->id = $id;
         
-        //Comprobar si existe la tasa
-        if (!$this->Tasa->exists()) {
-             $this->Session->setFlash(__('La tasa especificada no existe.'));
+        //Comprobar si existe el pago
+        if (!$this->Pago->exists()) {
+             $this->Session->setFlash(__('El pago especificado no existe.'));
              $this->redirect(array('action' => 'index'));
         }
         
         //Comprobar si se está enviando el formulario
         if ($this->request->is('post') || $this->request->is('put')) {
-            
-            //Desinfectar los datos recibidos del formulario
-            Sanitize::clean($this->request->data);
-            
-            //Cargar datos de la sesión
-            $this->request->data['Tasa']['id'] = $id;
-            
-            //Validar los datos introducidos
-            if ($this->Tasa->saveAll($this->request->data, array('validate' => 'only'))) {
-                
-                //Convertir la cantidad al formato numérico pirata
-                $this->request->data['Tasa']['cantidad'] = str_replace('.', '', $this->request->data['Tasa']['cantidad']);
-                $this->request->data['Tasa']['cantidad'] = str_replace(',', '.', $this->request->data['Tasa']['cantidad']);
-                $this->request->data['Tasa']['cantidad'] = number_format($this->request->data['Tasa']['cantidad'], 2, '.', '');
-                
-                //Guardar y comprobar éxito
-                if ($this->Tasa->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('La tasa ha sido actualizada correctamente.'));
-                    //Borrar datos de sesión
-                    $this->Session->delete('Tasa');
-                    //Redireccionar a index
-                    $this->redirect(array('action' => 'index'));
-                }
-                else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La tasa no ha podido ser actualizada.'));
-                }
+            //Guardar y comprobar éxito
+            if ($this->Pago->save($this->request->data)) {
+                $this->Session->setFlash(__('El pago ha sido actualizado correctamente.'));
+                //Borrar datos de sesión
+                $this->Session->delete('Pago');
+                //Redireccionar a index
+                $this->redirect(array('action' => 'index'));
             }
             else {
-               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser actualizado.'));
             }
         }
         else {
-            //Devolver los datos actuales de la tasa
-            $this->request->data = $this->Tasa->find('first', array(
+            //Devolver los datos actuales del pago
+            $this->request->data = $this->Pago->find('first', array(
              'conditions' => array(
-              'Tasa.id' => $id
+              'Pago.id' => $id
              ),
              'contain' => array(
+              'Tasa' => array(
+               'fields' => array(
+                'Tasa.id', 'Tasa.tipo', 'Tasa.cantidad', 'Tasa.moneda'
+               ),
+              ),
+              'Documento' => array(
+               'fields' => array(
+                'Documento.id', 'Documento.traslado_id', 'Documento.nombre', 'Documento.tipo'
+               ),
+              ),
              ),
             ));
             
-            //Guardar los datos de sesión de la tasa
-            $this->Session->write('Tasa.id', $this->request->data['Tasa']['id']);
-            $this->Session->write('Tasa.concepto', $this->request->data['Tasa']['concepto']);
+            //Guardar los datos de sesión del pago
+            $this->Session->write('Pago.id', $this->request->data['Pago']['id']);
+            $this->Session->write('Pago.fecha', date('d/m/Y', strtotime($this->request->data['Pago']['fecha'])));
         }
         
     }
@@ -346,26 +348,26 @@ class TasasController extends AppController {
     public function imprimir($id = null) {
         
         //Asignar id
-        $this->Tasa->id = $id;
+        $this->Pago->id = $id;
         
-        //Comprobar si existe la tasa
-        if (!$this->Tasa->exists()) {
-            $this->Session->setFlash(__('La tasa especificada no existe.'));
-            $this->redirect(array('action' => 'index'));
+        //Comprobar si existe el pago
+        if (!$this->Pago->exists()) {
+             $this->Session->setFlash(__('El pago especificado no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la tasa
-        $tasa = $this->Tasa->find('first', array(
+        //Cargar toda la información relevante relacionada con la funeraria
+        $funeraria = $this->Funeraria->find('first', array(
          'conditions' => array(
-          'Tasa.id' => $id
+          'Funeraria.id' => $id
          ),
          'contain' => array(
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $tasa['Tasa']['concepto'];
-        $this->pdfConfig['filename'] = "Tasa_" . $tasa['Tasa']['concepto'] . ".pdf";
+        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
+        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
         
         //Comprobar el sistema operativo
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -375,7 +377,7 @@ class TasasController extends AppController {
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('tasa'));
+        $this->set(compact('pago'));
         
         //Redireccionar para la generación
         
@@ -383,7 +385,7 @@ class TasasController extends AppController {
     }
     
     /**
-     * export pdf method
+     * exportar_pdf method
      *
      * @param string $id
      * @return void
@@ -391,26 +393,26 @@ class TasasController extends AppController {
     public function exportar_pdf($id = null) {
         
         //Asignar id
-        $this->Tasa->id = $id;
+        $this->Pago->id = $id;
         
-        //Comprobar si existe la tasa
-        if (!$this->Tasa->exists()) {
-            $this->Session->setFlash(__('La tasa especificada no existe.'));
-            $this->redirect(array('action' => 'index'));
+        //Comprobar si existe el pago
+        if (!$this->Pago->exists()) {
+             $this->Session->setFlash(__('El pago especificado no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la tasa
-        $tasa = $this->Tasa->find('first', array(
+        //Cargar toda la información relevante relacionada con la funeraria
+        $funeraria = $this->Funeraria->find('first', array(
          'conditions' => array(
-          'Tasa.id' => $id
+          'Funeraria.id' => $id
          ),
          'contain' => array(
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $tasa['Tasa']['concepto'];
-        $this->pdfConfig['filename'] = "Tasa_" . $tasa['Tasa']['concepto'] . ".pdf";
+        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
+        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
         //Comprobar el sistema operativo
@@ -421,7 +423,7 @@ class TasasController extends AppController {
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
-        $this->set(compact('tasa'));
+        $this->set(compact('pago'));
         
         //Redireccionar para la generación
         
@@ -444,21 +446,21 @@ class TasasController extends AppController {
         }
         
         //Asignar id
-        $this->Tasa->id = $id;
+        $this->Pago->id = $id;
         
-        //Comprobar si existe la tasa
-        if (!$this->Tasa->exists()) {
-            throw new NotFoundException(__('La tasa especificada no existe.'));
+        //Comprobar si existe el pago
+        if (!$this->Pago->exists()) {
+            throw new NotFoundException(__('El pago especificado no existe.'));
         }
         
         //Borrar y comprobar éxito
-        if ($this->Tasa->delete()) {
-            $this->Session->setFlash(__('La tasa ha sido eliminado correctamente.'));
-        }
-        else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. La tasa no ha podido ser eliminado.'));
+        if ($this->Pago->delete()) {
+            $this->Session->setFlash(__('El pago ha sido eliminado correctamente.'));
+            //Redireccionar a index
+            $this->redirect(array('action' => 'index'));
         }
         
+        $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser eliminado.'));
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         
@@ -481,12 +483,16 @@ class TasasController extends AppController {
         $palabro = '%'.$this->request->query['term'].'%';
         
         //Búsqueda de coincidencias
-        $resultados = $this->Tasa->find('all', array(
+        $resultados = $this->Pago->find('all', array(
          'conditions' => array(
-          'Tasa.tipo LIKE' => $palabro,
+          'OR' =>  array(
+           'DATE_FORMAT(Pago.fecha, "%d/%m/%Y") LIKE' => $palabro,
+           'Pago.motivo LIKE' => $palabro,
+           'CONCAT(DATE_FORMAT(Pago.fecha, "%d/%m/%Y")," ",Pago.motivo) LIKE' => $palabro,
+          ),
          ),
          'fields' => array(
-          'Tasa.id', 'Tasa.tipo'
+          'Pago.id', 'Pago.fecha', 'Pago.motivo'
          ),
          'limit' => 20,
         ));
@@ -499,7 +505,7 @@ class TasasController extends AppController {
         }
         else {
          foreach($resultados as $resultado) {
-          array_push($items, array("label" => $resultado['Tasa']['tipo'], "value" => $resultado['Tasa']['id']));
+          array_push($items, array("label" => $resultado['Pago']['fecha'] . $resultado['Pago']['motivo'], "value" => $resultado['Pago']['id']));
          }
         }
         

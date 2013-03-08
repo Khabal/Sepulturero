@@ -164,7 +164,7 @@ class FunerariasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Funeraria->parseCriteria($this->passedArgs),
+         'conditions' => $this->Funeraria->parseCriteria($this->params->query),
          'contain' => array(
          ),
         );
@@ -436,7 +436,7 @@ class FunerariasController extends AppController {
         }
         
         //Borrar y comprobar éxito
-        if ($this->Funeraria->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.funeraria_id' => $id), false, false) && $this->Funeraria->delete()) {
+        if ($this->Funeraria->delete()) {
             $this->Session->setFlash(__('La funeraria ha sido eliminada correctamente.'));
         }
         else {

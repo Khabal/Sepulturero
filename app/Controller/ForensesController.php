@@ -499,27 +499,42 @@ class ForensesController extends AppController {
             throw new NotFoundException(__('El médico forense especificado no existe.'));
         }
         
-        //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo también
-        $persona = $this->Forense->field('persona_id', array('Forense.id' => $id));
-        $arrendatario = $this->Forense->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
-        $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+        //Buscar si el médico forense está en uso en algún difunto
+        $difunto = $this->Forense->Difunto->find('first', array(
+         'conditions' => array(
+          'Difunto.forense_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
         
-        if (empty($arrendatario) && empty($difunto)) {
-            //Borrar y comprobar éxito (Persona y Forense)
-            if ($this->Forense->Persona->delete($persona)) {
-                $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
-            }
-            else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
-            }
+        //Comprobar si el médico forense está en uso en difuntos
+        if (!empty($difunto)) {
+            $this->Session->setFlash(__('El médico forense está asociado a un difunto.'));
         }
         else {
-            //Borrar y comprobar éxito (Forense)
-            if ($this->Forense->delete()) {
-                $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+            //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo también
+            $persona = $this->Forense->field('persona_id', array('Forense.id' => $id));
+            $arrendatario = $this->Forense->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
+            $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+            
+            if (empty($arrendatario) && empty($difunto)) {
+                //Borrar y comprobar éxito (Persona y Forense)
+                if ($this->Forense->Persona->delete($persona)) {
+                    $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+                }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+                //Borrar y comprobar éxito (Forense)
+                if ($this->Forense->delete()) {
+                    $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+                }
             }
         }
         

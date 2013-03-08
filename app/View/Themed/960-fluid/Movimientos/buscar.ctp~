@@ -3,7 +3,7 @@
 <?php //echo $this->AutoComplete->input('Arrendatario.direccion', array(), array('source' => array('Foo', 'Bar','castaña'))); ?>
 
 <?php echo '<pre>'; ?>
-<?php print_r($enterramientos); ?>
+<?php print_r($arrendatarios); ?>
 <?php echo '</pre>'; ?>
 
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
@@ -20,7 +20,7 @@
         $( "#title_p" ).autocomplete({
             source: function( request, response ) {
                 $.ajax({
-                    url: "<?php echo $this->Html->url(array('controller' => 'enterramientos', 'action' => 'autocomplete')); ?>",
+                    url: "<?php echo $this->Html->url(array('controller' => 'traslados', 'action' => 'autocomplete')); ?>",
                     dataType: "json",
                     type: "GET",
                     data: {

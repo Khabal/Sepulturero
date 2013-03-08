@@ -164,7 +164,7 @@ class FunerariasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Funeraria->parseCriteria($this->passedArgs),
+         'conditions' => $this->Funeraria->parseCriteria($this->params->query),
          'contain' => array(
          ),
         );
@@ -194,7 +194,7 @@ class FunerariasController extends AppController {
             if ($this->Funeraria->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Funeraria->save($this->request->data, $this->opciones_guardado)) {
+                if ($this->Funeraria->saveAssociated($this->request->data, $this->opciones_guardado)) {
                     $this->Session->setFlash(__('La funeraria ha sido guardada correctamente.'));
                     //Redireccionar según corresponda
                     if (isset($this->request->data['guardar_y_nuevo'])) {

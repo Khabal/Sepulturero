@@ -264,6 +264,7 @@ class ConcesionesController extends AppController {
         //Redireccionar
         $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
         $this->redirect(array('action' => 'index'));
+        
     }
     
     /**
@@ -442,12 +443,27 @@ class ConcesionesController extends AppController {
             throw new NotFoundException(__('La concesión especificada no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Concesion->delete()) {
-            $this->Session->setFlash(__('La concesión ha sido eliminado correctamente.'));
+        //Buscar si la concesión está en uso en algún arrendamiento
+        $arrendamiento = $this->Concesion->Arrendamiento->find('first', array(
+         'conditions' => array(
+          'Arrendamiento.concesion_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si la concesión está en uso en arrendamientos
+        if (!empty($arrendamiento)) {
+            $this->Session->setFlash(__('La concesión especificada está asociada a un arrendamiento.'));
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser eliminado.'));
+            //Borrar y comprobar éxito
+            if ($this->Concesion->delete()) {
+                $this->Session->setFlash(__('La concesión ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser eliminado.'));
+            }
         }
         
         //Redireccionar a index

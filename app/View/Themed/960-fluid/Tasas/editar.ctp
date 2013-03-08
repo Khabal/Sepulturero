@@ -2,7 +2,7 @@
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php $tasa = $this->request->data; ?>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tasas', $this->Session->read('Tasa.id'), $this->Session->read('Tasa.tipo')); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tasas', $this->Session->read('Tasa.id'), $this->Session->read('Tasa.concepto')); ?>
 </div>
 
 <?php
@@ -14,9 +14,9 @@
 ?>
 
 <script>
- /* Establecer opciones de 'UI datepicker' para JQuery */
  $(function() {
-   $("#inicio").datepicker({
+   /* Establecer opciones de 'UI datepicker' para JQuery */
+   $("#TasaInicioBonito").datepicker({
      altField: "#TasaInicioValidez",
      altFormat: "yy-mm-dd",
      buttonImage: "calendario.gif",
@@ -29,7 +29,9 @@
      showOtherMonths: true,
      showWeek: true,
    });
-   $("#final").datepicker({
+   
+   /* Establecer opciones de 'UI datepicker' para JQuery */
+   $("#TasaFinBonito").datepicker({
      altField: "#TasaFinValidez",
      altFormat: "yy-mm-dd",
      buttonImage: "calendario.gif",
@@ -51,23 +53,12 @@
   <fieldset>
    <legend><?php echo __('Datos de la tasa'); ?></legend>
    <?php /* Campos */
-    echo $this->Form->input('Tasa.tipo', array('label' => 'Tipo:'));
+    echo $this->Form->input('Tasa.concepto', array('label' => 'Concepto:'));
     echo $this->Form->input('Tasa.cantidad', array('label' => 'Cantidad:'));
-   ?>
-   <div class="input text required">
-    <label for="TasaMoneda">Moneda:</label>
-    <?php echo $this->Form->select('Tasa.moneda', $monedas); ?>
-   </div>
-   <div class="input text required">
-    <label for="inicio">Inicio de validez:</label>
-    <input id="inicio" value="<?php if ($this->request->data) { echo date('d/m/Y', strtotime($this->request->data['Tasa']['inicio_validez'])); } ?>"/>
-   </div>
-   <?php echo $this->Form->input('Tasa.inicio_validez', array('type' => 'hidden')); ?>
-   <div class="input text required">
-    <label for="final">Fin de validez:</label>
-    <input id="final" value="<?php if ($this->request->data){ echo date('d/m/Y', strtotime($this->request->data['Tasa']['fin_validez'])); }?>"/>
-   </div>
-  <?php
+    echo $this->Form->input('Tasa.moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
+    echo $this->Form->input('Tasa.inicio_bonito', array('label' => 'Fecha de inicio de validez:')); //Campo imaginario
+    echo $this->Form->input('Tasa.inicio_validez', array('type' => 'hidden'));
+    echo $this->Form->input('Tasa.fin_bonito', array('label' => 'Fecha de fin de validez:')); //Campo imaginario
     echo $this->Form->input('Tasa.fin_validez', array('type' => 'hidden'));
     echo $this->Form->input('Tasa.observaciones', array('label' => 'Anotaciones:'));
    ?>

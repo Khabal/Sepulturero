@@ -153,6 +153,13 @@ class Movimiento extends AppModel {
             ),
         ),
         'fecha' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de movimiento no se puede dejar en blanco.',
+            ),
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
                 'required' => true,
@@ -248,6 +255,41 @@ class Movimiento extends AppModel {
                 'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
             ),
         ),
+        //Campos imaginarios
+        'fecha_bonita' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de movimiento no se puede dejar en blanco.',
+            ),
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'tumba_origen' => array(
+            'uuid' => array(
+                'rule' => array('valida_tumba'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La tumba especificada no existe.',
+            ),
+        ),
+        'tumba_destino' => array(
+            'uuid' => array(
+                'rule' => array('valida_tumba'),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La tumba especificada no existe.',
+            ),
+        ),
     );
     
     /**
@@ -311,6 +353,50 @@ class Movimiento extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_tumba method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba($check) {
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['Movimiento']['tumba_id'])) {
+            $id = $this->data['Movimiento']['tumba_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+          'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
     }
     
     /**

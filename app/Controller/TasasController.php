@@ -330,6 +330,11 @@ class TasasController extends AppController {
              ),
             ));
             
+            //Devolver nombres bonitos para entidades relacionadas
+            $this->request->data['Tasa']['inicio_bonito'] = date('d/m/Y', strtotime($this->request->data['Tasa']['inicio_validez']));
+            $this->request->data['Tasa']['fin_bonito'] = date('d/m/Y', strtotime($this->request->data['Tasa']['fin_validez']));
+            $this->request->data['Tasa']['cantidad'] = number_format($this->request->data['Tasa']['cantidad'], 2, ',', '.');
+            
             //Guardar los datos de sesión de la tasa
             $this->Session->write('Tasa.id', $this->request->data['Tasa']['id']);
             $this->Session->write('Tasa.concepto', $this->request->data['Tasa']['concepto']);

@@ -420,7 +420,7 @@ class DifuntosController extends AppController {
         $this->Difunto->id = $id;
         
         //Comprobar si existe el difunto
-        if (!$this->Difunto->exists()) {$this->Session->read('Forense.id');
+        if (!$this->Difunto->exists()) {
             $this->Session->setFlash(__('El difunto especificado no existe.'));
             $this->redirect(array('action' => 'index'));
         }
@@ -443,25 +443,25 @@ class DifuntosController extends AppController {
             $tum_nueva = $this->request->data['Difunto']['tumba_id'];
             
             //Comprobar si la tumba vieja y la nueva son distintas
-            if ($tum_nueva != $tum_vieja) {echo "kk2 ";
+            if ($tum_nueva != $tum_vieja) {
                 //La tumba vieja estaba vacía (sin asignar) pero la nueva no
-                if (empty($tum_vieja) && !empty($tum_nueva)) {echo "kk3 ";
+                if (empty($tum_vieja) && !empty($tum_nueva)) {
                     $this->request->data['Tumba']['0']['id'] = $tum_nueva;
                     $this->request->data['Tumba']['0']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
                 }
                 //La tumba vieja no estaba vacía (asignada) y la nueva tampoco
-                elseif (!empty($tum_vieja) && !empty($tum_nueva)) {echo "kk4 ";
+                elseif (!empty($tum_vieja) && !empty($tum_nueva)) {
                     $this->request->data['Tumba']['0']['id'] = $tum_nueva;
                     $this->request->data['Tumba']['0']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
                     $this->request->data['Tumba']['1']['id'] = $tum_vieja;
                     $this->request->data['Tumba']['1']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
                 }
                 //La tumba vieja no estaba vacía (asignada) pero la nueva si
-                elseif (!empty($tum_vieja) && empty($tum_nueva)) {echo "kk5 ";
+                elseif (!empty($tum_vieja) && empty($tum_nueva)) {
                     $this->request->data['Tumba']['1']['id'] = $tum_vieja;
                     $this->request->data['Tumba']['1']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
                 }
-                else {echo "kk6 ";
+                else {
                     //Truco del almendruco para evitar errores de validación
                     $this->request->data['Difunto']['tumba_id'] = null;
                 }
@@ -535,6 +535,7 @@ class DifuntosController extends AppController {
             
             //Devolver nombres bonitos para entidades relacionadas
             $this->request->data['Difunto']['forense_bonito'] = $this->request->data['Forense']['Persona']['nombre_completo'] . " - " . $this->request->data['Forense']['numero_colegiado'] . " (" . $this->request->data['Forense']['colegio'] . ")";
+            unset($this->request->data['Forense']);
             
             
             if (!empty($this->request->data['Difunto']['fecha_defuncion'])) {
@@ -852,6 +853,17 @@ class DifuntosController extends AppController {
             throw new NotFoundException(__('El difunto especificado no existe.'));
         }
         
+        //Comprobar si el difunto está asignado a alguna tumba
+        $tumba = $this->Difunto->field('tumba_id', array('Difunto.id' => $id));
+        
+        //Actualizar la población de la tumba
+        if (!empty($tumba)) {
+            unset($this->Difunto->Tumba->validate['tipo']);
+            $datos['Tumba']['id'] = $tumba;
+            $datos['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tumba)) - 1;
+            $this->Difunto->saveAssociated($datos, $this->opciones_guardado);
+        }
+        
         //Comprobar si la persona está asociada con algún arrendatario o médico forense para en caso contrario eliminarlo también
         $persona = $this->Difunto->field('persona_id', array('Difunto.id' => $id));
         $arrendatario = $this->Difunto->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
@@ -859,12 +871,11 @@ class DifuntosController extends AppController {
         
         if (empty($arrendatario) && empty($forense)) {
             //Borrar y comprobar éxito (Persona y Difunto)
-            if ($this->Difunto->Persona->delete($persona)/* && $this->Difunto->delete()*/) {
+            if ($this->Difunto->Persona->delete($persona)) {
                 $this->Session->setFlash(__('El difunto ha sido eliminado correctamente.'));
             }
             else {
-                //$this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser eliminado.'));
-$this->Session->setFlash(__($persona));
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser eliminado.'));
             }
         }
         else {

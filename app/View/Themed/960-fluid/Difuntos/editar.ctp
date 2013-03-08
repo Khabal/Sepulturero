@@ -5,11 +5,11 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($this->request->data);print_r($this->validationErrors);
  echo '</pre>';
- 
+ */
 ?>
 
 <script>
@@ -117,7 +117,7 @@
     echo $this->Form->input('Difunto.fecha_bonita', array('label' => 'Fecha de defunción:')); //Campo imaginario
     echo $this->Form->input('Difunto.fecha_defuncion', array('type' => 'hidden'));
     echo $this->Form->input('Difunto.edad', array('label' => 'Edad:'));
-    echo $this->Form->input('Difunto.causa_defuncion', array('label' => 'Causa de defunción:'));
+    echo $this->Form->input('Difunto.causa_fallecimiento', array('label' => 'Causa de fallecimiento:'));
     echo $this->Form->input('Difunto.forense_bonito', array('label' => 'Médico forense:')); //Campo imaginario
     echo $this->Form->input('Difunto.forense_id', array('type' => 'hidden'));
     echo $this->Form->input('Difunto.certificado_defuncion', array('label' => 'Certificado de defunción:'));
