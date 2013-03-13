@@ -139,7 +139,7 @@ class DifuntosController extends AppController {
      */
     public $opciones_guardado = array(
         'atomic' => true,
-        'deep' => false,
+        'deep' => true,
         'fieldList' => array(
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
             'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'causa_fallecimiento', 'certificado_defuncion'),
@@ -249,6 +249,11 @@ class DifuntosController extends AppController {
                     $this->request->data['Persona']['id'] = $persona['Persona']['id'];
                 }
                 
+            }
+            
+            //Limpiar el ID de tumba si se ha borrado
+            if (empty($this->request->data['Difunto']['tumba_bonita'])) {
+                $this->request->data['Difunto']['tumba_id'] = null;
             }
             
             //Comprobar si se ha introducido una tumba
@@ -437,6 +442,11 @@ class DifuntosController extends AppController {
             $this->request->data['Difunto']['id'] = $id;
             $this->request->data['Difunto']['persona_id'] = $this->Session->read('Difunto.persona_id');
             
+            //Limpiar el ID de tumba si se ha borrado
+            if (empty($this->request->data['Difunto']['tumba_bonita'])) {
+                $this->request->data['Difunto']['tumba_id'] = null;
+            }
+            
             //Controlar la población de la tumba
             unset($this->Difunto->Tumba->validate['tipo']);
             $tum_vieja = $this->Session->read('Difunto.tumba_id');
@@ -446,20 +456,24 @@ class DifuntosController extends AppController {
             if ($tum_nueva != $tum_vieja) {
                 //La tumba vieja estaba vacía (sin asignar) pero la nueva no
                 if (empty($tum_vieja) && !empty($tum_nueva)) {
-                    $this->request->data['Tumba']['0']['id'] = $tum_nueva;
-                    $this->request->data['Tumba']['0']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
+                    $this->request->data['Tumba']['id'] = $tum_nueva;
+                    $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
                 }
                 //La tumba vieja no estaba vacía (asignada) y la nueva tampoco
                 elseif (!empty($tum_vieja) && !empty($tum_nueva)) {
-                    $this->request->data['Tumba']['0']['id'] = $tum_nueva;
-                    $this->request->data['Tumba']['0']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
-                    $this->request->data['Tumba']['1']['id'] = $tum_vieja;
-                    $this->request->data['Tumba']['1']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
+                    $this->request->data['Tumba']['id'] = $tum_nueva;
+                    $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
+                    $datos_extra['Tumba']['id'] = $tum_vieja;
+                    $datos_extra['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
+//$this->request->data[0]['Difunto'] = $this->request->data['Difunto'];
+//unset($this->request->data['Difunto']);
+//$this->request->data[0]['Persona'] = $this->request->data['Persona'];
+//unset($this->request->data['Persona']);
                 }
                 //La tumba vieja no estaba vacía (asignada) pero la nueva si
                 elseif (!empty($tum_vieja) && empty($tum_nueva)) {
-                    $this->request->data['Tumba']['1']['id'] = $tum_vieja;
-                    $this->request->data['Tumba']['1']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
+                    $this->request->data['Tumba']['id'] = $tum_vieja;
+                    $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
                 }
                 else {
                     //Truco del almendruco para evitar errores de validación
@@ -475,6 +489,16 @@ class DifuntosController extends AppController {
                 
                 //Guardar y comprobar éxito
                 if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    //Establecer el ID de tumba a nulo aquí porque antes se lo pasa por los cojones
+                    if (empty($tum_nueva)) {
+                        $this->Difunto->query("UPDATE difuntos SET tumba_id = null WHERE id = '" . $id . "'");
+                    }
+                    //Guardar la información de la tumba antigua en el caso de haber cambiado la tumba
+                    if (isset($datos_extra)) {
+                    $this->Difunto->Tumba->saveAssociated($datos_extra, $this->opciones_guardado);
+                    
+                    }
+                    
                     $this->Session->setFlash(__('El difunto ha sido actualizado correctamente.'));
                     //Borrar datos de sesión
                     $this->Session->delete('Difunto');
@@ -542,8 +566,21 @@ class DifuntosController extends AppController {
                 $this->request->data['Difunto']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Difunto']['fecha_defuncion']));
             }
             
-            if (!empty($this->request->data['Tumba']['tipo'])) {
-                $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $this->request->data['Tumba'][$this->request->data['Tumba']['tipo']]['localizacion'];
+            if (!empty($this->request->data['Difunto']['tumba_id'])) {
+                $localizacion = "";
+                if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Columbario']['localizacion'];
+                }
+                elseif(!empty($this->request->data['Tumba']['Exterior']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Exterior']['localizacion'];
+                }
+                elseif(!empty($this->request->data['Tumba']['Nicho']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Nicho']['localizacion'];
+                }
+                elseif(!empty($this->request->data['Tumba']['Panteon']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Panteon']['localizacion'];
+                }
+                $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $localizacion;
             }
             
             //Guardar los datos de sesión del difunto
@@ -861,7 +898,7 @@ class DifuntosController extends AppController {
             unset($this->Difunto->Tumba->validate['tipo']);
             $datos['Tumba']['id'] = $tumba;
             $datos['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tumba)) - 1;
-            $this->Difunto->saveAssociated($datos, $this->opciones_guardado);
+            $this->Difunto->Tumba->saveAssociated($datos, $this->opciones_guardado);
         }
         
         //Comprobar si la persona está asociada con algún arrendatario o médico forense para en caso contrario eliminarlo también

@@ -151,6 +151,13 @@ class Movimiento extends AppModel {
                 'on' => null,
                 'message' => 'El tipo de movimiento no se encuentra dentro de las opciones posibles.',
             ),
+            'viajeros_al_tren' => array(
+                'rule' => array('valida_viajeros'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'No se permite este movimiento con 0 difuntos.',
+            ),
         ),
         'fecha' => array(
             'novacio' => array(
@@ -177,7 +184,7 @@ class Movimiento extends AppModel {
                 'message' => 'El número de difuntos meneados no se puede dejar en blanco.',
             ),
             'numeronatural' => array(
-                'rule' => array('naturalNumber', true),
+                'rule' => array('naturalNumber', false),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -185,47 +192,33 @@ class Movimiento extends AppModel {
             ),
         ),
         'cementerio_origen' => array(
-            'novacio' => array(
-                'rule' => array('notEmpty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El cementerio de origen no se puede dejar en blanco.',
-            ),
             'longitud' => array(
                 'rule' => array('between', 2, 50),
                 'required' => true,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El cementerio de origen debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
                 'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => true,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El cementerio de origen sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'cementerio_destino' => array(
-            'novacio' => array(
-                'rule' => array('notEmpty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El cementerio de destino no se puede dejar en blanco.',
-            ),
             'longitud' => array(
                 'rule' => array('between', 2, 50),
                 'required' => true,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El cementerio de destino debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
                 'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => true,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El cementerio de destino sólo puede contener caracteres alfabéticos.',
             ),
@@ -274,20 +267,34 @@ class Movimiento extends AppModel {
         ),
         'tumba_origen' => array(
             'uuid' => array(
-                'rule' => array('valida_tumba'),
+                'rule' => array('valida_tumba_origen'),
                 'required' => true,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'La tumba especificada no existe.',
+            ),
+            'origen' => array(
+                'rule' => array('valida_origen'),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Se requiere una tumba como origen para este tipo de movimiento.',
             ),
         ),
         'tumba_destino' => array(
             'uuid' => array(
-                'rule' => array('valida_tumba'),
-                'required' => false,
+                'rule' => array('valida_tumba_destino'),
+                'required' => true,
                 'allowEmpty' => true,
                 'on' => null,
                 'message' => 'La tumba especificada no existe.',
+            ),
+            'destino' => array(
+                'rule' => array('valida_destino'),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Se requiere una tumba como destino para este tipo de movimiento.',
             ),
         ),
     );
@@ -356,16 +363,36 @@ class Movimiento extends AppModel {
     }
     
     /**
-     * valida_tumba method
+     * valida_viajeros method
      *
      * @param array $check elements for validate
      * @return boolean
      */
-    public function valida_tumba($check) {
+    public function valida_viajeros($check) {
+        
+        //Comprobar que el número de viajeros sea mayor que 0
+        if ($this->data['Movimiento']['viajeros'] > 0) {
+            //Devolver válido
+            return true;
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+    }
+    
+    /**
+     * valida_tumba_origen method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba_origen($check) {
         
         //Extraer el ID de la tumba
-        if (!empty($this->data['Movimiento']['tumba_id'])) {
-            $id = $this->data['Movimiento']['tumba_id'];
+        if (!empty($this->data['MovimientoTumba'][0]['tumba_id'])) {
+            $id = $this->data['MovimientoTumba'][0]['tumba_id'];
         }
         else {
             //Devolver error
@@ -373,7 +400,7 @@ class Movimiento extends AppModel {
         }
         
         //Buscar si hay existe una tumba con el ID especificado
-        $tumba = $this->Tumba->find('first', array(
+        $tumba = $this->MovimientoTumba->Tumba->find('first', array(
          'conditions' => array(
           'Tumba.id' => $id,
          ),
@@ -396,6 +423,124 @@ class Movimiento extends AppModel {
         
         //Devolver error
         return false;
+        
+    }
+    
+    /**
+     * valida_origen method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_origen($check) {
+        
+        //Extraer el tipo de movimiento
+        if (!empty($this->data['Movimiento']['tipo'])) {
+            $tipo = $this->data['Movimiento']['tipo'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Comprobar que el tipo de movimiento sea de los que requieren origen
+        if (($tipo == "Exhumación") || ($tipo == "Traslado")){
+            
+            //Comprobar que la tumba de origen se haya introducido
+            if (empty($this->data['MovimientoTumba'][0]['tumba_id'])) {
+                //Devolver error
+                return false;
+            }
+            else {
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        
+        //Devolver válido
+        return true;
+        
+    }
+    
+    /**
+     * valida_tumba_destino method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba_destino($check) {
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['MovimientoTumba'][1]['tumba_id'])) {
+            $id = $this->data['MovimientoTumba'][1]['tumba_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->MovimientoTumba->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+          'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_destino method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_destino($check) {
+        
+        //Extraer el tipo de movimiento
+        if (!empty($this->data['Movimiento']['tipo'])) {
+            $tipo = $this->data['Movimiento']['tipo'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Comprobar que el tipo de movimiento sea de los que requieren destino
+        if (($tipo == "Inhumación") || ($tipo == "Traslado")){
+            
+            //Comprobar que la tumba de destino se haya introducido
+            if (empty($this->data['MovimientoTumba'][1]['tumba_id'])) {
+                //Devolver error
+                return false;
+            }
+            else {
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        
+        //Devolver válido
+        return true;
         
     }
     

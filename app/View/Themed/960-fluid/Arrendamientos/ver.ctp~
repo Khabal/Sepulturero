@@ -40,7 +40,7 @@
 
 <?php /* Arrendatario relacionado */ ?>
 <div class="related box">
- <h2><?php echo __('Arrendatario actual'); ?></h2>
+ <h2><?php echo __('Datos del arrendatario'); ?></h2>
   <?php if (!empty($arrendamiento['Arrendatario'])): ?>
   <table cellpadding = "0" cellspacing = "0">
    <?php /* Cabecera de la tabla */ ?>
@@ -119,7 +119,7 @@
 
 <?php /* Tumba relacionada */ ?>
 <div class="related box">
- <h2><?php echo __('Tumba actual'); ?></h2>
+ <h2><?php echo __('Datos de la tumba'); ?></h2>
   <?php if (!empty($arrendamiento['Tumba'])): ?>
   <table cellpadding = "0" cellspacing = "0">
    <?php /* Cabecera de la tabla */ ?>

@@ -373,7 +373,7 @@ class Arrendamiento extends AppModel {
             ));
             
             //Comprobar si existe otro arrendatario "Vigente" para esta tumba
-            if ($arrendador > 0) {
+            if ($arrendador > 1) {
                 //Devolver error
                 return false;
             }

@@ -139,7 +139,7 @@ class TumbasController extends AppController {
      */
     public $opciones_guardado = array(
         'atomic' => true,
-        'deep' => false,
+        'deep' => true,
         'fieldList' => array(
             'Tumba' => array('id', 'tipo', 'poblacion', 'observaciones'),
             'Columbario' => array('id', 'tumba_id', 'numero_columbario', 'letra', 'fila', 'patio'),
@@ -714,9 +714,22 @@ class TumbasController extends AppController {
          ),
         ));
         
+        //Buscar si la tumba está en uso por algún usuario difunto
+        $difunto = $this->Tumba->Difunto->find('first', array(
+         'conditions' => array(
+          'Difunto.tumba_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
+        
         //Comprobar si la tumba está en uso en arrendamientos
         if (!empty($arrendamiento)) {
             $this->Session->setFlash(__('La tumba especificada está asociada a un arrendamiento.'));
+        }
+        //Comprobar si la tumba está en uso en difuntos
+        if (!empty($difunto)) {
+            $this->Session->setFlash(__('La tumba especificada no está vacía, contiene usuarios satisfechos.'));
         }
         else {
             //Borrar y comprobar éxito
@@ -947,18 +960,19 @@ class TumbasController extends AppController {
         $items = array();
         
         if (empty($resultados)) {
-         array_push($items, array("label"=>"No hay difuntos en la tumba", "value"=>""));
+            //array_push($items, array("label"=>"No hay difuntos en la tumba", "value"=>""));
         }
         else {
             foreach($resultados['Difunto'] as $resultado) {
                 array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Persona']['dni'], "value" => $resultado['id']));
             }
         }
+
+        //$this->autoRender = false;
         
-        $this->layout = 'ajax';
-        $this->autoRender = false;
+        /*echo*/ json_encode($items);$this->set('moridos', $items);
         
-        echo json_encode($items);
+        $this->layout = 'ajax';$this->render('ocupantes');
     }
     
 }

@@ -5,11 +5,12 @@
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
- print_r($this->request->data);print_r($this->validationErrors);
+ print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
- */
+ 
 ?>
 
 <script>

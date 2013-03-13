@@ -182,7 +182,7 @@ class Tumba extends AppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La población de la tumba sólo puede contener caracteres numéricos.',
+                'message' => 'La población de la tumba sólo puede ser un número natural.',
             ),
         ),
         'observaciones' => array(

@@ -39,11 +39,34 @@
      <td>
       <?php echo $this->Html->link($difunto['Persona']['nombre_completo'], array('controller' => 'difuntos', 'action' => 'ver', $difunto['Difunto']['id'])); ?>&nbsp;
      </td>
-     <td><?php echo h($difunto['Persona']['dni']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($difunto['Persona']['dni'])) {
+        echo h($difunto['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td class="enlace">
       <?php
-       if ($difunto['Difunto']['tumba_id']) {
-        echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $difunto['Tumba'][$difunto['Tumba']['tipo']]['localizacion'], array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
+       if (!empty($difunto['Difunto']['tumba_id'])) {
+        /* Obtener la localización de tumba */
+        $localizacion = "";
+        if (!empty($difunto['Tumba']['Columbario']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Columbario']['localizacion'];
+        }
+        elseif(!empty($difunto['Tumba']['Exterior']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Exterior']['localizacion'];
+        }
+        elseif(!empty($difunto['Tumba']['Nicho']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Nicho']['localizacion'];
+        }
+        elseif(!empty($difunto['Tumba']['Panteon']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Panteon']['localizacion'];
+        }
+        echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
        }
        else {
         echo h("Tumba desconocida");
@@ -53,7 +76,7 @@
      <td><?php echo h($difunto['Difunto']['estado']); ?>&nbsp;</td>
      <td>
       <?php
-       if ($difunto['Difunto']['fecha_defuncion']) {
+       if (!empty($difunto['Difunto']['fecha_defuncion'])) {
         echo h(date('d/m/Y', strtotime($difunto['Difunto']['fecha_defuncion'])));
        }
        else {
@@ -63,7 +86,7 @@
      </td>
      <td>
       <?php
-       if ($difunto['Difunto']['edad']) {
+       if (!empty($difunto['Difunto']['edad'])) {
         echo h($difunto['Difunto']['edad']);
        }
        else {
@@ -73,7 +96,7 @@
      </td>
      <td>
       <?php
-       if ($difunto['Difunto']['causa_fallecimiento']) {
+       if (!empty($difunto['Difunto']['causa_fallecimiento'])) {
         echo h($difunto['Difunto']['causa_fallecimiento']);
        }
        else {

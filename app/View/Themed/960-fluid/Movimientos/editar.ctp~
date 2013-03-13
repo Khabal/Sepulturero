@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Movimiento.id'), $this->Session->read('Movimiento.fecha_motivo')); ?>
 </div>
 
 <?php
@@ -69,8 +69,8 @@
        seleccionado = $("#MovimientoTipo").val();
        if (seleccionado == "Exhumación") {
          $("#Origen").show(),
-         $("#FormularioDifuntos").show(),
-         $("#ListaDifuntos").hide(),
+         $("#FormularioDifuntos").hide(),
+         $("#ListaDifuntos").show(),
          $("#Destino").hide()
        }
        else if (seleccionado == "Inhumación") {
@@ -369,9 +369,8 @@ $.each(respuesta, function (iteration, item) {
    </div>
   </fieldset>
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
+  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
   echo $this->Form->end();
  ?>
 </div>

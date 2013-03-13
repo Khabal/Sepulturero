@@ -50,7 +50,21 @@
      </td>
      <td>
       <?php
-       $tumba = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'];
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($arrendamiento['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Panteon']['localizacion'];
+       }
+       $tumba = $arrendamiento['Tumba']['tipo'] . " - " . $localizacion;
        echo $this->Html->link($tumba, array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Tumba']['id']));
       ?>&nbsp;
      </td>

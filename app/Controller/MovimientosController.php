@@ -95,7 +95,7 @@ class MovimientosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Movimiento', 'DifuntoMovimiento', 'MovimientoTumba', 'Sanitize');
+    public $uses = array('Movimiento', 'Difunto', 'DifuntoMovimiento', 'MovimientoTumba', 'Tumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -139,11 +139,11 @@ class MovimientosController extends AppController {
      */
     public $opciones_guardado = array(
         'atomic' => true,
-        'deep' => false,
+        'deep' => true,
         'fieldList' => array(
-            'Movimiento' => array('id', 'fecha', 'cementerio_origen', 'cementerio_destino', 'motivo', 'observaciones'),
-            'DifuntoMovimiento' => array('id', 'difunto_id', 'traslado_id'),
-            'MovimientoTumba' => array('id', 'traslado_id', 'tumba_id', 'origen_destino'),
+            'Movimiento' => array('id', 'tipo', 'fecha', 'viajeros', 'cementerio_origen', 'cementerio_destino', 'motivo', 'observaciones'),
+            'DifuntoMovimiento' => array('id', 'difunto_id', 'movimiento_id'),
+            'MovimientoTumba' => array('id', 'movimiento_id', 'tumba_id', 'origen_destino'),
             'Difunto' => array('id', 'tumba_id'),
             'Tumba' => array('id', 'poblacion'),
         ),
@@ -214,33 +214,24 @@ class MovimientosController extends AppController {
         
         //Devolver las opciones de selección de tipos de movimientos
         $this->set('tipo', $this->Movimiento->tipo);
+
+//Perradas surtido con la validación
+/*                unset($this->Movimiento->validate['cementerio_origen']);
+                unset($this->Movimiento->validate['tumba_origen']);
+                unset($this->Movimiento->validate['cementerio_destino']);
+                unset($this->Movimiento->validate['tumba_destino']);*/
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
+            
+            //Variable auxiliar multpropósito
+            $i = 0;
             
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
             //Crear nuevo traslado con id único
             $this->Movimiento->create();
-            
-            //Comprobar si hay difuntos vacíos y eliminarlos
-            if (isset($this->request->data['DifuntoMovimiento'])) {
-                $i = 0;
-                foreach ($this->request->data['DifuntoMovimiento'] as $difunto) {
-                    if (empty($difunto['difunto_bonito'])) {
-                        unset($this->request->data['DifuntoMovimiento'][$i]);
-                    }
-                    $i++;
-                }
-            }
-            
-            //Comprobar si hay difuntos repetidos y eliminarlos
-            $this->request->data['DifuntoMovimiento'] = array_unique($this->request->data['DifuntoMovimiento']);
-            $this->request->data['DifuntoMovimiento'] = array_values($this->request->data['DifuntoMovimiento']);
-            
-            //Obtener los difuntos que van a ser movidos
-            $numero_muertos = count($this->request->data['DifuntoMovimiento']);
             
             //Operaciones para el tipo de movimiento exhumación
             if ($this->request->data['Movimiento']['tipo'] == "Exhumación") {
@@ -250,42 +241,83 @@ class MovimientosController extends AppController {
                     $i = 0;
                     foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
                         if (!empty($morido['difunto_id'])) {
-                            $this->request->data['Difunto'][$i]['id'] = $morido['difunto_id'];
-                            $this->request->data['Difunto'][$i]['tumba_id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = null;
                             $i++;
                         }
                     }
                 }
                 
+                //Obtener los difuntos que van a ser movidos
+                $numero_muertos = $i;
+                $this->request->data['Movimiento']['viajeros'] = $numero_muertos;
+                
                 //Controlar la población de la tumba de origen
-                $this->request->data['Movimiento']['cementerio_destino'] = null;
                 $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
                 $this->request->data['Tumba'][0]['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
-                $this->request->data['Tumba'][0]['población'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['TrasladoTumba'][0]['tumba_id'])) - $numero_muertos;
+                $this->request->data['Tumba'][0]['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][0]['tumba_id'])) - $numero_muertos;
+                
+                //Controlar la población de la tumba de destino
+                $this->request->data['Movimiento']['cementerio_destino'] = null;
+                unset($this->request->data['MovimientoTumba'][1]);
+                unset($this->request->data['Tumba'][1]);
+
                 
             }
+            
             //Operaciones para el tipo de movimiento inhumación
             elseif ($this->request->data['Movimiento']['tipo'] == "Inhumación") {
+                
+                //Comprobar si hay difuntos vacíos y eliminarlos
+                if (isset($this->request->data['DifuntoMovimiento'])) {
+                    $i = 0;
+                    foreach ($this->request->data['DifuntoMovimiento'] as $difunto) {
+                        if (empty($difunto['difunto_bonito'])) {
+                            unset($this->request->data['DifuntoMovimiento'][$i]);
+                        }
+                        $i++;
+                    }
+                }
+                
+                //Comprobar si hay difuntos repetidos y eliminarlos
+                if (!empty($this->request->data['DifuntoMovimiento'])) {
+                    $this->request->data['DifuntoMovimiento'] = array_unique($this->request->data['DifuntoMovimiento']);
+                    $this->request->data['DifuntoMovimiento'] = array_values($this->request->data['DifuntoMovimiento']);
+                }
                 
                 //Cambiar la tumba actual a los difuntos que se mueven
                 if (!empty($this->request->data['DifuntoMovimiento'])) {
                     $i = 0;
                     foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
                         if (!empty($morido['difunto_id'])) {
-                            $this->request->data['Difunto'][$i]['id'] = $morido['difunto_id'];
-                            $this->request->data['Difunto'][$i]['tumba_id'] = null;
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
                             $i++;
                         }
                     }
                 }
                 
+                //Obtener los difuntos que van a ser movidos
+                $numero_muertos = $i;
+                $this->request->data['Movimiento']['viajeros'] = $numero_muertos;
+                
                 //Controlar la población de la tumba de origen
-                $this->request->data['Movimiento']['cementerio_destino'] = null;
-                $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
-                $this->request->data['Tumba'][0]['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
-                $this->request->data['Tumba'][0]['población'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['TrasladoTumba'][0]['tumba_id'])) + $numero_muertos;
+                $this->request->data['Movimiento']['cementerio_origen'] = null;
+                unset($this->request->data['MovimientoTumba'][0]);
+                unset($this->request->data['Tumba'][0]);
+
+                
+                //Controlar la población de la tumba de destino
+                /*$this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+                $this->request->data['Tumba'][1]['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                $this->request->data['Tumba'][1]['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;*/
+                $this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+                $this->request->data['MovimientoTumba'][1]['Tumba']['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                $this->request->data['MovimientoTumba'][1]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
+unset($this->request->data['Tumba'][1]);
                 
             }
+            
             //Operaciones para el tipo de movimiento traslado
             elseif ($this->request->data['Movimiento']['tipo'] == "Traslado") {
                 
@@ -294,28 +326,32 @@ class MovimientosController extends AppController {
                     $i = 0;
                     foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
                         if (!empty($morido['difunto_id'])) {
-                            $this->request->data['Difunto'][$i]['id'] = $morido['difunto_id'];
-                            $this->request->data['Difunto'][$i]['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
                             $i++;
                         }
                     }
                 }
                 
+                //Obtener los difuntos que van a ser movidos
+                $numero_muertos = $i;
+                $this->request->data['Movimiento']['viajeros'] = $numero_muertos;
+                
                 //Controlar la población de la tumba de origen
                 $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
-                $this->request->data['Tumba'][0]['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
-                $this->request->data['Tumba'][0]['población'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['TrasladoTumba'][0]['tumba_id'])) - $numero_muertos;
+                $this->request->data['MovimientoTumba'][0]['Tumba']['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
+                $this->request->data['MovimientoTumba'][0]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][0]['tumba_id'])) - $numero_muertos;
                 
                 //Controlar la población de la tumba de destino
                 $this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
-                $this->request->data['Tumba'][1]['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
-                $this->request->data['Tumba'][1]['población'] = $this->Traslado->TrasladoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
+                $this->request->data['MovimientoTumba'][1]['Tumba']['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                $this->request->data['MovimientoTumba'][1]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
                 
             }
-
-            
+            unset($this->Movimiento->MovimientoTumba->Tumba->validate);
+unset($this->Movimiento->DifuntoMovimiento->Difunto->validate);
             //Validar los datos introducidos
-            if ($this->Movimiento->saveAll($this->request->data, array('validate' => 'only'))) {
+            if ($this->Movimiento->saveAll($this->request->data, array('validate' => 'only', 'deep' => true))) {
                 
                 //Guardar y comprobar éxito
                 if ($this->Movimiento->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -446,6 +482,9 @@ class MovimientosController extends AppController {
         //Comprobar si se está enviando el formulario
         if ($this->request->is('post') || $this->request->is('put')) {
             
+            //Variable auxiliar multpropósito
+            $i = 0;
+            
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
@@ -453,8 +492,125 @@ class MovimientosController extends AppController {
             $this->request->data['Movimiento']['id'] = $id;
             $this->request->data['Difunto']['persona_id'] = $this->Session->read('Difunto.persona_id');
             
+            //Operaciones para el tipo de movimiento exhumación
+            if ($this->request->data['Movimiento']['tipo'] == "Exhumación") {
+                
+                //Cambiar la tumba actual a los difuntos que se mueven
+                if (!empty($this->request->data['DifuntoMovimiento'])) {
+                    $i = 0;
+                    foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
+                        if (!empty($morido['difunto_id'])) {
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = null;
+                            $i++;
+                        }
+                    }
+                }
+                
+                //Obtener los difuntos que van a ser movidos
+                $numero_muertos = $i;
+                $this->request->data['Movimiento']['viajeros'] = $numero_muertos;
+                
+                //Controlar la población de la tumba de origen
+                $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
+                $this->request->data['Tumba'][0]['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
+                $this->request->data['Tumba'][0]['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][0]['tumba_id'])) - $numero_muertos;
+                
+                //Controlar la población de la tumba de destino
+                $this->request->data['Movimiento']['cementerio_destino'] = null;
+                unset($this->request->data['MovimientoTumba'][1]);
+                unset($this->request->data['Tumba'][1]);
+
+                
+            }
+            
+            //Operaciones para el tipo de movimiento inhumación
+            elseif ($this->request->data['Movimiento']['tipo'] == "Inhumación") {
+                
+                //Comprobar si hay difuntos vacíos y eliminarlos
+                if (isset($this->request->data['DifuntoMovimiento'])) {
+                    $i = 0;
+                    foreach ($this->request->data['DifuntoMovimiento'] as $difunto) {
+                        if (empty($difunto['difunto_bonito'])) {
+                            unset($this->request->data['DifuntoMovimiento'][$i]);
+                        }
+                        $i++;
+                    }
+                }
+                
+                //Comprobar si hay difuntos repetidos y eliminarlos
+                if (!empty($this->request->data['DifuntoMovimiento'])) {
+                    $this->request->data['DifuntoMovimiento'] = array_unique($this->request->data['DifuntoMovimiento']);
+                    $this->request->data['DifuntoMovimiento'] = array_values($this->request->data['DifuntoMovimiento']);
+                }
+                
+                //Cambiar la tumba actual a los difuntos que se mueven
+                if (!empty($this->request->data['DifuntoMovimiento'])) {
+                    $i = 0;
+                    foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
+                        if (!empty($morido['difunto_id'])) {
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                            $i++;
+                        }
+                    }
+                }
+                
+                //Obtener los difuntos que van a ser movidos
+                $numero_muertos = $i;
+                $this->request->data['Movimiento']['viajeros'] = $numero_muertos;
+                
+                //Controlar la población de la tumba de origen
+                $this->request->data['Movimiento']['cementerio_origen'] = null;
+                unset($this->request->data['MovimientoTumba'][0]);
+                unset($this->request->data['Tumba'][0]);
+
+                
+                //Controlar la población de la tumba de destino
+                /*$this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+                $this->request->data['Tumba'][1]['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                $this->request->data['Tumba'][1]['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;*/
+                $this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+                $this->request->data['MovimientoTumba'][1]['Tumba']['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                $this->request->data['MovimientoTumba'][1]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
+unset($this->request->data['Tumba'][1]);
+                
+            }
+            
+            //Operaciones para el tipo de movimiento traslado
+            elseif ($this->request->data['Movimiento']['tipo'] == "Traslado") {
+                
+                //Cambiar la tumba actual a los difuntos que se mueven
+                if (!empty($this->request->data['DifuntoMovimiento'])) {
+                    $i = 0;
+                    foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
+                        if (!empty($morido['difunto_id'])) {
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
+                            $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                            $i++;
+                        }
+                    }
+                }
+                
+                //Obtener los difuntos que van a ser movidos
+                $numero_muertos = $i;
+                $this->request->data['Movimiento']['viajeros'] = $numero_muertos;
+                
+                //Controlar la población de la tumba de origen
+                $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
+                $this->request->data['MovimientoTumba'][0]['Tumba']['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
+                $this->request->data['MovimientoTumba'][0]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][0]['tumba_id'])) - $numero_muertos;
+                
+                //Controlar la población de la tumba de destino
+                $this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+                $this->request->data['MovimientoTumba'][1]['Tumba']['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+                $this->request->data['MovimientoTumba'][1]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
+                
+            }
+            unset($this->Movimiento->MovimientoTumba->Tumba->validate);
+unset($this->Movimiento->DifuntoMovimiento->Difunto->validate);
             //Validar los datos introducidos
-            if ($this->Movimiento->saveAll($this->request->data, array('validate' => 'only'))) {
+            if ($this->Movimiento->saveAll($this->request->data, array('validate' => 'only', 'deep' => true))) {
                 
                 //Guardar y comprobar éxito
                 if ($this->Movimiento->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -474,7 +630,7 @@ class MovimientosController extends AppController {
         }
         else {
             //Devolver los datos actuales del movimiento
-            $this->request->data = $this->Traslado->find('first', array(
+            $movimiento = $this->Movimiento->find('first', array(
              'conditions' => array(
               'Movimiento.id' => $id
              ),
@@ -487,15 +643,34 @@ class MovimientosController extends AppController {
                  ),
                 ),
                 'fields' => array(
-                 'Difunto.id', 'Difunto.persona_id', 'Difunto.tumba_id'
+                 'Difunto.id', 'Difunto.persona_id', 'Difunto.estado'
                 ),
                ),
               ),
               'MovimientoTumba' => array(
                'Tumba' => array(
-                'Columbario','Nicho','Panteon','Exterior',
+                'Columbario' => array(
+                 'fields' => array(
+                  'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+                 ),
+                ),
+                'Exterior' => array(
+                 'fields' => array(
+                  'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+                 ),
+                ),
+                'Nicho' => array(
+                 'fields' => array(
+                  'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+                 ),
+                ),
+                'Panteon' => array(
+                 'fields' => array(
+                  'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+                 ),
+                ),
                 'fields' => array(
-                 'Tumba.id', 'Tumba.tipo',
+                 'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
                 ),
                ),
               ),
@@ -503,37 +678,35 @@ class MovimientosController extends AppController {
             ));
             
             //Devolver nombres bonitos para entidades relacionadas
-            if ($this->request->data['Traslado']['fecha']) {
-                $this->request->data['Traslado']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Traslado']['fecha']));
+            $this->request->data['Movimiento']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Movimiento']['fecha']));
+
+            if ($this->request->data['MovimientoTumba'][0]['origen_destino'] == "Origen"){$t0='tumba_origen';$t1='tumba_destino';$t_id=$this->request->data['MovimientoTumba'][0]['tumba_id'];}
+else{$t0='tumba_destino';$t1='tumba_origen';$t_id=$this->request->data['MovimientoTumba'][1]['tumba_id'];}
+
+            if ($this->request->data['MovimientoTumba'][0]['Tumba']['Columbario']) {
+                $this->request->data['Movimiento'][$t0] = $this->request->data['MovimientoTumba'][0]['Tumba']['Columbario']['localizacion'];
+            }
+            elseif ($this->request->data['MovimientoTumba'][0]['Tumba']['Nicho']) {
+                $this->request->data['Movimiento'][$t0] = $this->request->data['MovimientoTumba'][0]['Tumba']['Nicho']['localizacion'];
+            }
+            elseif ($this->request->data['MovimientoTumba'][0]['Tumba']['Panteon']) {
+                $this->request->data['Movimiento'][$t0] = $this->request->data['MovimientoTumba'][0]['Tumba']['Panteon']['localizacion'];
+            }
+            elseif ($this->request->data['MovimientoTumba'][0]['Tumba']['Exterior']) {
+                $this->request->data['Movimiento'][$t0] = $this->request->data['MovimientoTumba'][0]['Tumba']['Exterior']['localizacion'];
             }
 
-            if ($this->request->data['TrasladoTumba'][0]['origen_destino'] == "Origen"){$t0='tumba_origen';$t1='tumba_destino';$t_id=$this->request->data['TrasladoTumba'][0]['tumba_id'];}
-else{$t0='tumba_destino';$t1='tumba_origen';$t_id=$this->request->data['TrasladoTumba'][1]['tumba_id'];}
-
-            if ($this->request->data['TrasladoTumba'][0]['Tumba']['Columbario']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Columbario']['localizacion'];
+            if ($this->request->data['MovimientoTumba'][1]['Tumba']['Columbario']) {
+                $this->request->data['Movimiento'][$t1] = $this->request->data['MovimientoTumba'][1]['Tumba']['Columbario']['localizacion'];
             }
-            elseif ($this->request->data['TrasladoTumba'][0]['Tumba']['Nicho']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Nicho']['localizacion'];
+            elseif ($this->request->data['MovimientoTumba'][1]['Tumba']['Nicho']) {
+                $this->request->data['Movimiento'][$t1] = $this->request->data['MovimientoTumba'][1]['Tumba']['Nicho']['localizacion'];
             }
-            elseif ($this->request->data['TrasladoTumba'][0]['Tumba']['Panteon']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Panteon']['localizacion'];
+            elseif ($this->request->data['MovimientoTumba'][1]['Tumba']['Panteon']) {
+                $this->request->data['Movimiento'][$t1] = $this->request->data['MovimientoTumba'][1]['Tumba']['Panteon']['localizacion'];
             }
-            elseif ($this->request->data['TrasladoTumba'][0]['Tumba']['Exterior']) {
-                $this->request->data['Traslado'][$t0] = $this->request->data['TrasladoTumba'][0]['Tumba']['Exterior']['localizacion'];
-            }
-
-            if ($this->request->data['TrasladoTumba'][1]['Tumba']['Columbario']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Columbario']['localizacion'];
-            }
-            elseif ($this->request->data['TrasladoTumba'][1]['Tumba']['Nicho']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Nicho']['localizacion'];
-            }
-            elseif ($this->request->data['TrasladoTumba'][1]['Tumba']['Panteon']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Panteon']['localizacion'];
-            }
-            elseif ($this->request->data['TrasladoTumba'][1]['Tumba']['Exterior']) {
-                $this->request->data['Traslado'][$t1] = $this->request->data['TrasladoTumba'][1]['Tumba']['Exterior']['localizacion'];
+            elseif ($this->request->data['MovimientoTumba'][1]['Tumba']['Exterior']) {
+                $this->request->data['Movimiento'][$t1] = $this->request->data['MovimientoTumba'][1]['Tumba']['Exterior']['localizacion'];
             }
 
 //cargar todos los difuntos de la tumba de origen

@@ -170,19 +170,12 @@ class Tumba extends AppModel {
             ),
         ),
         'poblacion' => array(
-            'novacio' => array(
-                'rule' => array('notEmpty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'La población de la tumba no se puede dejar en blanco.',
-            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
                 'required' => true,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La población de la tumba sólo puede contener caracteres numéricos.',
+                'message' => 'La población de la tumba sólo puede ser un número natural.',
             ),
         ),
         'observaciones' => array(
@@ -194,7 +187,7 @@ class Tumba extends AppModel {
                 'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
             ),
         ),
-	);
+    );
     
     /**
      * ----------------------

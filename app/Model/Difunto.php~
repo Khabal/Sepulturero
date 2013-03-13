@@ -228,13 +228,6 @@ class Difunto extends AppModel {
                 'on' => null,
                 'message' => 'El certificado de defunción sólo puede contener caracteres numéricos.',
             ),
-            'uncio' => array(
-                'rule' => 'isUnique',
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'Este número de certificado de defunción ya está en uso.',
-            ),
         ),
         //Campos imaginarios
         'fecha_bonita' => array(

@@ -135,7 +135,24 @@
    <tbody>
     <tr class="altrow">
      <td><?php echo h($arrendamiento['Tumba']['tipo']); ?>&nbsp;</td>
-     <td><?php echo h($arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion']); ?>&nbsp;</td>
+     <td>
+      <?php /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($arrendamiento['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Panteon']['localizacion'];
+       }
+       echo h($localizacion);
+      ?>&nbsp;
+     </td>
      <td><?php echo h($arrendamiento['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Arrendamiento']['tumba_id']), array('escape' => false)); ?>

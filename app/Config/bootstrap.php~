@@ -143,7 +143,8 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 CakePlugin::load('Search'/*, array('routes' => true, 'bootstrap' => true)*/);
-CakePlugin::load('CakePdf', array('bootstrap' => true));
+CakePlugin::load('Nullable');
+CakePlugin::load('CakePdf', array('bootstrap' => true, 'routes' => true));
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:

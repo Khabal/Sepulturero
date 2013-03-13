@@ -156,8 +156,8 @@ class DifuntoMovimiento extends AppModel {
         'difunto_bonito' => array(
             'existe_funeraria' => array(
                 'rule' => array('valida_difunto'),
-                'required' => false,
-                'allowEmpty' => true,
+                'required' => true,
+                'allowEmpty' => false,
                 'on' => null,
                 'message' => 'El difunto especificado no existe.',
             ),

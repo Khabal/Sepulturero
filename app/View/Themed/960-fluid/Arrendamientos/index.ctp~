@@ -50,7 +50,21 @@
      </td>
      <td>
       <?php
-       $tumba = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'];
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($difunto['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $difunto['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($difunto['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $difunto['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($difunto['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $difunto['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($difunto['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $difunto['Tumba']['Panteon']['localizacion'];
+       }
+       $tumba = $arrendamiento['Tumba']['tipo'] . " - " . $localizacion;
        echo $this->Html->link($tumba, array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Tumba']['id']));
       ?>&nbsp;
      </td>
@@ -70,7 +84,7 @@
      ?>
      <td<?php echo $colorico; ?>><?php echo h($arrendamiento['Arrendamiento']['estado']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $arrendamiento['Arrendamiento']['id'], $tipo_tumba . " - " . $arrendamiento['Tumba'][$tipo_tumba]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
      </td>
     </tr>
    <?php endforeach; ?>

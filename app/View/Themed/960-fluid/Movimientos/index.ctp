@@ -21,7 +21,7 @@
    <tr>
     <th><?php echo $this->Paginator->sort('Movimiento.fecha', 'Fecha');?></th>
     <th><?php echo $this->Paginator->sort('Movimiento.tipo', 'Tipo');?></th>
-    <th><?php echo $this->Paginator->sort('Movimiento.viajeros', 'Difuntos trasladados');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.viajeros', 'Difuntos');?></th>
     <th><?php echo $this->Paginator->sort('Movimiento.cementerio_origen', 'Cementerio de origen');?></th>
     <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba', 'Tumba de origen');?></th>
     <th><?php echo $this->Paginator->sort('Movimiento.cementerio_destino', 'Cementerio de destino');?></th>
@@ -51,8 +51,16 @@
      <td><?php echo h(date('d/m/Y', strtotime($movimiento['Movimiento']['fecha']))); ?>&nbsp;</td>
      <td><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</td>
      <td><?php echo h($movimiento['Movimiento']['viajeros']); ?>&nbsp;</td>
-     <td><?php echo h($movimiento['Movimiento']['cementerio_origen']); ?>&nbsp;</td>
-     <?php /* Obtener la localización de tumba */
+
+<?php /*Quitar infor si el mov no tiene origen */
+if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
+echo '<td>' . '-----' . '&nbsp;</td>';
+echo '<td>' . '-----' . '&nbsp;</td>';
+
+}
+else{
+      echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
+      /* Obtener la localización de tumba */
       $localizacion = "";
       if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
        $localizacion = $origen['Tumba']['Columbario']['localizacion'];
@@ -66,16 +74,26 @@
       elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
        $localizacion = $origen['Tumba']['Panteon']['localizacion'];
       }
-     ?>
-     <td>
-      <?php if (!empty($localizacion)): ?>
-       <?php echo $this->Html->link($origen['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])); ?>
-      <?php else: ?>
-       Sin información
-      <?php endif; ?>&nbsp;
-     </td>
-     <td><?php echo $movimiento['Movimiento']['cementerio_destino']; ?>&nbsp;</td>
-     <?php /* Obtener la localización de tumba */
+
+
+     
+ if (!empty($localizacion)){
+        echo '<td>'. $this->Html->link($origen['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])) . '&nbsp;</td>';
+}
+      else{
+      echo '<td>'. 'Sin información' . '&nbsp;</td>';
+     } 
+}
+?>
+<?php /*Quitar infor si el mov no tiene destino */
+if ($movimiento['Movimiento']['tipo'] == "Exhumación"){
+echo '<td>' . '-----' . '&nbsp;</td>';
+echo '<td>' . '-----' . '&nbsp;</td>';
+
+}
+else{
+      echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
+ /* Obtener la localización de tumba */
       $localizacion = "";
       if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
        $localizacion = $destino['Tumba']['Columbario']['localizacion'];
@@ -89,14 +107,17 @@
       elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
        $localizacion = $destino['Tumba']['Panteon']['localizacion'];
       }
-     ?>
-     <td>
-      <?php if (!empty($localizacion)): ?>
-       <?php echo $this->Html->link($destino['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])); ?>
-      <?php else: ?>
-       Sin información
-      <?php endif; ?>&nbsp;
-     </td>
+
+     
+ if (!empty($localizacion)){
+        echo '<td>'. $this->Html->link($destino['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])) . '&nbsp;</td>';
+}
+      else{
+      echo '<td>'. 'Sin información' . '&nbsp;</td>';
+     } 
+}
+?>
+
      <td><?php echo $movimiento['Movimiento']['motivo']; ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>

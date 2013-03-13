@@ -444,21 +444,7 @@ class ArrendamientosController extends AppController {
             $this->request->data['Arrendamiento']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Arrendamiento']['fecha_arrendamiento']));
             $this->request->data['Arrendamiento']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
             $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'];
-            //Devolver nombre bonito para la tumba
-            $localizacion = "";
-            if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
-                $localizacion = $this->request->data['Tumba']['Columbario']['localizacion'];
-            }
-            elseif(!empty($this->request->data['Tumba']['Exterior']['localizacion'])) {
-                $localizacion = $this->request->data['Tumba']['Exterior']['localizacion'];
-            }
-            elseif(!empty($this->request->data['Tumba']['Nicho']['localizacion'])) {
-                $localizacion = $this->request->data['Tumba']['Nicho']['localizacion'];
-            }
-            elseif(!empty($this->request->data['Tumba']['Panteon']['localizacion'])) {
-                $localizacion = $this->request->data['Tumba']['Panteon']['localizacion'];
-            }
-            $this->request->data['Arrendamiento']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $localizacion;
+            $this->request->data['Arrendamiento']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $this->request->data['Tumba'][$this->request->data['Tumba']['tipo']]['localizacion'];
             
             //Guardar los datos de sesión del arrendatario
             $this->Session->write('Arrendamiento.id', $this->request->data['Arrendamiento']['id']);
