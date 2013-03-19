@@ -2,13 +2,14 @@
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php $tasa = $this->request->data; ?>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tasas', $this->Session->read('Tasa.id'), $this->Session->read('Tasa.concepto')); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Tasa.id'), $this->Session->read('Tasa.concepto')); ?>
 </div>
 
 <?php
  /*
  echo '<pre>';
  print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
  */
 ?>
@@ -28,6 +29,9 @@
      showButtonPanel: true,
      showOtherMonths: true,
      showWeek: true,
+     onClose: function(selectedDate) {
+       $("#TasaFinBonito").datepicker("option", "minDate", selectedDate);
+     }
    });
    
    /* Establecer opciones de 'UI datepicker' para JQuery */
@@ -43,6 +47,9 @@
      showButtonPanel: true,
      showOtherMonths: true,
      showWeek: true,
+     onClose: function(selectedDate) {
+       $("#TasaInicioBonito").datepicker("option", "maxDate", selectedDate);
+     }
    });
  });
 </script>

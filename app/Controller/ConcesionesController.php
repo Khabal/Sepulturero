@@ -261,9 +261,8 @@ class ConcesionesController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Eliminar reglas de validación
+        unset($this->Concesion->validate);
         
     }
     
@@ -508,7 +507,7 @@ class ConcesionesController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Concesion']['tipo'], "value" => $resultado['Concesion']['id']));
+                array_push($items, array("label" => $resultado['Concesion']['tipo'] . " - " . $resultado['Concesion']['anos_concesion'] . " años", "value" => $resultado['Concesion']['id']));
             }
         }
         

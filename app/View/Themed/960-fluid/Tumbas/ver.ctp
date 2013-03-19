@@ -159,8 +159,6 @@
     <tr>
      <th><?php echo __('Nombre'); ?></th>
      <th><?php echo __('D.N.I.'); ?></th>
-     <th><?php echo __('Sexo'); ?></th>
-     <th><?php echo __('Nacionalidad'); ?></th>
      <th><?php echo __('Estado del cuerpo'); ?></th>
      <th><?php echo __('Fecha de defunción'); ?></th>
      <th><?php echo __('Edad'); ?></th>
@@ -176,11 +174,47 @@
     <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
     <tr<?php echo $class; ?>>
      <td><?php echo h($difunto['Persona']['nombre_completo']); ?>&nbsp;</td>
-     <td><?php echo h($difunto['Persona']['dni']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($difunto['Persona']['dni'])) {
+        echo h($difunto['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td><?php echo h($difunto['estado']); ?>&nbsp;</td>
-     <td><?php echo date('d/m/Y', strtotime($difunto['fecha_defuncion'])); ?>&nbsp;</td>
-     <td><?php echo h($difunto['edad']); ?>&nbsp;</td>
-     <td><?php echo h($difunto['causa_fallecimiento']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($difunto['Difunto']['fecha_defuncion'])) {
+        echo h(date('d/m/Y', strtotime($difunto['Difunto']['fecha_defuncion'])));
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($difunto['Difunto']['edad'])) {
+        echo h($difunto['Difunto']['edad']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($difunto['Difunto']['causa_fallecimiento'])) {
+        echo h($difunto['Difunto']['causa_fallecimiento']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
      <td><?php echo h($difunto['certificado_defuncion']); ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'difuntos', 'action' => 'ver', $difunto['id']), array('escape' => false)); ?>
@@ -203,6 +237,7 @@
    <thead>
     <tr>
      <th><?php echo __('Fecha'); ?></th>
+     <th><?php echo __('Tipo'); ?></th>
      <th><?php echo __('Viajeros'); ?></th>
      <th><?php echo __('Cementerio de origen'); ?></th>
      <th><?php echo __('Tumba de origen'); ?></th>
@@ -215,65 +250,92 @@
    <?php /* Listado de tumbas */ ?>
    <tbody>
     <?php $i = 0; ?>
-    <?php foreach ($tumba['TrasladoTumba'] as $traslado): ?>
+    <?php foreach ($tumba['MovimientoTumba'] as $movimiento): ?>
      <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
      <tr<?php echo $class; ?>>
-      <td><?php echo date('d/m/Y', strtotime($traslado['Traslado']['fecha'])); ?>&nbsp;</td>
-      <td><?php echo h($traslado['Traslado']['cementerio_origen']); ?>&nbsp;</td>
-       <?php
-        $origen = null;
-        $destino = null;
-        foreach ($tumba['TrasladoTumba'] as $suricato) {
-         if (($suricato['origen_destino'] == "Origen") && ($suricato['traslado_id'] == $traslado['traslado_id'])) {
-          $origen = $suricato;
-          break;
-         }
-        }
-        foreach ($tumba['TrasladoTumba'] as $suricato) {
-         if (($suricato['origen_destino'] == "Destino") && ($suricato['traslado_id'] == $traslado['traslado_id'])) {
-          $destino = $suricato;
-          break;
-         }
-        }
-       ?>
-      <td <?php if ($origen['tumba_id'] == $tumba['Tumba']['id']) {echo ' class="resaltado"';} ?>>
-       <?php
-        echo h($origen['Tumba']['tipo']) . ' - ';
-        if ($origen['Tumba']['Columbario']) {
-         echo h($origen['Tumba']['Columbario']['identificador']);
-        }
-        elseif ($origen['Tumba']['Nicho']) {
-         echo h($origen['Tumba']['Nicho']['identificador']);
-        }
-        elseif ($origen['Tumba']['Panteon']) {
-         echo h($origen['Tumba']['Panteon']['identificador']);
-        }
-        elseif ($origen['Tumba']['Exterior']) {
-         echo h($origen['Tumba']['Exterior']['identificador']);
-        }
-       ?>&nbsp;
-      </td>
-      <td><?php echo h($traslado['Traslado']['cementerio_destino']); ?>&nbsp;</td>
-    <td <?php if ($destino['tumba_id'] == $tumba['Tumba']['id']) {echo ' class="resaltado"';} ?>>
-       <?php
-        echo h($destino['Tumba']['tipo']) . ' - ';
-        if ($destino['Tumba']['Columbario']) {
-         echo h($destino['Tumba']['Columbario']['identificador']);
-        }
-        elseif ($destino['Tumba']['Nicho']) {
-         echo h($destino['Tumba']['Nicho']['identificador']);
-        }
-        elseif ($destino['Tumba']['Panteon']) {
-         echo h($destino['Tumba']['Panteon']['identificador']);
-        }
-        elseif ($destino['Tumba']['Exterior']) {
-         echo h($destino['Tumba']['Exterior']['identificador']);
-        }
-       ?>&nbsp;
-      </td>
-      <td><?php echo h($traslado['Traslado']['motivo']); ?>&nbsp;</td>
+     <?php /* Obtener identificadores de tumbas de origen y destino */
+      $origen = null;
+      $destino = null;
+      foreach ($movimiento['Movimiento']['MovimientoTumba'] as $mini_tumba) {
+       if ($mini_tumba['origen_destino'] == "Origen") {
+        $origen = $mini_tumba;
+       }
+       elseif ($mini_tumba['origen_destino'] == "Destino") {
+        $destino = $mini_tumba;
+       }
+      }
+     ?>
+     <td><?php echo date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['viajeros']); ?>&nbsp;</td>
+<?php /*Quitar infor si el mov no tiene origen */
+if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
+echo '<td>' . '-----' . '&nbsp;</td>';
+echo '<td>' . '-----' . '&nbsp;</td>';
+
+}
+else{
+      echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
+      /* Obtener la localización de tumba */
+      $localizacion = "";
+      if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+      }
+      elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Exterior']['localizacion'];
+      }
+      elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Nicho']['localizacion'];
+      }
+      elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Panteon']['localizacion'];
+      }
+
+
+     
+ if (!empty($localizacion)){
+        echo '<td>'. $this->Html->link($origen['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])) . '&nbsp;</td>';
+}
+      else{
+      echo '<td>'. 'Sin información' . '&nbsp;</td>';
+     } 
+}
+?>
+<?php /*Quitar infor si el mov no tiene destino */
+if ($movimiento['Movimiento']['tipo'] == "Exhumación"){
+echo '<td>' . '-----' . '&nbsp;</td>';
+echo '<td>' . '-----' . '&nbsp;</td>';
+
+}
+else{
+      echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
+ /* Obtener la localización de tumba */
+      $localizacion = "";
+      if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+      }
+      elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Exterior']['localizacion'];
+      }
+      elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Nicho']['localizacion'];
+      }
+      elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Panteon']['localizacion'];
+      }
+
+     
+ if (!empty($localizacion)){
+        echo '<td>'. $this->Html->link($destino['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])) . '&nbsp;</td>';
+}
+      else{
+      echo '<td>'. 'Sin información' . '&nbsp;</td>';
+     } 
+}
+?>
+      <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'traslados', 'action' => 'ver', $traslado['Traslado']['id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['Movimiento']['id']), array('escape' => false)); ?>
      </td>
     </tr>
    <?php endforeach; ?>

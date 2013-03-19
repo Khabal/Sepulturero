@@ -462,8 +462,106 @@ class Difunto extends AppModel {
      */
     
     public $filterArgs = array(
+        'nombre' => array('type' => 'like', 'field' => 'Persona.nombre'),
+        'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
+        'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
+        'sexo' => array('type' => 'value', 'field' => 'Persona.sexo'),
+        'nacionalidad' => array('type' => 'like', 'field' => 'Persona.nacionalidad'),
+        'tumba' => array('type' => 'query', 'method' => 'consultaTumba'),
+        'tumba_id' => array('type' => 'value'),
+        'estado' => array('type' => 'value'),
+        'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'edad' => array('type' => 'like'),
+        'causa_fallecimiento' => array('type' => 'like'),
+        'certificado_defuncion' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
     );
+    
+    /**
+     * consultaTumba method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumba ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+
+    /**
+     * consultaFecha method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaFecha ($data = array()) {
+        
+        //Comprobar que no se haya introducido fecha de inicio y de final
+        if (empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+
+        //Comprobar que se haya introducido una fecha de inicio
+        elseif (!empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Difunto.fecha_defuncion <=' => $data['desde'],
+             )
+            );
+        }
+        
+        //Comprobar que se haya introducido una fecha de final
+        elseif (empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Difunto.fecha_defuncion >=' => $data['hasta'],
+             )
+            );
+        }
+	
+        //Comprobar que se haya introducido fecha de inicio y de final
+        elseif (!empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Difunto.fecha_defuncion BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+             )
+            );
+        }
+        
+    }
     
     /**
      * buscarDifunto method

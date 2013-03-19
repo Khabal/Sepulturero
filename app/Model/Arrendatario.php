@@ -378,6 +378,17 @@ class Arrendatario extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'nombre' => array('type' => 'like', 'field' => 'Persona.nombre'),
+        'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
+        'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
+        'direccion' => array('type' => 'like'),
+        'localidad' => array('type' => 'like'),
+        'provincia' => array('type' => 'like'),
+        'pais' => array('type' => 'like'),
+        'codigo_postal' => array('type' => 'like'),
+        'telefono' => array('type' => 'like'),
+        'correo_electronico' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
     );
     

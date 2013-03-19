@@ -254,9 +254,9 @@ class FunerariasController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Eliminar reglas de validación
+        unset($this->Funeraria->validate);
+        
     }
     
     /**

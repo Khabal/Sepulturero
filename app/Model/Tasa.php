@@ -293,6 +293,11 @@ class Tasa extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'concepto' => array('type' => 'like'),
+        'cantidad' => array('type' => 'like'),
+        'moneda' => array('type' => 'value'),
+        'inicio_validez' => array('type' => 'like'),
+        'fin_validez' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarTasa'),
     );
     

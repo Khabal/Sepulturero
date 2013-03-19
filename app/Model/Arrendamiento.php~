@@ -373,7 +373,7 @@ class Arrendamiento extends AppModel {
             ));
             
             //Comprobar si existe otro arrendatario "Vigente" para esta tumba
-            if ($arrendador > 1) {
+            if ($arrendador > 0) {
                 //Devolver error
                 return false;
             }
@@ -538,8 +538,171 @@ class Arrendamiento extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'arrendatario' => array('type' => 'query', 'method' => 'consultaArrendatario'),
+        'arrendatario_id' => array('type' => 'value', 'field' => 'Arrendatario.id'),
+        'concesion' => array('type' => 'query', 'method' => 'consultaConcesion'),
+        'concesion_id' => array('type' => 'value', 'field' => 'Concesion.id'),
+        'tumba' => array('type' => 'query', 'method' => 'consultaTumba'),
+        'tumba_id' => array('type' => 'value', 'field' => 'Tumba.id'),
+        'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'estado' => array('type' => 'value'),
         'clave' => array('type' => 'query', 'method' => 'buscarArrendamiento'),
     );
+    
+    /**
+     * consultaArrendatario method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaArrendatario ($data = array()) {
+        
+        //Comprobar que se haya introducido un arrendatario definido
+        if (!empty($data['arrendatario_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['arrendatario'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['arrendatario'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Persona.dni LIKE' => $comodin,
+          'Persona.nombre LIKE' => $comodin,
+          'Persona.apellido1 LIKE' => $comodin,
+          'Persona.apellido2 LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaConcesion method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaConcesion ($data = array()) {
+        
+        //Comprobar que se haya introducido una concesión definida
+        if (!empty($data['concesion_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['concesion'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['concesion'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Concesion.tipo LIKE' => $comodin,
+          'Concesion.anos_concesion LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaTumba method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumba ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+
+    /**
+     * consultaFecha method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaFecha ($data = array()) {
+        
+        //Comprobar que no se haya introducido fecha de inicio y de final
+        if (empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+
+        //Comprobar que se haya introducido una fecha de inicio
+        elseif (!empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Arrendamiento.fecha_arrendamiento <=' => $data['desde'],
+             )
+            );
+        }
+        
+        //Comprobar que se haya introducido una fecha de final
+        elseif (empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Arrendamiento.fecha_arrendamiento >=' => $data['hasta'],
+             )
+            );
+        }
+	
+        //Comprobar que se haya introducido fecha de inicio y de final
+        elseif (!empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Arrendamiento.fecha_arrendamiento BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+             )
+            );
+        }
+        
+    }
     
     /**
      * buscarArrendamiento method

@@ -129,7 +129,6 @@
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
     echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
-    echo $this->Form->input('Persona.sexo', array('label' => 'Tratamiento:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
     echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
     echo $this->Form->input('Arrendatario.direccion', array('label' => 'Dirección:'));
     echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:', 'default' => 'Motril'));

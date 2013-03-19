@@ -557,8 +557,184 @@ class Movimiento extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'tipo' => array('type' => 'value'),
+        'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'motivo' => array('type' => 'like'),
+        'cementerio_origen' => array('type' => 'like'),
+        'tumba_origen' => array('type' => 'query', 'method' => 'consultaTumbaOri'),
+        'tumba_origen_id' => array('type' => 'query', 'method' => 'consultaTumbaOriID'),
+        'cementerio_destino' => array('type' => 'like'),
+        'tumba_destino' => array('type' => 'query', 'method' => 'consultaTumbaDes'),
+        'tumba_destino_id' => array('type' => 'query', 'method' => 'consultaTumbaDesID'),
         'clave' => array('type' => 'query', 'method' => 'buscarMovimiento'),
     );
+
+    /**
+     * consultaFecha method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaFecha ($data = array()) {
+        
+        //Comprobar que no se haya introducido fecha de inicio y de final
+        if (empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+
+        //Comprobar que se haya introducido una fecha de inicio
+        elseif (!empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Movimiento.fecha <=' => $data['desde'],
+             )
+            );
+        }
+        
+        //Comprobar que se haya introducido una fecha de final
+        elseif (empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Movimiento.fecha >=' => $data['hasta'],
+             )
+            );
+        }
+	
+        //Comprobar que se haya introducido fecha de inicio y de final
+        elseif (!empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Movimiento.fecha BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+             )
+            );
+        }
+        
+    }
+    
+    /**
+     * consultaTumbaOri method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaOri ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_origen_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba_origen'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba_origen'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaTumbaOriID method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaOriID ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_origen_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'MovimientoTumba.tumba_id' => $data['tumba_origen_id'],
+         'MovimientoTumba.origen_destino' => "Origen",
+        );
+        
+    }
+    
+    /**
+     * consultaTumbaDes method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaDes ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_destino_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba_destino'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba_destino'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaTumbaDesID method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaDesID ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_destino_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'MovimientoTumba.tumba_id' => $data['tumba_destino_id'],
+         'MovimientoTumba.origen_destino' => "Destino",
+        );
+        
+    }
     
     /**
      * buscarMovimiento method

@@ -297,7 +297,7 @@ class TumbasController extends AppController {
           'Tumba.id' => $id
          ),
          'contain' => array(
-          'Columbario','Nicho','Panteon','Exterior',
+          'Columbario', 'Exterior', 'Nicho', 'Panteon',
           'Arrendamiento' => array(
            'Arrendatario' => array(
             'Persona' => array(
@@ -322,15 +322,39 @@ class TumbasController extends AppController {
           ),
           'MovimientoTumba' => array(
            'Movimiento' => array(
+            'MovimientoTumba' => array(
+             'Tumba' => array(
+              'Columbario' => array(
+               'fields' => array(
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+               ),
+              ),
+              'Exterior' => array(
+               'fields' => array(
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+               ),
+              ),
+              'fields' => array(
+               'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+              ),
+             ),
+            ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
            ),
-           'Tumba' => array(
-            'Columbario','Nicho','Panteon','Exterior',
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
+           'fields' => array(
+            'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
            ),
           ),
          ),
@@ -349,9 +373,12 @@ class TumbasController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Devolver las opciones de selección de tipo de tumba
+        $this->set('tipo', $this->Tumba->tipo);
+        
+        //Eliminar reglas de validación
+        unset($this->Tumba->validate);
+        
     }
     
     /**
@@ -512,7 +539,7 @@ class TumbasController extends AppController {
           'Tumba.id' => $id
          ),
          'contain' => array(
-          'Columbario','Nicho','Panteon','Exterior',
+          'Columbario', 'Exterior', 'Nicho', 'Panteon',
           'Arrendamiento' => array(
            'Arrendatario' => array(
             'Persona' => array(
@@ -537,15 +564,39 @@ class TumbasController extends AppController {
           ),
           'MovimientoTumba' => array(
            'Movimiento' => array(
+            'MovimientoTumba' => array(
+             'Tumba' => array(
+              'Columbario' => array(
+               'fields' => array(
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+               ),
+              ),
+              'Exterior' => array(
+               'fields' => array(
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+               ),
+              ),
+              'fields' => array(
+               'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+              ),
+             ),
+            ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
            ),
-           'Tumba' => array(
-            'Columbario','Nicho','Panteon','Exterior',
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
+           'fields' => array(
+            'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
            ),
           ),
          ),
@@ -608,7 +659,7 @@ class TumbasController extends AppController {
           'Tumba.id' => $id
          ),
          'contain' => array(
-          'Columbario','Nicho','Panteon','Exterior',
+          'Columbario', 'Exterior', 'Nicho', 'Panteon',
           'Arrendamiento' => array(
            'Arrendatario' => array(
             'Persona' => array(
@@ -633,15 +684,39 @@ class TumbasController extends AppController {
           ),
           'MovimientoTumba' => array(
            'Movimiento' => array(
+            'MovimientoTumba' => array(
+             'Tumba' => array(
+              'Columbario' => array(
+               'fields' => array(
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+               ),
+              ),
+              'Exterior' => array(
+               'fields' => array(
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+               ),
+              ),
+              'fields' => array(
+               'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+              ),
+             ),
+            ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
            ),
-           'Tumba' => array(
-            'Columbario','Nicho','Panteon','Exterior',
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
+           'fields' => array(
+            'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
            ),
           ),
          ),

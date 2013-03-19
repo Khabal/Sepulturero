@@ -336,9 +336,12 @@ class ArrendamientosController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Devolver las opciones de selección de estado del arrendamiento de una tumba
+        $this->set('estado', $this->Arrendamiento->estado);
+        
+        //Eliminar reglas de validación
+        unset($this->Arrendamiento->validate);
+        
     }
     
     /**
@@ -444,7 +447,21 @@ class ArrendamientosController extends AppController {
             $this->request->data['Arrendamiento']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Arrendamiento']['fecha_arrendamiento']));
             $this->request->data['Arrendamiento']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
             $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'];
-            $this->request->data['Arrendamiento']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $this->request->data['Tumba'][$this->request->data['Tumba']['tipo']]['localizacion'];
+            //Devolver nombre bonito para la tumba
+            $localizacion = "";
+            if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
+                $localizacion = $this->request->data['Tumba']['Columbario']['localizacion'];
+            }
+            elseif(!empty($this->request->data['Tumba']['Exterior']['localizacion'])) {
+                $localizacion = $this->request->data['Tumba']['Exterior']['localizacion'];
+            }
+            elseif(!empty($this->request->data['Tumba']['Nicho']['localizacion'])) {
+                $localizacion = $this->request->data['Tumba']['Nicho']['localizacion'];
+            }
+            elseif(!empty($this->request->data['Tumba']['Panteon']['localizacion'])) {
+                $localizacion = $this->request->data['Tumba']['Panteon']['localizacion'];
+            }
+            $this->request->data['Arrendamiento']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $localizacion;
             
             //Guardar los datos de sesión del arrendatario
             $this->Session->write('Arrendamiento.id', $this->request->data['Arrendamiento']['id']);
@@ -531,6 +548,9 @@ class ArrendamientosController extends AppController {
         //(Comentario vital para entender el código de la función)
         $this->set(compact('arrendamiento'));
         
+        //Redireccionar para la generación
+        
+        
     }
     
     /**
@@ -605,9 +625,18 @@ class ArrendamientosController extends AppController {
         $this->pdfConfig['filename'] = "Arrendamiento_" . $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('arrendamiento'));
+        
+        //Redireccionar para la generación
+        
         
     }
     

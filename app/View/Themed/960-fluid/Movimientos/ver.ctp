@@ -5,11 +5,11 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($movimiento);
  echo '</pre>';
- 
+ */
 ?>
 
 <?php /* Datos movimiento */ ?>
@@ -94,7 +94,7 @@
 
 <?php /* Difuntos relacionados */ ?>
 <div class="related box">
- <h2><?php echo __('Difuntos trasladados'); ?></h2>
+ <h2><?php echo __('Difuntos movidos'); ?></h2>
  <?php if (!empty($movimiento['DifuntoMovimiento'])): ?>
   <table cellpadding = "0" cellspacing = "0">
    <?php /* Cabecera de la tabla */ ?>

@@ -24,7 +24,7 @@
     echo $this->Form->input('Funeraria.telefono', array('label' => 'Teléfono:'));
     echo $this->Form->input('Funeraria.fax', array('label' => 'Fax:'));
     echo $this->Form->input('Funeraria.correo_electronico', array('label' => 'Correo electrónico:'));
-    echo $this->Form->input('Funeraria.pagina_web', array('label' => 'Página web:', 'default' => 'http://'));
+    echo $this->Form->input('Funeraria.pagina_web', array('label' => 'Página web:'));
     echo $this->Form->input('Funeraria.observaciones', array('label' => 'Anotaciones:'));
    ?>
   </fieldset>

@@ -170,10 +170,17 @@ class Tumba extends AppModel {
             ),
         ),
         'poblacion' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La población de la tumba no se puede dejar en blanco.',
+            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
                 'required' => true,
-                'allowEmpty' => true,
+                'allowEmpty' => false,
                 'on' => null,
                 'message' => 'La población de la tumba sólo puede ser un número natural.',
             ),
@@ -501,6 +508,11 @@ class Tumba extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'tipo' => array('type' => 'value'),
+        'Columbario.numero_columbario' => array('type' => 'like', 'field' => 'Columbario.numero_columbario'),
+        'Columbario.letra' => array('type' => 'like', 'field' => 'Columbario.letra'),
+        'Columbario.fila' => array('type' => 'like', 'field' => 'Columbario.fila'),
+        'Columbario.patio' => array('type' => 'like', 'field' => 'Columbario.patio'),
         'clave' => array('type' => 'query', 'method' => 'buscarTumba'),
     );
     

@@ -241,6 +241,8 @@ class Concesion extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'tipo' => array('type' => 'like'),
+        'anos_concesion' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarConcesion'),
     );
     

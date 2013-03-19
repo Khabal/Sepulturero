@@ -69,8 +69,8 @@
        seleccionado = $("#MovimientoTipo").val();
        if (seleccionado == "Exhumación") {
          $("#Origen").show(),
-         $("#FormularioDifuntos").show(),
-         $("#ListaDifuntos").hide(),
+         $("#FormularioDifuntos").hide(),
+         $("#ListaDifuntos").show(),
          $("#Destino").hide()
        }
        else if (seleccionado == "Inhumación") {

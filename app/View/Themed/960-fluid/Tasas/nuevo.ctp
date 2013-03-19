@@ -8,6 +8,7 @@
  /*
  echo '<pre>';
  print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
  */
 ?>
@@ -27,6 +28,9 @@
      showButtonPanel: true,
      showOtherMonths: true,
      showWeek: true,
+     onClose: function(selectedDate) {
+       $("#TasaFinBonito").datepicker("option", "minDate", selectedDate);
+     }
    });
    
    /* Establecer opciones de 'UI datepicker' para JQuery */
@@ -42,6 +46,9 @@
      showButtonPanel: true,
      showOtherMonths: true,
      showWeek: true,
+     onClose: function(selectedDate) {
+       $("#TasaInicioBonito").datepicker("option", "maxDate", selectedDate);
+     }
    });
  });
 </script>

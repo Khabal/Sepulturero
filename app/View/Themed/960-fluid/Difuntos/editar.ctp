@@ -5,12 +5,12 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($this->request->data);
  print_r($this->validationErrors);
  echo '</pre>';
- 
+ */
 ?>
 
 <script>
@@ -111,7 +111,7 @@
     echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
-    echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
+    echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:', 'required' => false));
     echo $this->Form->input('Persona.sexo', array('label' => 'Sexo:', 'type' => 'select', 'options' => $sexo));
     echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
     echo $this->Form->input('Difunto.estado', array('label' => 'Estado del cuerpo:', 'type' => 'select', 'options' => $estado, 'empty' => ''));

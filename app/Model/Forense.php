@@ -306,6 +306,14 @@ class Forense extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'nombre' => array('type' => 'like', 'field' => 'Persona.nombre'),
+        'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
+        'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
+        'numero_colegiado' => array('type' => 'like'),
+        'colegio' => array('type' => 'like'),
+        'telefono' => array('type' => 'like'),
+        'correo_electronico' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarForense'),
     );
     

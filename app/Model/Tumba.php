@@ -508,6 +508,18 @@ class Tumba extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'tipo' => array('type' => 'value'),
+        'Columbario.numero_columbario' => array('type' => 'like', 'field' => 'Columbario.numero_columbario'),
+        'Columbario.letra' => array('type' => 'like', 'field' => 'Columbario.letra'),
+        'Columbario.fila' => array('type' => 'like', 'field' => 'Columbario.fila'),
+        'Columbario.patio' => array('type' => 'like', 'field' => 'Columbario.patio'),
+        'Nicho.numero_nicho' => array('type' => 'like', 'field' => 'Nicho.numero_nicho'),
+        'Nicho.letra' => array('type' => 'like', 'field' => 'Nicho.letra'),
+        'Nicho.fila' => array('type' => 'like', 'field' => 'Nicho.fila'),
+        'Nicho.patio' => array('type' => 'like', 'field' => 'Nicho.patio'),
+        'Panteon.numero_panteon' => array('type' => 'like', 'field' => 'Panteon.numero_panteon'),
+        'Panteon.familia' => array('type' => 'like', 'field' => 'Panteon.familia'),
+        'Panteon.patio' => array('type' => 'like', 'field' => 'Panteon.patio'),
         'clave' => array('type' => 'query', 'method' => 'buscarTumba'),
     );
     
