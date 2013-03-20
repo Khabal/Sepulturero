@@ -446,7 +446,7 @@ class ArrendamientosController extends AppController {
             //Devolver nombres bonitos para entidades relacionadas
             $this->request->data['Arrendamiento']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Arrendamiento']['fecha_arrendamiento']));
             $this->request->data['Arrendamiento']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
-            $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'];
+            $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'] . " - " . $this->request->data['Concesion']['anos_concesion'] . " años";
             //Devolver nombre bonito para la tumba
             $localizacion = "";
             if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {

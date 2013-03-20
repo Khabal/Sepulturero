@@ -20,7 +20,7 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Movimiento.fecha', 'Fecha');?></th>
-    <th><?php echo $this->Paginator->sort('tipo', 'Tipo');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.tipo', 'Tipo');?></th>
     <th><?php echo $this->Paginator->sort('Movimiento.viajeros', 'Difuntos');?></th>
     <th><?php echo $this->Paginator->sort('Movimiento.cementerio_origen', 'Cementerio de origen');?></th>
     <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba', 'Tumba de origen');?></th>

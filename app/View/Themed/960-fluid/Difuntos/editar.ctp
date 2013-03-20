@@ -28,6 +28,7 @@
      showButtonPanel: true,
      showOtherMonths: true,
      showWeek: true,
+     maxDate: "+0D",
    });
    
    /* Establecer opciones de 'UI autocomplete' para JQuery */

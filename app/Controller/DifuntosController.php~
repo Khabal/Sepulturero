@@ -74,7 +74,7 @@ class DifuntosController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler', 'Session', 'Search.Prg');
+    public $components = array('RequestHandler', 'Session', 'Search.Prg');
     
     /**
      * Helpers
@@ -504,10 +504,8 @@ class DifuntosController extends AppController {
                     }
                     //Guardar la información de la tumba antigua en el caso de haber cambiado la tumba
                     if (isset($datos_extra)) {
-                    $this->Difunto->Tumba->saveAssociated($datos_extra, $this->opciones_guardado);
-                    
+                        $this->Difunto->Tumba->saveAssociated($datos_extra, $this->opciones_guardado);
                     }
-                    
                     $this->Session->setFlash(__('El difunto ha sido actualizado correctamente.'));
                     //Borrar datos de sesión
                     $this->Session->delete('Difunto');

@@ -7,7 +7,6 @@ App::uses('Sanitize', 'Utility');
  * Arrendatarios Controller
  *
  * @property Arrendatario $Arrendatario
- * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
@@ -74,7 +73,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler', 'Session', 'Search.Prg');
+    public $components = array('RequestHandler', 'Session', 'Search.Prg');
     
     /**
      * Helpers
@@ -398,6 +397,10 @@ class ArrendatariosController extends AppController {
                 }
             }
             
+            //Comprobar si hay funerarias repetidas y eliminarlas
+            $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
+            $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+            
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
@@ -548,6 +551,9 @@ class ArrendatariosController extends AppController {
         //(Comentario vital para entender el código de la función)
         $this->set(compact('arrendatario'));
         
+        //Redireccionar para la generación
+        
+        
     }
     
     /**
@@ -635,6 +641,9 @@ class ArrendatariosController extends AppController {
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('arrendatario'));
+        
+        //Redireccionar para la generación
+        
         
     }
     

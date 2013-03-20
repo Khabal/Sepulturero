@@ -398,6 +398,10 @@ class ArrendatariosController extends AppController {
                 }
             }
             
+            //Comprobar si hay funerarias repetidas y eliminarlas
+            $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
+            $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+            
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 

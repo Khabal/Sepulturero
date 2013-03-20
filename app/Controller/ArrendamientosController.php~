@@ -7,7 +7,6 @@ App::uses('Sanitize', 'Utility');
  * Arrendamientos Controller
  *
  * @property Arrendamiento $Arrendamiento
- * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
@@ -74,7 +73,7 @@ class ArrendamientosController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler', 'Session', 'Search.Prg');
+    public $components = array('RequestHandler', 'Session', 'Search.Prg');
     
     /**
      * Helpers
@@ -446,7 +445,7 @@ class ArrendamientosController extends AppController {
             //Devolver nombres bonitos para entidades relacionadas
             $this->request->data['Arrendamiento']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Arrendamiento']['fecha_arrendamiento']));
             $this->request->data['Arrendamiento']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
-            $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'];
+            $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'] . " - " . $this->request->data['Concesion']['anos_concesion'] . " años";
             //Devolver nombre bonito para la tumba
             $localizacion = "";
             if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
@@ -540,9 +539,12 @@ class ArrendamientosController extends AppController {
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años.";
         $this->pdfConfig['filename'] = "Arrendamiento_" . $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . ".pdf";
-        //$this->pdfConfig['engine'] = 'CakePdf.Tcpdf';
-        //Redireccionar para la generación
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)

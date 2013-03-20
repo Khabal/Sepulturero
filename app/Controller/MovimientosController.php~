@@ -7,7 +7,6 @@ App::uses('Sanitize', 'Utility');
  * Movimientos Controller
  *
  * @property Movimiento $Movimiento
- * @property PaginatorComponent $Paginator
  * @property RequestHandlerComponent $RequestHandler
  * @property SessionComponent $Session
  * @property Search.PrgComponent $Search.Prg
@@ -74,7 +73,7 @@ class MovimientosController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler', 'Session', 'Search.Prg');
+    public $components = array('RequestHandler', 'Session', 'Search.Prg');
     
     /**
      * Helpers
@@ -198,7 +197,7 @@ class MovimientosController extends AppController {
            ),
           ),
          ),
-         'fields' => array('Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo'),
+         'paramType' => 'querystring'
         );
         
         //Devolver paginación

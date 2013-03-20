@@ -21,7 +21,7 @@
    <tr>
     <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
     <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba', 'Tumba'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.edad', 'Edad'); ?></th>

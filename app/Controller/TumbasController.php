@@ -74,7 +74,7 @@ class TumbasController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'RequestHandler', 'Session', 'Search.Prg');
+    public $components = array('RequestHandler', 'Session', 'Search.Prg');
     
     /**
      * Helpers
