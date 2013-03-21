@@ -166,6 +166,20 @@ class TumbasController extends AppController {
         //Iniciar proceso de paginación
         $this->Prg->commonProcess();
         
+        //Apaño para que funcione la ordenación por campos
+        if (isset($this->params['named']['sort'])){
+        if (isset($this->params['named']['direction'])){
+//$orden=$this->params['named']['sort'].' '. $this->params['named']['direction'];
+$orden=$this->params['named']['sort'] . ' ASC';
+}
+else{
+$orden=$this->params['named']['sort'];
+}
+}
+else{
+$orden='';
+} echo $orden;
+        
         //Establecer parámetros de paginación
         $this->paginate = array(
          'conditions' => $this->Tumba->parseCriteria($this->params->query),
@@ -191,6 +205,7 @@ class TumbasController extends AppController {
            ),
           ),
          ),
+         'order' => $orden,
         );
         
         //Devolver paginación
@@ -803,7 +818,7 @@ class TumbasController extends AppController {
             $this->Session->setFlash(__('La tumba especificada está asociada a un arrendamiento.'));
         }
         //Comprobar si la tumba está en uso en difuntos
-        if (!empty($difunto)) {
+        elseif (!empty($difunto)) {
             $this->Session->setFlash(__('La tumba especificada no está vacía, contiene usuarios satisfechos.'));
         }
         else {
