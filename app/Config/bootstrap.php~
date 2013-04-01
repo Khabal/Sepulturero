@@ -142,8 +142,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load('Search'/*, array('routes' => true, 'bootstrap' => true)*/);
-CakePlugin::load('Nullable');
+CakePlugin::load('Search', array('routes' => true)/*, 'bootstrap' => true)*/);
 CakePlugin::load('CakePdf', array('bootstrap' => true, 'routes' => true));
 
 /**

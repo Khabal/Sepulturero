@@ -165,8 +165,7 @@ class TasasController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Tasa->parseCriteria($this->params->query),
-         'contain' => array(
-         ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación

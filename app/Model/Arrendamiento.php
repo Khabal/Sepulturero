@@ -29,7 +29,7 @@ class Arrendamiento extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -92,7 +92,10 @@ class Arrendamiento extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'fecha_arrendamiento' => 'Arrendamiento.fecha_arrendamiento',
+        'estado' => 'Arrendamiento.estado',
+    );
     
     /**
      * List of behaviors

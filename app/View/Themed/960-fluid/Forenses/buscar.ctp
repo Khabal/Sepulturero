@@ -1,13 +1,13 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('forenses'); ?>
 </div>
 
 <?php /* Formulario buscar médico forense */ ?>
 <div class="find form">
  <?php echo $this->Form->create('Forense', array(
-    'url' => array('controller' => strtolower($this->name), 'action' => 'index'),
+    'url' => array('controller' => 'forenses', 'action' => 'index'),
     'type' => 'get'
   ));
  ?>

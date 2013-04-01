@@ -165,8 +165,7 @@ class FunerariasController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Funeraria->parseCriteria($this->params->query),
-         'contain' => array(
-         ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación

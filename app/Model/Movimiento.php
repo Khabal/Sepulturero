@@ -92,6 +92,12 @@ class Movimiento extends AppModel {
      * @var array
      */
     public $virtualFields = array(
+        'tipo' => 'Movimiento.tipo',
+        'fecha' => 'Movimiento.fecha',
+        'motivo' => 'Movimiento.motivo',
+        'viajeros' => 'Movimiento.viajeros',
+        'cementerio_origen' => 'Movimiento.cementerio_origen',
+        'cementerio_destino' => 'Movimiento.cementerio_destino',
         'fecha_motivo' => 'CONCAT(DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y"), " - ", Movimiento.motivo)'
     );
     

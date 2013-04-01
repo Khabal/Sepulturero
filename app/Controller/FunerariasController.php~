@@ -255,7 +255,7 @@ class FunerariasController extends AppController {
     public function buscar() {
         
         //Eliminar reglas de validación
-        unset($this->Forense->validate);
+        unset($this->Funeraria->validate);
         
     }
     

@@ -7,8 +7,8 @@
 <script>
  $(function() {
    /* Establecer opciones de 'UI datepicker' para JQuery */
-   $("#DifuntoFechaBonita").datepicker({
-     altField: "#DifuntoFechaDefuncion",
+   $("#DifuntoFechaDesde").datepicker({
+     altField: "#DifuntoDesde",
      altFormat: "yy-mm-dd",
      buttonImage: "calendario.gif",
      changeMonth: true,
@@ -19,45 +19,31 @@
      showButtonPanel: true,
      showOtherMonths: true,
      showWeek: true,
+     onClose: function(selectedDate) {
+       $("#DifuntoFechaHasta").datepicker("option", "minDate", selectedDate);
+     }
    });
    
-   /* Establecer opciones de 'UI autocomplete' para JQuery */
-   $("#DifuntoForenseBonito").autocomplete({
-     source: function(request, response) {
-       $.ajax({
-         url: "<?php echo $this->Html->url(array('controller' => 'forenses', 'action' => 'autocomplete')); ?>",
-         dataType: "json",
-         type: "GET",
-         data: {
-           term: request.term
-         },
-         timeout: 2000,
-         success: function(data) {
-           response( $.map(data, function(x) {
-             return {
-               label: x.label,
-               value: x.value
-             }
-           }));
-         }
-       });
-     },
-     minLength: 2,
-     select: function(event, ui) {
-       event.preventDefault(),
-       $("#DifuntoForenseBonito").val(ui.item.label),
-       $("#DifuntoForenseId").val(ui.item.value)
-     },
-     open: function() {
-       $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-     },
-     close: function() {
-       $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+   /* Establecer opciones de 'UI datepicker' para JQuery */
+   $("#DifuntoFechaHasta").datepicker({
+     altField: "#DifuntoHasta",
+     altFormat: "yy-mm-dd",
+     buttonImage: "calendario.gif",
+     changeMonth: true,
+     changeYear: true,
+     selectOtherMonths: true,
+     showAnim: "slide",
+     showOn: "both",
+     showButtonPanel: true,
+     showOtherMonths: true,
+     showWeek: true,
+     onClose: function(selectedDate) {
+       $("#DifuntoFechaDesde").datepicker("option", "maxDate", selectedDate);
      }
    });
    
    /* Establecer opciones de 'UI autocomplete' para JQuery */
-   $("#DifuntoTumbaBonita").autocomplete({
+   $("#DifuntoTumba").autocomplete({
      source: function(request, response) {
        $.ajax({
          url: "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'autocomplete')); ?>",
@@ -80,7 +66,7 @@
      minLength: 2,
      select: function(event, ui) {
        event.preventDefault(),
-       $("#DifuntoTumbaBonita").val(ui.item.label),
+       $("#DifuntoTumba").val(ui.item.label),
        $("#DifuntoTumbaId").val(ui.item.value)
      },
      open: function() {

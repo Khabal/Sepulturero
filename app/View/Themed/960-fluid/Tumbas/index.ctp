@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('tumbas'); ?>
 </div>
 
 <?php
@@ -56,7 +56,7 @@
      </td>
      <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $localizacion); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('tumbas', $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $localizacion); ?>
      </td>
     </tr>
    <?php endforeach; ?>

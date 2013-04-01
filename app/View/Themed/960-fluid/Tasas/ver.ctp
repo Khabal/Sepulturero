@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $tasa['Tasa']['id'], $tasa['Tasa']['concepto']); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tasas', $tasa['Tasa']['id'], $tasa['Tasa']['concepto']); ?>
 </div>
 
 <?php
@@ -11,6 +11,8 @@
  echo '</pre>';
  */
 ?>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 
 <?php /* Datos tasa */ ?>
 <div class="view box">
@@ -38,4 +40,5 @@
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($tasa['Tasa']['observaciones']); ?>&nbsp;</dd>
  </dl>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>

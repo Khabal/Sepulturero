@@ -27,7 +27,7 @@ class Funeraria extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -90,7 +90,15 @@ class Funeraria extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'cif' => 'Funeraria.cif',
+        'nombre' => 'Funeraria.nombre',
+        'direccion' => 'Funeraria.direccion',
+        'telefono' => 'Funeraria.telefono',
+        'fax' => 'Funeraria.fax',
+        'correo_electronico' => 'Funeraria.correo_electronico',
+        'pagina_web' => 'Funeraria.pagina_web',
+    );
     
     /**
      * List of behaviors

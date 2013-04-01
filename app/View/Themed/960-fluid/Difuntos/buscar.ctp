@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('difuntos'); ?>
 </div>
 
 <script>
@@ -82,7 +82,7 @@
 <?php /* Formulario buscar concesión */ ?>
 <div class="find form">
  <?php echo $this->Form->create('Difunto', array(
-    'url' => array('controller' => strtolower($this->name), 'action' => 'index'),
+    'url' => array('controller' => 'difuntos', 'action' => 'index'),
     'type' => 'get'
   ));
  ?>

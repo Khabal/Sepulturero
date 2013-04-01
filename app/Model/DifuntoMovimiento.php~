@@ -283,7 +283,7 @@ class DifuntoMovimiento extends AppModel {
      * @return boolean
      */
     public function valida_ex($check) {
-        //print_r($this->data);
+        
         //Comprobar si el tipo de movimiento es una exhumación o traslado
         if (($this->data['DifuntoMovimiento']['tipo'] == "Exhumación") || ($this->data['DifuntoMovimiento']['tipo'] == "Traslado")) {
             

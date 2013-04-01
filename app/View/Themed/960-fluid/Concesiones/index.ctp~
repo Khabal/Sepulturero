@@ -20,7 +20,7 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión'); ?></th>
-    <th><?php echo $this->Paginator->sort('Licencia.anos_concesion', 'Años de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.anos_concesion', 'Años de concesión'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>

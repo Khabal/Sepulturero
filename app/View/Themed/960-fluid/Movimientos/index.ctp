@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('movimientos'); ?>
 </div>
 
 <?php
@@ -120,7 +120,7 @@ else{
 
      <td><?php echo $movimiento['Movimiento']['motivo']; ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('movimientos', $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

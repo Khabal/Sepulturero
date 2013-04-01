@@ -172,8 +172,7 @@ class ConcesionesController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Concesion->parseCriteria($this->params->query),
-         'contain' => array(
-         ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación

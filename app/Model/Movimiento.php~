@@ -589,7 +589,7 @@ class Movimiento extends AppModel {
             //Devolver resultados de la búsqueda
             return array(
              'OR'  => array(
-              'Arrendamiento.fecha_arrendamiento <=' => $data['desde'],
+              'Movimiento.fecha <=' => $data['desde'],
              )
             );
         }
@@ -599,7 +599,7 @@ class Movimiento extends AppModel {
             //Devolver resultados de la búsqueda
             return array(
              'OR'  => array(
-              'Arrendamiento.fecha_arrendamiento >=' => $data['hasta'],
+              'Movimiento.fecha >=' => $data['hasta'],
              )
             );
         }
@@ -609,7 +609,7 @@ class Movimiento extends AppModel {
             //Devolver resultados de la búsqueda
             return array(
              'OR'  => array(
-              'Arrendamiento.fecha_arrendamiento BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+              'Movimiento.fecha BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
              )
             );
         }

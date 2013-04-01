@@ -30,7 +30,7 @@ class Arrendatario extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -93,7 +93,15 @@ class Arrendatario extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'direccion' => 'Arrendatario.direccion',
+        'localidad' => 'Arrendatario.localidad',
+        'provincia' => 'Arrendatario.provincia',
+        'pais' => 'Arrendatario.pais',
+        'codigo_postal' => 'Arrendatario.codigo_postal',
+        'telefono' => 'Arrendatario.telefono',
+        'correo_electronico' => 'Arrendatario.correo_electronico',
+    );
     
     /**
      * List of behaviors

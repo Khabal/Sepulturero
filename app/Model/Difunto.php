@@ -30,7 +30,7 @@ class Difunto extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -93,7 +93,13 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'estado' => 'Difunto.estado',
+        'fecha_defuncion' => 'Difunto.fecha_defuncion',
+        'edad' => 'Difunto.edad',
+        'causa_fallecimiento' => 'Difunto.causa_fallecimiento',
+        'certificado_defuncion' => 'Difunto.certificado_defuncion',
+    );
     
     /**
      * List of behaviors

@@ -163,7 +163,7 @@
     echo $this->Form->input('concesion_id', array('type' => 'hidden'));
     echo $this->Form->input('tumba', array('label' => 'Tumba:')); //Campo imaginario
     echo $this->Form->input('tumba_id', array('type' => 'hidden'));
-    echo '<div class="intervalo_fechas">';
+    echo '<div class="intervalo">';
     echo $this->Form->input('fecha_desde', array('label' => 'Fecha de arrendamiento desde:')); //Campo imaginario
     echo $this->Form->input('desde', array('type' => 'hidden'));
     echo $this->Form->input('fecha_hasta', array('label' => 'hasta:')); //Campo imaginario

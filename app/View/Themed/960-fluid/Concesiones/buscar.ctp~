@@ -12,7 +12,7 @@
   ));
  ?>
   <fieldset>
-   <legend><?php echo __('Información sobra la concesión'); ?></legend>
+   <legend><?php echo __('Información sobre la concesión'); ?></legend>
    <?php /* Campos */
     echo $this->Form->input('tipo', array('label' => 'Tipo de concesión:'));
     echo $this->Form->input('anos_concesion', array('label' => 'Años de concesión:'));

@@ -14,13 +14,13 @@
   <fieldset>
   <legend><?php echo __('Información sobre la funeraria'); ?></legend>
    <?php /* Campos */
-    echo $this->Form->input('Funeraria.cif', array('label' => 'C.I.F.:'));
-    echo $this->Form->input('Funeraria.nombre', array('label' => 'Nombre:'));
-    echo $this->Form->input('Funeraria.direccion', array('label' => 'Dirección:'));
-    echo $this->Form->input('Funeraria.telefono', array('label' => 'Teléfono:'));
-    echo $this->Form->input('Funeraria.fax', array('label' => 'Fax:'));
-    echo $this->Form->input('Funeraria.correo_electronico', array('label' => 'Correo electrónico:'));
-    echo $this->Form->input('Funeraria.pagina_web', array('label' => 'Página web:'));
+    echo $this->Form->input('cif', array('label' => 'C.I.F.:'));
+    echo $this->Form->input('nombre', array('label' => 'Nombre:'));
+    echo $this->Form->input('direccion', array('label' => 'Dirección:'));
+    echo $this->Form->input('telefono', array('label' => 'Teléfono:'));
+    echo $this->Form->input('fax', array('label' => 'Fax:'));
+    echo $this->Form->input('correo_electronico', array('label' => 'Correo electrónico:'));
+    echo $this->Form->input('pagina_web', array('label' => 'Página web:'));
    ?>
   </fieldset>
  <?php /* Botones */

@@ -173,6 +173,7 @@ class ForensesController extends AppController {
            ),
           ),
          ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación

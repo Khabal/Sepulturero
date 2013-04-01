@@ -74,7 +74,7 @@ class TumbasController extends AppController {
      *
      * @var array
      */
-    public $components = array('RequestHandler', 'Session', 'Search.Prg');
+    public $components = array('Paginator', 'RequestHandler', 'Session', 'Search.Prg');
     
     /**
      * Helpers
@@ -166,47 +166,56 @@ class TumbasController extends AppController {
         //Iniciar proceso de paginación
         $this->Prg->commonProcess();
         
-        //Apaño para que funcione la ordenación por campos
-        if (isset($this->params['named']['sort'])){
-        if (isset($this->params['named']['direction'])){
-//$orden=$this->params['named']['sort'].' '. $this->params['named']['direction'];
-$orden=$this->params['named']['sort'] . ' ASC';
-}
-else{
-$orden=$this->params['named']['sort'];
-}
-}
-else{
-$orden='';
-} echo $orden;
-        
         //Establecer parámetros de paginación
         $this->paginate = array(
          'conditions' => $this->Tumba->parseCriteria($this->params->query),
-         'contain' => array(
-          'Columbario' => array(
+         'joins' => array(
+          array(
+           'table' => 'columbarios',
+           'alias' => 'Columbariox',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Columbariox.tumba_id = Tumba.id',
+           ),
            'fields' => array(
-            'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+            'Columbariox.id', 'Columbariox.tumba_id', 'Columbariox.localizacion'
            ),
           ),
-          'Exterior' => array(
+          array(
+           'table' => 'exteriores',
+           'alias' => 'Exteriorx',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Exteriorx.tumba_id = Tumba.id',
+           ),
            'fields' => array(
-            'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+            'Exteriorx.id', 'Exteriorx.tumba_id', 'Exteriorx.localizacion'
            ),
           ),
-          'Nicho' => array(
+          array(
+           'table' => 'nichos',
+           'alias' => 'Nichox',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Nichox.tumba_id = Tumba.id',
+           ),
            'fields' => array(
-            'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+            'Nichox.id', 'Nichox.tumba_id', 'Nichox.localizacion'
            ),
           ),
-          'Panteon' => array(
+          array(
+           'table' => 'panteones',
+           'alias' => 'Panteonx',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Panteonx.tumba_id = Tumba.id',
+           ),
            'fields' => array(
-            'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+            'Panteonx.id', 'Panteonx.tumba_id', 'Panteonx.localizacion'
            ),
           ),
-         'order' => $orden,
          ),
-         //'order' => $orden,
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -291,6 +300,25 @@ $orden='';
     }
     
     /**
+     * aux_comp_ver method
+     *
+     * @param object $a
+     * @param object $b
+     * @return int
+     */
+    private function aux_comp_ver($a, $b) {
+        if ($a["Movimiento"]["fecha"] == $b["Movimiento"]["fecha"]) {
+            return 0;
+        }
+        elseif ($a["Movimiento"]["fecha"] > $b["Movimiento"]["fecha"]) {
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    }
+    
+    /**
      * view method
      *
      * @param string $id
@@ -368,6 +396,9 @@ $orden='';
             'fields' => array(
              'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
+           'order' => array(
+            'Movimiento.fecha DESC'
+           ),
            ),
            'fields' => array(
             'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
@@ -375,6 +406,9 @@ $orden='';
           ),
          ),
         ));
+        
+        //Ordenar los movimientos por fecha
+        usort($difunto['MovimientoTumba'], array($this, 'aux_comp_ver'));
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)

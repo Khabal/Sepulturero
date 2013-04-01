@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendamientos'); ?>
 </div>
 
 <?php
@@ -52,17 +52,17 @@
       <?php
        /* Obtener la localización de tumba */
        $localizacion = "";
-       if (!empty($difunto['Tumba']['Columbario']['localizacion'])) {
-        $localizacion = $difunto['Tumba']['Columbario']['localizacion'];
+       if (!empty($arrendamiento['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Columbario']['localizacion'];
        }
-       elseif(!empty($difunto['Tumba']['Exterior']['localizacion'])) {
-        $localizacion = $difunto['Tumba']['Exterior']['localizacion'];
+       elseif(!empty($arrendamiento['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Exterior']['localizacion'];
        }
-       elseif(!empty($difunto['Tumba']['Nicho']['localizacion'])) {
-        $localizacion = $difunto['Tumba']['Nicho']['localizacion'];
+       elseif(!empty($arrendamiento['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Nicho']['localizacion'];
        }
-       elseif(!empty($difunto['Tumba']['Panteon']['localizacion'])) {
-        $localizacion = $difunto['Tumba']['Panteon']['localizacion'];
+       elseif(!empty($arrendamiento['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Panteon']['localizacion'];
        }
        $tumba = $arrendamiento['Tumba']['tipo'] . " - " . $localizacion;
        echo $this->Html->link($tumba, array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Tumba']['id']));

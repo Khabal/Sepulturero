@@ -28,7 +28,7 @@ class Forense extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -91,7 +91,12 @@ class Forense extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'numero_colegiado' => 'Forense.numero_colegiado',
+        'colegio' => 'Forense.colegio',
+        'telefono' => 'Forense.telefono',
+        'correo_electronico' => 'Forense.correo_electronico',
+    );
     
     /**
      * List of behaviors

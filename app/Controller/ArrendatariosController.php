@@ -167,10 +167,16 @@ class ArrendatariosController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Arrendatario->parseCriteria($this->params->query),
-         'contain' => array(
-          'Persona' => array(
+         'joins' => array(
+          array(
+           'table' => 'personas',
+           'alias' => 'Personax',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Personax.id = Arrendatario.persona_id',
+           ),
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            'Personax.id', 'Personax.dni', 'Personax.nombre_completo'
            ),
           ),
          ),
@@ -302,6 +308,9 @@ class ArrendatariosController extends AppController {
             'fields' => array(
              'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
             ),
+            'order' => array(
+             'Funeraria.nombre ASC'
+            ),
            ),
           ),
           'Arrendamiento' => array(
@@ -334,6 +343,9 @@ class ArrendatariosController extends AppController {
             'fields' => array(
              'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
             ),
+           ),
+           'order' => array(
+            'Arrendamiento.fecha_arrendamiento ASC'
            ),
           ),
          ),

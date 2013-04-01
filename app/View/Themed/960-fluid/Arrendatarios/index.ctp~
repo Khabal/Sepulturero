@@ -41,7 +41,7 @@
       <?php echo $this->Html->link($arrendatario['Persona']['nombre_completo'], array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id'])); ?>&nbsp;
      </td>
      <td>
-	 <?php
+      <?php
        if (!empty($arrendatario['Persona']['dni'])) {
         echo h($arrendatario['Persona']['dni']);
        }

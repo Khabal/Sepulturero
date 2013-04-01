@@ -166,13 +166,20 @@ class ForensesController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Forense->parseCriteria($this->params->query),
-         'contain' => array(
-          'Persona' => array(
+         'joins' => array(
+          array(
+           'table' => 'personas',
+           'alias' => 'Personax',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Personax.id = Forense.persona_id',
+           ),
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            'Personax.id', 'Personax.dni', 'Personax.nombre_completo'
            ),
           ),
          ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -298,7 +305,7 @@ class ForensesController extends AppController {
     public function buscar() {
         
         //Eliminar reglas de validación
-        unset($this->Concesion->validate);
+        unset($this->Forense->validate);
         
     }
     

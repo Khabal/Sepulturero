@@ -30,7 +30,7 @@ class Difunto extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -93,7 +93,13 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'estado' => 'Forense.estado',
+        'fecha_defuncion' => 'Forense.fecha_defuncion',
+        'edad' => 'Forense.edad',
+        'causa_fallecimiento' => 'Forense.causa_fallecimiento',
+        'certificado_defuncion' => 'Forense.certificado_defuncion',
+    );
     
     /**
      * List of behaviors
@@ -536,7 +542,7 @@ class Difunto extends AppModel {
             //Devolver resultados de la búsqueda
             return array(
              'OR'  => array(
-              'Arrendamiento.fecha_arrendamiento <=' => $data['desde'],
+              'Difunto.fecha_defuncion <=' => $data['desde'],
              )
             );
         }
@@ -546,7 +552,7 @@ class Difunto extends AppModel {
             //Devolver resultados de la búsqueda
             return array(
              'OR'  => array(
-              'Arrendamiento.fecha_arrendamiento >=' => $data['hasta'],
+              'Difunto.fecha_defuncion >=' => $data['hasta'],
              )
             );
         }
@@ -556,7 +562,7 @@ class Difunto extends AppModel {
             //Devolver resultados de la búsqueda
             return array(
              'OR'  => array(
-              'Arrendamiento.fecha_arrendamiento BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+              'Difunto.fecha_defuncion BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
              )
             );
         }

@@ -27,7 +27,7 @@ class Tasa extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -90,7 +90,13 @@ class Tasa extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'concepto' => 'Tasa.concepto',
+        'cantidad' => 'Tasa.cantidad',
+        'moneda' => 'Tasa.moneda',
+        'inicio_validez' => 'Tasa.inicio_validez',
+        'fin_validez' => 'Tasa.fin_validez',
+    );
     
     /**
      * List of behaviors
@@ -321,7 +327,7 @@ class Tasa extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'Tasa.tipo LIKE' => $comodin,
+          'Tasa.concepto LIKE' => $comodin,
          )
         );
         

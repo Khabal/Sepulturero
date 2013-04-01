@@ -27,7 +27,7 @@ class Funeraria extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -90,7 +90,13 @@ class Funeraria extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'concepto' => 'Funeraria.cif',
+        'cantidad' => 'Tasa.cantidad',
+        'moneda' => 'Tasa.moneda',
+        'inicio_validez' => 'Tasa.inicio_validez',
+        'fin_validez' => 'Tasa.fin_validez',
+    );
     
     /**
      * List of behaviors
@@ -383,13 +389,13 @@ class Funeraria extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'cif' => array('type' => 'like', 'field' => 'Persona.nombre'),
-        'nombre' => array('type' => 'like', 'field' => 'Persona.apellido1'),
-        'direccion' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'cif' => array('type' => 'like'),
+        'nombre' => array('type' => 'like'),
+        'direccion' => array('type' => 'like'),
         'telefono' => array('type' => 'like'),
         'fax' => array('type' => 'like'),
         'correo_electronico' => array('type' => 'like'),
-        'colegio' => array('type' => 'like'),
+        'pagina_web' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarFuneraria'),
     );
     

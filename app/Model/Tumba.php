@@ -33,7 +33,7 @@ class Tumba extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -89,14 +89,18 @@ class Tumba extends AppModel {
      *
      * @var array
      */
-    public $order = array();
+    //public $order = array();
     
     /**
      * Virtual fields
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'tipo' => 'Tumba.tipo',
+        'localizacion' => 'Tumba.tipo',
+        'poblacion' => 'Tumba.poblacion',
+    );
     
     /**
      * List of behaviors

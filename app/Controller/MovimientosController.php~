@@ -435,6 +435,9 @@ class MovimientosController extends AppController {
            ),
           ),
          ),
+         'order' => array(
+          'Movimiento.fecha ASC'
+         ),
         ));
         
         //Asignar el resultado de la búsqueda a una variable
@@ -606,7 +609,6 @@ class MovimientosController extends AppController {
             }
             
             //Trucos surtido para la validadción
-            $this->request->data['DifuntoMovimiento']['tipo'] == $this->request->data['Movimiento']['tipo'];
             unset($this->Movimiento->MovimientoTumba->Tumba->validate);
             unset($this->Movimiento->DifuntoMovimiento->Difunto->validate);
 

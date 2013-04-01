@@ -33,7 +33,7 @@ class Tumba extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -89,14 +89,17 @@ class Tumba extends AppModel {
      *
      * @var array
      */
-    public $order = array();
+    //public $order = array();
     
     /**
      * Virtual fields
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'tipo' => 'Tumba.tipo',
+        'localizacion' => 'Tumba.tipo',
+    );
     
     /**
      * List of behaviors
@@ -513,6 +516,13 @@ class Tumba extends AppModel {
         'Columbario.letra' => array('type' => 'like', 'field' => 'Columbario.letra'),
         'Columbario.fila' => array('type' => 'like', 'field' => 'Columbario.fila'),
         'Columbario.patio' => array('type' => 'like', 'field' => 'Columbario.patio'),
+        'Nicho.numero_nicho' => array('type' => 'like', 'field' => 'Nicho.numero_nicho'),
+        'Nicho.letra' => array('type' => 'like', 'field' => 'Nicho.letra'),
+        'Nicho.fila' => array('type' => 'like', 'field' => 'Nicho.fila'),
+        'Nicho.patio' => array('type' => 'like', 'field' => 'Nicho.patio'),
+        'Panteon.numero_panteon' => array('type' => 'like', 'field' => 'Panteon.numero_panteon'),
+        'Panteon.familia' => array('type' => 'like', 'field' => 'Panteon.familia'),
+        'Panteon.patio' => array('type' => 'like', 'field' => 'Panteon.patio'),
         'clave' => array('type' => 'query', 'method' => 'buscarTumba'),
     );
     

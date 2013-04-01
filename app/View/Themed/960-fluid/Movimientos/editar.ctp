@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Movimiento.id'), $this->Session->read('Movimiento.fecha_motivo')); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('movimientos', $this->Session->read('Movimiento.id'), $this->Session->read('Movimiento.fecha_motivo')); ?>
 </div>
 
 <?php

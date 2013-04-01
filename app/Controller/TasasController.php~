@@ -262,9 +262,12 @@ class TasasController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Devolver las opciones de selección de monedas
+        $this->set('monedas', $this->Tasa->moneda);
+        
+        //Eliminar reglas de validación
+        unset($this->Tasa->validate);
+        
     }
     
     /**

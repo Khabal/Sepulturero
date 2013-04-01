@@ -9,6 +9,7 @@
  /*
  echo '<pre>';
  print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
  */
 ?>

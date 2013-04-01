@@ -35,6 +35,29 @@
        }
      }
    });
+   
+   /* Mostrar campos adecuados si se recarga */
+   if (seleccionado == "Columbario") {
+     $("#Columbario").show(),
+     $("#Nicho").hide(),
+     $("#Panteon").hide()
+   }
+   else if (seleccionado == "Nicho") {
+     $("#Columbario").hide(),
+     $("#Nicho").show(),
+     $("#Panteon").hide()
+   }
+   else if (seleccionado == "Panteón") {
+     $("#Columbario").hide(),
+     $("#Nicho").hide(),
+     $("#Panteon").show()
+   }
+   else {
+     $("#Columbario").hide(),
+     $("#Nicho").hide(),
+     $("#Panteon").hide()
+   }
+   
  });
 </script>
 

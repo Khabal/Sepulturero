@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $arrendamiento['Arrendamiento']['id'], $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendamientos', $arrendamiento['Arrendamiento']['id'], $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
 </div>
 
 <?php
@@ -11,6 +11,8 @@
  echo '</pre>';
  */
 ?>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 
 <?php /* Datos arrendamiento y concesión */ ?>
 <div class="view box">
@@ -163,4 +165,5 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>

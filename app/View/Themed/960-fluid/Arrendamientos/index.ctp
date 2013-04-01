@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendamientos'); ?>
 </div>
 
 <?php
@@ -84,7 +84,7 @@
      ?>
      <td<?php echo $colorico; ?>><?php echo h($arrendamiento['Arrendamiento']['estado']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('arrendamientos', $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
      </td>
     </tr>
    <?php endforeach; ?>

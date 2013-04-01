@@ -93,6 +93,7 @@ class Persona extends AppModel {
      * @var array
      */
     public $virtualFields = array(
+        'dni' => 'Persona.dni',
         'nombre_completo' => 'CONCAT(Persona.nombre, " ", Persona.apellido1, " ", Persona.apellido2)',
     );
     

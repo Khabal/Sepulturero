@@ -199,6 +199,7 @@ class DifuntosController extends AppController {
            ),
           ),
          ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -300,6 +301,25 @@ class DifuntosController extends AppController {
     }
     
     /**
+     * aux_comp_ver method
+     *
+     * @param object $a
+     * @param object $b
+     * @return int
+     */
+    private function aux_comp_ver($a, $b) {
+        if ($a["Movimiento"]["fecha"] == $b["Movimiento"]["fecha"]) {
+            return 0;
+        }
+        elseif ($a["Movimiento"]["fecha"] > $b["Movimiento"]["fecha"]) {
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    }
+    
+    /**
      * view method
      *
      * @param string $id
@@ -391,6 +411,9 @@ class DifuntosController extends AppController {
           ),
          ),
         ));
+        
+        //Ordenar los movimientos por fecha
+        usort($difunto['DifuntoMovimiento'], array($this, 'aux_comp_ver'));
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
