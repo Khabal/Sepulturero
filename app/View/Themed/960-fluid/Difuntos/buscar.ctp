@@ -1,82 +1,117 @@
-<div class="difuntos index">
-<h2><?php __('Difuntos');?></h2>
-<p>
-<?php
-echo $this->Paginator->counter(array(
-'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-));
-?></p>
-
-<?php
-	echo $this->Form->create('Difunto', array(
-		'url' => array_merge(array('action' => 'find'), $this->params['pass'])
-		));
-	//echo $this->Form->input('title', array('div' => false));
-	echo $this->Form->submit(__('Search', true), array('div' => false));
-	echo $this->Form->end();
-?>
-<table cellpadding="0" cellspacing="0">
-<tr>
-	<th><?php echo $this->Paginator->sort('id');?></th>
-	<th><?php echo $this->Paginator->sort('persona_id');?></th>
-	<th><?php echo $this->Paginator->sort('tumba_id');?></th>
-	<th><?php echo $this->Paginator->sort('estado');?></th>
-	<th><?php echo $this->Paginator->sort('fecha_defuncion');?></th>
-	<th><?php echo $this->Paginator->sort('edad_defuncion');?></th>
-	<th><?php echo $this->Paginator->sort('causa_defuncion');?></th>
-	<th class="actions"><?php __('Actions');?></th>
-</tr>
-<?php
-$i = 0;
-foreach ($difuntos as $difunto):
-	$class = null;
-	if ($i++ % 2 == 0) {
-		$class = ' class="altrow"';
-	}
-?>
-	<tr<?php echo $class;?>>
-		<td>
-			<?php echo $difunto['Difunto']['id']; ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($difunto['Persona']['id'], array('controller' => 'personas', 'action' => 'view', $difunto['Persona']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($difunto['Tumba']['id'], array('controller' => 'tumbas', 'action' => 'view', $difunto['Tumba']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $difunto['Difunto']['estado']; ?>
-		</td>
-		<td>
-			<?php echo $difunto['Difunto']['fecha_defuncion']; ?>
-		</td>
-		<td>
-			<?php echo $difunto['Difunto']['edad_defuncion']; ?>
-		</td>
-		<td>
-			<?php echo $difunto['Difunto']['causa_defuncion']; ?>
-		</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $difunto['Difunto']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $difunto['Difunto']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $difunto['Difunto']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-</table>
-<?php echo $this->element('paging', array('plugin' => 'Templates')); ?>
+<?php /* Menú de accciones */ ?>
+<div class="actions box">
+ <h2><?php echo __('Menú de accciones'); ?></h2>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('difuntos'); ?>
 </div>
 
-<div class="actions">
-	<ul>
-		<li><?php echo $this->Html->link(__('New Difunto', true), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Personas', true), array('controller' => 'personas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Persona', true), array('controller' => 'personas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Tumbas', true), array('controller' => 'tumbas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Tumba', true), array('controller' => 'tumbas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Enterramientos', true), array('controller' => 'enterramientos', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Enterramiento', true), array('controller' => 'enterramientos', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Traslados', true), array('controller' => 'traslados', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Traslado', true), array('controller' => 'traslados', 'action' => 'add')); ?> </li>
-	</ul>
+<script>
+ $(function() {
+   /* Establecer opciones de 'UI datepicker' para JQuery */
+   $("#DifuntoFechaDesde").datepicker({
+     altField: "#DifuntoDesde",
+     altFormat: "yy-mm-dd",
+     buttonImage: "calendario.gif",
+     changeMonth: true,
+     changeYear: true,
+     selectOtherMonths: true,
+     showAnim: "slide",
+     showOn: "both",
+     showButtonPanel: true,
+     showOtherMonths: true,
+     showWeek: true,
+     onClose: function(selectedDate) {
+       $("#DifuntoFechaHasta").datepicker("option", "minDate", selectedDate);
+     }
+   });
+   
+   /* Establecer opciones de 'UI datepicker' para JQuery */
+   $("#DifuntoFechaHasta").datepicker({
+     altField: "#DifuntoHasta",
+     altFormat: "yy-mm-dd",
+     buttonImage: "calendario.gif",
+     changeMonth: true,
+     changeYear: true,
+     selectOtherMonths: true,
+     showAnim: "slide",
+     showOn: "both",
+     showButtonPanel: true,
+     showOtherMonths: true,
+     showWeek: true,
+     onClose: function(selectedDate) {
+       $("#DifuntoFechaDesde").datepicker("option", "maxDate", selectedDate);
+     }
+   });
+   
+   /* Establecer opciones de 'UI autocomplete' para JQuery */
+   $("#DifuntoTumba").autocomplete({
+     source: function(request, response) {
+       $.ajax({
+         url: "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'autocomplete')); ?>",
+         dataType: "json",
+         type: "GET",
+         data: {
+           term: request.term
+         },
+         timeout: 2000,
+         success: function(data) {
+           response( $.map(data, function(x) {
+             return {
+               label: x.label,
+               value: x.value
+             }
+           }));
+         }
+       });
+     },
+     minLength: 2,
+     select: function(event, ui) {
+       event.preventDefault(),
+       $("#DifuntoTumba").val(ui.item.label),
+       $("#DifuntoTumbaId").val(ui.item.value)
+     },
+     open: function() {
+       $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+     },
+     close: function() {
+       $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+     }
+   });
+ });
+</script>
+
+<?php /* Formulario buscar concesión */ ?>
+<div class="find form">
+ <?php echo $this->Form->create('Difunto', array(
+    'url' => array('controller' => 'difuntos', 'action' => 'index'),
+    'type' => 'get'
+  ));
+ ?>
+  <fieldset>
+   <legend><?php echo __('Información sobre la concesión'); ?></legend>
+   <?php /* Campos */
+    echo $this->Form->input('nombre', array('label' => 'Nombre:'));
+    echo $this->Form->input('apellido1', array('label' => 'Primer apellido:'));
+    echo $this->Form->input('apellido2', array('label' => 'Segundo apellido:'));
+    echo $this->Form->input('dni', array('label' => 'D.N.I.:'));
+    echo $this->Form->input('sexo', array('label' => 'Sexo:', 'type' => 'select', 'options' => $sexo, 'empty' => ''));
+    echo $this->Form->input('nacionalidad', array('label' => 'Nacionalidad:'));
+    echo $this->Form->input('tumba', array('label' => 'Tumba:')); //Campo imaginario
+    echo $this->Form->input('tumba_id', array('type' => 'hidden'));
+    echo $this->Form->input('estado', array('label' => 'Estado del cuerpo:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
+    echo '<div class="intervalo">';
+    echo $this->Form->input('fecha_desde', array('label' => 'Fecha de defunción desde:')); //Campo imaginario
+    echo $this->Form->input('desde', array('type' => 'hidden'));
+    echo $this->Form->input('fecha_hasta', array('label' => 'hasta:')); //Campo imaginario
+    echo $this->Form->input('hasta', array('type' => 'hidden'));
+    echo '</div>';
+    echo $this->Form->input('edad', array('label' => 'Edad:'));
+    echo $this->Form->input('causa_fallecimiento', array('label' => 'Causa de fallecimiento:'));
+    echo $this->Form->input('certificado_defuncion', array('label' => 'Certificado de defunción:'));
+   ?>
+  </fieldset>
+ <?php /* Botones */
+  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->end();
+ ?>
 </div>

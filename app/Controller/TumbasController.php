@@ -130,7 +130,14 @@ class TumbasController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Tumba',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -139,7 +146,7 @@ class TumbasController extends AppController {
      */
     public $opciones_guardado = array(
         'atomic' => true,
-        'deep' => false,
+        'deep' => true,
         'fieldList' => array(
             'Tumba' => array('id', 'tipo', 'poblacion', 'observaciones'),
             'Columbario' => array('id', 'tumba_id', 'numero_columbario', 'letra', 'fila', 'patio'),
@@ -168,32 +175,54 @@ class TumbasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array(
-         'fields' => array(
-          'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+         'conditions' => $this->Tumba->parseCriteria($this->params->query),
+         'joins' => array(
+          array(
+           'table' => 'columbarios',
+           'alias' => 'Columbariox',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Columbariox.tumba_id = Tumba.id',
+           ),
+           'fields' => array(
+            'Columbariox.id', 'Columbariox.tumba_id', 'Columbariox.localizacion'
+           ),
+          ),
+          array(
+           'table' => 'exteriores',
+           'alias' => 'Exteriorx',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Exteriorx.tumba_id = Tumba.id',
+           ),
+           'fields' => array(
+            'Exteriorx.id', 'Exteriorx.tumba_id', 'Exteriorx.localizacion'
+           ),
+          ),
+          array(
+           'table' => 'nichos',
+           'alias' => 'Nichox',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Nichox.tumba_id = Tumba.id',
+           ),
+           'fields' => array(
+            'Nichox.id', 'Nichox.tumba_id', 'Nichox.localizacion'
+           ),
+          ),
+          array(
+           'table' => 'panteones',
+           'alias' => 'Panteonx',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Panteonx.tumba_id = Tumba.id',
+           ),
+           'fields' => array(
+            'Panteonx.id', 'Panteonx.tumba_id', 'Panteonx.localizacion'
+           ),
+          ),
          ),
-         'conditions' => $this->Tumba->parseCriteria($this->passedArgs),
-         'contain' => array(
-          'Columbario' => array(
-           'fields' => array(
-            'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-           ),
-          ),
-          'Exterior' => array(
-           'fields' => array(
-            'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
-           ),
-          ),
-          'Nicho' => array(
-           'fields' => array(
-            'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
-           ),
-          ),
-          'Panteon' => array(
-           'fields' => array(
-            'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
-           ),
-          ),
-         ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -226,54 +255,79 @@ class TumbasController extends AppController {
             //Comprobar el tipo de tumba
             if ($this->request->data['Tumba']['tipo'] == "Columbario") {
                 //Truco del almendruco para evitar errores de validación
-                unset($this->Tumba->Columbario->validate['tumba_id']);
+                unset($this->request->data['Nicho']);
+                unset($this->request->data['Panteon']);
+                //Convertir a mayúsculas el carácter de la letra
+                $this->request->data['Columbario']['letra'] = strtoupper($this->request->data['Columbario']['letra']);
+            }
+            elseif ($this->request->data['Tumba']['tipo'] == "Exterior") {
+                //Truco del almendruco para guardar una entidad vacía salvo id y clave externa
+                $this->request->data['Exterior']['algo'] = "";
+                //Truco del almendruco para evitar errores de validación
+                unset($this->request->data['Columbario']);
                 unset($this->request->data['Nicho']);
                 unset($this->request->data['Panteon']);
             }
             elseif ($this->request->data['Tumba']['tipo'] == "Nicho") {
                 //Truco del almendruco para evitar errores de validación
-                unset($this->Tumba->Nicho->validate['tumba_id']);
                 unset($this->request->data['Columbario']);
                 unset($this->request->data['Panteon']);
+                //Convertir a mayúsculas el carácter de la letra
+                $this->request->data['Nicho']['letra'] = strtoupper($this->request->data['Nicho']['letra']);
             }
             elseif ($this->request->data['Tumba']['tipo'] == "Panteón") {
                 //Truco del almendruco para evitar errores de validación
-                unset($this->Tumba->Panteon->validate['tumba_id']);
                 unset($this->request->data['Columbario']);
                 unset($this->request->data['Nicho']);
-            }
-            elseif ($this->request->data['Tumba']['tipo'] == "Exterior") {
-                //Truco del almendruco para guardar una entidad vacía salvo id y clave externa
-                $this->request->data['Exterior']['algo'] = "";
-                unset($this->request->data['Columbario']);
-                unset($this->request->data['Nicho']);
-                unset($this->request->data['Panteon']);
             }
             
-            //Guardar y comprobar éxito
-            if ($this->Tumba->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                $this->Session->setFlash(__('La tumba ha sido guardada correctamente.'));
-                //Obtener a donde se redireccionará
-                $accion = $this->request->query['accion'];
-                //Redireccionar según corresponda
-                if ($accion == 'guardar_y_nuevo') {
-                    $this->redirect(array('action' => 'nuevo'));
+            //Validar los datos introducidos
+            if ($this->Tumba->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Guardar y comprobar éxito
+                if ($this->Tumba->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('La tumba ha sido guardada correctamente.'));
+                    //Redireccionar según corresponda
+                    if (isset($this->request->data['guardar_y_nuevo'])) {
+                        $this->redirect(array('action' => 'nuevo'));
+                    }
+                    else {
+                        $this->redirect(array('action' => 'index'));
+                    }
                 }
                 else {
-                    $this->redirect(array('action' => 'index'));
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser guardada.'));
                 }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser guardada.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         
     }
     
     /**
+     * aux_comp_ver method
+     *
+     * @param object $a
+     * @param object $b
+     * @return int
+     */
+    private function aux_comp_ver($a, $b) {
+        if ($a["Movimiento"]["fecha"] == $b["Movimiento"]["fecha"]) {
+            return 0;
+        }
+        elseif ($a["Movimiento"]["fecha"] > $b["Movimiento"]["fecha"]) {
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    }
+    
+    /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -284,7 +338,8 @@ class TumbasController extends AppController {
         
         //Comprobar si existe la tumba
         if (!$this->Tumba->exists()) {
-            throw new NotFoundException(__('La tumba especificada no existe.'));
+             $this->Session->setFlash(__('La tumba especificada no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
         //Cargar toda la información relevante relacionada con la tumba
@@ -293,11 +348,8 @@ class TumbasController extends AppController {
           'Tumba.id' => $id
          ),
          'contain' => array(
-          'Columbario','Nicho','Panteon','Exterior',
-          'ArrendatarioTumba' => array(
-           'conditions' => array(
-            'ArrendatarioTumba.estado' => "Actual"
-           ),
+          'Columbario', 'Exterior', 'Nicho', 'Panteon',
+          'Arrendamiento' => array(
            'Arrendatario' => array(
             'Persona' => array(
              'fields' => array(
@@ -305,28 +357,8 @@ class TumbasController extends AppController {
              ),
             ),
             'fields' => array(
-             'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono', 'Arrendatario.correo_electronico'
+             'Arrendatario.id', 'Arrendatario.persona_id'
             ),
-           ),
-          ),
-          'Enterramiento' => array(
-           'Licencia' => array(
-            'fields' => array(
-             'Licencia.id', 'Licencia.identificador'
-            ),
-           ),
-           'Difunto' => array(
-            'Persona' => array(
-             'fields' => array(
-              'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
-             ),
-            ),
-            'fields' => array(
-             'Difunto.id', 'Difunto.persona_id'
-            ),
-           ),
-           'fields' => array(
-            'Enterramiento.id', 'Enterramiento.difunto_id', 'Enterramiento.licencia_id', 'Enterramiento.tumba_id', 'Enterramiento.fecha'
            ),
           ),
           'Difunto' => array(
@@ -336,59 +368,82 @@ class TumbasController extends AppController {
             ),
            ),
            'fields' => array(
-            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad_defuncion', 'Difunto.causa_defuncion'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
            ),
           ),
-          'TrasladoTumba' => array(
-           'Traslado' => array(
-            'fields' => array(
-             'Traslado.id', 'Traslado.fecha', 'Traslado.cementerio_origen', 'Traslado.cementerio_destino', 'Traslado.motivo'
+          'MovimientoTumba' => array(
+           'Movimiento' => array(
+            'MovimientoTumba' => array(
+             'Tumba' => array(
+              'Columbario' => array(
+               'fields' => array(
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+               ),
+              ),
+              'Exterior' => array(
+               'fields' => array(
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+               ),
+              ),
+              'fields' => array(
+               'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+              ),
+             ),
             ),
+            'fields' => array(
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+            ),
+           'order' => array(
+            'Movimiento.fecha DESC'
            ),
-           'Tumba' => array(
-            'Columbario','Nicho','Panteon','Exterior',
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
+           ),
+           'fields' => array(
+            'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
            ),
           ),
          ),
         ));
         
-        //Ñapa para evitar la recursividad de la entidad sobre la que se busca (Tumba)
-        //Cargar toda la información relevante relacionada con los traslados de la tumba
-        /*$tumba['TrasladoTumba'] = $this->TrasladoTumba->find('all', array(
-         'conditions' => array(
-          'TrasladoTumba.tumba_id' => $id
-         ),
-         'contain' => array(
-          'Traslado' => array(
-           'fields' => array(
-            'Traslado.id', 'Traslado.fecha', 'Traslado.cementerio_origen', 'Traslado.cementerio_destino', 'Traslado.motivo'
-           ),
-          ),
-          'Tumba' => array(
-           'Columbario','Nicho','Panteon','Exterior',
-           'fields' => array(
-            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
-           ),
-          ),
-         ),
-        ));*/
+        //Ordenar los movimientos por fecha
+        usort($tumba['MovimientoTumba'], array($this, 'aux_comp_ver'));
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('tumba'));
         
     }
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    
+    /**
+     * find method
+     *
+     * @return void
+     */
+    public function buscar() {
+        
+        //Devolver las opciones de selección de tipo de tumba
+        $this->set('tipo', $this->Tumba->tipo);
+        
+        //Eliminar reglas de validación
+        unset($this->Tumba->validate);
+        
+    }
+    
+    /**
+     * edit method
+     *
+     * @param string $id
+     * @return void
+     */
     public function editar($id = null) {
         
         //Devolver las opciones de selección de tipo de tumba
@@ -399,85 +454,87 @@ class TumbasController extends AppController {
         
         //Comprobar si existe la tumba
         if (!$this->Tumba->exists()) {
-            throw new NotFoundException(__('La tumba especificada no existe.'));
+             $this->Session->setFlash(__('La tumba especificada no existe.'));
+             $this->redirect(array('action' => 'index'));
         }
         
         //Comprobar si se está enviando el formulario
         if ($this->request->is('post') || $this->request->is('put')) {
+            
+            //Desinfectar los datos recibidos del formulario
+            Sanitize::clean($this->request->data);
+            
+            //Cargar datos de la sesión
+            $this->request->data['Tumba']['id'] = $id;
+            $this->request->data['Tumba']['poblacion'] = $this->Session->read('Tumba.poblacion');
+
             //Comprobar el tipo de tumba
             if ($this->request->data['Tumba']['tipo'] == "Columbario") {
                 //Truco del almendruco para evitar errores de validación
-                unset($this->Tumba->Columbario->validate['tumba_id']);
+                $this->request->data['Tumba']['columbario_id'] = $this->Session->read('Tumba.columbario_id');
+                unset($this->request->data['Exterior']);
+                unset($this->request->data['Nicho']);
+                unset($this->request->data['Panteon']);
+                //Convertir a mayúsculas el carácter de la letra
+                $this->request->data['Columbario']['letra'] = strtoupper($this->request->data['Columbario']['letra']);
+            }
+            elseif ($this->request->data['Tumba']['tipo'] == "Exterior") {
+                //Truco del almendruco para guardar una entidad vacía salvo id y clave externa
+                $this->request->data['Exterior']['algo'] = "";
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Tumba']['exterior_id'] = $this->Session->read('Tumba.exterior_id');
+                unset($this->request->data['Columbario']);
                 unset($this->request->data['Nicho']);
                 unset($this->request->data['Panteon']);
             }
             elseif ($this->request->data['Tumba']['tipo'] == "Nicho") {
                 //Truco del almendruco para evitar errores de validación
-                unset($this->Tumba->Nicho->validate['tumba_id']);
+                $this->request->data['Tumba']['nicho_id'] = $this->Session->read('Tumba.nicho_id');
                 unset($this->request->data['Columbario']);
+                unset($this->request->data['Exterior']);
                 unset($this->request->data['Panteon']);
+                //Convertir a mayúsculas el carácter de la letra
+                $this->request->data['Nicho']['letra'] = strtoupper($this->request->data['Nicho']['letra']);
             }
             elseif ($this->request->data['Tumba']['tipo'] == "Panteón") {
                 //Truco del almendruco para evitar errores de validación
-                unset($this->Tumba->Panteon->validate['tumba_id']);
+                $this->request->data['Tumba']['panteon_id'] = $this->Session->read('Tumba.panteon_id');
                 unset($this->request->data['Columbario']);
+                unset($this->request->data['Exterior']);
                 unset($this->request->data['Nicho']);
             }
-            elseif ($this->request->data['Tumba']['tipo'] == "Exterior") {
-                //Truco del almendruco para guardar una entidad vacía salvo id y clave externa
-                $this->request->data['Exterior']['algo'] = "";
-                unset($this->request->data['Columbario']);
-                unset($this->request->data['Nicho']);
-                unset($this->request->data['Panteon']);
-            }
             
-            //Cargar datos de sesión
-            $this->request->data['Tumba']['poblacion'] = $this->Session->read('Tumba.poblacion');
-            $this->request->data['Tumba']['id'] = $this->Session->read('Tumba.id');
-            if ($this->request->data['Tumba']['tipo'] == $this->Session->read('Tumba.tipo')) {
-                if (($this->request->data['Tumba']['tipo'] == "Columbario") && ($this->Session->read('Columbario.id'))) {
-                    $this->request->data['Columbario']['id'] = $this->Session->read('Columbario.id');
+            //Validar los datos introducidos
+            if ($this->Tumba->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Borrar tumba antigua del tipo correspondiente
+                if ($this->Session->read('Tumba.tipo') == "Columbario") {
+                    $this->Tumba->Columbario->delete($this->Session->read('Tumba.columbario_id'));
                 }
-                elseif (($this->request->data['Tumba']['tipo'] == "Nicho") && ($this->Session->read('Nicho.id'))) {
-                    $this->request->data['Nicho']['id'] = $this->Session->read('Nicho.id');
+                elseif ($this->Session->read('Tumba.tipo') == "Exterior") {
+                    $this->Tumba->Exterior->delete($this->Session->read('Tumba.exterior_id'));
                 }
-                elseif (($this->request->data['Tumba']['tipo'] == "Panteón") && ($this->Session->read('Panteon.id'))) {
-                    $this->request->data['Panteon']['id'] = $this->Session->read('Panteon.id');
+                elseif ($this->Session->read('Tumba.tipo') == "Nicho") {
+                    $this->Tumba->Nicho->delete($this->Session->read('Tumba.nicho_id'));
                 }
-                elseif (($this->request->data['Tumba']['tipo'] == "Exterior") && ($this->Session->read('Exterior.id'))) {
-                    $this->request->data['Exterior']['id'] = $this->Session->read('Exterior.id');
+                elseif ($this->Session->read('Tumba.tipo') == "Panteón") {
+                    $this->Tumba->Panteon->delete($this->Session->read('Tumba.panteon_id'));
                 }
-            }
-            
-            //Guardar y comprobar éxito
-            if ($this->Tumba->saveAssociated($this->request->data)) {
-                $this->Session->setFlash(__('La tumba ha sido actualizada correctamente.'));
-                //Borrar la tumba anterior en caso de ser de distinto tipo
-                if ($this->request->data['Tumba']['tipo'] != $this->Session->read('Tumba.tipo')) {
-                    if ($this->Session->read('Tumba.tipo') == "Columbario") {
-                        $this->Tumba->Columbario->deleteAll(array('Columbario.tumba_id' => $id), false, false);
-                    }
-                    elseif ($this->Session->read('Tumba.tipo') == "Nicho") {
-                        $this->Tumba->Nicho->deleteAll(array('Nicho.tumba_id' => $id), false, false);
-                    }
-                    elseif ($this->Session->read('Tumba.tipo') == "Panteón") {
-                        $this->Tumba->Panteon->deleteAll(array('Panteon.tumba_id' => $id), false, false);
-                    }
-                    elseif ($this->Session->read('Tumba.tipo') == "Exterior") {
-                        $this->Tumba->Exterior->deleteAll(array('Exterior.tumba_id' => $id), false, false);
-                    }
+                
+                //Guardar y comprobar éxito
+                if ($this->Tumba->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('La tumba ha sido actualizada correctamente.'));
+                    //Borrar datos de sesión
+                    $this->Session->delete('Tumba');
+                    //Redireccionar a index
+                    $this->redirect(array('action' => 'index'));
                 }
-                //Borrar datos de sesión
-                $this->Session->delete('Tumba');
-                $this->Session->delete('Columbario');
-                $this->Session->delete('Nicho');
-                $this->Session->delete('Panteon');
-                $this->Session->delete('Exterior');
-                //Redireccionar a index
-                $this->redirect(array('action' => 'index'));
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser actualizada.'));
+                }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser actualizada.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         else {
@@ -495,34 +552,276 @@ class TumbasController extends AppController {
             $this->Session->write('Tumba.id', $this->request->data['Tumba']['id']);
             $this->Session->write('Tumba.tipo', $this->request->data['Tumba']['tipo']);
             $this->Session->write('Tumba.poblacion', $this->request->data['Tumba']['poblacion']);
-            if ($this->request->data['Columbario']['identificador']) {
-                $this->Session->write('Tumba.identificador', $this->request->data['Columbario']['identificador']);
-                $this->Session->write('Columbario.id', $this->request->data['Columbario']['id']);
+            if (!empty($this->request->data['Columbario']['id'])) {
+                $this->Session->write('Tumba.localizacion', $this->request->data['Columbario']['localizacion']);
+                $this->Session->write('Tumba.columbario_id', $this->request->data['Columbario']['id']);
             }
-            elseif ($this->request->data['Nicho']['identificador']) {
-                $this->Session->write('Tumba.identificador', $this->request->data['Nicho']['identificador']);
-                $this->Session->write('Nicho.id', $this->request->data['Nicho']['id']);
+            elseif (!empty($this->request->data['Exterior']['id'])) {
+                $this->Session->write('Tumba.localizacion', $this->request->data['Exterior']['localizacion']);
+                $this->Session->write('Tumba.exterior_id', $this->request->data['Exterior']['id']);
             }
-            elseif ($this->request->data['Panteon']['identificador']) {
-                $this->Session->write('Tumba.identificador', $this->request->data['Panteon']['identificador']);
-                $this->Session->write('Panteon.id', $this->request->data['Panteon']['id']);
+            elseif (!empty($this->request->data['Nicho']['id'])) {
+                $this->Session->write('Tumba.localizacion', $this->request->data['Nicho']['localizacion']);
+                $this->Session->write('Tumba.nicho_id', $this->request->data['Nicho']['id']);
             }
-            elseif ($this->request->data['Exterior']['identificador']) {
-                $this->Session->write('Tumba.identificador', $this->request->data['Exterior']['identificador']);
-                $this->Session->write('Exterior.id', $this->request->data['Exterior']['id']);
+            elseif (!empty($this->request->data['Panteon']['id'])) {
+                $this->Session->write('Tumba.localizacion', $this->request->data['Panteon']['localizacion']);
+                $this->Session->write('Tumba.panteon_id', $this->request->data['Panteon']['id']);
             }
+
         }
         
     }
-
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    
+    /**
+     * print method
+     *
+     * @param string $id
+     * @return void
+     */
+    public function imprimir($id = null) {
+        
+        //Asignar id
+        $this->Tumba->id = $id;
+        
+        //Comprobar si existe la tumba
+        if (!$this->Tumba->exists()) {
+            $this->Session->setFlash(__('La tumba especificada no existe.'));
+            $this->redirect(array('action' => 'index'));
+        }
+        
+        //Cargar toda la información relevante relacionada con la tumba
+        $tumba = $this->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id
+         ),
+         'contain' => array(
+          'Columbario', 'Exterior', 'Nicho', 'Panteon',
+          'Arrendamiento' => array(
+           'Arrendatario' => array(
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+             ),
+            ),
+            'fields' => array(
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+           ),
+          ),
+          'Difunto' => array(
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            ),
+           ),
+           'fields' => array(
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+           ),
+          ),
+          'MovimientoTumba' => array(
+           'Movimiento' => array(
+            'MovimientoTumba' => array(
+             'Tumba' => array(
+              'Columbario' => array(
+               'fields' => array(
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+               ),
+              ),
+              'Exterior' => array(
+               'fields' => array(
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+               ),
+              ),
+              'fields' => array(
+               'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+              ),
+             ),
+            ),
+            'fields' => array(
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+            ),
+           ),
+           'fields' => array(
+            'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
+           ),
+          ),
+         ),
+        ));
+        
+        //Obtener localización de la tumba
+        $localizacion = "";
+        if (!empty($tumba['Columbario']['localizacion'])) {
+            $localizacion = $tumba['Columbario']['localizacion'];
+        }
+        elseif(!empty($tumba['Exterior']['localizacion'])) {
+            $localizacion = $tumba['Exterior']['localizacion'];
+        }
+        elseif(!empty($tumba['Nicho']['localizacion'])) {
+            $localizacion = $tumba['Nicho']['localizacion'];
+        }
+        elseif(!empty($tumba['Panteon']['localizacion'])) {
+            $localizacion = $tumba['Panteon']['localizacion'];
+        }
+        
+        //Establecer parámetros específicos para la generación del documento .pdf
+        $this->pdfConfig['title'] = $tumba['Tumba']['tipo'] . " - " . $localizacion;
+        $this->pdfConfig['filename'] = "Tumba_" . $tumba['Tumba']['tipo'] . $localizacion . ".pdf";
+        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
+        //Asignar el resultado de la búsqueda a una variable
+        //(Comentario vital para entender el código de la función)
+        $this->set(compact('tumba'));
+        
+        //Redireccionar para la generación
+        
+        
+    }
+    
+    /**
+     * export pdf method
+     *
+     * @param string $id
+     * @return void
+     */
+    public function exportar_pdf($id = null) {
+        
+        //Asignar id
+        $this->Tumba->id = $id;
+        
+        //Comprobar si existe la tumba
+        if (!$this->Tumba->exists()) {
+            $this->Session->setFlash(__('La tumba especificada no existe.'));
+            $this->redirect(array('action' => 'index'));
+        }
+        
+        //Cargar toda la información relevante relacionada con la tumba
+        $tumba = $this->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id
+         ),
+         'contain' => array(
+          'Columbario', 'Exterior', 'Nicho', 'Panteon',
+          'Arrendamiento' => array(
+           'Arrendatario' => array(
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+             ),
+            ),
+            'fields' => array(
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+           ),
+          ),
+          'Difunto' => array(
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            ),
+           ),
+           'fields' => array(
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+           ),
+          ),
+          'MovimientoTumba' => array(
+           'Movimiento' => array(
+            'MovimientoTumba' => array(
+             'Tumba' => array(
+              'Columbario' => array(
+               'fields' => array(
+                'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+               ),
+              ),
+              'Exterior' => array(
+               'fields' => array(
+                'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+               ),
+              ),
+              'Nicho' => array(
+               'fields' => array(
+                'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+               ),
+              ),
+              'Panteon' => array(
+               'fields' => array(
+                'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+               ),
+              ),
+              'fields' => array(
+               'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+              ),
+             ),
+            ),
+            'fields' => array(
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+            ),
+           ),
+           'fields' => array(
+            'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id',
+           ),
+          ),
+         ),
+        ));
+        
+        //Obtener localización de la tumba
+        $localizacion = "";
+        if (!empty($tumba['Columbario']['localizacion'])) {
+            $localizacion = $tumba['Columbario']['localizacion'];
+        }
+        elseif(!empty($tumba['Exterior']['localizacion'])) {
+            $localizacion = $tumba['Exterior']['localizacion'];
+        }
+        elseif(!empty($tumba['Nicho']['localizacion'])) {
+            $localizacion = $tumba['Nicho']['localizacion'];
+        }
+        elseif(!empty($tumba['Panteon']['localizacion'])) {
+            $localizacion = $tumba['Panteon']['localizacion'];
+        }
+        
+        //Establecer parámetros específicos para la generación del documento .pdf
+        $this->pdfConfig['title'] = $tumba['Tumba']['tipo'] . " - " . $localizacion;
+        $this->pdfConfig['filename'] = "Tumba_" . $tumba['Tumba']['tipo'] . $localizacion . ".pdf";
+        $this->pdfConfig['download'] = true;
+        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
+        //Asignar el resultado de la búsqueda a una variable
+        //(Comentario vital para entender el código de la función)
+        $this->set(compact('tumba'));
+        
+        //Redireccionar para la generación
+        
+        
+    }
+    
+    /**
+     * delete method
+     *
+     * @throws MethodNotAllowedException
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
     public function borrar($id = null) {
         
         //Comprobar que la forma de envío sea POST
@@ -538,24 +837,58 @@ class TumbasController extends AppController {
             throw new NotFoundException(__('La tumba especificada no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Tumba->Columbario->deleteAll(array('Columbario.tumba_id' => $id), false, false) && $this->Tumba->Exterior->deleteAll(array('Exterior.tumba_id' => $id), false, false) && $this->Tumba->Nicho->deleteAll(array('Nicho.tumba_id' => $id), false, false) && $this->Tumba->Panteon->deleteAll(array('Panteon.tumba_id' => $id), false, false) && $this->Tumba->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.tumba_id' => $id), false, false) && $this->Tumba->delete()) {
-            $this->Session->setFlash(__('La tumba ha sido eliminada correctamente.'));
-            //Redireccionar a index
-            $this->redirect(array('action' => 'index'));
+        //Buscar si la tumba está en uso en algún arrendamiento
+        $arrendamiento = $this->Tumba->Arrendamiento->find('first', array(
+         'conditions' => array(
+          'Arrendamiento.tumba_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Buscar si la tumba está en uso por algún usuario difunto
+        $difunto = $this->Tumba->Difunto->find('first', array(
+         'conditions' => array(
+          'Difunto.tumba_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si la tumba está en uso en arrendamientos
+        if (!empty($arrendamiento)) {
+            $this->Session->setFlash(__('La tumba especificada está asociada a un arrendamiento.'));
+        }
+        //Comprobar si la tumba está en uso en difuntos
+        elseif (!empty($difunto)) {
+            $this->Session->setFlash(__('La tumba especificada no está vacía, contiene usuarios satisfechos.'));
+        }
+        else {
+            //Borrar y comprobar éxito
+            if ($this->Tumba->delete()) {
+                $this->Session->setFlash(__('La tumba ha sido eliminada correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser eliminado.'));
+            }
         }
         
-        $this->Session->setFlash(__('Ha ocurrido un error mágico. La tumba no ha podido ser eliminada.'));
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         
     }
-
-/**
- * autocomplete method
- *
- * @return JSON array
- */
+    
+    /**
+     * ---------------------------
+     * Extra Controller Actions
+     * ---------------------------
+     */
+    
+    /**
+     * autocomplete method
+     *
+     * @return JSON array
+     */
     public function autocomplete() {
         
         //Término de búsqueda con comodines
@@ -565,33 +898,21 @@ class TumbasController extends AppController {
         $resultados = $this->Tumba->find('all', array(
          'contain' => array(
           'Columbario' => array(
-           /*'conditions' => array(
-            'Columbario.tumba_id = Tumba.id',
-           ),*/
            'fields' => array(
             'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
            ),
           ),
           'Nicho' => array(
-           /*'conditions' => array(
-            'Nicho.tumba_id = Tumba.id',
-           ),*/
            'fields' => array(
             'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
            ),
           ),
           'Panteon' => array(
-           /*'conditions' => array(
-            'Panteon.tumba_id = Tumba.id',
-           ),*/
            'fields' => array(
             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
            ),
           ),
           'Exterior' => array(
-           /*'conditions' => array(
-            'Exterior.tumba_id = Tumba.id',
-           ),*/
            'fields' => array(
             'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
            ),
@@ -600,8 +921,8 @@ class TumbasController extends AppController {
          'conditions' => array(
           'OR' => array(
            'Tumba.tipo LIKE' => $palabro,
-           'CONCAT(Columbario.numero_columbario," ",Columbario.fila," ",Columbario.patio) LIKE' => $palabro,
-           'CONCAT(Nicho.numero_nicho," ",Nicho.fila," ",Nicho.patio) LIKE' => $palabro,
+           'CONCAT(Columbario.numero_columbario, Columbario.letra," ",Columbario.fila," ",Columbario.patio) LIKE' => $palabro,
+           'CONCAT(Nicho.numero_nicho, Nicho.letra," ",Nicho.fila," ",Nicho.patio) LIKE' => $palabro,
            'CONCAT(Panteon.familia," ",Panteon.numero_panteon," ",Panteon.patio) LIKE' => $palabro,
           ),
          ),
@@ -734,10 +1055,10 @@ class TumbasController extends AppController {
         }
         
     }
+    
     /**
      * muertos_tumba method
      *
-     * @throws ForbiddenException
      * @return JSON array
      */
     public function muertos_tumba() {
@@ -746,7 +1067,7 @@ class TumbasController extends AppController {
         $palabro = $this->request->query['term'];
         
         //Búsqueda de coincidencias
-        $resultados = $this->Difunto->Tumba->find('first', array(
+        $resultados = $this->Tumba->find('first', array(
          'conditions' => array(
           'Tumba.id' => $palabro,
          ),
@@ -768,19 +1089,22 @@ class TumbasController extends AppController {
         ));
         
         //Procesamiento del resultado de la búsqueda
-        $i = 0;
         $items = array();
         
-        if (!empty($resultados)) {
+        if (empty($resultados)) {
+            //array_push($items, array("label"=>"No hay difuntos en la tumba", "value"=>""));
+        }
+        else {
             foreach($resultados['Difunto'] as $resultado) {
                 array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Persona']['dni'], "value" => $resultado['id']));
             }
         }
+
+        //$this->autoRender = false;
         
-        $this->set('moridos', $items);
+        /*echo*/ json_encode($items);$this->set('moridos', $items);
         
-        $this->layout = 'ajax';
-        $this->render('kk');
+        $this->layout = 'ajax';$this->render('ocupantes');
     }
     
 }

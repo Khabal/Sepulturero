@@ -33,7 +33,7 @@ class Tumba extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -89,14 +89,18 @@ class Tumba extends AppModel {
      *
      * @var array
      */
-    public $order = array();
+    //public $order = array();
     
     /**
      * Virtual fields
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'tipo' => 'Tumba.tipo',
+        'localizacion' => 'Tumba.tipo',
+        'poblacion' => 'Tumba.poblacion',
+    );
     
     /**
      * List of behaviors
@@ -116,8 +120,7 @@ class Tumba extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -141,13 +144,6 @@ class Tumba extends AppModel {
             ),
         ),
         'tipo' => array(
-            'novacio' => array(
-                'rule' => array('notempty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El tipo de tumba no se puede dejar en blanco.',
-            ),
             'lista_estado' => array(
                 'rule' => array('inList', array('Columbario', 'Exterior', 'Nicho', 'Panteón')),
                 'required' => true,
@@ -155,10 +151,31 @@ class Tumba extends AppModel {
                 'on' => null,
                 'message' => 'El tipo de tumba no se encuentra dentro de las opciones posibles.',
             ),
+            'unico_columbario' => array(
+                'rule' => array('valida_columbario'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un columbario con ese número, letra, fila y patio',
+            ),
+            'unico_nicho' => array(
+                'rule' => array('valida_nicho'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un nicho con ese número, letra, fila y patio',
+            ),
+            'unico_panteon' => array(
+                'rule' => array('valida_panteon'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya existe un panteón con esa familia, número y patio',
+            ),
         ),
         'poblacion' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -169,7 +186,7 @@ class Tumba extends AppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'La población de la tumba sólo puede contener caracteres numéricos.',
+                'message' => 'La población de la tumba sólo puede ser un número natural.',
             ),
         ),
         'observaciones' => array(
@@ -181,7 +198,7 @@ class Tumba extends AppModel {
                 'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
             ),
         ),
-	);
+    );
     
     /**
      * ----------------------
@@ -305,6 +322,184 @@ class Tumba extends AppModel {
     }
     
     /**
+     * valida_columbario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_columbario($check) {
+        
+        //Comprobar si se trata de un columbario
+        if ($this->data['Tumba']['tipo'] == "Columbario") {
+            
+            //Extraer el ID del columbario
+            if (isset($this->data['Tumba']['columbario_id'])) {
+                $id = $this->data['Tumba']['columbario_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Extraer datos del columbario
+            $numero = $this->data['Columbario']['numero_columbario'];
+            $letra = $this->data['Columbario']['letra'];
+            $fila = $this->data['Columbario']['fila'];
+            $patio = $this->data['Columbario']['patio'];
+            
+            //Buscar si hay otro columbario con los mismos datos
+            $columbario = $this->Columbario->find('first', array(
+             'conditions' => array(
+              'Columbario.id !=' => $id,
+              'Columbario.numero_columbario' => $numero,
+              'Columbario.letra' => $letra,
+              'Columbario.fila' => $fila,
+              'Columbario.patio' => $patio,
+             ),
+             'fields' => array(
+              'Columbario.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un columbario con los mismos datos
+            if(!empty($columbario['Columbario']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+            //Devolver error
+            return false;
+            
+        }
+        
+        //Devolver válido
+        return true;
+    }
+    
+    /**
+     * valida_nicho method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_nicho($check) {
+        
+        //Comprobar si se trata de un nicho
+        if ($this->data['Tumba']['tipo'] == "Nicho") {
+            
+            //Extraer el ID del nicho
+            if (isset($this->data['Tumba']['nicho_id'])) {
+                $id = $this->data['Tumba']['nicho_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Extraer datos del nicho
+            $numero = $this->data['Nicho']['numero_nicho'];
+            $letra = $this->data['Nicho']['letra'];
+            $fila = $this->data['Nicho']['fila'];
+            $patio = $this->data['Nicho']['patio'];
+            
+            //Buscar si hay otro nicho con los mismos datos
+            $nicho = $this->Nicho->find('first', array(
+             'conditions' => array(
+              'Nicho.id !=' => $id,
+              'Nicho.numero_nicho' => $numero,
+              'Nicho.letra' => $letra,
+              'Nicho.fila' => $fila,
+              'Nicho.patio' => $patio,
+             ),
+             'fields' => array(
+              'Nicho.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un nicho con los mismos datos
+            if(!empty($nicho['Nicho']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+            //Devolver error
+            return false;
+            
+        }
+        
+        //Devolver válido
+        return true;
+    }
+    
+    /**
+     * valida_panteon method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_panteon($check) {
+        
+        //Comprobar si se trata de un panteón
+        if ($this->data['Tumba']['tipo'] == "Panteón") {
+            
+            //Extraer el ID del panteón
+            if (isset($this->data['Tumba']['panteon_id'])) {
+                $id = $this->data['Tumba']['panteon_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Extraer datos del panteón
+            $numero = $this->data['Panteon']['numero_panteon'];
+            $familia = $this->data['Panteon']['familia'];
+            $patio = $this->data['Panteon']['patio'];
+            
+            //Buscar si hay otro panteón con los mismos datos
+            $panteon = $this->Panteon->find('first', array(
+             'conditions' => array(
+              'Panteon.id !=' => $id,
+              'Panteon.numero_panteon' => $numero,
+              'Panteon.familia' => $familia,
+              'Panteon.patio' => $patio,
+             ),
+             'fields' => array(
+              'Panteon.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe un panteón con los mismos datos
+            if(!empty($panteon['Panteon']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+            //Devolver error
+            return false;
+            
+        }
+        
+        //Devolver válido
+        return true;
+    }
+    
+    /**
      * ---------------------------
      * Search Plugin
      * ---------------------------
@@ -317,6 +512,18 @@ class Tumba extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'tipo' => array('type' => 'value'),
+        'Columbario.numero_columbario' => array('type' => 'like', 'field' => 'Columbario.numero_columbario'),
+        'Columbario.letra' => array('type' => 'like', 'field' => 'Columbario.letra'),
+        'Columbario.fila' => array('type' => 'like', 'field' => 'Columbario.fila'),
+        'Columbario.patio' => array('type' => 'like', 'field' => 'Columbario.patio'),
+        'Nicho.numero_nicho' => array('type' => 'like', 'field' => 'Nicho.numero_nicho'),
+        'Nicho.letra' => array('type' => 'like', 'field' => 'Nicho.letra'),
+        'Nicho.fila' => array('type' => 'like', 'field' => 'Nicho.fila'),
+        'Nicho.patio' => array('type' => 'like', 'field' => 'Nicho.patio'),
+        'Panteon.numero_panteon' => array('type' => 'like', 'field' => 'Panteon.numero_panteon'),
+        'Panteon.familia' => array('type' => 'like', 'field' => 'Panteon.familia'),
+        'Panteon.patio' => array('type' => 'like', 'field' => 'Panteon.patio'),
         'clave' => array('type' => 'query', 'method' => 'buscarTumba'),
     );
     

@@ -8,9 +8,7 @@ App::uses('AppModel', 'Model');
  * @property Arrendamiento $Arrendamiento
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
  * @property ArrendatarioPago $ArrendatarioPago
- * @property Funeraria $Funeraria
  * @property Persona $Persona
- * @property Tumba $Tumba
  */
 class Arrendatario extends AppModel {
     
@@ -32,7 +30,7 @@ class Arrendatario extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -95,7 +93,15 @@ class Arrendatario extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'direccion' => 'Arrendatario.direccion',
+        'localidad' => 'Arrendatario.localidad',
+        'provincia' => 'Arrendatario.provincia',
+        'pais' => 'Arrendatario.pais',
+        'codigo_postal' => 'Arrendatario.codigo_postal',
+        'telefono' => 'Arrendatario.telefono',
+        'correo_electronico' => 'Arrendatario.correo_electronico',
+    );
     
     /**
      * List of behaviors
@@ -149,7 +155,7 @@ class Arrendatario extends AppModel {
         ),
         'direccion' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -165,7 +171,7 @@ class Arrendatario extends AppModel {
         ),
         'localidad' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -179,7 +185,7 @@ class Arrendatario extends AppModel {
                 'message' => 'La localidad debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -195,7 +201,7 @@ class Arrendatario extends AppModel {
                 'message' => 'La provincia debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
@@ -204,7 +210,7 @@ class Arrendatario extends AppModel {
         ),
         'pais' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -218,7 +224,7 @@ class Arrendatario extends AppModel {
                 'message' => 'El país debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -227,7 +233,7 @@ class Arrendatario extends AppModel {
         ),
         'codigo_postal' => array(
             'novacio' => array(
-                'rule' => array('notempty'),
+                'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -312,7 +318,7 @@ class Arrendatario extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -323,7 +329,7 @@ class Arrendatario extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -363,9 +369,6 @@ class Arrendatario extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Añadir campos virtuales de "Persona"
-        //$this->virtualFields += $this->Persona->virtualFields;
-        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -383,6 +386,17 @@ class Arrendatario extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'nombre' => array('type' => 'like', 'field' => 'Persona.nombre'),
+        'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
+        'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
+        'direccion' => array('type' => 'like'),
+        'localidad' => array('type' => 'like'),
+        'provincia' => array('type' => 'like'),
+        'pais' => array('type' => 'like'),
+        'codigo_postal' => array('type' => 'like'),
+        'telefono' => array('type' => 'like'),
+        'correo_electronico' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
     );
     

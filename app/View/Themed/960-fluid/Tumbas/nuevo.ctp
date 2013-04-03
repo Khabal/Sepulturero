@@ -1,23 +1,27 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('tumbas'); ?>
 </div>
 
 <?php
  /*
  echo '<pre>';
  print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
  */
 ?>
 
 <script>
  $(document).ready(function(){
+   var seleccionado = $("#TumbaTipo").val();
+   
+   /* Mostrar campos del formulario adecuados a cada tipo de tumba */
    $("#TumbaTipo").change(function(event, ui) {
      event.preventDefault();
      if (seleccionado != $("#TumbaTipo").val()) {
-       var seleccionado = $("#TumbaTipo").val();
+       seleccionado = $("#TumbaTipo").val();
        if (seleccionado == "Columbario") {
          $("#Columbario").show(),
          $("#Nicho").hide(),
@@ -42,28 +46,26 @@
    });
    
    /* Mostrar campos adecuados si se recarga */
-   if (seleccionado != undefined) {
-     if (seleccionado == "Columbario") {
-       $("#Columbario").show(),
-       $("#Nicho").hide(),
-       $("#Panteon").hide()
-     }
-       else if (seleccionado == "Nicho") {
-         $("#Columbario").hide(),
-         $("#Nicho").show(),
-         $("#Panteon").hide()
-       }
-       else if (seleccionado == "Panteón") {
-         $("#Columbario").hide(),
-         $("#Nicho").hide(),
-         $("#Panteon").show()
-       }
-       else {
-         $("#Columbario").hide(),
-         $("#Nicho").hide(),
-         $("#Panteon").hide()
-       }
-       }
+   if (seleccionado == "Columbario") {
+     $("#Columbario").show(),
+     $("#Nicho").hide(),
+     $("#Panteon").hide()
+   }
+   else if (seleccionado == "Nicho") {
+     $("#Columbario").hide(),
+     $("#Nicho").show(),
+     $("#Panteon").hide()
+   }
+   else if (seleccionado == "Panteón") {
+     $("#Columbario").hide(),
+     $("#Nicho").hide(),
+     $("#Panteon").show()
+   }
+   else {
+     $("#Columbario").hide(),
+     $("#Nicho").hide(),
+     $("#Panteon").hide()
+   }
    
  });
 </script>
@@ -76,30 +78,30 @@
    <?php /* Campos */
     echo $this->Form->input('Tumba.tipo', array('label' => 'Tipo de tumba:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
    ?>
-   <div id="Columbario" <?php //if(!empty($this->request->data['Tumba']['tipo'])) { if($this->request->data['Tumba']['tipo'] == "Columbario") {} } else {echo 'style="display:none;"';} ?>>
+   <div id="Columbario" style="display:none;">
     <?php
      /* Campos nuevo columbario */
-     echo $this->Form->input('Columbario.numero_columbario', array('label' => 'Número de columbario:'));
-     echo $this->Form->input('Columbario.letra', array('label' => 'Letra:'));
-     echo $this->Form->input('Columbario.fila', array('label' => 'Fila:'));
-     echo $this->Form->input('Columbario.patio', array('label' => 'Patio:'));
+     echo $this->Form->input('Columbario.numero_columbario', array('label' => 'Número de columbario:', 'required' => false));
+     echo $this->Form->input('Columbario.letra', array('label' => 'Letra:', 'required' => false));
+     echo $this->Form->input('Columbario.fila', array('label' => 'Fila:', 'required' => false));
+     echo $this->Form->input('Columbario.patio', array('label' => 'Patio:', 'required' => false));
     ?>
    </div>
-   <div id="Nicho" <?php if($this->request->data) { if($this->request->data['Tumba']['tipo'] != "Nicho") {echo 'style="display:none;"';} } else {echo 'style="display:none;"';} ?>>
+   <div id="Nicho" style="display:none;">
     <?php
      /* Campos nuevo nicho */
-     echo $this->Form->input('Nicho.numero_nicho', array('label' => 'Número de nicho:'));
-     echo $this->Form->input('Nicho.letra', array('label' => 'Letra:'));
-     echo $this->Form->input('Nicho.fila', array('label' => 'Fila:'));
-     echo $this->Form->input('Nicho.patio', array('label' => 'Patio:'));
+     echo $this->Form->input('Nicho.numero_nicho', array('label' => 'Número de nicho:', 'required' => false));
+     echo $this->Form->input('Nicho.letra', array('label' => 'Letra:', 'required' => false));
+     echo $this->Form->input('Nicho.fila', array('label' => 'Fila:', 'required' => false));
+     echo $this->Form->input('Nicho.patio', array('label' => 'Patio:', 'required' => false));
     ?>
    </div>
-   <div id="Panteon" <?php if($this->request->data) { if($this->request->data['Tumba']['tipo'] != "Panteón") {echo 'style="display:none;"';} } else {echo 'style="display:none;"';} ?>>
+   <div id="Panteon" style="display:none;">
     <?php
      /* Campos nuevo panteón */
-     echo $this->Form->input('Panteon.numero_panteon', array('label' => 'Número de panteón:'));
-     echo $this->Form->input('Panteon.familia', array('label' => 'Familia:'));
-     echo $this->Form->input('Panteon.patio', array('label' => 'Patio:'));
+     echo $this->Form->input('Panteon.numero_panteon', array('label' => 'Número de panteón:', 'required' => false));
+     echo $this->Form->input('Panteon.familia', array('label' => 'Familia:', 'required' => false));
+     echo $this->Form->input('Panteon.patio', array('label' => 'Patio:', 'required' => false));
     ?>
    </div>
    <?php

@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('tumbas'); ?>
 </div>
 
 <?php
@@ -34,21 +34,21 @@
      <td><?php echo h($tumba['Tumba']['tipo']); ?>&nbsp;</td>
      <?php /* Obtener la localización de tumba */
       $localizacion = "";
-      if (!empty($tumba['Tumba']['Columbario'])) {
-       $localizacion = $tumba['Tumba']['Columbario']['localizacion'];
+      if (!empty($tumba['Columbario']['localizacion'])) {
+       $localizacion = $tumba['Columbario']['localizacion'];
       }
-      elseif(!empty($tumba['Tumba']['Exterior'])) {
-       $localizacion = $tumba['Tumba']['Exterior']['localizacion'];
+      elseif(!empty($tumba['Exterior']['localizacion'])) {
+       $localizacion = $tumba['Exterior']['localizacion'];
       }
-      elseif(!empty($tumba['Tumba']['Nicho'])) {
-       $localizacion = $tumba['Tumba']['Nicho']['localizacion'];
+      elseif(!empty($tumba['Nicho']['localizacion'])) {
+       $localizacion = $tumba['Nicho']['localizacion'];
       }
-      elseif(!empty($tumba['Tumba']['Panteon'])) {
-       $localizacion = $tumba['Tumba']['Panteon']['localizacion'];
+      elseif(!empty($tumba['Panteon']['localizacion'])) {
+       $localizacion = $tumba['Panteon']['localizacion'];
       }
      ?>
      <td>
-      <?php if (strlen($localizacion) > 0): ?>
+      <?php if (!empty($localizacion)): ?>
        <?php echo $this->Html->link($localizacion, array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id'])); ?>
       <?php else: ?>
        Sin información
@@ -56,7 +56,7 @@
      </td>
      <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $localizacion); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('tumbas', $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $localizacion); ?>
      </td>
     </tr>
    <?php endforeach; ?>

@@ -88,14 +88,14 @@ class DifuntosController extends AppController {
      *
      * @var array
      */
-    public $methods = array('index', 'nuevo', 'ver', 'buscar', 'editar', 'imprimir', 'pdf');
+    public $methods = array('index', 'nuevo', 'ver', 'buscar', 'editar', 'imprimir', 'exportar_pdf');
     
     /**
      * Uses
      *
      * @var array
      */
-    public $uses = array('Difunto', 'DifuntoTraslado', 'Enterramiento', 'Persona', 'Traslado', 'Tumba', 'Sanitize');
+    public $uses = array('Difunto', 'DifuntoMovimiento', 'Forense', 'Persona', 'Tumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -130,7 +130,13 @@ class DifuntosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Difunto',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -139,10 +145,10 @@ class DifuntosController extends AppController {
      */
     public $opciones_guardado = array(
         'atomic' => true,
-        'deep' => false,
+        'deep' => true,
         'fieldList' => array(
-            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
-            'Difunto' => array('id', 'persona_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad_defuncion', 'causa_defuncion'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
+            'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'causa_fallecimiento', 'certificado_defuncion'),
             'Tumba' => array('id', 'poblacion'),
         ),
         'validate' => false,
@@ -199,6 +205,7 @@ class DifuntosController extends AppController {
            ),
           ),
          ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -216,6 +223,9 @@ class DifuntosController extends AppController {
         //Devolver las opciones de selección de estados del cuerpo
         $this->set('estado', $this->Difunto->estado);
         
+        //Devolver las opciones de selección de sexo
+        $this->set('sexo', $this->Difunto->Persona->sexo);
+        
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
             
@@ -228,13 +238,10 @@ class DifuntosController extends AppController {
             //Comprobar si ha introducido un DNI
             if (!empty($this->request->data['Persona']['dni'])) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-                
                 //Buscar si existe ya una persona con el mismo DNI
                 $persona = $this->Difunto->Persona->find('first', array(
                  'conditions' => array(
-                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                  'Persona.dni' => strtoupper($this->request->data['Persona']['dni']),
                  ),
                  'fields' => array(
                   'Persona.id'
@@ -250,21 +257,35 @@ class DifuntosController extends AppController {
                 }
                 
             }
+            else {
+                unset($this->Difunto->Persona->validate['dni']);
+            }
+            
+            //Limpiar el ID de tumba si se ha borrado
+            if (empty($this->request->data['Difunto']['tumba_bonita'])) {
+                $this->request->data['Difunto']['tumba_id'] = null;
+            }
+            
+            //Comprobar si se ha introducido una tumba
+            if (!empty($this->request->data['Difunto']['tumba_id'])) {
+                unset($this->Difunto->Tumba->validate['tipo']);
+                //Aumentar la población de la tumba
+                $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
+                $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
+            }
+            else {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['tumba_id'] = null;
+            }
+            
+            //Indicar que se trata de un difunto
+            $this->request->data['Persona']['difunto_id'] = '';
             
             //Validar los datos introducidos
             if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Comprobar si se ha introducido una tumba
-                if (!empty($this->request->data['Difunto']['tumba_id'])) {
-                    
-                    //Aumentar la población de la tumba
-                    $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
-                    $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
-                }
-                else {
-                    //Truco del almendruco para evitar errores de validación
-                    $this->request->data['Difunto']['tumba_id'] = null;
-                }
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -289,9 +310,27 @@ class DifuntosController extends AppController {
     }
     
     /**
+     * aux_comp_ver method
+     *
+     * @param object $a
+     * @param object $b
+     * @return int
+     */
+    private function aux_comp_ver($a, $b) {
+        if ($a["Movimiento"]["fecha"] == $b["Movimiento"]["fecha"]) {
+            return 0;
+        }
+        elseif ($a["Movimiento"]["fecha"] > $b["Movimiento"]["fecha"]) {
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    }
+    
+    /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -314,7 +353,7 @@ class DifuntosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.sexo', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'Tumba' => array(
@@ -342,44 +381,9 @@ class DifuntosController extends AppController {
             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
            ),
           ),
-          'Enterramiento' => array(
-           'Tumba' => array(
-            'Columbario' => array(
-             'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
-             ),
-            ),
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo'
-            ),
-           ),
-           'Licencia' => array(
-            'fields' => array(
-             'Licencia.id', 'Licencia.identificador'
-            ),
-           ),
-           'fields' => array(
-            'Enterramiento.id', 'Enterramiento.difunto_id', 'Enterramiento.licencia_id', 'Enterramiento.tumba_id', 'Enterramiento.fecha'
-           ),
-          ),
-          'DifuntoTraslado' => array(
-           'Traslado' => array(
-            'TrasladoTumba' => array(
+          'DifuntoMovimiento' => array(
+           'Movimiento' => array(
+            'MovimientoTumba' => array(
              'Tumba' => array(
               'Columbario' => array(
                'fields' => array(
@@ -405,14 +409,20 @@ class DifuntosController extends AppController {
                'Tumba.id', 'Tumba.tipo'
               ),
              ),
+             'fields' => array(
+              'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id', 'MovimientoTumba.origen_destino'
+             ),
             ),
             'fields' => array(
-             'Traslado.id', 'Traslado.fecha', 'Traslado.cementerio_origen', 'Traslado.cementerio_destino', 'Traslado.motivo'
+             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.tipo', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
            ),
           ),
          ),
         ));
+        
+        //Ordenar los movimientos por fecha
+        usort($difunto['DifuntoMovimiento'], array($this, 'aux_comp_ver'));
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
@@ -427,15 +437,20 @@ class DifuntosController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Devolver las opciones de selección de estados del cuerpo
+        $this->set('estado', $this->Difunto->estado);
+        
+        //Devolver las opciones de selección de sexo
+        $this->set('sexo', $this->Difunto->Persona->sexo);
+        
+        //Eliminar reglas de validación
+        unset($this->Difunto->validate);
+        
     }
     
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -443,6 +458,9 @@ class DifuntosController extends AppController {
         
         //Devolver las opciones de selección de estados del cuerpo
         $this->set('estado', $this->Difunto->estado);
+        
+        //Devolver las opciones de selección de sexo
+        $this->set('sexo', $this->Difunto->Persona->sexo);
         
         //Asignar id
         $this->Difunto->id = $id;
@@ -459,53 +477,67 @@ class DifuntosController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Convertir a mayúsculas el carácter del DNI
-            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-            
             //Cargar datos de la sesión
-            $this->request->data['Difunto']['id'] = $this->Session->read('Difunto.id');
             $this->request->data['Persona']['id'] = $this->Session->read('Difunto.persona_id');
+            $this->request->data['Persona']['difunto_id'] = $id;
+            $this->request->data['Difunto']['id'] = $id;
             $this->request->data['Difunto']['persona_id'] = $this->Session->read('Difunto.persona_id');
             
-            //Comprobar si se ha introducido una tumba
-            if (!empty($this->request->data['Difunto']['tumba_id'])) {echo "kk1 ";
-                //Controlar la población de la tumba
-                $chapuza = $this->Session->read('Difunto.tumba_id');
-                if ($this->request->data['Difunto']['tumba_id'] != $chapuza) {echo "kk2 ";
-                    if (!empty($chapuza)) {echo "kk3 ";
-                        $this->request->data['Tumba'][0]['id'] = $this->request->data['Difunto']['tumba_id'];
-                        $this->request->data['Tumba'][0]['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) - 1;
-                        $this->request->data['Tumba'][1]['id'] = $chapuza;
-                        $this->request->data['Tumba'][1]['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $chapuza)) + 1;
-                    }
-                    else {echo "kk4 ";
-                        $this->request->data['Tumba'][0]['id'] = $this->request->data['Difunto']['tumba_id'];
-                        $this->request->data['Tumba'][0]['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
-                    }
-                }
-            }
-            else {
-                //Truco del almendruco para evitar errores de validación
-                $this->request->data['Difunto']['tumba_id'] = NULL;
+            //Limpiar el ID de tumba si se ha borrado
+            if (empty($this->request->data['Difunto']['tumba_bonita'])) {
+                $this->request->data['Difunto']['tumba_id'] = null;
             }
             
-            //Validar los datos introducidos
-            if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
-                
-                //Comprobar si se ha introducido una tumba
-                if (!empty($this->request->data['Difunto']['tumba_id'])) {
-                    
-                    //Aumentar la población de la tumba
-                    $this->request->data['Tumba']['id'] = $this->request->data['Difunto']['tumba_id'];
-                    $this->request->data['Tumba']['población'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['Difunto']['tumba_id'])) + 1;
+            //Controlar la población de la tumba
+            unset($this->Difunto->Tumba->validate['tipo']);
+            $tum_vieja = $this->Session->read('Difunto.tumba_id');
+            $tum_nueva = $this->request->data['Difunto']['tumba_id'];
+            
+            //Comprobar si la tumba vieja y la nueva son distintas
+            if ($tum_nueva != $tum_vieja) {
+                //La tumba vieja estaba vacía (sin asignar) pero la nueva no
+                if (empty($tum_vieja) && !empty($tum_nueva)) {
+                    $this->request->data['Tumba']['id'] = $tum_nueva;
+                    $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
+                }
+                //La tumba vieja no estaba vacía (asignada) y la nueva tampoco
+                elseif (!empty($tum_vieja) && !empty($tum_nueva)) {
+                    $this->request->data['Tumba']['id'] = $tum_nueva;
+                    $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
+                    $datos_extra['Tumba']['id'] = $tum_vieja;
+                    $datos_extra['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
+//$this->request->data[0]['Difunto'] = $this->request->data['Difunto'];
+//unset($this->request->data['Difunto']);
+//$this->request->data[0]['Persona'] = $this->request->data['Persona'];
+//unset($this->request->data['Persona']);
+                }
+                //La tumba vieja no estaba vacía (asignada) pero la nueva si
+                elseif (!empty($tum_vieja) && empty($tum_nueva)) {
+                    $this->request->data['Tumba']['id'] = $tum_vieja;
+                    $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
                 }
                 else {
                     //Truco del almendruco para evitar errores de validación
                     $this->request->data['Difunto']['tumba_id'] = null;
                 }
+            }
+            
+            //Validar los datos introducidos
+            if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    //Establecer el ID de tumba a nulo aquí porque antes se lo pasa por los cojones
+                    if (empty($tum_nueva)) {
+                        $this->Difunto->query("UPDATE difuntos SET tumba_id = null WHERE id = '" . $id . "'");
+                    }
+                    //Guardar la información de la tumba antigua en el caso de haber cambiado la tumba
+                    if (isset($datos_extra)) {
+                        $this->Difunto->Tumba->saveAssociated($datos_extra, $this->opciones_guardado);
+                    }
                     $this->Session->setFlash(__('El difunto ha sido actualizado correctamente.'));
                     //Borrar datos de sesión
                     $this->Session->delete('Difunto');
@@ -527,6 +559,13 @@ class DifuntosController extends AppController {
               'Difunto.id' => $id
              ),
              'contain' => array(
+              'Forense' => array(
+               'Persona' => array(
+                'fields' => array(
+                 'Persona.id', 'Persona.nombre_completo'
+                ),
+               ),
+              ),
               'Persona' => array(
               ),
               'Tumba' => array(
@@ -558,24 +597,29 @@ class DifuntosController extends AppController {
             ));
             
             //Devolver nombres bonitos para entidades relacionadas
-            if ($this->request->data['Difunto']['fecha_defuncion']) {
+            $this->request->data['Difunto']['forense_bonito'] = $this->request->data['Forense']['Persona']['nombre_completo'] . " - " . $this->request->data['Forense']['numero_colegiado'] . " (" . $this->request->data['Forense']['colegio'] . ")";
+            unset($this->request->data['Forense']);
+            
+            
+            if (!empty($this->request->data['Difunto']['fecha_defuncion'])) {
                 $this->request->data['Difunto']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Difunto']['fecha_defuncion']));
             }
             
-            if ($this->request->data['Tumba']) {
-                $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - ";
-                if ($this->request->data['Tumba']['Columbario']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Columbario']['localizacion'];
+            if (!empty($this->request->data['Difunto']['tumba_id'])) {
+                $localizacion = "";
+                if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Columbario']['localizacion'];
                 }
-                elseif ($this->request->data['Tumba']['Exterior']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Exterior']['localizacion'];
+                elseif(!empty($this->request->data['Tumba']['Exterior']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Exterior']['localizacion'];
                 }
-                elseif ($this->request->data['Tumba']['Nicho']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Nicho']['localizacion'];
+                elseif(!empty($this->request->data['Tumba']['Nicho']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Nicho']['localizacion'];
                 }
-                elseif ($this->request->data['Tumba']['Panteon']) {
-                    $this->request->data['Difunto']['tumba_bonita'] .= $this->request->data['Tumba']['Panteon']['localizacion'];
+                elseif(!empty($this->request->data['Tumba']['Panteon']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Panteon']['localizacion'];
                 }
+                $this->request->data['Difunto']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $localizacion;
             }
             
             //Guardar los datos de sesión del difunto
@@ -591,7 +635,6 @@ class DifuntosController extends AppController {
     /**
      * print method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -614,7 +657,7 @@ class DifuntosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.sexo', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'Tumba' => array(
@@ -642,44 +685,9 @@ class DifuntosController extends AppController {
             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
            ),
           ),
-          'Enterramiento' => array(
-           'Tumba' => array(
-            'Columbario' => array(
-             'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
-             ),
-            ),
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo'
-            ),
-           ),
-           'Licencia' => array(
-            'fields' => array(
-             'Licencia.id', 'Licencia.identificador'
-            ),
-           ),
-           'fields' => array(
-            'Enterramiento.id', 'Enterramiento.difunto_id', 'Enterramiento.licencia_id', 'Enterramiento.tumba_id', 'Enterramiento.fecha'
-           ),
-          ),
-          'DifuntoTraslado' => array(
-           'Traslado' => array(
-            'TrasladoTumba' => array(
+          'DifuntoMovimiento' => array(
+           'Movimiento' => array(
+            'MovimientoTumba' => array(
              'Tumba' => array(
               'Columbario' => array(
                'fields' => array(
@@ -705,9 +713,12 @@ class DifuntosController extends AppController {
                'Tumba.id', 'Tumba.tipo'
               ),
              ),
+             'fields' => array(
+              'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id', 'MovimientoTumba.origen_destino'
+             ),
             ),
             'fields' => array(
-             'Traslado.id', 'Traslado.fecha', 'Traslado.cementerio_origen', 'Traslado.cementerio_destino', 'Traslado.motivo'
+             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.tipo', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
            ),
           ),
@@ -717,20 +728,25 @@ class DifuntosController extends AppController {
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $difunto['Persona']['nombre_completo'] . " - " . $difunto['Persona']['dni'];
         $this->pdfConfig['filename'] = "Difunto_" . $difunto['Persona']['dni'] . ".pdf";
-        //$this->pdfConfig['engine'] = 'CakePdf.Tcpdf';
-        //Redireccionar para la generación
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('difunto'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
     /**
      * export pdf method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -753,7 +769,7 @@ class DifuntosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.sexo', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'Tumba' => array(
@@ -781,44 +797,9 @@ class DifuntosController extends AppController {
             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
            ),
           ),
-          'Enterramiento' => array(
-           'Tumba' => array(
-            'Columbario' => array(
-             'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
-             ),
-            ),
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo'
-            ),
-           ),
-           'Licencia' => array(
-            'fields' => array(
-             'Licencia.id', 'Licencia.identificador'
-            ),
-           ),
-           'fields' => array(
-            'Enterramiento.id', 'Enterramiento.difunto_id', 'Enterramiento.licencia_id', 'Enterramiento.tumba_id', 'Enterramiento.fecha'
-           ),
-          ),
-          'DifuntoTraslado' => array(
-           'Traslado' => array(
-            'TrasladoTumba' => array(
+          'DifuntoMovimiento' => array(
+           'Movimiento' => array(
+            'MovimientoTumba' => array(
              'Tumba' => array(
               'Columbario' => array(
                'fields' => array(
@@ -844,9 +825,12 @@ class DifuntosController extends AppController {
                'Tumba.id', 'Tumba.tipo'
               ),
              ),
+             'fields' => array(
+              'MovimientoTumba.id', 'MovimientoTumba.movimiento_id', 'MovimientoTumba.tumba_id', 'MovimientoTumba.origen_destino'
+             ),
             ),
             'fields' => array(
-             'Traslado.id', 'Traslado.fecha', 'Traslado.cementerio_origen', 'Traslado.cementerio_destino', 'Traslado.motivo'
+             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.tipo', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
             ),
            ),
           ),
@@ -855,12 +839,21 @@ class DifuntosController extends AppController {
         
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $difunto['Persona']['nombre_completo'] . " - " . $difunto['Persona']['dni'];
-        $this->pdfConfig['download'] = true;
         $this->pdfConfig['filename'] = "Difunto_" . $difunto['Persona']['dni'] . ".pdf";
+        $this->pdfConfig['download'] = true;
+        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('difunto'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -887,19 +880,51 @@ class DifuntosController extends AppController {
             throw new NotFoundException(__('El difunto especificado no existe.'));
         }
         
-//Comprobar si la persona está asociada a algún arrendatario para en caso contraria eliminarla tmabién
-        //Borrar y comprobar éxito
-        if ($this->Difunto->delete()) {
-            $this->Session->setFlash(__('El difunto ha sido eliminado correctamente.'));
-            //Redireccionar a index
-            $this->redirect(array('action' => 'index'));
+        //Comprobar si el difunto está asignado a alguna tumba
+        $tumba = $this->Difunto->field('tumba_id', array('Difunto.id' => $id));
+        
+        //Actualizar la población de la tumba
+        if (!empty($tumba)) {
+            unset($this->Difunto->Tumba->validate['tipo']);
+            $datos['Tumba']['id'] = $tumba;
+            $datos['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tumba)) - 1;
+            $this->Difunto->Tumba->saveAssociated($datos, $this->opciones_guardado);
         }
         
-        $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser eliminado.'));
+        //Comprobar si la persona está asociada con algún arrendatario o médico forense para en caso contrario eliminarlo también
+        $persona = $this->Difunto->field('persona_id', array('Difunto.id' => $id));
+        $arrendatario = $this->Difunto->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
+        $forense = $this->Difunto->Persona->Forense->field('id', array('Forense.persona_id' => $persona));
+        
+        if (empty($arrendatario) && empty($forense)) {
+            //Borrar y comprobar éxito (Persona y Difunto)
+            if ($this->Difunto->Persona->delete($persona)) {
+                $this->Session->setFlash(__('El difunto ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser eliminado.'));
+            }
+        }
+        else {
+            //Borrar y comprobar éxito (Difunto)
+            if ($this->Difunto->delete()) {
+                $this->Session->setFlash(__('El difunto ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El difunto no ha podido ser eliminado.'));
+            }
+        }
+        
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         
     }
+    
+    /**
+     * ---------------------------
+     * Extra Controller Actions
+     * ---------------------------
+     */
     
     /**
      * autocomplete method
@@ -913,27 +938,6 @@ class DifuntosController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Difunto->find('all', array(
-         'joins' => array(
-          array(
-           'table' => 'personas',
-           'alias' => 'Persona',
-           'type' => 'LEFT',
-           'foreignKey' => false,
-           'conditions' => array(
-            'Persona.id = Difunto.persona_id'
-           ),
-          ),
-         ),
-         'conditions' => array(
-          'OR' => array(
-           'Persona.dni LIKE' => $palabro,
-           'Persona.nombre LIKE' => $palabro,
-           'Persona.apellido1 LIKE' => $palabro,
-           'Persona.apellido2 LIKE' => $palabro,
-           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro,
-           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
-          ),
-         ),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -941,8 +945,15 @@ class DifuntosController extends AppController {
            ),
           ),
          ),
-         'fields' => array(
-          'Difunto.id', 'Difunto.persona_id'
+         'conditions' => array(
+          'OR' => array(
+           'Persona.dni LIKE' => $palabro,
+           'Persona.nombre LIKE' => $palabro,
+           'Persona.apellido1 LIKE' => $palabro, 
+           'Persona.apellido2 LIKE' => $palabro, 
+           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro, 
+           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro, 
+          ),
          ),
          'limit' => 20,
         ));

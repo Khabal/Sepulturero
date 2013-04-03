@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $arrendatario['Arrendatario']['id'], $arrendatario['Persona']['nombre_completo']); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendatarios', $arrendatario['Arrendatario']['id'], $arrendatario['Persona']['nombre_completo']); ?>
 </div>
 
 <?php
@@ -12,6 +12,8 @@
  */
 ?>
 
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+
 <?php /* Datos arrendatario */ ?>
 <div class="view box">
  <h2><?php echo __('Datos del arrendatario'); ?></h2>
@@ -20,6 +22,17 @@
   <dd><?php echo h($arrendatario['Persona']['nombre_completo']); ?>&nbsp;</dd>
   <dt><?php echo __('D.N.I.'); ?>:</dt>
   <dd><?php echo h($arrendatario['Persona']['dni']); ?>&nbsp;</dd>
+  <dt><?php echo __('Nacionalidad'); ?>:</dt>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Persona']['nacionalidad'])) {
+     echo h($arrendatario['Persona']['nacionalidad']);
+    }
+    else {
+     echo h("Desconocida");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Dirección'); ?>:</dt>
   <dd><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</dd>
   <dt><?php echo __('Localidad'); ?>:</dt>
@@ -137,14 +150,15 @@
 <?php /* Arrendamientos relacionados */ ?>
 <div class="related box">
  <h2><?php echo __('Tumbas arrendadas'); ?></h2>
-  <?php if (!empty($arrendatario['ArrendatarioTumba'])): ?>
+  <?php if (!empty($arrendatario['Arrendamiento'])): ?>
   <table cellpadding = "0" cellspacing = "0">
    <?php /* Cabecera de la tabla */ ?>
    <thead>
     <tr>
      <th><?php echo __('Fecha de arrendamiento'); ?></th>
      <th><?php echo __('Estado arrendamiento'); ?></th>
-     <th><?php echo __('Identificación de tumba'); ?></th>
+     <th><?php echo __('Tipo de tumba'); ?></th>
+     <th><?php echo __('Localización'); ?></th>
      <th><?php echo __('Población de la tumba'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
@@ -152,26 +166,13 @@
    <?php /* Listado de tumbas */ ?>
    <tbody>
     <?php $i = 0; ?>
-    <?php foreach ($arrendatario['ArrendatarioTumba'] as $tumba): ?>
+    <?php foreach ($arrendatario['Arrendamiento'] as $tumba): ?>
      <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
      <tr<?php echo $class; ?>>
       <td><?php echo date('d/m/Y', strtotime($tumba['fecha_arrendamiento'])); ?>&nbsp;</td>
       <td><?php echo h($tumba['estado']); ?>&nbsp;</td>
-      <td><?php echo h($tumba['Tumba']['tipo']) . " - ";
-       if ($tumba['Tumba']['Columbario']) {
-        echo h($tumba['Tumba']['Columbario']['localizacion']);
-       }
-       elseif ($tumba['Tumba']['Exterior']) {
-        echo h($tumba['Tumba']['Exterior']['localizacion']);
-       }
-       elseif ($tumba['Tumba']['Nicho']) {
-        echo h($tumba['Tumba']['Nicho']['localizacion']);
-       }
-       elseif ($tumba['Tumba']['Panteon']) {
-        echo h($tumba['Tumba']['Panteon']['localizacion']);
-       }
-       ?>&nbsp;
-      </td>
+      <td><?php echo h($tumba['Tumba']['tipo']); ?>&nbsp;</td>
+      <td><?php echo h($tumba['Tumba'][$tumba['Tumba']['tipo']]['localizacion']); ?>&nbsp;</td>
       <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
       <td class="actions">
        <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id']), array('escape' => false)); ?>
@@ -183,4 +184,5 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>

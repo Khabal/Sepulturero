@@ -91,7 +91,7 @@ class Columbario extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'localizacion' => 'CONCAT("Número: ", Columbario.numero_columbario, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio)'
+        'localizacion' => 'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio)'
     );
     
     /**
@@ -112,8 +112,7 @@ class Columbario extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -127,56 +126,109 @@ class Columbario extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tumba_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'numero_columbario' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fila' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'patio' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de columbario.',
+            ),
+        ),
+        'tumba_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de tumba.',
+            ),
+        ),
+        'numero_columbario' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de columbario no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 1, 4),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de columbario debe tener entre 1 y 4 caracteres.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de columbario sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'letra' => array(
+            'longitud' => array(
+                'rule' => array('maxLength', 1),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La letra de columbario debe tener 1 caracteres como máximo.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑ]{1}$/i',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La letra de columbario sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'fila' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fila no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 1, 2),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fila debe tener entre 1 y 2 caracteres.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fila sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'patio' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El patio no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 1, 2),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El patio debe tener entre 1 y 2 caracteres.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El patio sólo puede contener caracteres numéricos.',
+            ),
+        ),
     );
     
     /**

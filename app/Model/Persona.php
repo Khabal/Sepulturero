@@ -29,7 +29,7 @@ class Persona extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -93,6 +93,7 @@ class Persona extends AppModel {
      * @var array
      */
     public $virtualFields = array(
+        'dni' => 'Persona.dni',
         'nombre_completo' => 'CONCAT(Persona.nombre, " ", Persona.apellido1, " ", Persona.apellido2)',
     );
     
@@ -157,7 +158,7 @@ class Persona extends AppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El D.N.I./N.I.E. introducido no es válido (Ejemplo: 12345678X)',
+                'message' => 'El D.N.I./N.I.E. introducido no es válido (Ejemplo: 12345678X).',
             ),
             'unico_arrendatario' => array(
                 'rule' => array('valida_arrendatario'),
@@ -197,7 +198,7 @@ class Persona extends AppModel {
                 'message' => 'El nombre debe tener entre 2 y 100 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -220,7 +221,7 @@ class Persona extends AppModel {
                 'message' => 'El primer apellido debe tener entre 2 y 100 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -236,11 +237,36 @@ class Persona extends AppModel {
                 'message' => 'El segundo apellido debe tener entre 2 y 100 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El segundo apellido sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'sexo' => array(
+            'lista_sexo' => array(
+                'rule' => array('inList', array('Desconocido', 'Hombre', 'Mujer')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tratamiento de la persona no se encuentra dentro de las opciones posibles.',
+            ),
+        ),
+        'nacionalidad' => array(
+            'longitud' => array(
+                'rule' => array('between', 2, 25),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La nacionalidad debe tener entre 2 y 25 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La nacionalidad sólo puede contener caracteres alfabéticos.',
             ),
         ),
         'observaciones' => array(
@@ -307,6 +333,13 @@ class Persona extends AppModel {
      * @return class object
      */
     public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Vector de estados del cuerpo de un difunto
+        $this->sexo = array(
+            'Desconocido' => __('Desconocido', true),
+            'Hombre' => __('Hombre', true),
+            'Mujer' => __('Mujer', true),
+        );
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
@@ -392,53 +425,60 @@ class Persona extends AppModel {
      */
     public function valida_arrendatario($check) {
         
-        //Extraer el DNI del vector
-        $cif = (string) $check['dni'];
-        
-        //Convertir a mayúsculas
-        $cif = strtoupper($cif);
-        
-        //Extraer el ID del arrendatario
+        //Comprobar si se trata de un arrendatario
         if (isset($this->data['Persona']['arrendatario_id'])) {
-            $id = $this->data['Persona']['arrendatario_id'];
-        }
-        else {
-            $id = '';
-        }
-        
-        //Buscar si hay otro arrendatario con el mismo DNI
-        $persona = $this->find('first', array(
-         'conditions' => array(
-          'Persona.dni' => $cif,
-         ),
-         'fields' => array(
-          'Persona.id'
-         ),
-         'contain' => array(
-          'Arrendatario' => array(
-           'conditions' => array(
-            'Arrendatario.id !=' => $id,
-           ),
-           'fields' => array(
-            'Arrendatario.id', 'Arrendatario.persona_id'
-           ),
-          ),
-         ),
-        ));
-        
-        //Comprobar si existe un arrendatario con el mismo DNI
-        if(!empty($persona['Arrendatario']['id'])) {
+            
+            //Extraer el DNI del vector
+            $cif = (string) $check['dni'];
+            
+            //Convertir a mayúsculas
+            $cif = strtoupper($cif);
+            
+            //Extraer el ID del arrendatario
+            if (!empty($this->data['Persona']['arrendatario_id'])) {
+                $id = $this->data['Persona']['arrendatario_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Buscar si hay otro arrendatario con el mismo DNI
+            $persona = $this->find('first', array(
+             'conditions' => array(
+              'Persona.dni' => $cif,
+             ),
+             'fields' => array(
+              'Persona.id'
+             ),
+             'contain' => array(
+              'Arrendatario' => array(
+               'conditions' => array(
+                'Arrendatario.id !=' => $id,
+               ),
+               'fields' => array(
+                'Arrendatario.id', 'Arrendatario.persona_id'
+               ),
+              ),
+             ),
+            ));
+            
+            //Comprobar si existe un arrendatario con el mismo DNI
+            if(!empty($persona['Arrendatario']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
             //Devolver error
             return false;
-        }
-        else{
-            //Devolver válido
-            return true;
+            
         }
         
-        //Devolver error
-        return false;
-        
+        //Devolver válido
+        return true;
     }
     
     /**
@@ -449,53 +489,60 @@ class Persona extends AppModel {
      */
     public function valida_difunto($check) {
         
-        //Extraer el DNI del vector
-        $cif = (string) $check['dni'];
-        
-        //Convertir a mayúsculas
-        $cif = strtoupper($cif);
-        
-        //Extraer el ID del difunto
+        //Comprobar si se trata de un difunto
         if (isset($this->data['Persona']['difunto_id'])) {
-            $id = $this->data['Persona']['difunto_id'];
-        }
-        else {
-            $id = '';
-        }
-        
-        //Buscar si hay otro difunto con el mismo DNI
-        $persona = $this->find('first', array(
-         'conditions' => array(
-          'Persona.dni' => $cif,
-         ),
-         'fields' => array(
-          'Persona.id'
-         ),
-         'contain' => array(
-          'Difunto' => array(
-           'conditions' => array(
-            'Difunto.id !=' => $id,
-           ),
-           'fields' => array(
-            'Difunto.id', 'Difunto.persona_id'
-           ),
-          ),
-         ),
-        ));
-        
-        //Comprobar si existe un difunto con el mismo DNI
-        if(!empty($persona['Difunto']['id'])) {
+            
+            //Extraer el DNI del vector
+            $cif = (string) $check['dni'];
+            
+            //Convertir a mayúsculas
+            $cif = strtoupper($cif);
+            
+            //Extraer el ID del difunto
+            if (!empty($this->data['Persona']['difunto_id'])) {
+                $id = $this->data['Persona']['difunto_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Buscar si hay otro difunto con el mismo DNI
+            $persona = $this->find('first', array(
+             'conditions' => array(
+              'Persona.dni' => $cif,
+             ),
+             'fields' => array(
+              'Persona.id'
+             ),
+             'contain' => array(
+              'Difunto' => array(
+               'conditions' => array(
+                'Difunto.id !=' => $id,
+               ),
+               'fields' => array(
+                'Difunto.id', 'Difunto.persona_id'
+               ),
+              ),
+             ),
+            ));
+            
+            //Comprobar si existe un difunto con el mismo DNI
+            if(!empty($persona['Difunto']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
             //Devolver error
             return false;
-        }
-        else{
-            //Devolver válido
-            return true;
+            
         }
         
-        //Devolver error
-        return false;
-        
+        //Devolver válido
+        return true;
     }
     
     /**
@@ -506,53 +553,60 @@ class Persona extends AppModel {
      */
     public function valida_forense($check) {
         
-        //Extraer el DNI del vector
-        $cif = (string) $check['dni'];
-        
-        //Convertir a mayúsculas
-        $cif = strtoupper($cif);
-        
-        //Extraer el ID del médico forense
+        //Comprobar si se trata de un médico forense
         if (isset($this->data['Persona']['forense_id'])) {
-            $id = $this->data['Persona']['forense_id'];
-        }
-        else {
-            $id = '';
-        }
-        
-        //Buscar si hay otro médico forense con el mismo DNI
-        $persona = $this->find('first', array(
-         'conditions' => array(
-          'Persona.dni' => $cif,
-         ),
-         'fields' => array(
-          'Persona.id'
-         ),
-         'contain' => array(
-          'Forense' => array(
-           'conditions' => array(
-            'Forense.id !=' => $id,
-           ),
-           'fields' => array(
-            'Forense.id', 'Forense.persona_id'
-           ),
-          ),
-         ),
-        ));
-        
-        //Comprobar si existe un médico forense con el mismo DNI
-        if(!empty($persona['Forense']['id'])) {
+            
+            //Extraer el DNI del vector
+            $cif = (string) $check['dni'];
+            
+            //Convertir a mayúsculas
+            $cif = strtoupper($cif);
+            
+            //Extraer el ID del médico forense
+            if (!empty($this->data['Persona']['forense_id'])) {
+                $id = $this->data['Persona']['forense_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Buscar si hay otro médico forense con el mismo DNI
+            $persona = $this->find('first', array(
+             'conditions' => array(
+              'Persona.dni' => $cif,
+             ),
+             'fields' => array(
+              'Persona.id'
+             ),
+             'contain' => array(
+              'Forense' => array(
+               'conditions' => array(
+                'Forense.id !=' => $id,
+               ),
+               'fields' => array(
+                'Forense.id', 'Forense.persona_id'
+               ),
+              ),
+             ),
+            ));
+            
+            //Comprobar si existe un médico forense con el mismo DNI
+            if(!empty($persona['Forense']['id'])) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
             //Devolver error
             return false;
-        }
-        else{
-            //Devolver válido
-            return true;
+            
         }
         
-        //Devolver error
-        return false;
-        
+        //Devolver válido
+        return true;
     }
     
 }

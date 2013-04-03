@@ -120,8 +120,7 @@ class ForensesController extends AppController {
         ),
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
-        //'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
+        'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -131,7 +130,13 @@ class ForensesController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Forense',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -142,7 +147,7 @@ class ForensesController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
             'Forense' => array('id', 'persona_id', 'numero_colegiado', 'colegio', 'telefono', 'correo_electronico'),
         ),
         'validate' => false,
@@ -166,7 +171,7 @@ class ForensesController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'conditions' => $this->Forense->parseCriteria($this->passedArgs),
+         'conditions' => $this->Forense->parseCriteria($this->params->query),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -174,6 +179,7 @@ class ForensesController extends AppController {
            ),
           ),
          ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -200,13 +206,10 @@ class ForensesController extends AppController {
             //Comprobar si ha introducido un DNI
             if (!empty($this->request->data['Persona']['dni'])) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-                
                 //Buscar si existe ya una persona con el mismo DNI
                 $persona = $this->Forense->Persona->find('first', array(
                  'conditions' => array(
-                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                  'Persona.dni' => strtoupper($this->request->data['Persona']['dni']),
                  ),
                  'fields' => array(
                   'Persona.id'
@@ -223,8 +226,17 @@ class ForensesController extends AppController {
                 
             }
             
+            //Indicar que se trata de un médico forense
+            $this->request->data['Persona']['forense_id'] = '';
+            
+            //Establecer el sexo como desconocido
+            $this->request->data['Persona']['sexo'] = 'Desconocido';
+            
             //Validar los datos introducidos
             if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -273,7 +285,7 @@ class ForensesController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
          ),
@@ -292,9 +304,9 @@ class ForensesController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Eliminar reglas de validación
+        unset($this->Forense->validate);
+        
     }
     
     /**
@@ -320,16 +332,18 @@ class ForensesController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
-            //Convertir a mayúsculas el carácter del DNI
-            $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-            
             //Cargar datos de la sesión
-            $this->request->data['Forense']['id'] = $this->Session->read('Forense.id');
             $this->request->data['Persona']['id'] = $this->Session->read('Forense.persona_id');
+            $this->request->data['Persona']['forense_id'] = $id;
+            $this->request->data['Persona']['sexo'] = $this->Session->read('Forense.sexo');
+            $this->request->data['Forense']['id'] = $id;
             $this->request->data['Forense']['persona_id'] = $this->Session->read('Forense.persona_id');
             
             //Validar los datos introducidos
             if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -363,6 +377,7 @@ class ForensesController extends AppController {
             $this->Session->write('Forense.id', $this->request->data['Forense']['id']);
             $this->Session->write('Forense.persona_id', $this->request->data['Forense']['persona_id']);
             $this->Session->write('Forense.nombre_completo', $this->request->data['Persona']['nombre_completo']);
+            $this->Session->write('Forense.sexo', $this->request->data['Persona']['sexo']);
         }
         
     }
@@ -402,19 +417,24 @@ class ForensesController extends AppController {
         $this->pdfConfig['title'] = $forense['Persona']['nombre_completo'] . " - " . $forense['Forense']['numero_colegiado'] . "(" . $forense['Forense']['colegio'] . ")";
         $this->pdfConfig['filename'] = "Forense_" . $forense['Forense']['numero_colegiado'] . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('forense'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
     /**
      * export pdf method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -448,9 +468,18 @@ class ForensesController extends AppController {
         $this->pdfConfig['filename'] = "Forense_" . $forense['Forense']['numero_colegiado'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('forense'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -477,27 +506,42 @@ class ForensesController extends AppController {
             throw new NotFoundException(__('El médico forense especificado no existe.'));
         }
         
-        //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo tmabién
-        $persona = $this->Forense->field('persona_id', array('Forense.id' => $id));
-        $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
-        $arrendatario = $this->Forense->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
+        //Buscar si el médico forense está en uso en algún difunto
+        $difunto = $this->Forense->Difunto->find('first', array(
+         'conditions' => array(
+          'Difunto.forense_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
         
-        if (empty($difunto) || empty($arrendatario)) {
-            //Borrar y comprobar éxito (Persona y Forense)
-            if ($this->Forense->Persona->delete($persona) && $this->Forense->delete()) {
-                $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
-            }
-            else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
-            }
+        //Comprobar si el médico forense está en uso en difuntos
+        if (!empty($difunto)) {
+            $this->Session->setFlash(__('El médico forense está asociado a un difunto.'));
         }
         else {
-            //Borrar y comprobar éxito (Forense)
-            if ($this->Forense->delete()) {
-                $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+            //Comprobar si la persona está asociada con algún arrendatario o difunto para en caso contrario eliminarlo también
+            $persona = $this->Forense->field('persona_id', array('Forense.id' => $id));
+            $arrendatario = $this->Forense->Persona->Arrendatario->field('id', array('Arrendatario.persona_id' => $persona));
+            $difunto = $this->Forense->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+            
+            if (empty($arrendatario) && empty($difunto)) {
+                //Borrar y comprobar éxito (Persona y Forense)
+                if ($this->Forense->Persona->delete($persona)) {
+                    $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+                }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+                //Borrar y comprobar éxito (Forense)
+                if ($this->Forense->delete()) {
+                    $this->Session->setFlash(__('El médico forense ha sido eliminado correctamente.'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El médico forense no ha podido ser eliminado.'));
+                }
             }
         }
         
@@ -505,6 +549,12 @@ class ForensesController extends AppController {
         $this->redirect(array('action' => 'index'));
         
     }
+    
+    /**
+     * ---------------------------
+     * Extra Controller Actions
+     * ---------------------------
+     */
     
     /**
      * autocomplete method
@@ -518,28 +568,6 @@ class ForensesController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Forense->find('all', array(
-         'joins' => array(
-          array(
-           'table' => 'personas',
-           'alias' => 'Persona',
-           'type' => 'LEFT',
-           'foreignKey' => false,
-           'conditions' => array(
-            'Persona.id = Forense.persona_id'
-           ),
-          ),
-         ),
-         'conditions' => array(
-          'OR' => array(
-           'Persona.dni LIKE' => $palabro,
-           'Persona.nombre LIKE' => $palabro,
-           'Persona.apellido1 LIKE' => $palabro,
-           'Persona.apellido2 LIKE' => $palabro,
-           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro,
-           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
-           'Persona.numero_colegiado LIKE' => $palabro,
-          ),
-         ),
          'contain' => array(
           'Persona' => array(
            'fields' => array(
@@ -547,8 +575,16 @@ class ForensesController extends AppController {
            ),
           ),
          ),
-         'fields' => array(
-          'Forense.id', 'Forense.persona_id', 'Forense.numero_colegiado', 'Forense.colegio'
+         'conditions' => array(
+          'OR' => array(
+           'Persona.dni LIKE' => $palabro,
+           'Persona.nombre LIKE' => $palabro,
+           'Persona.apellido1 LIKE' => $palabro, 
+           'Persona.apellido2 LIKE' => $palabro, 
+           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro, 
+           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro,
+           'Forense.numero_colegiado LIKE' => $palabro, 
+          ),
          ),
          'limit' => 20,
         ));
@@ -561,7 +597,7 @@ class ForensesController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Forense']['numero_colegiado'], "value" => $resultado['Forense']['id']));
+                array_push($items, array("label" => $resultado['Persona']['nombre_completo'] . " - " . $resultado['Forense']['numero_colegiado'] . " (" . $resultado['Forense']['colegio'] . ")", "value" => $resultado['Forense']['id']));
             }
         }
         

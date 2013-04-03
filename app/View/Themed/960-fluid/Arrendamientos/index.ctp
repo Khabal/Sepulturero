@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendamientos'); ?>
 </div>
 
 <?php
@@ -20,72 +20,71 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
     <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.direccion', 'Dirección'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Localidad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Provincia'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.pais', 'País'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.codigo_postal', 'Código postal'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.telefono', 'Teléfono'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.correo_electronico', 'Correo electrónico'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.anos_concesion', 'Tiempo de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Fecha de arrendamiento'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Estado del arrendamiento'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
   <?php /* Listado de arrendamientos */ ?>
   <tbody>
    <?php $i = 0; ?>
-   <?php foreach($arrendamientos as $arrendatario): ?>
+   <?php foreach($arrendamientos as $arrendamiento): ?>
     <?php $class = null; if($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
     <tr<?php echo $class; ?>>
      <td>
-      <?php echo $this->Html->link($arrendatario['Persona']['nombre_completo'], array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id'])); ?>&nbsp;
+      <?php echo $this->Html->link($arrendamiento['Arrendatario']['Persona']['nombre_completo'], array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendatario']['id'])); ?>&nbsp;
      </td>
      <td>
-	 <?php
-       if ($arrendatario['Persona']['dni']) {
-        echo h($arrendatario['Persona']['dni']);
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['Persona']['dni'])) {
+        echo h($arrendamiento['Arrendatario']['Persona']['dni']);
        }
        else {
         echo h("Desconocido");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</td>
      <td>
       <?php
-       if ($arrendatario['Arrendatario']['provincia']) {
-        echo h($arrendatario['Arrendatario']['provincia']);
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($arrendamiento['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Columbario']['localizacion'];
        }
-       else {
-        echo h("Desconocida");
+       elseif(!empty($arrendamiento['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Exterior']['localizacion'];
        }
+       elseif(!empty($arrendamiento['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($arrendamiento['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $arrendamiento['Tumba']['Panteon']['localizacion'];
+       }
+       $tumba = $arrendamiento['Tumba']['tipo'] . " - " . $localizacion;
+       echo $this->Html->link($tumba, array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Tumba']['id']));
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
-      <?php
-       if ($arrendatario['Arrendatario']['telefono']) {
-        echo h($arrendatario['Arrendatario']['telefono']);
-       }
-       else {
-        echo h("Desconocido");
-       }
-      ?>&nbsp;
+      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
      </td>
-     <td class="email">
-      <?php
-       if ($arrendatario['Arrendatario']['correo_electronico']) {
-        echo h($arrendatario['Arrendatario']['correo_electronico']);
-       }
-       else {
-        echo h("Desconocido");
-       }
-      ?>&nbsp;
-     </td>
+     <td><?php echo h($arrendamiento['Concesion']['anos_concesion'] . " años"); ?>&nbsp;</td>
+     <td><?php echo h(date('d/m/Y', strtotime($arrendamiento['Arrendamiento']['fecha_arrendamiento']))); ?>&nbsp;</td>
+     <?php
+      $colorico = null;
+      if ($arrendamiento['Arrendamiento']['estado'] == "Caducado") {
+       $colorico = ' style="color:#FF0000;font-weight:bold;"';
+      }
+      elseif($arrendamiento['Arrendamiento']['estado'] == "Vigente") {
+       $colorico = ' style="color:#04B404;font-weight:bold;"';
+      }
+     ?>
+     <td<?php echo $colorico; ?>><?php echo h($arrendamiento['Arrendamiento']['estado']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $arrendatario['Arrendatario']['id'], $arrendatario['Persona']['nombre_completo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('arrendamientos', $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
      </td>
     </tr>
    <?php endforeach; ?>

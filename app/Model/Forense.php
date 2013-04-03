@@ -28,7 +28,7 @@ class Forense extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -91,7 +91,12 @@ class Forense extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'numero_colegiado' => 'Forense.numero_colegiado',
+        'colegio' => 'Forense.colegio',
+        'telefono' => 'Forense.telefono',
+        'correo_electronico' => 'Forense.correo_electronico',
+    );
     
     /**
      * List of behaviors
@@ -151,6 +156,13 @@ class Forense extends AppModel {
                 'on' => null,
                 'message' => 'El número de colegiado no se puede dejar en blanco.',
             ),
+            'longitud' => array(
+                'rule' => array('between', 4, 10),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de colegiado debe tener entre 4 y 10 caracteres.',
+            ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
                 'required' => true,
@@ -164,13 +176,6 @@ class Forense extends AppModel {
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'El número de colegiado introducido ya está en uso.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 4, 10),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El número de colegiado debe tener entre 4 y 10 caracteres.',
             ),
         ),
         'colegio' => array(
@@ -189,7 +194,7 @@ class Forense extends AppModel {
                 'message' => 'La localidad del colegio debe tener entre 2 y 50 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,50}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -244,7 +249,7 @@ class Forense extends AppModel {
     public $hasMany = array(
         'Difunto' => array(
             'className' => 'Difunto',
-            'foreignKey' => 'difunto_id',
+            'foreignKey' => 'forense_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -289,9 +294,6 @@ class Forense extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Añadir campos virtuales de "Persona"
-        //$this->virtualFields += $this->Persona->virtualFields;
-        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -309,6 +311,14 @@ class Forense extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'nombre' => array('type' => 'like', 'field' => 'Persona.nombre'),
+        'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
+        'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
+        'numero_colegiado' => array('type' => 'like'),
+        'colegio' => array('type' => 'like'),
+        'telefono' => array('type' => 'like'),
+        'correo_electronico' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarForense'),
     );
     
@@ -338,6 +348,7 @@ class Forense extends AppModel {
           'Persona.dni LIKE' => $comodin,
           'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
           'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+          'Forense.numero_colegiado LIKE' => $comodin, 
          )
         );
         

@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('forenses'); ?>
 </div>
 
 <?php
@@ -70,7 +70,7 @@
       ?>&nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $forense['Forense']['id'], $forense['Persona']['nombre_completo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('forenses', $forense['Forense']['id'], $forense['Persona']['nombre_completo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

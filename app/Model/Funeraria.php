@@ -27,7 +27,7 @@ class Funeraria extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -90,7 +90,15 @@ class Funeraria extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'cif' => 'Funeraria.cif',
+        'nombre' => 'Funeraria.nombre',
+        'direccion' => 'Funeraria.direccion',
+        'telefono' => 'Funeraria.telefono',
+        'fax' => 'Funeraria.fax',
+        'correo_electronico' => 'Funeraria.correo_electronico',
+        'pagina_web' => 'Funeraria.pagina_web',
+    );
     
     /**
      * List of behaviors
@@ -110,8 +118,7 @@ class Funeraria extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -173,7 +180,7 @@ class Funeraria extends AppModel {
                 'message' => 'El nombre debe tener entre 2 y 100 caracteres.',
             ),
             'sololetras' => array(
-                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \']{2,100}$/i',
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,100}$/i',
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
@@ -264,7 +271,7 @@ class Funeraria extends AppModel {
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La página web introducida no es válida',
+                'message' => 'La página web introducida no es válida (Ejemplo: http://www.algo.es).',
             ),
         ),
         'observaciones' => array(
@@ -297,7 +304,7 @@ class Funeraria extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -384,6 +391,13 @@ class Funeraria extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'cif' => array('type' => 'like'),
+        'nombre' => array('type' => 'like'),
+        'direccion' => array('type' => 'like'),
+        'telefono' => array('type' => 'like'),
+        'fax' => array('type' => 'like'),
+        'correo_electronico' => array('type' => 'like'),
+        'pagina_web' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarFuneraria'),
     );
     

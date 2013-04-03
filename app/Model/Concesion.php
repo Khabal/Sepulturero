@@ -27,7 +27,7 @@ class Concesion extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -90,7 +90,10 @@ class Concesion extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'tipo' => 'Concesion.tipo',
+        'anos_concesion' => 'Concesion.anos_concesion',
+    );
     
     /**
      * List of behaviors
@@ -110,8 +113,7 @@ class Concesion extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -242,6 +244,8 @@ class Concesion extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'tipo' => array('type' => 'like'),
+        'anos_concesion' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarConcesion'),
     );
     
@@ -266,7 +270,7 @@ class Concesion extends AppModel {
         return array(
          'OR'  => array(
           'Concesion.tipo LIKE' => $comodin,
-          'Concesion.anos_concesion' => $comodin,
+          'Concesion.anos_concesion LIKE' => $comodin,
          )
         );
         

@@ -1,0 +1,164 @@
+<?php /* Datos movimiento */ ?>
+<div class="view box">
+ <h2><?php echo __('Datos del movimiento');?></h2>
+ <dl>
+  <dt><?php echo __('Tipo de movimiento'); ?>:</dt>
+  <dd><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</dd>
+  <dt><?php echo __('Fecha'); ?>:</dt>
+  <dd><?php echo h(date('d/m/Y', strtotime($movimiento['Movimiento']['fecha']))); ?>&nbsp;</dd>
+  <dt><?php echo __('Difuntos movidos'); ?>:</dt>
+  <dd><?php echo h($movimiento['Movimiento']['viajeros']); ?>&nbsp;</dd>
+  <dt><?php echo __('Motivo'); ?>:</dt>
+  <dd><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</dd>
+  <dt><?php echo __('Anotaciones'); ?>:</dt>
+  <dd><?php echo h($movimiento['Movimiento']['observaciones']); ?>&nbsp;</dd>
+ </dl>
+</div>
+
+<?php /* Obtener identificadores de tumbas de origen y destino */
+ $origen = null;
+ $destino = null;
+ foreach ($movimiento['MovimientoTumba'] as $tumba) {
+  if ($tumba['origen_destino'] == "Origen") {
+   $origen = $tumba;
+  }
+  elseif ($tumba['origen_destino'] == "Destino") {
+   $destino = $tumba;
+  }
+ }
+?>
+
+<?php /* Tumba relacionada */ ?>
+<div class="related box">
+ <h2><?php echo __('Datos de origen'); ?></h2>
+ <?php if (!empty($origen)): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Cementerio de origen'); ?>:</th>
+     <th><?php echo __('Tipo de tumba'); ?></th>
+     <th><?php echo __('Localización'); ?></th>
+     <th><?php echo __('Población'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Información de la tumba */ ?>
+   <tbody>
+    <tr class="altrow">
+     <td><?php echo h($movimiento['Movimiento']['cementerio_origen']); ?>&nbsp;</td>
+     <td><?php echo h($origen['Tumba']['tipo']); ?>&nbsp;</td>
+     <td>
+      <?php /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Panteon']['localizacion'];
+       }
+       echo h($localizacion);
+      ?>&nbsp;
+     </td>
+     <td><?php echo h($origen['Tumba']['poblacion']); ?>&nbsp;</td>
+     <td class="actions">
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id']), array('escape' => false)); ?>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
+</div>
+
+<?php /* Difuntos relacionados */ ?>
+<div class="related box">
+ <h2><?php echo __('Difuntos trasladados'); ?></h2>
+ <?php if (!empty($movimiento['DifuntoMovimiento'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Nombre'); ?></th>
+     <th><?php echo __('D.N.I.'); ?></th>
+     <th><?php echo __('Estado del cuerpo'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Listado de documentos */ ?>
+   <tbody>
+    <?php $i = 0; ?>
+    <?php foreach ($movimiento['DifuntoMovimiento'] as $difunto): ?>
+     <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
+     <tr<?php echo $class; ?>>
+      <td><?php echo h($difunto['Difunto']['Persona']['nombre_completo']); ?>&nbsp;</td>
+      <td><?php echo h($difunto['Difunto']['Persona']['dni']); ?>&nbsp;</td>
+      <td><?php echo h($difunto['Difunto']['estado']); ?>&nbsp;</td>
+      <td class="actions">
+       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'difuntos', 'action' => 'ver', $difunto['Difunto']['id']), array('escape' => false)); ?>
+      </td>
+     </tr>
+    <?php endforeach; ?>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
+</div>
+
+<?php /* Tumba relacionada */ ?>
+<div class="related box">
+ <h2><?php echo __('Datos de destino'); ?></h2>
+ <?php if (!empty($destino)): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
+     <th><?php echo __('Cementerio de destino'); ?>:</th>
+     <th><?php echo __('Tipo de tumba'); ?></th>
+     <th><?php echo __('Localización'); ?></th>
+     <th><?php echo __('Población'); ?></th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <?php /* Información de la tumba */ ?>
+   <tbody>
+    <tr class="altrow">
+     <td><?php echo h($movimiento['Movimiento']['cementerio_destino']); ?>&nbsp;</td>
+     <td><?php echo h($destino['Tumba']['tipo']); ?>&nbsp;</td>
+     <td>
+      <?php /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Panteon']['localizacion'];
+       }
+       echo h($localizacion);
+      ?>&nbsp;
+     </td>
+     <td><?php echo h($destino['Tumba']['poblacion']); ?>&nbsp;</td>
+     <td class="actions">
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id']), array('escape' => false)); ?>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
+</div>

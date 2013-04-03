@@ -120,8 +120,7 @@ class FunerariasController extends AppController {
         ),
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
-        //'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
+        'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -131,7 +130,13 @@ class FunerariasController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Funeraria',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -165,12 +170,8 @@ class FunerariasController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'fields' => array(
-          'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
-         ),
-		 'conditions' => $this->Funeraria->parseCriteria($this->passedArgs),
-         'contain' => array(
-         ),
+         'conditions' => $this->Funeraria->parseCriteria($this->params->query),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -198,7 +199,7 @@ class FunerariasController extends AppController {
             if ($this->Funeraria->saveAll($this->request->data, array('validate' => 'only'))) {
                 
                 //Guardar y comprobar éxito
-                if ($this->Funeraria->save($this->request->data, $this->opciones_guardado)) {
+                if ($this->Funeraria->saveAssociated($this->request->data, $this->opciones_guardado)) {
                     $this->Session->setFlash(__('La funeraria ha sido guardada correctamente.'));
                     //Redireccionar según corresponda
                     if (isset($this->request->data['guardar_y_nuevo'])) {
@@ -258,9 +259,9 @@ class FunerariasController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Eliminar reglas de validación
+        unset($this->Funeraria->validate);
+        
     }
     
     /**
@@ -328,7 +329,6 @@ class FunerariasController extends AppController {
     /**
      * print method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -356,12 +356,18 @@ class FunerariasController extends AppController {
         $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
         $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('funeraria'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -396,9 +402,18 @@ class FunerariasController extends AppController {
         $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('funeraria'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -426,7 +441,7 @@ class FunerariasController extends AppController {
         }
         
         //Borrar y comprobar éxito
-        if ($this->Funeraria->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.funeraria_id' => $id), false, false) && $this->Funeraria->delete()) {
+        if ($this->Funeraria->delete()) {
             $this->Session->setFlash(__('La funeraria ha sido eliminada correctamente.'));
         }
         else {

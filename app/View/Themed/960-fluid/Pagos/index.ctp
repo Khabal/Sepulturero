@@ -13,7 +13,7 @@
    <tr>
     <th><?php echo $this->Paginator->sort('Tasa.tipo', 'Tasa'); ?></th>
     <th><?php echo $this->Paginator->sort('Pago.fecha', 'Fecha'); ?></th>
-    <th><?php echo $this->Paginator->sort('Pago.cantidad', 'Cantidad'); ?></th>
+    <th><?php echo $this->Paginator->sort('Pago.total', 'Total'); ?></th>
     <th><?php echo $this->Paginator->sort('Pago.moneda', 'Moneda'); ?></th>
     <th><?php echo $this->Paginator->sort('Pago.concepto', 'Concepto'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>

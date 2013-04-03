@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('X', 'Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
+    public $uses = array('Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -130,7 +130,14 @@ class ArrendatariosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Arrendatario',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -141,7 +148,7 @@ class ArrendatariosController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'observaciones'),
+            'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
             'Arrendatario' => array('id', 'persona_id', 'direccion', 'localidad', 'provincia', 'pais', 'codigo_postal', 'telefono', 'correo_electronico'),
             'ArrendatarioFuneraria' => array('id', 'arrendatario_id', 'funeraria_id'),
         ),
@@ -167,10 +174,16 @@ class ArrendatariosController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Arrendatario->parseCriteria($this->params->query),
-         'contain' => array(
-          'Persona' => array(
+         'joins' => array(
+          array(
+           'table' => 'personas',
+           'alias' => 'Personax',
+           'type' => 'LEFT',
+           'conditions' => array(
+            'Personax.id = Arrendatario.persona_id',
+           ),
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
+            'Personax.id', 'Personax.dni', 'Personax.nombre_completo'
            ),
           ),
          ),
@@ -200,13 +213,10 @@ class ArrendatariosController extends AppController {
             //Comprobar si ha introducido un DNI
             if (!empty($this->request->data['Persona']['dni'])) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
-                
                 //Buscar si existe ya una persona con el mismo DNI
                 $persona = $this->Arrendatario->Persona->find('first', array(
                  'conditions' => array(
-                  'Persona.dni' => $this->request->data['Persona']['dni'],
+                  'Persona.dni' => strtoupper($this->request->data['Persona']['dni']),
                  ),
                  'fields' => array(
                   'Persona.id'
@@ -234,8 +244,21 @@ class ArrendatariosController extends AppController {
                 }
             }
             
+            //Comprobar si hay funerarias repetidas y eliminarlas
+            $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
+            $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+            
+            //Indicar que se trata de un arrendatario
+            $this->request->data['Persona']['arrendatario_id'] = '';
+            
+            //Establecer el sexo como desconocido
+            $this->request->data['Persona']['sexo'] = 'Desconocido';
+            
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
                 
                 //Guardar y comprobar éxito
                 if ($this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -262,7 +285,6 @@ class ArrendatariosController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -285,7 +307,212 @@ class ArrendatariosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
+           ),
+          ),
+          'ArrendatarioFuneraria' => array(
+           'Funeraria' => array(
+            'fields' => array(
+             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
+            ),
+            'order' => array(
+             'Funeraria.nombre ASC'
+            ),
+           ),
+          ),
+          'Arrendamiento' => array(
+           'Tumba' => array(
+            'Columbario' => array(
+             'fields' => array(
+              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+             ),
+            ),
+            'Nicho' => array(
+             'fields' => array(
+              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+             ),
+            ),
+            'Panteon' => array(
+             'fields' => array(
+              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+             ),
+            ),
+            'Exterior' => array(
+             'fields' => array(
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
+            'fields' => array(
+             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
+           ),
+           'Concesion' => array(
+            'fields' => array(
+             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
+            ),
+           ),
+           'order' => array(
+            'Arrendamiento.fecha_arrendamiento ASC'
+           ),
+          ),
+         ),
+        ));
+        
+        //Asignar el resultado de la búsqueda a una variable
+        //(Comentario vital para entender el código de la función)
+        $this->set(compact('arrendatario'));
+        
+    }
+    
+    /**
+     * find method
+     *
+     * @return void
+     */
+    public function buscar() {
+        
+        //Eliminar reglas de validación
+        unset($this->Arrendatario->validate);
+        
+    }
+    
+    /**
+     * edit method
+     *
+     * @param string $id
+     * @return void
+     */
+    public function editar($id = null) {
+        
+        //Asignar id
+        $this->Arrendatario->id = $id;
+        
+        //Comprobar si existe el arrendatario
+        if (!$this->Arrendatario->exists()) {
+             $this->Session->setFlash(__('El arrendatario especificado no existe.'));
+             $this->redirect(array('action' => 'index'));
+        }
+        
+        //Comprobar si se está enviando el formulario
+        if ($this->request->is('post') || $this->request->is('put')) {
+            
+            //Desinfectar los datos recibidos del formulario
+            Sanitize::clean($this->request->data);
+            
+            //Cargar datos de la sesión
+            $this->request->data['Persona']['id'] = $this->Session->read('Arrendatario.persona_id');
+            $this->request->data['Persona']['arrendatario_id'] = $id;
+            $this->request->data['Persona']['sexo'] = $this->Session->read('Arrendatario.sexo');
+            $this->request->data['Arrendatario']['id'] = $id;
+            $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
+            
+            //Comprobar si hay funerarias vacías y eliminarlas
+            if (isset($this->request->data['ArrendatarioFuneraria'])) {
+                $i = 0;
+                foreach ($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
+                    if (empty($funeraria['funeraria_bonita'])) {
+                        unset($this->request->data['ArrendatarioFuneraria'][$i]);
+                    }
+                    $i++;
+                }
+            }
+            
+            //Comprobar si hay funerarias repetidas y eliminarlas
+            $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
+            $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+            
+            //Validar los datos introducidos
+            if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir a mayúsculas el carácter del DNI
+                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                
+                //Guardar y comprobar éxito
+                if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El arrendatario ha sido actualizado correctamente.'));
+                    //Borrar datos de sesión
+                    $this->Session->delete('Arrendatario');
+                    //Redireccionar a index
+                    $this->redirect(array('action' => 'index'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser actualizado.'));
+                }
+            }
+            else {
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
+            }
+            
+        }
+        else {
+            //Devolver los datos actuales del arrendatario
+            $this->request->data = $this->Arrendatario->find('first', array(
+             'conditions' => array(
+              'Arrendatario.id' => $id
+             ),
+             'contain' => array(
+              'Persona' => array(
+               'fields' => array(
+                'Persona.id', 'Persona.dni', 'Persona.nombre', 'Persona.apellido1', 'Persona.apellido2', 'Persona.sexo', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
+               ),
+              ),
+              'ArrendatarioFuneraria' => array(
+               'Funeraria' => array(
+                'fields' => array(
+                 'Funeraria.id', 'Funeraria.nombre'
+                ),
+               ),
+              ),
+             ),
+            ));
+            
+            //Devolver nombres bonitos para entidades relacionadas
+            if (!empty($this->request->data['ArrendatarioFuneraria'])) {
+                $i = 0;
+                foreach ($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
+                    $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_bonita'] = $funeraria['Funeraria']['nombre'];
+                    $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_id'] = $funeraria['funeraria_id'];
+                    unset($this->request->data['ArrendatarioFuneraria'][$i]['Funeraria']);
+                    $i++;
+                }
+            }
+            
+            //Guardar los datos de sesión del arrendatario
+            $this->Session->write('Arrendatario.id', $this->request->data['Arrendatario']['id']);
+            $this->Session->write('Arrendatario.persona_id', $this->request->data['Persona']['id']);
+            $this->Session->write('Arrendatario.persona_dni', $this->request->data['Persona']['dni']);
+            $this->Session->write('Arrendatario.nombre_completo', $this->request->data['Persona']['nombre_completo']);
+            $this->Session->write('Arrendatario.sexo', $this->request->data['Persona']['sexo']);
+        }
+        
+    }
+    
+    /**
+     * print method
+     *
+     * @param string $id
+     * @return void
+     */
+    public function imprimir($id = null) {
+        
+        //Asignar id
+        $this->Arrendatario->id = $id;
+        
+        //Comprobar si existe el arrendatario
+        if (!$this->Arrendatario->exists()) {
+            $this->Session->setFlash(__('El arrendatario especificado no existe.'));
+            $this->redirect(array('action' => 'index'));
+        }
+        
+        //Cargar toda la información relevante relacionada con el arrendatario
+        $arrendatario = $this->Arrendatario->find('first', array(
+         'conditions' => array(
+          'Arrendatario.id' => $id
+         ),
+         'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'ArrendatarioFuneraria' => array(
@@ -323,193 +550,7 @@ class ArrendatariosController extends AppController {
            ),
            'Concesion' => array(
             'fields' => array(
-             'Concesion.id', 'Tumba.tipo', 'Tumba.poblacion'
-            ),
-           ),
-          ),
-         ),
-        ));
-        
-        //Asignar el resultado de la búsqueda a una variable
-        //(Comentario vital para entender el código de la función)
-        $this->set(compact('arrendatario'));
-        
-    }
-    
-    /**
-     * find method
-     *
-     * @return void
-     */
-    public function buscar() {
-        
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
-    }
-    
-    /**
-     * edit method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function editar($id = null) {
-        
-        //Asignar id
-        $this->Arrendatario->id = $id;
-        
-        //Comprobar si existe el arrendatario
-        if (!$this->Arrendatario->exists()) {
-             $this->Session->setFlash(__('El arrendatario especificado no existe.'));
-             $this->redirect(array('action' => 'index'));
-        }
-        
-        //Comprobar si se está enviando el formulario
-        if ($this->request->is('post') || $this->request->is('put')) {
-            
-            //Desinfectar los datos recibidos del formulario
-            Sanitize::clean($this->request->data);
-            
-            //Cargar datos de la sesión
-            $this->request->data['Arrendatario']['id'] = $id;
-            $this->request->data['Persona']['arrendatario_id'] = $id;
-            $this->request->data['Persona']['id'] = $this->Session->read('Arrendatario.persona_id');
-            $this->request->data['Arrendatario']['persona_id'] = $this->Session->read('Arrendatario.persona_id');
-            
-            //Comprobar si hay funerarias vacías y eliminarlas
-            if (isset($this->request->data['ArrendatarioFuneraria'])) {
-                $i = 0;
-                foreach ($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
-                    if (empty($funeraria['funeraria_bonita'])) {
-                        unset($this->request->data['ArrendatarioFuneraria'][$i]);
-                    }
-                    $i++;
-                }
-            }
-            
-            //Validar los datos introducidos
-            if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
-                
-                //Guardar y comprobar éxito
-                if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
-                    $this->Session->setFlash(__('El arrendatario ha sido actualizado correctamente.'));
-                    //Borrar datos de sesión
-                    $this->Session->delete('Arrendatario');
-                    //Redireccionar a index
-                    $this->redirect(array('action' => 'index'));
-                }
-                else {
-                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser actualizado.'));
-                }
-            }
-            else {
-               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
-            }
-            
-        }
-        else {
-            //Devolver los datos actuales del arrendatario
-            $this->request->data = $this->Arrendatario->find('first', array(
-             'conditions' => array(
-              'Arrendatario.id' => $id
-             ),
-             'contain' => array(
-              'Persona' => array(
-               'fields' => array(
-                'Persona.id', 'Persona.dni', 'Persona.nombre', 'Persona.apellido1', 'Persona.apellido2', 'Persona.observaciones', 'Persona.nombre_completo'
-               ),
-              ),
-              'ArrendatarioFuneraria' => array(
-               'Funeraria' => array(
-                'fields' => array(
-                 'Funeraria.id', 'Funeraria.nombre'
-                ),
-               ),
-              ),
-             ),
-            ));
-            
-            //Devolver nombres bonitos para entidades relacionadas
-            if (!empty($this->request->data['ArrendatarioFuneraria'])) {
-                $i = 0;
-                foreach ($this->request->data['ArrendatarioFuneraria'] as $funeraria) {
-                    $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_bonita'] = $funeraria['Funeraria']['nombre'];
-                    $this->request->data['ArrendatarioFuneraria'][$i]['funeraria_id'] = $funeraria['funeraria_id'];
-                    unset($this->request->data['ArrendatarioFuneraria'][$i]['Funeraria']);
-                    $i++;
-                }
-            }
-            
-            //Guardar los datos de sesión del arrendatario
-            $this->Session->write('Arrendatario.id', $this->request->data['Arrendatario']['id']);
-            $this->Session->write('Arrendatario.persona_id', $this->request->data['Persona']['id']);
-            $this->Session->write('Arrendatario.persona_dni', $this->request->data['Persona']['dni']);
-            $this->Session->write('Arrendatario.nombre_completo', $this->request->data['Persona']['nombre_completo']);
-        }
-        
-    }
-    
-    /**
-     * print method
-     *
-     * @param string $id
-     * @return void
-     */
-    public function imprimir($id = null) {
-        
-        //Asignar id
-        $this->Arrendatario->id = $id;
-        
-        //Comprobar si existe el arrendatario
-        if (!$this->Arrendatario->exists()) {
-            $this->Session->setFlash(__('El arrendatario especificado no existe.'));
-            $this->redirect(array('action' => 'index'));
-        }
-        
-        //Cargar toda la información relevante relacionada con el arrendatario
-        $arrendatario = $this->Arrendatario->find('first', array(
-         'conditions' => array(
-          'Arrendatario.id' => $id
-         ),
-         'contain' => array(
-          'Persona' => array(
-           'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
-           ),
-          ),
-          'ArrendatarioFuneraria' => array(
-           'Funeraria' => array(
-            'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
-            ),
-           ),
-          ),
-          'ArrendatarioTumba' => array(
-           'Tumba' => array(
-            'Columbario' => array(
-             'fields' => array(
-              'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
-             ),
-            ),
-            'Nicho' => array(
-             'fields' => array(
-              'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
-             ),
-            ),
-            'Panteon' => array(
-             'fields' => array(
-              'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
-             ),
-            ),
-            'fields' => array(
-             'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
             ),
            ),
           ),
@@ -519,13 +560,19 @@ class ArrendatariosController extends AppController {
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $arrendatario['Persona']['nombre_completo'] . " - " . $arrendatario['Persona']['dni'];
         $this->pdfConfig['filename'] = "Arrendatario_" . $arrendatario['Persona']['dni'] . ".pdf";
-        //$this->pdfConfig['engine'] = 'CakePdf.Tcpdf';
-        //Redireccionar para la generación
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('arrendatario'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -555,7 +602,7 @@ class ArrendatariosController extends AppController {
          'contain' => array(
           'Persona' => array(
            'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.observaciones', 'Persona.nombre_completo'
+            'Persona.id', 'Persona.dni', 'Persona.nacionalidad', 'Persona.observaciones', 'Persona.nombre_completo'
            ),
           ),
           'ArrendatarioFuneraria' => array(
@@ -565,16 +612,11 @@ class ArrendatariosController extends AppController {
             ),
            ),
           ),
-          'ArrendatarioTumba' => array(
+          'Arrendamiento' => array(
            'Tumba' => array(
             'Columbario' => array(
              'fields' => array(
               'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
-             ),
-            ),
-            'Exterior' => array(
-             'fields' => array(
-              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
              ),
             ),
             'Nicho' => array(
@@ -587,8 +629,18 @@ class ArrendatariosController extends AppController {
               'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
              ),
             ),
+            'Exterior' => array(
+             'fields' => array(
+              'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+             ),
+            ),
             'fields' => array(
              'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+            ),
+           ),
+           'Concesion' => array(
+            'fields' => array(
+             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
             ),
            ),
           ),
@@ -600,9 +652,18 @@ class ArrendatariosController extends AppController {
         $this->pdfConfig['filename'] = "Arrendatario_" . $arrendatario['Persona']['dni'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
+        
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('arrendatario'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -629,12 +690,28 @@ class ArrendatariosController extends AppController {
             throw new NotFoundException(__('El arrendatario especificado no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->ArrendatarioTumba->deleteAll(array('ArrendatarioTumba.arrendatario_id' => $id), false, false) && $this->Arrendatario->delete()) {
-            $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+        //Comprobar si la persona está asociada con algún difunto o médico forense para en caso contrario eliminarlo también
+        $persona = $this->Arrendatario->field('persona_id', array('Arrendatario.id' => $id));
+        $difunto = $this->Arrendatario->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+        $forense = $this->Arrendatario->Persona->Forense->field('id', array('Forense.persona_id' => $persona));
+        
+        if (empty($difunto) && empty($forense)) {
+            //Borrar y comprobar éxito (Persona y Arrendatario)
+            if ($this->Arrendatario->Persona->delete($persona)) {
+                $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+            }
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+            //Borrar y comprobar éxito (Arrendatario)
+            if ($this->Arrendatario->delete()) {
+                $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+            }
         }
         
         //Redireccionar a index
@@ -660,14 +737,10 @@ class ArrendatariosController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Arrendatario->find('all', array(
-         'joins' => array(
-          array(
-           'table' => 'personas',
-           'alias' => 'Persona',
-           'type' => 'LEFT',
-           'foreignKey' => false,
-           'conditions' => array(
-            'Persona.id = Arrendatario.persona_id'
+         'contain' => array(
+          'Persona' => array(
+           'fields' => array(
+            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
            ),
           ),
          ),
@@ -680,16 +753,6 @@ class ArrendatariosController extends AppController {
            'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $palabro, 
            'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $palabro, 
           ),
-         ),
-         'contain' => array(
-          'Persona' => array(
-           'fields' => array(
-            'Persona.id', 'Persona.dni', 'Persona.nombre_completo'
-           ),
-          ),
-         ),
-         'fields' => array(
-          'Arrendatario.id', 'Arrendatario.persona_id'
          ),
          'limit' => 20,
         ));

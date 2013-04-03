@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('difuntos'); ?>
 </div>
 
 <?php
@@ -21,11 +21,12 @@
    <tr>
     <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
     <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba', 'Tumba'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo'); ?></th>
     <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.edad_defuncion', 'Edad de defunción'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.causa_defuncion', 'Causa de defunción'); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.edad', 'Edad'); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.causa_fallecimiento', 'Causa de fallecimiento'); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.certificado_defuncion', 'Certificado de defunción'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
@@ -38,34 +39,44 @@
      <td>
       <?php echo $this->Html->link($difunto['Persona']['nombre_completo'], array('controller' => 'difuntos', 'action' => 'ver', $difunto['Difunto']['id'])); ?>&nbsp;
      </td>
-     <td><?php echo h($difunto['Persona']['dni']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($difunto['Persona']['dni'])) {
+        echo h($difunto['Persona']['dni']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td class="enlace">
-      <?php /* Obtener identificador de tumba */
-       if ($difunto['Difunto']['tumba_id']) {
-        $identificador = "";
-        if ($difunto['Tumba']['Columbario']) {
-         $identificador = $difunto['Tumba']['Columbario']['localizacion'];
+      <?php
+       if (!empty($difunto['Difunto']['tumba_id'])) {
+        /* Obtener la localización de tumba */
+        $localizacion = "";
+        if (!empty($difunto['Tumba']['Columbario']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Columbario']['localizacion'];
         }
-        elseif ($difunto['Tumba']['Exterior']) {
-         $identificador = $difunto['Tumba']['Exterior']['localizacion'];
+        elseif(!empty($difunto['Tumba']['Exterior']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Exterior']['localizacion'];
         }
-        elseif ($difunto['Tumba']['Nicho']) {
-         $identificador = $difunto['Tumba']['Nicho']['localizacion'];
+        elseif(!empty($difunto['Tumba']['Nicho']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Nicho']['localizacion'];
         }
-        elseif ($difunto['Tumba']['Panteon']) {
-         $identificador = $difunto['Tumba']['Panteon']['localizacion'];
+        elseif(!empty($difunto['Tumba']['Panteon']['localizacion'])) {
+         $localizacion = $difunto['Tumba']['Panteon']['localizacion'];
         }
-        echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
+        echo $this->Html->link($difunto['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']));
        }
        else {
         echo h("Tumba desconocida");
        }
-      ?> &nbsp;
+      ?>&nbsp;
      </td>
      <td><?php echo h($difunto['Difunto']['estado']); ?>&nbsp;</td>
      <td>
       <?php
-       if ($difunto['Difunto']['fecha_defuncion']) {
+       if (!empty($difunto['Difunto']['fecha_defuncion'])) {
         echo h(date('d/m/Y', strtotime($difunto['Difunto']['fecha_defuncion'])));
        }
        else {
@@ -75,8 +86,8 @@
      </td>
      <td>
       <?php
-       if ($difunto['Difunto']['edad_defuncion']) {
-        echo h($difunto['Difunto']['edad_defuncion']);
+       if (!empty($difunto['Difunto']['edad'])) {
+        echo h($difunto['Difunto']['edad']);
        }
        else {
         echo h("Desconocida");
@@ -85,16 +96,17 @@
      </td>
      <td>
       <?php
-       if ($difunto['Difunto']['causa_defuncion']) {
-        echo h($difunto['Difunto']['causa_defuncion']);
+       if (!empty($difunto['Difunto']['causa_fallecimiento'])) {
+        echo h($difunto['Difunto']['causa_fallecimiento']);
        }
        else {
         echo h("Desconocida");
        }
       ?>&nbsp;
      </td>
+     <td><?php echo h($difunto['Difunto']['certificado_defuncion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones(strtolower($this->name), $difunto['Difunto']['id'], $difunto['Persona']['nombre_completo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('difuntos', $difunto['Difunto']['id'], $difunto['Persona']['nombre_completo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

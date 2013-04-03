@@ -3,12 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * TrasladoTumba Model
+ * MovimientoTumba Model
  *
- * @property Traslado $Traslado
+ * @property Movimiento $Movimiento
  * @property Tumba $Tumba
  */
-class TrasladoTumba extends AppModel {
+class MovimientoTumba extends AppModel {
     
     /**
      * ----------------------
@@ -42,7 +42,7 @@ class TrasladoTumba extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'traslados_tumbas';
+    public $useTable = 'movimientos_tumbas';
     
     /**
      * Name of the table prefix
@@ -70,14 +70,14 @@ class TrasladoTumba extends AppModel {
      *
      * @var string
      */
-    public $name = 'TrasladoTumba';
+    public $name = 'MovimientoTumba';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'TrasladoTumba';
+    public $alias = 'MovimientoTumba';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -98,7 +98,7 @@ class TrasladoTumba extends AppModel {
      *
      * @var array
      */
-    public $actsAs = array();
+    public $actsAs = array('Containable');
     
     /**
      * ----------------------
@@ -111,8 +111,7 @@ class TrasladoTumba extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -126,36 +125,49 @@ class TrasladoTumba extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'traslado_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tumba_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de movimiento-tumba.',
+            ),
+        ),
+        'movimiento_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de movimiento.',
+            ),
+        ),
+        'tumba_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de tumba.',
+            ),
+        ),
+        'origen_destino' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El origen/destino del movimiento no se puede dejar en blanco.',
+            ),
+            'lista' => array(
+                'rule' => array('inList', array('Origen', 'Destino')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El origen/destino del movimiento no se encuentra dentro de las opciones posibles.',
+            ),
+        ),
     );
     
     /**
@@ -170,9 +182,9 @@ class TrasladoTumba extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Traslado' => array(
-            'className' => 'Traslado',
-            'foreignKey' => 'traslado_id',
+        'Movimiento' => array(
+            'className' => 'Movimiento',
+            'foreignKey' => 'movimiento_id',
             'conditions' => '',
             'type' => 'left',
             'fields' => '',
@@ -207,6 +219,12 @@ class TrasladoTumba extends AppModel {
      * @return class object
      */
     public function __construct ($id = false, $table = null, $ds = null) {
+        
+        //Vector de tipos de origen y destino
+        $this->lugar = array(
+            'Destino' => __('Destino', true),
+            'Origen' => __('Origen', true),
+        );
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);

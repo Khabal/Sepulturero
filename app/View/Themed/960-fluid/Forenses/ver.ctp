@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $forense['Forense']['id'], $forense['Persona']['nombre_completo']); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('forenses', $forense['Forense']['id'], $forense['Persona']['nombre_completo']); ?>
 </div>
 
 <?php
@@ -11,6 +11,8 @@
  echo '</pre>';
  */
 ?>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 
 <?php /* Datos médico forense */ ?>
 <div class="view box">
@@ -49,4 +51,5 @@
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($forense['Persona']['observaciones']); ?>&nbsp;</dd>
  </dl>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>

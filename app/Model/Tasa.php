@@ -5,8 +5,7 @@ App::uses('AppModel', 'Model');
 /**
  * Tasa Model
  *
- * @property EnterramientoTasa $EnterramientoTasa
- * @property Pago $Pago
+ * @property PagoTasa $PagoTasa
  */
 class Tasa extends AppModel {
     
@@ -28,7 +27,7 @@ class Tasa extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -63,7 +62,7 @@ class Tasa extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'tipo_cantidad';
+    public $displayField = 'concepto';
     
     /**
      * Name of the model
@@ -92,7 +91,11 @@ class Tasa extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'tipo_cantidad' => 'CONCAT(Tasa.tipo, " - ", Tasa.cantidad, " ", Tasa.moneda)'
+        'concepto' => 'Tasa.concepto',
+        'cantidad' => 'Tasa.cantidad',
+        'moneda' => 'Tasa.moneda',
+        'inicio_validez' => 'Tasa.inicio_validez',
+        'fin_validez' => 'Tasa.fin_validez',
     );
     
     /**
@@ -113,8 +116,7 @@ class Tasa extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -128,56 +130,109 @@ class Tasa extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tipo' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'cantidad' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'moneda' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'inicio_validez' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de tasa.',
+            ),
+        ),
+        'concepto' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El concepto no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El concepto debe tener entre 2 y 50 caracteres.',
+            ),
+        ),
+        'cantidad' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La cantidad no se puede dejar en blanco.',
+            ),
+            'numero_real' => array(
+                'rule' => '/^([0-9]\.[0-9]{3}|[0-9]{1,4})(\,[0-9]{0,2}){0,1}$/',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La cantidad sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'moneda' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La moneda no se puede dejar en blanco.',
+            ),
+            'lista_moneda' => array(
+                'rule' => array('inList', array('Pesetas', 'Euros')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La moneda no se encuentra dentro de las opciones posibles.',
+            ),
+        ),
+        'inicio_validez' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'ymd'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
+            ),
+        ),
+        'fin_validez' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'ymd'),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
+        //Campos imaginarios
+        'inicio_bonito' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'fin_bonito' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
     );
     
     /**
@@ -192,19 +247,8 @@ class Tasa extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'Pago' => array(
-            'className' => 'Pago',
-            'foreignKey' => 'tasa_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-        'EnterramientoTasa' => array(
-            'className' => 'EnterramientoTasa',
+        'PagoTasa' => array(
+            'className' => 'PagoTasa',
             'foreignKey' => 'tasa_id',
             'conditions' => '',
             'order' => '',
@@ -235,7 +279,7 @@ class Tasa extends AppModel {
         //Vector con las distintas monedas aceptadas en los pagos
         $this->moneda = array(
             'Pesetas' => __('Pesetas', true),
-            'Euros (€)' => __('Euros (€)', true)
+            'Euros' => __('Euros (€)', true)
         );
         
         //Llamar al constructor de la clase padre
@@ -255,6 +299,11 @@ class Tasa extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'concepto' => array('type' => 'like'),
+        'cantidad' => array('type' => 'like'),
+        'moneda' => array('type' => 'value'),
+        'inicio_validez' => array('type' => 'like'),
+        'fin_validez' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarTasa'),
     );
     
@@ -278,7 +327,7 @@ class Tasa extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'Tasa.tipo LIKE' => $comodin,
+          'Tasa.concepto LIKE' => $comodin,
          )
         );
         

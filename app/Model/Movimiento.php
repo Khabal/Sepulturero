@@ -3,13 +3,12 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Traslado Model
+ * Movimiento Model
  *
- * @property Documento $Documento
- * @property DifuntoTraslado $DifuntoTraslado
- * @property TrasladoTumba $TrasladoTumba
+ * @property DifuntoMovimiento $DifuntoMovimiento
+ * @property MovimientoTumba $MovimientoTumba
  */
-class Traslado extends AppModel {
+class Movimiento extends AppModel {
     
     /**
      * ----------------------
@@ -43,7 +42,7 @@ class Traslado extends AppModel {
      *
      * @var string
      */
-    public $useTable = 'traslados';
+    public $useTable = 'movimientos';
     
     /**
      * Name of the table prefix
@@ -71,14 +70,14 @@ class Traslado extends AppModel {
      *
      * @var string
      */
-    public $name = 'Traslado';
+    public $name = 'Movimiento';
     
     /**
      * Alias
      *
      * @var string
      */
-    public $alias = 'Traslado';
+    public $alias = 'Movimiento';
     
     /**
      * List of defaults ordering of data for any find operation
@@ -93,7 +92,13 @@ class Traslado extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Traslado.fecha,"%d/%m/%Y"), " - ", Traslado.motivo)'
+        'tipo' => 'Movimiento.tipo',
+        'fecha' => 'Movimiento.fecha',
+        'motivo' => 'Movimiento.motivo',
+        'viajeros' => 'Movimiento.viajeros',
+        'cementerio_origen' => 'Movimiento.cementerio_origen',
+        'cementerio_destino' => 'Movimiento.cementerio_destino',
+        'fecha_motivo' => 'CONCAT(DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y"), " - ", Movimiento.motivo)'
     );
     
     /**
@@ -114,8 +119,7 @@ class Traslado extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -129,56 +133,176 @@ class Traslado extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fecha' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'cementerio_origen' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'cementerio_destino' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'motivo' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de movimiento.',
+            ),
+        ),
+        'tipo' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de movimiento no se puede dejar en blanco.',
+            ),
+            'lista_movimiento' => array(
+                'rule' => array('inList', array('Exhumación', 'Inhumación', 'Traslado')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El tipo de movimiento no se encuentra dentro de las opciones posibles.',
+            ),
+            'viajeros_al_tren' => array(
+                'rule' => array('valida_viajeros'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'No se permite este movimiento con 0 difuntos.',
+            ),
+        ),
+        'fecha' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de movimiento no se puede dejar en blanco.',
+            ),
+            'formato_fecha' => array(
+                'rule' => array('date', 'ymd'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
+            ),
+        ),
+        'viajeros' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de difuntos meneados no se puede dejar en blanco.',
+            ),
+            'numeronatural' => array(
+                'rule' => array('naturalNumber', false),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El número de difuntos meneados sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'cementerio_origen' => array(
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El cementerio de origen debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El cementerio de origen sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'cementerio_destino' => array(
+            'longitud' => array(
+                'rule' => array('between', 2, 50),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El cementerio de destino debe tener entre 2 y 50 caracteres.',
+            ),
+            'sololetras' => array(
+                'rule' => '/^[a-zñÑçÇáéíóúÁÉÍÓÚàÀèÈìÌòÒùÙâÂêÊîÎôÔûÛüÜ \'\-]{2,50}$/i',
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El cementerio de destino sólo puede contener caracteres alfabéticos.',
+            ),
+        ),
+        'motivo' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El motivo no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 250),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El motivo debe tener entre 2 y 250 caracteres.',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
+        //Campos imaginarios
+        'fecha_bonita' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de movimiento no se puede dejar en blanco.',
+            ),
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'tumba_origen' => array(
+            'uuid' => array(
+                'rule' => array('valida_tumba_origen'),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La tumba especificada no existe.',
+            ),
+            'origen' => array(
+                'rule' => array('valida_origen'),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Se requiere una tumba como origen para este tipo de movimiento.',
+            ),
+        ),
+        'tumba_destino' => array(
+            'uuid' => array(
+                'rule' => array('valida_tumba_destino'),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La tumba especificada no existe.',
+            ),
+            'destino' => array(
+                'rule' => array('valida_destino'),
+                'required' => true,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Se requiere una tumba como destino para este tipo de movimiento.',
+            ),
+        ),
     );
     
     /**
@@ -193,31 +317,20 @@ class Traslado extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'DifuntoTraslado' => array(
-            'className' => 'DifuntoTraslado',
-            'foreignKey' => 'traslado_id',
+        'DifuntoMovimiento' => array(
+            'className' => 'DifuntoMovimiento',
+            'foreignKey' => 'movimiento_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
-        'Documento' => array(
-            'className' => 'Documento',
-            'foreignKey' => 'traslado_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => false,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-        'TrasladoTumba' => array(
-            'className' => 'TrasladoTumba',
-            'foreignKey' => 'traslado_id',
+        'MovimientoTumba' => array(
+            'className' => 'MovimientoTumba',
+            'foreignKey' => 'movimiento_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
@@ -244,8 +357,197 @@ class Traslado extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
+        //Vector de tipos de movimientos
+        $this->tipo = array(
+            'Exhumación' => __('Exhumación', true),
+            'Inhumación' => __('Inhumación', true),
+            'Traslado' => __('Traslado', true),
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_viajeros method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_viajeros($check) {
+        
+        //Comprobar que el número de viajeros sea mayor que 0
+        if ($this->data['Movimiento']['viajeros'] > 0) {
+            //Devolver válido
+            return true;
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+    }
+    
+    /**
+     * valida_tumba_origen method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba_origen($check) {
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['MovimientoTumba'][0]['tumba_id'])) {
+            $id = $this->data['MovimientoTumba'][0]['tumba_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->MovimientoTumba->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+          'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_origen method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_origen($check) {
+        
+        //Extraer el tipo de movimiento
+        if (!empty($this->data['Movimiento']['tipo'])) {
+            $tipo = $this->data['Movimiento']['tipo'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Comprobar que el tipo de movimiento sea de los que requieren origen
+        if (($tipo == "Exhumación") || ($tipo == "Traslado")){
+            
+            //Comprobar que la tumba de origen se haya introducido
+            if (empty($this->data['MovimientoTumba'][0]['tumba_id'])) {
+                //Devolver error
+                return false;
+            }
+            else {
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        
+        //Devolver válido
+        return true;
+        
+    }
+    
+    /**
+     * valida_tumba_destino method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba_destino($check) {
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['MovimientoTumba'][1]['tumba_id'])) {
+            $id = $this->data['MovimientoTumba'][1]['tumba_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->MovimientoTumba->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+          'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_destino method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_destino($check) {
+        
+        //Extraer el tipo de movimiento
+        if (!empty($this->data['Movimiento']['tipo'])) {
+            $tipo = $this->data['Movimiento']['tipo'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Comprobar que el tipo de movimiento sea de los que requieren destino
+        if (($tipo == "Inhumación") || ($tipo == "Traslado")){
+            
+            //Comprobar que la tumba de destino se haya introducido
+            if (empty($this->data['MovimientoTumba'][1]['tumba_id'])) {
+                //Devolver error
+                return false;
+            }
+            else {
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        
+        //Devolver válido
+        return true;
+        
     }
     
     /**
@@ -261,16 +563,192 @@ class Traslado extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'clave' => array('type' => 'query', 'method' => 'buscarTraslado'),
+        'tipo' => array('type' => 'value'),
+        'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'motivo' => array('type' => 'like'),
+        'cementerio_origen' => array('type' => 'like'),
+        'tumba_origen' => array('type' => 'query', 'method' => 'consultaTumbaOri'),
+        'tumba_origen_id' => array('type' => 'query', 'method' => 'consultaTumbaOriID'),
+        'cementerio_destino' => array('type' => 'like'),
+        'tumba_destino' => array('type' => 'query', 'method' => 'consultaTumbaDes'),
+        'tumba_destino_id' => array('type' => 'query', 'method' => 'consultaTumbaDesID'),
+        'clave' => array('type' => 'query', 'method' => 'buscarMovimiento'),
     );
-    
+
     /**
-     * buscarTraslado method
+     * consultaFecha method
      *
      * @param array $data Search terms
      * @return array
      */
-    public function buscarTraslado ($data = array()) {
+    public function consultaFecha ($data = array()) {
+        
+        //Comprobar que no se haya introducido fecha de inicio y de final
+        if (empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+
+        //Comprobar que se haya introducido una fecha de inicio
+        elseif (!empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Movimiento.fecha <=' => $data['desde'],
+             )
+            );
+        }
+        
+        //Comprobar que se haya introducido una fecha de final
+        elseif (empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Movimiento.fecha >=' => $data['hasta'],
+             )
+            );
+        }
+	
+        //Comprobar que se haya introducido fecha de inicio y de final
+        elseif (!empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Movimiento.fecha BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+             )
+            );
+        }
+        
+    }
+    
+    /**
+     * consultaTumbaOri method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaOri ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_origen_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba_origen'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba_origen'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaTumbaOriID method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaOriID ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_origen_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'MovimientoTumba.tumba_id' => $data['tumba_origen_id'],
+         'MovimientoTumba.origen_destino' => "Origen",
+        );
+        
+    }
+    
+    /**
+     * consultaTumbaDes method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaDes ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_destino_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba_destino'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba_destino'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaTumbaDesID method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumbaDesID ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_destino_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'MovimientoTumba.tumba_id' => $data['tumba_destino_id'],
+         'MovimientoTumba.origen_destino' => "Destino",
+        );
+        
+    }
+    
+    /**
+     * buscarMovimiento method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarMovimiento ($data = array()) {
         
         //Comprobar que se haya introducido un término de búsqueda
         if (empty($data['clave'])) {
@@ -284,8 +762,8 @@ class Traslado extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'DATE_FORMAT(Traslado.fecha,"%d/%m/%Y") LIKE' => $comodin,
-          'Traslado.motivo LIKE' => $comodin,
+          'DATE_FORMAT(Movimiento.fecha,"%d/%m/%Y") LIKE' => $comodin,
+          'Movimiento.motivo LIKE' => $comodin,
          )
         );
         

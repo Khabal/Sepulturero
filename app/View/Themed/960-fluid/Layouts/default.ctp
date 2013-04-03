@@ -11,9 +11,9 @@
    /* Archivos CSS particulares */
    echo $this->Html->css(array('general', 'cabeza', 'pie'));
    /* Archivos Javascript JQuery */
-/*echo $this->Html->css('smoothness/jquery-ui-1.9.2.custom');
+echo $this->Html->css('smoothness/jquery-ui-1.9.2.custom');
 echo $this->Html->script('jquery-1.8.3.js');
-echo $this->Html->script('1.9.2/jquery-ui.js');
+echo $this->Html->script('jquery-ui-1.9.2.js');/*
    echo $this->Html->script(array('jquery-fluid16.js', 'jquery.simpledialog.0.1'));*/
 
 
@@ -21,9 +21,11 @@ echo $this->Html->script('1.9.2/jquery-ui.js');
 echo $this->fetch('script');
 //   echo $scripts_for_layout;
   ?>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <?php
+/*    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	*/ ?>
 <?php
 echo $this->Html->script('jquery.sheepItPlugin.js');
 ?>
@@ -112,20 +114,6 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
    <!-- Menú -->
    <div class="grid_16 bordes_redondeados">
     <ul class="nav main">
-     <li><!-- Arrendatarios -->
-      <?php echo $this->Html->link(__('Arrendatarios'), array('controller' => 'arrendatarios', 'action' => 'index')); ?>
-      <ul>
-       <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'arrendatarios', 'action' => 'index')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'arrendatarios', 'action' => 'nuevo')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendatarios', 'action' => 'buscar')); ?>
-       </li>
-      </ul>
-     </li>
      <li><!-- Arrendamientos -->
       <?php echo $this->Html->link(__('Arrendamientos'), array('controller' => 'arrendamientos', 'action' => 'index')); ?>
       <ul>
@@ -137,6 +125,20 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
        <li>
         <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendamientos', 'action' => 'buscar')); ?>
+       </li>
+      </ul>
+     </li>
+     <li><!-- Arrendatarios -->
+      <?php echo $this->Html->link(__('Arrendatarios'), array('controller' => 'arrendatarios', 'action' => 'index')); ?>
+      <ul>
+       <li>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'arrendatarios', 'action' => 'index')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'arrendatarios', 'action' => 'nuevo')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'arrendatarios', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>

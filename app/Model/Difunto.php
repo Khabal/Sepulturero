@@ -5,8 +5,8 @@ App::uses('AppModel', 'Model');
 /**
  * Difunto Model
  *
- * @property DifuntoTraslado $DifuntoTraslado
- * @property Medico $Medico
+ * @property DifuntoMovimiento $DifuntoMovimiento
+ * @property Forense $Forense
  * @property Persona $Persona
  * @property Tumba $Tumba
  */
@@ -30,7 +30,7 @@ class Difunto extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -93,7 +93,13 @@ class Difunto extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'estado' => 'Difunto.estado',
+        'fecha_defuncion' => 'Difunto.fecha_defuncion',
+        'edad' => 'Difunto.edad',
+        'causa_fallecimiento' => 'Difunto.causa_fallecimiento',
+        'certificado_defuncion' => 'Difunto.certificado_defuncion',
+    );
     
     /**
      * List of behaviors
@@ -145,6 +151,15 @@ class Difunto extends AppModel {
                 'message' => 'Error inesperado al asociar ID de persona.',
             ),
         ),
+        'forense_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de médico forense.',
+            ),
+        ),
         'tumba_id' => array(
             'uuid' => array(
                 'rule' => array('uuid'),
@@ -172,7 +187,7 @@ class Difunto extends AppModel {
                 'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
             ),
         ),
-        'edad_defuncion' => array(
+        'edad' => array(
             'maximalongitud' => array(
                 'rule' => array('maxLength', 3),
                 'required' => false,
@@ -188,13 +203,36 @@ class Difunto extends AppModel {
                 'message' => 'La edad de defunción sólo puede contener caracteres numéricos (0 edad desconocida).',
             ),
         ),
-        'causa_defuncion' => array(
+        'causa_fallecimiento' => array(
             'maximalongitud' => array(
                 'rule' => array('maxLength', 150),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La causa de defunción debe tener como máximo 150 caracteres.',
+                'message' => 'La causa de fallecimiento debe tener como máximo 150 caracteres.',
+            ),
+        ),
+        'certificado_defuncion' => array(
+            'longitud' => array(
+                'rule' => array('between', 9, 10),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El certificado de defunción debe tener entre 9 y 10 caracteres.',
+            ),
+            'solonumeros' => array(
+                'rule' => '/^[0-9]{9,10}/',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El certificado de defunción sólo puede contener caracteres numéricos.',
+            ),
+            'uncio' => array(
+                'rule' => 'isUnique',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Este número de certificado de defunción ya está en uso.',
             ),
         ),
         //Campos imaginarios
@@ -205,6 +243,15 @@ class Difunto extends AppModel {
                 'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
+        'forense_bonito' => array(
+            'novacio' => array(
+                'rule' => array('valida_forense'),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El médico forense especificado no existe.',
             ),
         ),
         'tumba_bonita' => array(
@@ -230,8 +277,8 @@ class Difunto extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'DifuntoTraslado' => array(
-            'className' => 'DifuntoTraslado',
+        'DifuntoMovimiento' => array(
+            'className' => 'DifuntoMovimiento',
             'foreignKey' => 'difunto_id',
             'conditions' => '',
             'order' => '',
@@ -249,6 +296,16 @@ class Difunto extends AppModel {
      * @var array
      */
     public $belongsTo = array(
+        'Forense' => array(
+            'className' => 'Forense',
+            'foreignKey' => 'forense_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
         'Persona' => array(
             'className' => 'Persona',
             'foreignKey' => 'persona_id',
@@ -300,6 +357,50 @@ class Difunto extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_forense method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_forense($check) {
+        
+        //Extraer el ID del médico forense
+        if (!empty($this->data['Difunto']['forense_id'])) {
+            $id = $this->data['Difunto']['forense_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe un médico forense con el ID especificado
+        $forense = $this->Forense->find('first', array(
+         'conditions' => array(
+          'Forense.id' => $id,
+         ),
+         'fields' => array(
+          'Forense.id'
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe el médico forense especificado
+        if (empty($forense['Forense']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
     }
     
     /**
@@ -360,8 +461,106 @@ class Difunto extends AppModel {
      */
     
     public $filterArgs = array(
+        'nombre' => array('type' => 'like', 'field' => 'Persona.nombre'),
+        'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
+        'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
+        'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
+        'sexo' => array('type' => 'value', 'field' => 'Persona.sexo'),
+        'nacionalidad' => array('type' => 'like', 'field' => 'Persona.nacionalidad'),
+        'tumba' => array('type' => 'query', 'method' => 'consultaTumba'),
+        'tumba_id' => array('type' => 'value'),
+        'estado' => array('type' => 'value'),
+        'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'edad' => array('type' => 'like'),
+        'causa_fallecimiento' => array('type' => 'like'),
+        'certificado_defuncion' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
     );
+    
+    /**
+     * consultaTumba method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumba ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+
+    /**
+     * consultaFecha method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaFecha ($data = array()) {
+        
+        //Comprobar que no se haya introducido fecha de inicio y de final
+        if (empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+
+        //Comprobar que se haya introducido una fecha de inicio
+        elseif (!empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Difunto.fecha_defuncion <=' => $data['desde'],
+             )
+            );
+        }
+        
+        //Comprobar que se haya introducido una fecha de final
+        elseif (empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Difunto.fecha_defuncion >=' => $data['hasta'],
+             )
+            );
+        }
+	
+        //Comprobar que se haya introducido fecha de inicio y de final
+        elseif (!empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Difunto.fecha_defuncion BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+             )
+            );
+        }
+        
+    }
     
     /**
      * buscarDifunto method

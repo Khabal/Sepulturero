@@ -1,41 +1,45 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu('traslados'); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('movimientos'); ?>
 </div>
 
-<pre>
-<?php /*print_r($traslados);*/ ?>
-</pre>
+<?php
+ /*
+ echo '<pre>';
+ print_r($movimientos);
+ echo '</pre>';
+ */
+?>
 
-<?php /* Tabla traslados */ ?>
+<?php /* Tabla movimientos */ ?>
 <div class="index box">
- <h2><?php echo __('Traslados'); ?></h2>
+ <h2><?php echo __('Movimientos'); ?></h2>
  <table cellpadding="0" cellspacing="0">
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Traslado.fecha', 'Fecha');?></th>
-    <th><?php echo $this->Paginator->sort('Traslado.viajeros', 'Difuntos trasladados');?></th>
-    <th><?php echo $this->Paginator->sort('Traslado.cementerio_origen', 'Cementerio de origen');?></th>
-    <th><?php echo $this->Paginator->sort('TrasladoTumba.Tumba', 'Tumba de origen');?></th>
-    <th><?php echo $this->Paginator->sort('Traslado.cementerio_destino', 'Cementerio de destino');?></th>
-    <th><?php echo $this->Paginator->sort('TrasladoTumba.Tumba', 'Tumba de destino');?></th>
-    <th><?php echo $this->Paginator->sort('Traslado.motivo', 'Motivo');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.fecha', 'Fecha');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.tipo', 'Tipo');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.viajeros', 'Difuntos');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.cementerio_origen', 'Cementerio de origen');?></th>
+    <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba.localizacion', 'Tumba de origen');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.cementerio_destino', 'Cementerio de destino');?></th>
+    <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba.localizacion', 'Tumba de destino');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.motivo', 'Motivo');?></th>
     <th class="actions"><?php echo __('Acciones');?></th>
    </tr>
   </thead>
-  <?php /* Listado de traslados */ ?>
+  <?php /* Listado de movimientos */ ?>
   <tbody>
    <?php $i = 0; ?>
-   <?php foreach ($traslados as $traslado): ?>
+   <?php foreach ($movimientos as $movimiento): ?>
     <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
     <tr<?php echo $class; ?>>
-     <?php
-      /* Obtener identificadores de tumbas de origen y destino */
+     <?php /* Obtener identificadores de tumbas de origen y destino */
       $origen = null;
       $destino = null;
-      foreach ($traslado['TrasladoTumba'] as $tumba) {
+      foreach ($movimiento['MovimientoTumba'] as $tumba) {
        if ($tumba['origen_destino'] == "Origen") {
         $origen = $tumba;
        }
@@ -44,31 +48,79 @@
        }
       }
      ?>
-     <td><?php echo date('d/m/Y', strtotime($traslado['Traslado']['fecha'])); ?>&nbsp;</td>
-     <td><?php echo $traslado['Traslado']['viajeros']; ?>&nbsp;</td>
-     <td><?php echo $traslado['Traslado']['cementerio_origen']; ?>&nbsp;</td>
-     <?php /* Obtener identificador de tumba */ ?>
-     <?php $identificador = null; if($origen['Tumba']['Columbario']) {$identificador = $origen['Tumba']['Columbario']['localizacion'];} elseif($origen['Tumba']['Nicho']) {$identificador = $origen['Tumba']['Nicho']['localizacion'];} elseif($origen['Tumba']['Panteon']) {$identificador = $origen['Tumba']['Panteon']['localizacion'];} ?>
-     <td>
-      <?php if (strlen($identificador) > 0): ?>
-       <?php echo $this->Html->link($origen['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])); ?>
-      <?php else: ?>
-       Sin información
-      <?php endif; ?>&nbsp;
-     </td>
-     <td><?php echo $traslado['Traslado']['cementerio_destino']; ?>&nbsp;</td>
-     <?php /* Obtener identificador de tumba */ ?>
-     <?php $identificador = null; if($destino['Tumba']['Columbario']) {$identificador = $destino['Tumba']['Columbario']['localizacion'];} elseif($destino['Tumba']['Nicho']) {$identificador = $destino['Tumba']['Nicho']['localizacion'];} elseif($destino['Tumba']['Panteon']) {$identificador = $destino['Tumba']['Panteon']['localizacion'];} ?>
-     <td>
-      <?php if (strlen($identificador) > 0): ?>
-       <?php echo $this->Html->link($destino['Tumba']['tipo'] . " - " . $identificador, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])); ?>
-      <?php else: ?>
-       Sin información
-      <?php endif; ?>&nbsp;
-     </td>
-     <td><?php echo $traslado['Traslado']['motivo']; ?>&nbsp;</td>
+     <td><?php echo h(date('d/m/Y', strtotime($movimiento['Movimiento']['fecha']))); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['viajeros']); ?>&nbsp;</td>
+
+<?php /*Quitar infor si el mov no tiene origen */
+if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
+echo '<td>' . '-----' . '&nbsp;</td>';
+echo '<td>' . '-----' . '&nbsp;</td>';
+
+}
+else{
+      echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
+      /* Obtener la localización de tumba */
+      $localizacion = "";
+      if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+      }
+      elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Exterior']['localizacion'];
+      }
+      elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Nicho']['localizacion'];
+      }
+      elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
+       $localizacion = $origen['Tumba']['Panteon']['localizacion'];
+      }
+
+
+     
+ if (!empty($localizacion)){
+        echo '<td>'. $this->Html->link($origen['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])) . '&nbsp;</td>';
+}
+      else{
+      echo '<td>'. 'Sin información' . '&nbsp;</td>';
+     } 
+}
+?>
+<?php /*Quitar infor si el mov no tiene destino */
+if ($movimiento['Movimiento']['tipo'] == "Exhumación"){
+echo '<td>' . '-----' . '&nbsp;</td>';
+echo '<td>' . '-----' . '&nbsp;</td>';
+
+}
+else{
+      echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
+ /* Obtener la localización de tumba */
+      $localizacion = "";
+      if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+      }
+      elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Exterior']['localizacion'];
+      }
+      elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Nicho']['localizacion'];
+      }
+      elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
+       $localizacion = $destino['Tumba']['Panteon']['localizacion'];
+      }
+
+     
+ if (!empty($localizacion)){
+        echo '<td>'. $this->Html->link($destino['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])) . '&nbsp;</td>';
+}
+      else{
+      echo '<td>'. 'Sin información' . '&nbsp;</td>';
+     } 
+}
+?>
+
+     <td><?php echo $movimiento['Movimiento']['motivo']; ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('traslados', $traslado['Traslado']['id'], date('d/m/Y', strtotime($traslado['Traslado']['fecha'])) . " - " . $traslado['Traslado']['motivo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('movimientos', $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

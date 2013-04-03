@@ -5,8 +5,8 @@ App::uses('AppModel', 'Model');
 /**
  * Pago Model
  *
- * @property Documento $Documento
- * @property Tasa $Tasa
+ * @property ArrendatarioPago $ArrendatarioPago
+ * @property PagoTasa $PagoTasa
  */
 class Pago extends AppModel {
     
@@ -63,7 +63,7 @@ class Pago extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'fecha_concepto';
+    public $displayField = 'fecha_pago';
     
     /**
      * Name of the model
@@ -92,7 +92,7 @@ class Pago extends AppModel {
      * @var array
      */
     public $virtualFields = array(
-        'fecha_concepto' => 'CONCAT(DATE_FORMAT(Pago.fecha,"%d/%m/%Y"), " - ", Pago.concepto)'
+        'fecha_pago' => 'DATE_FORMAT(Pago.fecha,"%d/%m/%Y")'
     );
     
     /**
@@ -113,8 +113,7 @@ class Pago extends AppModel {
      *
      * @var array
      */
-    public $_schema = array(
-    );
+    public $_schema = array();
     
     /**
      * ----------------------
@@ -128,56 +127,75 @@ class Pago extends AppModel {
      * @var array
      */
     public $validate = array(
-		'id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'tasa_id' => array(
-			'uuid' => array(
-				'rule' => array('uuid'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'fecha' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'cantidad' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'moneda' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+        'id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al generar ID de pago.',
+            ),
+        ),
+        'fecha' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'ymd'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
+            ),
+        ),
+        'total' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El total no se puede dejar en blanco.',
+            ),
+            'numero_real' => array(
+                'rule' => '/^([0-9]\.[0-9]{3}|[0-9]{1,4})(\,[0-9]{0,2}){0,1}$/',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El total sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'moneda' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La moneda no se puede dejar en blanco.',
+            ),
+            'lista_moneda' => array(
+                'rule' => array('inList', array('Pesetas', 'Euros')),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La moneda no se encuentra dentro de las opciones posibles.',
+            ),
+        ),
+        'observaciones' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 255),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Las observaciones debe tener como máximo 255 caracteres.',
+            ),
+        ),
+        //Campos imaginarios
+        'fecha_bonita' => array(
+            'formato_fecha' => array(
+                'rule' => array('date', 'dmy'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
+            ),
+        ),
     );
     
     /**
@@ -192,8 +210,8 @@ class Pago extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'Documento' => array(
-            'className' => 'Documento',
+        'ArrendatarioPago' => array(
+            'className' => 'ArrendatarioPago',
             'foreignKey' => 'pago_id',
             'conditions' => '',
             'order' => '',
@@ -203,23 +221,16 @@ class Pago extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-    );
-    
-    /**
-     * belongsTo associations
-     *
-     * @var array
-     */
-    public $belongsTo = array(
-        'Tasa' => array(
-            'className' => 'Tasa',
-            'foreignKey' => 'tasa_id',
+        'PagoTasa' => array(
+            'className' => 'PagoTasa',
+            'foreignKey' => 'pago_id',
             'conditions' => '',
-            'type' => 'left',
-            'fields' => '',
             'order' => '',
-            'counterCache' => '',
-            'counterScope' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => true,
+            'exclusive' => false,
+            'finderQuery' => '',
         ),
     );
     
@@ -242,7 +253,7 @@ class Pago extends AppModel {
         //Vector con las distintas monedas aceptadas en los pagos
         $this->moneda = array(
             'Pesetas' => __('Pesetas', true),
-            'Euros (€)' => __('Euros (€)', true)
+            'Euros' => __('Euros (€)', true)
         );
         
         //Llamar al constructor de la clase padre
@@ -285,7 +296,6 @@ class Pago extends AppModel {
         //Devolver resultados de la búsqueda
         return array(
          'OR'  => array(
-          'Pago.concepto LIKE' => $comodin,
           'DATE_FORMAT(Pago.fecha,"%d/%m/%Y") LIKE' => $comodin,
           'Tasa.tipo LIKE' => $comodin,
          )

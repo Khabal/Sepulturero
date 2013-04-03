@@ -120,8 +120,7 @@ class ConcesionesController extends AppController {
         ),
         'title' => '', //Title of the document
         'encoding' => 'UTF-8', //Change the encoding, defaults to UTF-8
-        //'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
-        'binary' => 'C:\\wkhtmltopdf\\wkhtmltopdf.exe', //Path to binary (WkHtmlToPdfEngine only), Windows path
+        'binary' => '/usr/bin/wkhtmltopdf', //Path to binary (WkHtmlToPdfEngine only), defaults to /usr/bin/wkhtmltopdf
         'download' => false, //Set to true to force a download, only when using PdfView
         'filename' => '', //Filename for the document when using forced download
     );
@@ -131,7 +130,14 @@ class ConcesionesController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Concesion',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -165,12 +171,8 @@ class ConcesionesController extends AppController {
         
         //Establecer parámetros de paginación
         $this->paginate = array( 
-         'fields' => array(
-          'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
-         ),
-		 'conditions' => $this->Concesion->parseCriteria($this->passedArgs),
-         'contain' => array(
-         ),
+         'conditions' => $this->Concesion->parseCriteria($this->params->query),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -222,7 +224,6 @@ class ConcesionesController extends AppController {
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -233,7 +234,7 @@ class ConcesionesController extends AppController {
         
         //Comprobar si existe la concesión
         if (!$this->Concesion->exists()) {
-             $this->Session->setFlash(__('La concesión especificado no existe.'));
+             $this->Session->setFlash(__('La concesión especificada no existe.'));
              $this->redirect(array('action' => 'index'));
         }
         
@@ -259,15 +260,14 @@ class ConcesionesController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Eliminar reglas de validación
+        unset($this->Concesion->validate);
+        
     }
     
     /**
      * edit method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
@@ -357,12 +357,18 @@ class ConcesionesController extends AppController {
         $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
         $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('concesion'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -397,12 +403,18 @@ class ConcesionesController extends AppController {
         $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
         $this->pdfConfig['download'] = true;
         
-        //Redireccionar para la generación
-        
+        //Comprobar el sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            //Path to binary (WkHtmlToPdfEngine only), Windows path
+            $this->pdfConfig['binary'] = 'C:\\wkhtmltopdf\\wkhtmltopdf.exe';
+        }
         
         //Asignar el resultado de la búsqueda a una variable
         //(Comentario vital para entender el código de la función)
         $this->set(compact('concesion'));
+        
+        //Redireccionar para la generación
+        
         
     }
     
@@ -429,12 +441,27 @@ class ConcesionesController extends AppController {
             throw new NotFoundException(__('La concesión especificada no existe.'));
         }
         
-        //Borrar y comprobar éxito
-        if ($this->Concesion->delete()) {
-            $this->Session->setFlash(__('La concesión ha sido eliminado correctamente.'));
+        //Buscar si la concesión está en uso en algún arrendamiento
+        $arrendamiento = $this->Concesion->Arrendamiento->find('first', array(
+         'conditions' => array(
+          'Arrendamiento.concesion_id' => $id
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si la concesión está en uso en arrendamientos
+        if (!empty($arrendamiento)) {
+            $this->Session->setFlash(__('La concesión especificada está asociada a un arrendamiento.'));
         }
         else {
-            $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser eliminado.'));
+            //Borrar y comprobar éxito
+            if ($this->Concesion->delete()) {
+                $this->Session->setFlash(__('La concesión ha sido eliminado correctamente.'));
+            }
+            else {
+                $this->Session->setFlash(__('Ha ocurrido un error mágico. La concesión no ha podido ser eliminado.'));
+            }
         }
         
         //Redireccionar a index
@@ -460,14 +487,13 @@ class ConcesionesController extends AppController {
         
         //Búsqueda de coincidencias
         $resultados = $this->Concesion->find('all', array(
+         'contain' => array(
+         ),
          'conditions' => array(
           'OR' =>  array(
            'Concesion.tipo LIKE' => $palabro,
-           'Concesion.anos_concesion' => $palabro,
+           'Concesion.anos_concesion LIKE' => $palabro,
           ),
-         ),
-         'fields' => array(
-          'Concesion.id', 'Concesion.tipo',
          ),
          'limit' => 20,
         ));
@@ -480,7 +506,7 @@ class ConcesionesController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Concesion']['tipo'], "value" => $resultado['Concesion']['id']));
+                array_push($items, array("label" => $resultado['Concesion']['tipo'] . " - " . $resultado['Concesion']['anos_concesion'] . " años", "value" => $resultado['Concesion']['id']));
             }
         }
         

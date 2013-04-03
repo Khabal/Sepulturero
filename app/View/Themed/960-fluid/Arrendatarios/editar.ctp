@@ -1,13 +1,14 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Arrendatario.id'), $this->Session->read('Arrendatario.nombre_completo')); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendatarios', $this->Session->read('Arrendatario.id'), $this->Session->read('Arrendatario.nombre_completo')); ?>
 </div>
 
 <?php
  /*
  echo '<pre>';
  print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
  */
 ?>
@@ -48,6 +49,9 @@
 ?>
 
 <script>
+ var errores = <?php echo $mensajes_error; ?>;
+ var num = 0;
+
  $(function() {
    /* Formulario sheepIt para agregar funerarias */
    $("#SubFormularioFuneraria").sheepIt({
@@ -107,9 +111,7 @@
          if(errores[num][num + 1] != "") {
            $(newForm).append('<div class="error-message">' + errores[num][num + 1] + '</div>');
        }
-       else {
-       }
-       num++;
+         num++;
        }
        
      }
@@ -127,6 +129,7 @@
     echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
     echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
     echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
+    echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
     echo $this->Form->input('Arrendatario.direccion', array('label' => 'Dirección:'));
     echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:'));
     echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:'));

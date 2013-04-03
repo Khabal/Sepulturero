@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('concesiones'); ?>
 </div>
 
 <?php
@@ -20,7 +20,7 @@
   <thead>
    <tr>
     <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión'); ?></th>
-    <th><?php echo $this->Paginator->sort('Licencia.anos_concesion', 'Años de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.anos_concesion', 'Años de concesión'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>

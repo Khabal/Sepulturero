@@ -2,13 +2,14 @@
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php $licencia = $this->request->data; ?>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $this->Session->read('Concesion.id'), $this->Session->read('Concesion.tipo')); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('concesiones', $this->Session->read('Concesion.id'), $this->Session->read('Concesion.tipo')); ?>
 </div>
 
 <?php
  /*
  echo '<pre>';
  print_r($this->request->data);
+ print_r($this->validationErrors);
  echo '</pre>';
  */
 ?>

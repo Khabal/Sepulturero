@@ -29,7 +29,7 @@ class Arrendamiento extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -92,7 +92,10 @@ class Arrendamiento extends AppModel {
      *
      * @var array
      */
-    public $virtualFields = array();
+    public $virtualFields = array(
+        'fecha_arrendamiento' => 'Arrendamiento.fecha_arrendamiento',
+        'estado' => 'Arrendamiento.estado',
+    );
     
     /**
      * List of behaviors
@@ -219,6 +222,13 @@ class Arrendamiento extends AppModel {
                 'on' => null,
                 'message' => 'Formato de fecha inválido (DD/MM/AAAA).',
             ),
+            'vigencia_fecha' => array(
+                'rule' => array('valida_vigencia'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'En base a la fecha de arrendamiento y los años de concesión ya habría caducado.',
+            ),
         ),
         'arrendatario_bonito' => array(
             'uuid' => array(
@@ -321,6 +331,72 @@ class Arrendamiento extends AppModel {
     }
     
     /**
+     * valida_vigencia method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_vigencia($check) {
+        
+        //Extraer la fecha del arrendamiento del vector
+        $fecha = date_create_from_format('d/m/Y', (string) $check['fecha_bonita']);
+        
+        //Extraer el estado del arrendamiento
+        if (!empty($this->data['Arrendamiento']['estado'])) {
+            $estado = $this->data['Arrendamiento']['estado'];
+        }
+        else {
+            $estado = '';
+        }
+        
+        //Comprobar si el estado del arrendamiento es "Vigente"
+        if ($estado == "Vigente") {
+            
+            //Extraer el ID de la concesión
+            if (!empty($this->data['Arrendamiento']['concesion_id'])) {
+                $id = $this->data['Arrendamiento']['concesion_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Buscar si hay existe una concesión con el ID especificado
+            $concesion = $this->Concesion->find('first', array(
+             'conditions' => array(
+              'Concesion.id' => $id,
+             ),
+             'fields' => array(
+              'Concesion.id', 'Concesion.anos_concesion'
+             ),
+              'contain' => array(
+             ),
+            ));
+            
+            if (empty($concesion)) {
+                //Devolver error
+                return false;
+            }
+            
+            //Comprobar si realmente está vigente
+            date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['anos_concesion'] . 'years'));
+            $hoy = new DateTime();
+            if ($fecha < $hoy) {
+                //Devolver error
+                return false;
+            }
+            else {
+                //Devolver válido
+                return true;
+            }
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+    }
+    
+    /**
      * valida_arrendamiento method
      *
      * @param array $check elements for validate
@@ -331,28 +407,28 @@ class Arrendamiento extends AppModel {
         //Extraer el estado del arrendamiento del vector
         $estado = (string) $check['estado'];
         
+        //Extraer el ID del arrendamiento
+        if (!empty($this->data['Arrendamiento']['id'])) {
+            $id = $this->data['Arrendamiento']['id'];
+        }
+        else {
+            $id = '';
+        }
+        
         //Extraer el ID de la tumba
-        if (isset($this->data['Arrendamiento']['tumba_id'])) {
+        if (!empty($this->data['Arrendamiento']['tumba_id'])) {
             $tumba = $this->data['Arrendamiento']['tumba_id'];
         }
         else {
             $tumba = '';
         }
         
-        //Extraer el ID del arrendatario
-        if (isset($this->data['Arrendamiento']['arrendatario_id'])) {
-            $arrendatario = $this->data['Arrendamiento']['arrendatario_id'];
-        }
-        else {
-            $arrendatario = '';
-        }
-        
         //Comprobar si el estado del arrendamiento es "Vigente"
         if ($estado == "Vigente") {
             //Buscar si ya había otro arrendatario "Vigente" para esta tumba
-            $arrendador = $this->find('first', array(
+            $arrendador = $this->find('count', array(
              'conditions' => array(
-              'Arrendamiento.arrendatario_id !=' => $arrendatario,
+              'Arrendamiento.id !=' => $id,
               'Arrendamiento.tumba_id' => $tumba,
               'Arrendamiento.estado' => "Vigente",
              ),
@@ -364,7 +440,7 @@ class Arrendamiento extends AppModel {
             ));
             
             //Comprobar si existe otro arrendatario "Vigente" para esta tumba
-            if (!empty($arrendador['Arrendamiento']['id'])) {
+            if ($arrendador > 0) {
                 //Devolver error
                 return false;
             }
@@ -516,4 +592,217 @@ class Arrendamiento extends AppModel {
         
     }
     
+    /**
+     * ---------------------------
+     * Search Plugin
+     * ---------------------------
+     */
+    
+    /**
+     * Field names accepted
+     *
+     * @var array
+     * @see SearchableBehavior
+     */
+    public $filterArgs = array(
+        'arrendatario' => array('type' => 'query', 'method' => 'consultaArrendatario'),
+        'arrendatario_id' => array('type' => 'value'),
+        'concesion' => array('type' => 'query', 'method' => 'consultaConcesion'),
+        'concesion_id' => array('type' => 'value'),
+        'tumba' => array('type' => 'query', 'method' => 'consultaTumba'),
+        'tumba_id' => array('type' => 'value'),
+        'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
+        'estado' => array('type' => 'value'),
+        'clave' => array('type' => 'query', 'method' => 'buscarArrendamiento'),
+    );
+    
+    /**
+     * consultaArrendatario method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaArrendatario ($data = array()) {
+        
+        //Comprobar que se haya introducido un arrendatario definido
+        if (!empty($data['arrendatario_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['arrendatario'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['arrendatario'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Persona.dni LIKE' => $comodin,
+          'Persona.nombre LIKE' => $comodin,
+          'Persona.apellido1 LIKE' => $comodin,
+          'Persona.apellido2 LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaConcesion method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaConcesion ($data = array()) {
+        
+        //Comprobar que se haya introducido una concesión definida
+        if (!empty($data['concesion_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['concesion'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['concesion'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Concesion.tipo LIKE' => $comodin,
+          'Concesion.anos_concesion LIKE' => $comodin,
+         )
+        );
+        
+    }
+    
+    /**
+     * consultaTumba method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaTumba ($data = array()) {
+        
+        //Comprobar que se haya introducido una tumba definida
+        if (!empty($data['tumba_id'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['tumba'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['tumba'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Tumba.tipo LIKE' => $comodin,
+          'CONCAT(Columbario.numero_columbario, Columbario.letra) LIKE' => $comodin,
+          'CONCAT(Nicho.numero_nicho, Nicho.letra) LIKE' => $comodin,
+          'Panteon.familia LIKE' => $comodin,
+          'CONCAT("Número: ", Columbario.numero_columbario, Columbario.letra, " - Fila: ", Columbario.fila, " - Patio: ", Columbario.patio) LIKE' => $comodin,
+          'CONCAT("Número: ", Nicho.numero_nicho, Nicho.letra, " - Fila: ", Nicho.fila, " - Patio: ", Nicho.patio) LIKE' => $comodin,
+          'CONCAT("Familia: ", Panteon.familia, " - Número: ", Panteon.numero_panteon,  " - Patio: ", Panteon.patio) LIKE' => $comodin,
+         )
+        );
+        
+    }
+
+    /**
+     * consultaFecha method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function consultaFecha ($data = array()) {
+        
+        //Comprobar que no se haya introducido fecha de inicio y de final
+        if (empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+
+        //Comprobar que se haya introducido una fecha de inicio
+        elseif (!empty($data['desde']) && empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Arrendamiento.fecha_arrendamiento <=' => $data['desde'],
+             )
+            );
+        }
+        
+        //Comprobar que se haya introducido una fecha de final
+        elseif (empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Arrendamiento.fecha_arrendamiento >=' => $data['hasta'],
+             )
+            );
+        }
+	
+        //Comprobar que se haya introducido fecha de inicio y de final
+        elseif (!empty($data['desde']) && !empty($data['hasta'])) {
+            //Devolver resultados de la búsqueda
+            return array(
+             'OR'  => array(
+              'Arrendamiento.fecha_arrendamiento BETWEEN ? AND ?' => array($data['desde'], $data['hasta']),
+             )
+            );
+        }
+        
+    }
+    
+    /**
+     * buscarArrendamiento method
+     *
+     * @param array $data Search terms
+     * @return array
+     */
+    public function buscarArrendamiento ($data = array()) {
+        
+        //Comprobar que se haya introducido un término de búsqueda
+        if (empty($data['clave'])) {
+            //Devolver resultados de la búsqueda
+            return array();
+        }
+	
+        //Construir comodín para búsqueda
+        $comodin = '%' . $data['clave'] . '%';
+        
+        //Devolver resultados de la búsqueda
+        return array(
+         'OR'  => array(
+          'Persona.dni LIKE' => $comodin,
+          'Persona.nombre LIKE' => $comodin,
+          'Persona.apellido1 LIKE' => $comodin,
+          'Persona.apellido2 LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1) LIKE' => $comodin,
+          'CONCAT(Persona.nombre," ",Persona.apellido1," ",Persona.apellido2) LIKE' => $comodin,
+          'Concesion.tipo LIKE' => $comodin,
+          'Concesion.anos_concesion LIKE' => $comodin,
+          'DATE_FORMAT(Arrendamiento.fecha_arrendamiento,"%d/%m/%Y") LIKE' => $comodin,
+         )
+        );
+        
+    }
+
 }

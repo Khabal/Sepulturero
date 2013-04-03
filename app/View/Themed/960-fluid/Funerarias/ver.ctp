@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido(strtolower($this->name), $funeraria['Funeraria']['id'], $funeraria['Funeraria']['nombre']); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('funerarias', $funeraria['Funeraria']['id'], $funeraria['Funeraria']['nombre']); ?>
 </div>
 
 <?php
@@ -11,6 +11,8 @@
  echo '</pre>';
  */
 ?>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 
 <?php /* Datos funeraria */ ?>
 <div class="view box">
@@ -69,4 +71,5 @@
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($funeraria['Funeraria']['observaciones']); ?>&nbsp;</dd>
  </dl>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
