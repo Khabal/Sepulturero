@@ -155,7 +155,7 @@ class Difunto extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de médico forense.',
             ),
@@ -284,7 +284,7 @@ class Difunto extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),

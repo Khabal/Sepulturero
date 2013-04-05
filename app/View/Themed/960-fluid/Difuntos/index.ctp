@@ -104,7 +104,16 @@
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($difunto['Difunto']['certificado_defuncion']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($difunto['Difunto']['certificado_defuncion'])) {
+        echo h($difunto['Difunto']['certificado_defuncion']);
+       }
+       else {
+        echo h("No tiene");
+       }
+      ?>&nbsp;
+     </td>
      <td class="actions">
       <?php echo $this->GuarritasEnergeticas->guarrita_acciones('difuntos', $difunto['Difunto']['id'], $difunto['Persona']['nombre_completo']); ?>
      </td>

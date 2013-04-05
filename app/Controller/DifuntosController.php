@@ -278,14 +278,32 @@ class DifuntosController extends AppController {
                 $this->request->data['Difunto']['tumba_id'] = null;
             }
             
+            //Comprobar si se ha introducido médico forense que certifique la muerte
+            if (empty($this->request->data['Difunto']['forense_id'])) {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['forense_id'] = null;
+            }
+            
+            //Comprobar si se ha introducido un certificado de defunción
+            if (empty($this->request->data['Difunto']['certificado_defuncion'])) {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['certificado_defuncion'] = null;
+            }
+            
             //Indicar que se trata de un difunto
             $this->request->data['Persona']['difunto_id'] = '';
             
             //Validar los datos introducidos
             if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
                 
+				if (!empty($this->request->data['Persona']['dni'])){
                 //Convertir a mayúsculas el carácter del DNI
                 $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+				}
+				else {
+				//Truco del almendruco para evitar errores de validación
+                $this->request->data['Persona']['dni'] = null;
+				}
                 
                 //Guardar y comprobar éxito
                 if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
