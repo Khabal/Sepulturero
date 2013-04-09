@@ -52,11 +52,22 @@
   <dd><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</dd>
   <dt><?php echo __('Código postal'); ?>:</dt>
   <dd><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</dd>
-  <dt><?php echo __('Teléfono'); ?>:</dt>
+  <dt><?php echo __('Teléfono fijo'); ?>:</dt>
   <dd>
    <?php
-    if (!empty($arrendatario['Arrendatario']['telefono'])) {
-     echo h($arrendatario['Arrendatario']['telefono']);
+    if (!empty($arrendatario['Arrendatario']['telefono_fijo'])) {
+     echo h($arrendatario['Arrendatario']['telefono_fijo']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
+  <dt><?php echo __('Teléfono móvil'); ?>:</dt>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Arrendatario']['telefono_movil'])) {
+     echo h($arrendatario['Arrendatario']['telefono_movil']);
     }
     else {
      echo h("Desconocido");
@@ -184,5 +195,6 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>

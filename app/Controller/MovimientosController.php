@@ -130,7 +130,13 @@ class MovimientosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Movimiento',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -141,7 +147,7 @@ class MovimientosController extends AppController {
         'atomic' => true,
         'deep' => true,
         'fieldList' => array(
-            'Movimiento' => array('id', 'tipo', 'fecha', 'motivo', 'viajeros', 'cementerio_origen', 'cementerio_destino', 'observaciones'),
+            'Movimiento' => array('id', 'tipo', 'fecha', 'motivo', 'viajeros', 'cementerio_origen', 'cementerio_destino', 'documental', 'observaciones'),
             'DifuntoMovimiento' => array('id', 'difunto_id', 'movimiento_id'),
             'MovimientoTumba' => array('id', 'movimiento_id', 'tumba_id', 'origen_destino'),
             'Difunto' => array('id', 'tumba_id'),

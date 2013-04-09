@@ -97,7 +97,8 @@ class Difunto extends AppModel {
         'estado' => 'Difunto.estado',
         'fecha_defuncion' => 'Difunto.fecha_defuncion',
         'edad' => 'Difunto.edad',
-        'causa_fallecimiento' => 'Difunto.causa_fallecimiento',
+        'causa_fundamental' => 'Difunto.causa_fundamental',
+        'causa_inmediata' => 'Difunto.causa_inmediata',
         'certificado_defuncion' => 'Difunto.certificado_defuncion',
     );
     
@@ -155,7 +156,7 @@ class Difunto extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de médico forense.',
             ),
@@ -203,41 +204,43 @@ class Difunto extends AppModel {
                 'message' => 'La edad de defunción sólo puede contener caracteres numéricos (0 edad desconocida).',
             ),
         ),
-        'causa_fallecimiento' => array(
+        'causa_fundamental' => array(
             'maximalongitud' => array(
-                'rule' => array('maxLength', 150),
+                'rule' => array('maxLength', 50),
                 'required' => false,
                 'allowEmpty' => true,
                 'on' => null,
-                'message' => 'La causa de fallecimiento debe tener como máximo 150 caracteres.',
+                'message' => 'La causa fundamental de fallecimiento debe tener como máximo 50 caracteres.',
+            ),
+        ),
+        'causa_inmediata' => array(
+            'maximalongitud' => array(
+                'rule' => array('maxLength', 50),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'La causa inmediata de fallecimiento debe tener como máximo 50 caracteres.',
             ),
         ),
         'certificado_defuncion' => array(
-            'novacio' => array(
-                'rule' => array('notEmpty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El certificado de defunción no se puede dejar en blanco (Desconocido: 000000000).',
-            ),
             'longitud' => array(
                 'rule' => array('between', 9, 10),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El certificado de defunción debe tener entre 9 y 10 caracteres.',
             ),
             'solonumeros' => array(
                 'rule' => '/^[0-9]{9,10}/',
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El certificado de defunción sólo puede contener caracteres numéricos.',
             ),
             'uncio' => array(
                 'rule' => 'isUnique',
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Este número de certificado de defunción ya está en uso.',
             ),
@@ -255,8 +258,8 @@ class Difunto extends AppModel {
         'forense_bonito' => array(
             'novacio' => array(
                 'rule' => array('valida_forense'),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El médico forense especificado no existe.',
             ),
@@ -291,7 +294,7 @@ class Difunto extends AppModel {
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => false,
+            'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -479,8 +482,9 @@ class Difunto extends AppModel {
         'estado' => array('type' => 'value'),
         'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
         'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
-        'edad' => array('type' => 'like'),
-        'causa_fallecimiento' => array('type' => 'like'),
+        'edad' => array('type' => 'value'),
+        'causa_fundamental' => array('type' => 'like'),
+        'causa_inmediata' => array('type' => 'like'),
         'certificado_defuncion' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
     );

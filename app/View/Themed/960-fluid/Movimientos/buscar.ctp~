@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('movimientos'); ?>
 </div>
 
 <script>
@@ -136,6 +136,7 @@
     echo $this->Form->input('cementerio_destino', array('label' => 'Cementerio de destino:'));
     echo $this->Form->input('tumba_destino', array('label' => 'Tumba de destino:')); //Campo imaginario
     echo $this->Form->input('tumba_destino_id', array('type' => 'hidden'));
+    echo $this->Form->input('documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
    ?>
   </fieldset>
  <?php /* Botones */

@@ -11,9 +11,9 @@
    /* Archivos CSS particulares */
    echo $this->Html->css(array('general', 'cabeza', 'pie'));
    /* Archivos Javascript JQuery */
-/*echo $this->Html->css('smoothness/jquery-ui-1.9.2.custom');
+echo $this->Html->css('smoothness/jquery-ui-1.9.2.custom');
 echo $this->Html->script('jquery-1.8.3.js');
-echo $this->Html->script('1.9.2/jquery-ui.js');
+echo $this->Html->script('jquery-ui-1.9.2.js');/*
    echo $this->Html->script(array('jquery-fluid16.js', 'jquery.simpledialog.0.1'));*/
 
 
@@ -21,9 +21,11 @@ echo $this->Html->script('1.9.2/jquery-ui.js');
 echo $this->fetch('script');
 //   echo $scripts_for_layout;
   ?>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <?php
+/*    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	*/ ?>
 <?php
 echo $this->Html->script('jquery.sheepItPlugin.js');
 ?>

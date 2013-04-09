@@ -320,6 +320,7 @@ $.each(respuesta, function (iteration, item) {
   <fieldset>
    <legend><?php echo __('Datos del movimiento'); ?></legend>
    <?php
+    echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
     echo $this->Form->input('Movimiento.tipo', array('label' => 'Clase de movimiento:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
     echo $this->Form->input('Movimiento.fecha_bonita', array('label' => 'Fecha de movimiento:')); //Campo imaginario
     echo $this->Form->input('Movimiento.fecha', array('type' => 'hidden'));

@@ -99,7 +99,8 @@ class Arrendatario extends AppModel {
         'provincia' => 'Arrendatario.provincia',
         'pais' => 'Arrendatario.pais',
         'codigo_postal' => 'Arrendatario.codigo_postal',
-        'telefono' => 'Arrendatario.telefono',
+        'telefono_fijo' => 'Arrendatario.telefono_fijo',
+        'telefono_movil' => 'Arrendatario.telefono_movil',
         'correo_electronico' => 'Arrendatario.correo_electronico',
     );
     
@@ -232,29 +233,38 @@ class Arrendatario extends AppModel {
             ),
         ),
         'codigo_postal' => array(
-            'novacio' => array(
-                'rule' => array('notEmpty'),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El código postal no se puede dejar en blanco.',
-            ),
             'longitud' => array(
                 'rule' => array('between', 2, 6),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El código postal debe tener entre 2 y 6 caracteres.',
             ),
             'numeronatural' => array(
                 'rule' => array('naturalNumber', true),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El código postal sólo puede contener caracteres numéricos.',
             ),
         ),
-        'telefono' => array(
+        'telefono_fijo' => array(
+            'longitud' => array(
+                'rule' => array('between', 9, 12),
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El número de teléfono debe tener entre 9 y 12 caracteres.',
+            ),
+            'solonumeros' => array(
+                'rule' => '/^[0-9]/',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'El número de teléfono sólo puede contener caracteres numéricos.',
+            ),
+        ),
+        'telefono_movil' => array(
             'longitud' => array(
                 'rule' => array('between', 9, 12),
                 'required' => false,
@@ -395,7 +405,8 @@ class Arrendatario extends AppModel {
         'provincia' => array('type' => 'like'),
         'pais' => array('type' => 'like'),
         'codigo_postal' => array('type' => 'like'),
-        'telefono' => array('type' => 'like'),
+        'telefono_fijo' => array('type' => 'like'),
+        'telefono_movil' => array('type' => 'like'),
         'correo_electronico' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
     );

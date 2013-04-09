@@ -24,7 +24,8 @@
     echo $this->Form->input('provincia', array('label' => 'Provincia:'));
     echo $this->Form->input('pais', array('label' => 'País:'));
     echo $this->Form->input('codigo_postal', array('label' => 'Código postal:'));
-    echo $this->Form->input('telefono', array('label' => 'Teléfono:'));
+    echo $this->Form->input('telefono_fijo', array('label' => 'Teléfono fijo:'));
+    echo $this->Form->input('telefono_movil', array('label' => 'Teléfono móvil:'));
     echo $this->Form->input('correo_electronico', array('label' => 'Correo electrónico:'));
    ?>
   </fieldset>

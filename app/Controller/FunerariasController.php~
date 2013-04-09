@@ -130,7 +130,13 @@ class FunerariasController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Funeraria',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -165,8 +171,7 @@ class FunerariasController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Funeraria->parseCriteria($this->params->query),
-         'contain' => array(
-         ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación

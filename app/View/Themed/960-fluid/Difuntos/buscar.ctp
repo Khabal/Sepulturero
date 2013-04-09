@@ -105,7 +105,8 @@
     echo $this->Form->input('hasta', array('type' => 'hidden'));
     echo '</div>';
     echo $this->Form->input('edad', array('label' => 'Edad:'));
-    echo $this->Form->input('causa_fallecimiento', array('label' => 'Causa de fallecimiento:'));
+    echo $this->Form->input('causa_fundamental', array('label' => 'Causa fundamental de fallecimiento:'));
+    echo $this->Form->input('causa_inmediata', array('label' => 'Causa inmediata de fallecimiento:'));
     echo $this->Form->input('certificado_defuncion', array('label' => 'Certificado de defunción:'));
    ?>
   </fieldset>

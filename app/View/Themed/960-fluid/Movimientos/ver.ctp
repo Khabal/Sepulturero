@@ -18,6 +18,13 @@
 <div class="view box">
  <h2><?php echo __('Datos del movimiento');?></h2>
  <dl>
+  <?php /* Comprobar si se trata de un movimiento documental */
+   $estilo = '';
+   if ($movimiento['Movimiento']['documental']) {
+    echo "<dt>Este tipo de movimiento no tiene nigún tipo de validez ni de rigor.</dt><dd></dd>";
+    $estilo = ' style="color:#FF0000;"'; 
+   }
+  ?>
   <dt><?php echo __('Tipo de movimiento'); ?>:</dt>
   <dd><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</dd>
   <dt><?php echo __('Fecha'); ?>:</dt>
@@ -177,5 +184,6 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>

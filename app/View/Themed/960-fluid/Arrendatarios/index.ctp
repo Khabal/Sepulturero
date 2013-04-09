@@ -26,7 +26,8 @@
     <th><?php echo $this->Paginator->sort('Arrendatario.provincia', 'Provincia'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.pais', 'País'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.codigo_postal', 'Código postal'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.telefono', 'Teléfono'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.telefono_fijo', 'Teléfono fijo'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.telefono_movil', 'Teléfono móvil'); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendatario.correo_electronico', 'Correo electrónico'); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
@@ -66,8 +67,18 @@
      <td><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono'])) {
-        echo h($arrendatario['Arrendatario']['telefono']);
+       if (!empty($arrendatario['Arrendatario']['telefono_fijo'])) {
+        echo h($arrendatario['Arrendatario']['telefono_fijo']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['telefono_movil'])) {
+        echo h($arrendatario['Arrendatario']['telefono_movil']);
        }
        else {
         echo h("Desconocido");

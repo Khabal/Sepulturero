@@ -130,7 +130,14 @@ class TumbasController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Tumba',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -914,6 +921,9 @@ class TumbasController extends AppController {
          'conditions' => array(
           'OR' => array(
            'Tumba.tipo LIKE' => $palabro,
+           'CONCAT(Tumba.tipo," ",Columbario.numero_columbario, Columbario.letra," ",Columbario.fila," ",Columbario.patio) LIKE' => $palabro,
+           'CONCAT(Tumba.tipo," ",Nicho.numero_nicho, Nicho.letra," ",Nicho.fila," ",Nicho.patio) LIKE' => $palabro,
+           'CONCAT(Tumba.tipo," ",Panteon.familia," ",Panteon.numero_panteon," ",Panteon.patio) LIKE' => $palabro,
            'CONCAT(Columbario.numero_columbario, Columbario.letra," ",Columbario.fila," ",Columbario.patio) LIKE' => $palabro,
            'CONCAT(Nicho.numero_nicho, Nicho.letra," ",Nicho.fila," ",Nicho.patio) LIKE' => $palabro,
            'CONCAT(Panteon.familia," ",Panteon.numero_panteon," ",Panteon.patio) LIKE' => $palabro,
@@ -969,9 +979,16 @@ class TumbasController extends AppController {
             //Desinfectar los datos recibidos del formulario
             Sanitize::clean($this->request->data);
             
+            //Comprobar si se ha introducido el número de filas
+            if (empty($this->request->data['Tumba']['n_filas'])) {
+                $this->request->data['Tumba']['n_filas'] = '0';
+                unset($this->Tumba->Nicho->validate['fila']);
+                unset($this->Tumba->Columbario->validate['fila']);
+            }
+            
             //Procesar y validar datos del formulario
             if(!ctype_digit($this->request->data['Tumba']['n_tumbas'])){
-                $this->Session->setFlash(__('El número de tumbas por fila debe ser un entero.'));
+                $this->Session->setFlash(__('El número total de tumbas debe ser un entero.'));
                 $this->render();
             }
             elseif(!ctype_digit($this->request->data['Tumba']['n_filas'])){
@@ -988,9 +1005,11 @@ class TumbasController extends AppController {
             
             if ($this->request->data['Tumba']['t_tumba'] == "Columbario") {
                 $valores['Columbario']['patio'] = $this->request->data['Tumba']['n_patio'];
+                $valores['Columbario']['letra'] = strtoupper($this->request->data['Tumba']['letra']);
             }
             elseif ($this->request->data['Tumba']['t_tumba'] == "Nicho") {
                 $valores['Nicho']['patio'] = $this->request->data['Tumba']['n_patio'];
+                $valores['Nicho']['letra'] = strtoupper($this->request->data['Tumba']['letra']);
             }
             else {
                 $this->Session->setFlash(__('Tipo de tumba no valdío para esta acción'));
@@ -1002,6 +1021,7 @@ class TumbasController extends AppController {
             
             unset($this->request->data['Tumba']['t_tumba']);
             unset($this->request->data['Tumba']['n_patio']);
+            unset($this->request->data['Tumba']['letra']);
             
             //Contadores del bucle
             $contador_tumbas = (int) $this->request->data['Tumba']['n_tumbas'];
@@ -1010,8 +1030,9 @@ class TumbasController extends AppController {
             unset($this->request->data['Tumba']['n_tumbas']);
             unset($this->request->data['Tumba']['n_filas']);
             
-            //Bucles de guardado estilo clásico
-            for ($i = 1; $i <= $contador_filas; $i++) {
+            //Si no hay filas
+            if ($contador_filas == 0) {
+                //Bucle de guardado estilo clásico
                 for ($j = 1; $j <= $contador_tumbas; $j++) {
                     
                     //Crear nueva tumba con id único
@@ -1019,12 +1040,14 @@ class TumbasController extends AppController {
                     
                     //Comprobar tipo de tumba de nuevo
                     if ($valores['Tumba']['tipo'] == "Columbario") {
-                        $valores['Columbario']['numero_columbario'] = ($i - 1) * $contador_tumbas + $j;
-                        $valores['Columbario']['fila'] = $i;
+                        $valores['Columbario']['numero_columbario'] = $j;
+                        $valores['Columbario']['fila'] = $contador_filas;
+                        //$valores['Columbario']['fila'] = $i;
                     }
                     elseif ($valores['Tumba']['tipo'] == "Nicho") {
-                        $valores['Nicho']['numero_nicho'] = ($i - 1) * $contador_tumbas + $j;
-                        $valores['Nicho']['fila'] = $i;
+                        $valores['Nicho']['numero_nicho'] = $j;
+                        $valores['Nicho']['fila'] = $contador_filas;
+                        //$valores['Nicho']['fila'] = $i;
                     }
                     else {
                         $this->Session->setFlash(__('Tipo de tumba no váldio'));
@@ -1040,6 +1063,43 @@ class TumbasController extends AppController {
                         $this->render();
                     }
                     
+                }
+            }
+            //Si hay filas
+            else {
+                //Bucles de guardado estilo clásico
+                for ($i = 1; $i <= $contador_filas; $i++) {
+                    for ($j = 1; $j <= $contador_tumbas; $j++) {
+                        
+                        //Crear nueva tumba con id único
+                        $this->Tumba->create();
+                        
+                        //Comprobar tipo de tumba de nuevo
+                        if ($valores['Tumba']['tipo'] == "Columbario") {
+                            $valores['Columbario']['numero_columbario'] = ($i - 1) * $contador_tumbas + $j;
+                            $valores['Columbario']['fila'] = $contador_filas;
+                            //$valores['Columbario']['fila'] = $i;
+                        }
+                        elseif ($valores['Tumba']['tipo'] == "Nicho") {
+                            $valores['Nicho']['numero_nicho'] = ($i - 1) * $contador_tumbas + $j;
+                            $valores['Nicho']['fila'] = $contador_filas;
+                            //$valores['Nicho']['fila'] = $i;
+                        }
+                        else {
+                            $this->Session->setFlash(__('Tipo de tumba no váldio'));
+                            $this->render();
+                        }
+                        
+                        //Guardar y comprobar éxito
+                        if ($this->Tumba->saveAssociated($valores, $this->opciones_guardado)) {
+                            
+                        }
+                        else {
+                            $this->Session->setFlash(__('Ha ocurrido un error mágico al introducir las tumbas.'));
+                            $this->render();
+                        }
+                        
+                    }
                 }
             }
             

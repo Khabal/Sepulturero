@@ -130,7 +130,13 @@ class DifuntosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Difunto',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -142,7 +148,7 @@ class DifuntosController extends AppController {
         'deep' => true,
         'fieldList' => array(
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
-            'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'causa_fallecimiento', 'certificado_defuncion'),
+            'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'causa_fundamental', 'causa_inmediata', 'certificado_defuncion'),
             'Tumba' => array('id', 'poblacion'),
         ),
         'validate' => false,
@@ -251,6 +257,9 @@ class DifuntosController extends AppController {
                 }
                 
             }
+            else {
+                unset($this->Difunto->Persona->validate['dni']);
+            }
             
             //Limpiar el ID de tumba si se ha borrado
             if (empty($this->request->data['Difunto']['tumba_bonita'])) {
@@ -269,14 +278,32 @@ class DifuntosController extends AppController {
                 $this->request->data['Difunto']['tumba_id'] = null;
             }
             
+            //Comprobar si se ha introducido médico forense que certifique la muerte
+            if (empty($this->request->data['Difunto']['forense_id'])) {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['forense_id'] = null;
+            }
+            
+            //Comprobar si se ha introducido un certificado de defunción
+            if (empty($this->request->data['Difunto']['certificado_defuncion'])) {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['certificado_defuncion'] = null;
+            }
+            
             //Indicar que se trata de un difunto
             $this->request->data['Persona']['difunto_id'] = '';
             
             //Validar los datos introducidos
             if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                if (!empty($this->request->data['Persona']['dni'])){
+                    //Convertir a mayúsculas el carácter del DNI
+                    $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Persona']['dni'] = null;
+                }
                 
                 //Guardar y comprobar éxito
                 if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -497,10 +524,6 @@ class DifuntosController extends AppController {
                     $this->request->data['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_nueva)) + 1;
                     $datos_extra['Tumba']['id'] = $tum_vieja;
                     $datos_extra['Tumba']['poblacion'] = $this->Difunto->Tumba->field('poblacion', array('Tumba.id' => $tum_vieja)) - 1;
-//$this->request->data[0]['Difunto'] = $this->request->data['Difunto'];
-//unset($this->request->data['Difunto']);
-//$this->request->data[0]['Persona'] = $this->request->data['Persona'];
-//unset($this->request->data['Persona']);
                 }
                 //La tumba vieja no estaba vacía (asignada) pero la nueva si
                 elseif (!empty($tum_vieja) && empty($tum_nueva)) {
@@ -513,22 +536,43 @@ class DifuntosController extends AppController {
                 }
             }
             
+            //Comprobar si se ha introducido médico forense que certifique la muerte
+            if (empty($this->request->data['Difunto']['forense_id'])) {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['forense_id'] = null;
+            }
+            
+            //Comprobar si se ha introducido un certificado de defunción
+            if (empty($this->request->data['Difunto']['certificado_defuncion'])) {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Difunto']['certificado_defuncion'] = null;
+            }
+            
             //Validar los datos introducidos
             if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                if (!empty($this->request->data['Persona']['dni'])){
+                    //Convertir a mayúsculas el carácter del DNI
+                    $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Persona']['dni'] = null;
+                }
                 
                 //Guardar y comprobar éxito
                 if ($this->Difunto->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    
                     //Establecer el ID de tumba a nulo aquí porque antes se lo pasa por los cojones
                     if (empty($tum_nueva)) {
                         $this->Difunto->query("UPDATE difuntos SET tumba_id = null WHERE id = '" . $id . "'");
                     }
+                    
                     //Guardar la información de la tumba antigua en el caso de haber cambiado la tumba
                     if (isset($datos_extra)) {
                         $this->Difunto->Tumba->saveAssociated($datos_extra, $this->opciones_guardado);
                     }
+                    
                     $this->Session->setFlash(__('El difunto ha sido actualizado correctamente.'));
                     //Borrar datos de sesión
                     $this->Session->delete('Difunto');
@@ -588,9 +632,10 @@ class DifuntosController extends AppController {
             ));
             
             //Devolver nombres bonitos para entidades relacionadas
-            $this->request->data['Difunto']['forense_bonito'] = $this->request->data['Forense']['Persona']['nombre_completo'] . " - " . $this->request->data['Forense']['numero_colegiado'] . " (" . $this->request->data['Forense']['colegio'] . ")";
-            unset($this->request->data['Forense']);
-            
+            if (!empty($this->request->data['Forense']['Persona'])) {
+                $this->request->data['Difunto']['forense_bonito'] = $this->request->data['Forense']['Persona']['nombre_completo'] . " - " . $this->request->data['Forense']['numero_colegiado'] . " (" . $this->request->data['Forense']['colegio'] . ")";
+                unset($this->request->data['Forense']);
+            }
             
             if (!empty($this->request->data['Difunto']['fecha_defuncion'])) {
                 $this->request->data['Difunto']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Difunto']['fecha_defuncion']));

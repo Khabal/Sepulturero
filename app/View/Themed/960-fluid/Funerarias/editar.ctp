@@ -22,7 +22,8 @@
     echo $this->Form->input('Funeraria.cif', array('label' => 'C.I.F.:'));
     echo $this->Form->input('Funeraria.nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('Funeraria.direccion', array('label' => 'Dirección:'));
-    echo $this->Form->input('Funeraria.telefono', array('label' => 'Teléfono:'));
+    echo $this->Form->input('Funeraria.telefono_fijo', array('label' => 'Teléfono fijo:'));
+    echo $this->Form->input('Funeraria.telefono_movil', array('label' => 'Teléfono móvil:'));
     echo $this->Form->input('Funeraria.fax', array('label' => 'Fax:'));
     echo $this->Form->input('Funeraria.correo_electronico', array('label' => 'Correo electrónico:'));
     echo $this->Form->input('Funeraria.pagina_web', array('label' => 'Página web:'));

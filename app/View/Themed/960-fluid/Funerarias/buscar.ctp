@@ -17,7 +17,8 @@
     echo $this->Form->input('cif', array('label' => 'C.I.F.:'));
     echo $this->Form->input('nombre', array('label' => 'Nombre:'));
     echo $this->Form->input('direccion', array('label' => 'Dirección:'));
-    echo $this->Form->input('telefono', array('label' => 'Teléfono:'));
+    echo $this->Form->input('telefono_fijo', array('label' => 'Teléfono:'));
+    echo $this->Form->input('telefono_movil', array('label' => 'Teléfono móvil:'));
     echo $this->Form->input('fax', array('label' => 'Fax:'));
     echo $this->Form->input('correo_electronico', array('label' => 'Correo electrónico:'));
     echo $this->Form->input('pagina_web', array('label' => 'Página web:'));

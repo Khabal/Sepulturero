@@ -130,7 +130,13 @@ class MovimientosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Movimiento',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -434,9 +440,6 @@ class MovimientosController extends AppController {
             ),
            ),
           ),
-         ),
-         'order' => array(
-          'Movimiento.fecha ASC'
          ),
         ));
         

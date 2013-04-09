@@ -28,7 +28,7 @@ class Movimiento extends AppModel {
      *
      * @var integer
      */
-    public $recursive = 1;
+    public $recursive = 0;
     
     /**
      * Name of the database connection
@@ -181,6 +181,22 @@ class Movimiento extends AppModel {
                 'message' => 'Formato de fecha inválido (AAAA/MM/DD).',
             ),
         ),
+        'motivo' => array(
+            'novacio' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El motivo no se puede dejar en blanco.',
+            ),
+            'longitud' => array(
+                'rule' => array('between', 2, 250),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El motivo debe tener entre 2 y 250 caracteres.',
+            ),
+        ),
         'viajeros' => array(
             'novacio' => array(
                 'rule' => array('notEmpty'),
@@ -229,20 +245,13 @@ class Movimiento extends AppModel {
                 'message' => 'El cementerio de destino sólo puede contener caracteres alfabéticos.',
             ),
         ),
-        'motivo' => array(
+        'documental' => array(
             'novacio' => array(
                 'rule' => array('notEmpty'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'El motivo no se puede dejar en blanco.',
-            ),
-            'longitud' => array(
-                'rule' => array('between', 2, 250),
-                'required' => true,
-                'allowEmpty' => false,
-                'on' => null,
-                'message' => 'El motivo debe tener entre 2 y 250 caracteres.',
+                'message' => 'Se debe indicar si se trata de un movimiento documental o no.',
             ),
         ),
         'observaciones' => array(
@@ -573,6 +582,7 @@ class Movimiento extends AppModel {
         'cementerio_destino' => array('type' => 'like'),
         'tumba_destino' => array('type' => 'query', 'method' => 'consultaTumbaDes'),
         'tumba_destino_id' => array('type' => 'query', 'method' => 'consultaTumbaDesID'),
+        'documental' => array('type' => 'value'),
         'clave' => array('type' => 'query', 'method' => 'buscarMovimiento'),
     );
 

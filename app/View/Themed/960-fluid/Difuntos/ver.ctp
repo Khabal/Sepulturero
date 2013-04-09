@@ -59,11 +59,22 @@
     }
    ?>&nbsp;
   </dd>
-  <dt><?php echo __('Causa de defunción'); ?>:</dt>
+  <dt><?php echo __('Causa fundamental de defunción'); ?>:</dt>
   <dd>
    <?php
-    if ($difunto['Difunto']['causa_fallecimiento']) {
-     echo h($difunto['Difunto']['causa_fallecimiento']);
+    if ($difunto['Difunto']['causa_fundamental']) {
+     echo h($difunto['Difunto']['causa_fundamental']);
+    }
+    else {
+     echo h("Desconocida");
+    }
+   ?>&nbsp;
+  </dd>
+  <dt><?php echo __('Causa inmediata de defunción'); ?>:</dt>
+  <dd>
+   <?php
+    if ($difunto['Difunto']['causa_inmediata']) {
+     echo h($difunto['Difunto']['causa_inmediata']);
     }
     else {
      echo h("Desconocida");
@@ -235,5 +246,6 @@ else{
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>

@@ -24,11 +24,22 @@
   <dd><?php echo h($funeraria['Funeraria']['nombre']); ?>&nbsp;</dd>
   <dt><?php echo __('Dirección'); ?>:</dt>
   <dd><?php echo h($funeraria['Funeraria']['direccion']); ?>&nbsp;</dd>
-  <dt><?php echo __('Teléfono'); ?>:</dt>
+  <dt><?php echo __('Teléfono fijo'); ?>:</dt>
   <dd>
    <?php
-    if (!empty($funeraria['Funeraria']['telefono'])) {
-     echo h($funeraria['Funeraria']['telefono']);
+    if (!empty($funeraria['Funeraria']['telefono_fijo'])) {
+     echo h($funeraria['Funeraria']['telefono_fijo']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
+  <dt><?php echo __('Teléfono móvil'); ?>:</dt>
+  <dd>
+   <?php
+    if (!empty($funeraria['Funeraria']['telefono_movil'])) {
+     echo h($funeraria['Funeraria']['telefono_movil']);
     }
     else {
      echo h("Desconocido");
@@ -71,5 +82,6 @@
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($funeraria['Funeraria']['observaciones']); ?>&nbsp;</dd>
  </dl>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>

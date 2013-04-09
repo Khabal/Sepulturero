@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('difuntos'); ?>
 </div>
 
 <script>
@@ -82,7 +82,7 @@
 <?php /* Formulario buscar concesión */ ?>
 <div class="find form">
  <?php echo $this->Form->create('Difunto', array(
-    'url' => array('controller' => strtolower($this->name), 'action' => 'index'),
+    'url' => array('controller' => 'difuntos', 'action' => 'index'),
     'type' => 'get'
   ));
  ?>
@@ -105,7 +105,8 @@
     echo $this->Form->input('hasta', array('type' => 'hidden'));
     echo '</div>';
     echo $this->Form->input('edad', array('label' => 'Edad:'));
-    echo $this->Form->input('causa_fallecimiento', array('label' => 'Causa de fallecimiento:'));
+    echo $this->Form->input('causa_fundamental', array('label' => 'Causa de fallecimiento:'));
+    echo $this->Form->input('causa_inmediata', array('label' => 'Causa de fallecimiento:'));
     echo $this->Form->input('certificado_defuncion', array('label' => 'Certificado de defunción:'));
    ?>
   </fieldset>

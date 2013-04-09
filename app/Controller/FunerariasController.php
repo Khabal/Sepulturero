@@ -130,7 +130,13 @@ class FunerariasController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Funeraria',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -141,7 +147,7 @@ class FunerariasController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Funeraria' => array('id', 'cif', 'nombre', 'direccion', 'telefono', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
+            'Funeraria' => array('id', 'cif', 'nombre', 'direccion', 'telefono_fijo', 'telefono_movil', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
         ),
         'validate' => false,
     );

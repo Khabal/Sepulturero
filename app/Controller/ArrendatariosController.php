@@ -130,7 +130,14 @@ class ArrendatariosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Arrendatario',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -142,7 +149,7 @@ class ArrendatariosController extends AppController {
         'deep' => false,
         'fieldList' => array(
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
-            'Arrendatario' => array('id', 'persona_id', 'direccion', 'localidad', 'provincia', 'pais', 'codigo_postal', 'telefono', 'correo_electronico'),
+            'Arrendatario' => array('id', 'persona_id', 'direccion', 'localidad', 'provincia', 'pais', 'codigo_postal', 'telefono_fijo', 'telefono_movil', 'correo_electronico'),
             'ArrendatarioFuneraria' => array('id', 'arrendatario_id', 'funeraria_id'),
         ),
         'validate' => false,
@@ -225,6 +232,9 @@ class ArrendatariosController extends AppController {
                 }
                 
             }
+            else {
+                unset($this->Arrendatario->Persona->validate['dni']);
+            }
             
             //Comprobar si hay funerarias vacías y eliminarlas
             if (isset($this->request->data['ArrendatarioFuneraria'])) {
@@ -235,11 +245,12 @@ class ArrendatariosController extends AppController {
                     }
                     $i++;
                 }
-            }
+                
+                //Comprobar si hay funerarias repetidas y eliminarlas
+                $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
+                $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
             
-            //Comprobar si hay funerarias repetidas y eliminarlas
-            $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
-            $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+            }
             
             //Indicar que se trata de un arrendatario
             $this->request->data['Persona']['arrendatario_id'] = '';
@@ -250,8 +261,14 @@ class ArrendatariosController extends AppController {
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                if (!empty($this->request->data['Persona']['dni'])){
+                    //Convertir a mayúsculas el carácter del DNI
+                    $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Persona']['dni'] = null;
+                }
                 
                 //Guardar y comprobar éxito
                 if ($this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -306,7 +323,7 @@ class ArrendatariosController extends AppController {
           'ArrendatarioFuneraria' => array(
            'Funeraria' => array(
             'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
+             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.movil', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
             ),
             'order' => array(
              'Funeraria.nombre ASC'
@@ -408,17 +425,24 @@ class ArrendatariosController extends AppController {
                     }
                     $i++;
                 }
-            }
+                
+                //Comprobar si hay funerarias repetidas y eliminarlas
+                $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
+                $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
             
-            //Comprobar si hay funerarias repetidas y eliminarlas
-            $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
-            $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+            }
             
             //Validar los datos introducidos
             if ($this->Arrendatario->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                if (!empty($this->request->data['Persona']['dni'])){
+                    //Convertir a mayúsculas el carácter del DNI
+                    $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Persona']['dni'] = null;
+                }
                 
                 //Guardar y comprobar éxito
                 if ($this->Arrendatario->ArrendatarioFuneraria->deleteAll(array('ArrendatarioFuneraria.arrendatario_id' => $id), false, false) && $this->Arrendatario->saveAssociated($this->request->data, $this->opciones_guardado)) {

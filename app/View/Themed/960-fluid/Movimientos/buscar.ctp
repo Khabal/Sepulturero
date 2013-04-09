@@ -122,6 +122,7 @@
   <fieldset>
   <legend><?php echo __('Información sobre el movimiento'); ?></legend>
    <?php /* Campos */
+    echo $this->Form->input('documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
     echo $this->Form->input('tipo', array('label' => 'Clase de movimiento:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
     echo '<div class="intervalo">';
     echo $this->Form->input('fecha_desde', array('label' => 'Fecha de arrendamiento desde:')); //Campo imaginario
