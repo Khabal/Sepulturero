@@ -3,7 +3,7 @@
 App::uses('AppModel', 'Model');
 
 /**
- * ArrendatarioFuneraria Model
+ * ArrendatarioPago Model
  *
  * @property Arrendatario $Arrendatario
  * @property Pago $Pago

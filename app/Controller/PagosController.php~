@@ -95,7 +95,7 @@ class PagosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Pago', 'ArrendatarioPago', 'PagoTasa', 'Sanitize');
+    public $uses = array('Pago', 'ArrendatarioPago', 'FunerariaPago', 'PagoTasa', 'Sanitize');
     
     /**
      * ---------------------------
@@ -130,7 +130,14 @@ class PagosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Pago',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -141,9 +148,10 @@ class PagosController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Pago' => array('id', 'fecha', 'total', 'moneda', 'observaciones'),
-            'ArrendatarioPago' => array('id', 'arrendatario_id', 'pago_id', ),
-            'PagoTasa' => array('id', 'pago_id', 'tasa_id', ),
+            'Pago' => array('id', 'fecha', 'total', 'entregado', 'moneda', 'observaciones'),
+            'ArrendatarioPago' => array('id', 'arrendatario_id', 'pago_id'),
+            'FunerariaPago' => array('id', 'funeraria_id', 'pago_id'),
+            'PagoTasa' => array('id', 'pago_id', 'tasa_id', 'detalle'),
         ),
         'validate' => false,
     );
@@ -176,6 +184,7 @@ class PagosController extends AppController {
            ),
           ),
          ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -250,6 +259,25 @@ class PagosController extends AppController {
           'Pago.id' => $id
          ),
          'contain' => array(
+          'ArrendatarioPago' => array(
+           'Arrendatario' => array(
+            'fields' => array(
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
+             ),
+            ),
+           ),
+          ),
+          'FunerariaPago' => array(
+           'Funeraria' => array(
+            'fields' => array(
+             'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
+            ),
+           ),
+          ),
           'PagoTasa' => array(
            'Tasa' => array(
             'fields' => array(
@@ -273,9 +301,12 @@ class PagosController extends AppController {
      */
     public function buscar() {
         
-        //Redireccionar
-        $this->Session->setFlash(__('Escriba el término a buscar en el cuadro búsqueda en el registro.'));
-        $this->redirect(array('action' => 'index'));
+        //Devolver las opciones de selección de monedas
+        $this->set('monedas', $this->Tasa->moneda);
+        
+        //Eliminar reglas de validación
+        unset($this->Tasa->validate);
+        
     }
     
     /**
@@ -456,11 +487,11 @@ class PagosController extends AppController {
         //Borrar y comprobar éxito
         if ($this->Pago->delete()) {
             $this->Session->setFlash(__('El pago ha sido eliminado correctamente.'));
-            //Redireccionar a index
-            $this->redirect(array('action' => 'index'));
+        }
+        else {
+            $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser eliminado.'));
         }
         
-        $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser eliminado.'));
         //Redireccionar a index
         $this->redirect(array('action' => 'index'));
         

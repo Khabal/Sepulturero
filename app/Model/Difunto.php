@@ -237,7 +237,7 @@ class Difunto extends AppModel {
                 'on' => null,
                 'message' => 'El certificado de defunción sólo puede contener caracteres numéricos.',
             ),
-            'uncio' => array(
+            'unico' => array(
                 'rule' => 'isUnique',
                 'required' => false,
                 'allowEmpty' => true,

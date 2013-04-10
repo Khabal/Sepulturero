@@ -40,5 +40,6 @@
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($tasa['Tasa']['observaciones']); ?>&nbsp;</dd>
  </dl>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>

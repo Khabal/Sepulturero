@@ -97,7 +97,8 @@ class Difunto extends AppModel {
         'estado' => 'Difunto.estado',
         'fecha_defuncion' => 'Difunto.fecha_defuncion',
         'edad' => 'Difunto.edad',
-        'causa_fallecimiento' => 'Difunto.causa_fallecimiento',
+        'causa_fundamental' => 'Difunto.causa_fundamental',
+        'causa_inmediata' => 'Difunto.causa_inmediata',
         'certificado_defuncion' => 'Difunto.certificado_defuncion',
     );
     

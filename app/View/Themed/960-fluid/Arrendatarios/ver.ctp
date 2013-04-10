@@ -100,7 +100,8 @@
     <tr>
      <th><?php echo __('Nombre'); ?></th>
      <th><?php echo __('Dirección'); ?></th>
-     <th><?php echo __('Teléfono'); ?></th>
+     <th><?php echo __('Teléfono fijo'); ?></th>
+     <th><?php echo __('Teléfono móvil'); ?></th>
      <th><?php echo __('Fax'); ?></th>
      <th><?php echo __('Correo electrónico'); ?></th>
      <th><?php echo __('Página web'); ?></th>
@@ -115,7 +116,26 @@
      <tr<?php echo $class; ?>>
       <td><?php echo h($funeraria['Funeraria']['nombre']); ?>&nbsp;</td>
       <td><?php echo h($funeraria['Funeraria']['direccion']); ?>&nbsp;</td>
-      <td><?php echo h($funeraria['Funeraria']['telefono']); ?>&nbsp;</td>
+      <td>
+       <?php
+        if (!empty($funeraria['Funeraria']['telefono_fijo'])) {
+         echo h($funeraria['Funeraria']['telefono_fijo']);
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
+      <td>
+       <?php
+        if (!empty($funeraria['Funeraria']['telefono_movil'])) {
+         echo h($funeraria['Funeraria']['telefono_movil']);
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
       <td>
        <?php
         if (!empty($funeraria['Funeraria']['fax'])) {

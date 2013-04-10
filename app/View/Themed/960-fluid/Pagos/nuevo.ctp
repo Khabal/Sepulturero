@@ -4,6 +4,15 @@
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('pagos'); ?>
 </div>
 
+<?php
+ /*
+ echo '<pre>';
+ print_r($this->request->data);
+ print_r($this->validationErrors);
+ echo '</pre>';
+ */
+?>
+
 <script>
  /* Establecer opciones de 'UI datepicker' para JQuery */
  $(function() {
@@ -85,13 +94,6 @@
     <input id="tasa" name="data[Pago][tasa_nombre]" value="<?php if ($this->request->data) { echo $this->request->data['Pago']['tasa_nombre']; } ?>"/>
    </div>
    <?php echo $this->Form->input('Pago.tasa_id', array('type' => 'hidden')); ?>
-  </fieldset>
-  <fieldset>
-   <legend><?php echo __('Documento asociado'); ?></legend>
-   <?php /* Campos */
-	/*echo $this->AutoComplete->input('Funeraria.nombre', array('label' => 'Funeraria:')/*, array('source' => '/arrendatarios/kkkk/'));*/
-    echo $this->Form->input('Documento', array('label' => 'Documento:'));
-    ?>
   </fieldset>
  <?php /* Botones */
   echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));

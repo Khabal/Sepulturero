@@ -41,8 +41,18 @@
      <td><?php echo h($funeraria['Funeraria']['direccion']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($funeraria['Funeraria']['telefono'])) {
-        echo h($funeraria['Funeraria']['telefono']);
+       if (!empty($funeraria['Funeraria']['telefono_fijo'])) {
+        echo h($funeraria['Funeraria']['telefono_fijo']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($funeraria['Funeraria']['telefono_movil'])) {
+        echo h($funeraria['Funeraria']['telefono_movil']);
        }
        else {
         echo h("Desconocido");

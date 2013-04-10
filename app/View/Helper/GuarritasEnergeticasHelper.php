@@ -93,7 +93,7 @@ class GuarritasEnergeticasHelper extends AppHelper {
      */
     public function guarrita_acciones($controlador, $id, $texto_borrado) {
         
-        $ver = $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'Ver', 'style' => 'height:16px; width:16px;')) . '<span> Ver </span>'), array('controller' => $controlador, 'action' => 'ver', $id), array('escape' => false, 'class' => 'tooltip'));
+        $ver = $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'Ver', 'style' => 'height:16px; width:16px;')) . '<span> Ver </span>'), array('controller' => $controlador, 'action' => 'ver', $id), array('escape' => false/*, 'class' => 'tooltip'*/,'title' => 'Ver'));
         
         $editar = $this->Html->link(__($this->Html->image('editar.png', array('alt' => 'Editar', 'style' => 'height:16px; width:16px;')) . '<span> Editar </span>'), array('controller' => $controlador, 'action' => 'editar', $id), array('escape' => false, 'class' => 'tooltip'));
         

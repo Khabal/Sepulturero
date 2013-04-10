@@ -247,8 +247,10 @@ class ArrendatariosController extends AppController {
                 }
                 
                 //Comprobar si hay funerarias repetidas y eliminarlas
-                $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
-                $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+                if (!empty($this->request->data['ArrendatarioFuneraria'])) {
+                    $this->request->data['ArrendatarioFuneraria'] = array_map("unserialize", array_unique(array_map("serialize", $this->request->data['ArrendatarioFuneraria'])));
+                    $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+                }
             
             }
             
@@ -323,7 +325,7 @@ class ArrendatariosController extends AppController {
           'ArrendatarioFuneraria' => array(
            'Funeraria' => array(
             'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.movil', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
+             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono_fijo', 'Funeraria.telefono_movil', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
             ),
             'order' => array(
              'Funeraria.nombre ASC'
@@ -427,8 +429,10 @@ class ArrendatariosController extends AppController {
                 }
                 
                 //Comprobar si hay funerarias repetidas y eliminarlas
-                $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
-                $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+                if (!empty($this->request->data['ArrendatarioFuneraria'])) {
+                    $this->request->data['ArrendatarioFuneraria'] = array_map("unserialize", array_unique(array_map("serialize", $this->request->data['ArrendatarioFuneraria'])));
+                    $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+                }
             
             }
             
@@ -535,7 +539,7 @@ class ArrendatariosController extends AppController {
           'ArrendatarioFuneraria' => array(
            'Funeraria' => array(
             'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
+             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono_fijo', 'Funeraria.telefono_movil', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
             ),
            ),
           ),
@@ -625,7 +629,7 @@ class ArrendatariosController extends AppController {
           'ArrendatarioFuneraria' => array(
            'Funeraria' => array(
             'fields' => array(
-             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
+             'Funeraria.id', 'Funeraria.nombre', 'Funeraria.direccion', 'Funeraria.telefono_fijo', 'Funeraria.telefono_movil', 'Funeraria.fax', 'Funeraria.correo_electronico', 'Funeraria.pagina_web'
             ),
            ),
           ),

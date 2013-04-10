@@ -164,6 +164,13 @@ class Funeraria extends AppModel {
                 'on' => null,
                 'message' => 'El C.I.F. introducido no es válido (Ejemplo: 12345678X)',
             ),
+            'unico' => array(
+                'rule' => 'isUnique',
+                'required' => false,
+                'allowEmpty' => true,
+                'on' => null,
+                'message' => 'Este C.I.F. ya está en uso.',
+            ),
         ),
         'nombre' => array(
             'novacio' => array(

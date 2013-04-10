@@ -115,7 +115,26 @@
      <tr<?php echo $class; ?>>
       <td><?php echo h($funeraria['Funeraria']['nombre']); ?>&nbsp;</td>
       <td><?php echo h($funeraria['Funeraria']['direccion']); ?>&nbsp;</td>
-      <td><?php echo h($funeraria['Funeraria']['telefono']); ?>&nbsp;</td>
+      <td>
+       <?php
+        if (!empty($funeraria['Funeraria']['telefono_fijo'])) {
+         echo h($funeraria['Funeraria']['telefono_fijo']);
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
+      <td>
+       <?php
+        if (!empty($funeraria['Funeraria']['telefono_movil'])) {
+         echo h($funeraria['Funeraria']['telefono_movil']);
+        }
+        else {
+         echo h("Desconocido");
+        }
+       ?>&nbsp;
+      </td>
       <td>
        <?php
         if (!empty($funeraria['Funeraria']['fax'])) {
@@ -196,4 +215,5 @@
   <p> No hay información disponible </p>
  <?php endif; ?>
 </div>
+
 <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>

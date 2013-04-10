@@ -2,35 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <?php echo $this->Html->charset(); ?>
+  
   <title><?php echo $title_for_layout; ?></title>
+  
   <?php
    /* Icono de la web */
    echo $this->Html->meta('icon');
+   /* JavaScript */
+   echo $scripts_for_layout;
    /* Archivos CSS de 960 Grid System */
    echo $this->Html->css(array('reset', 'text', 'grid', 'layout', 'nav'));
    /* Archivos CSS particulares */
    echo $this->Html->css(array('general', 'cabeza', 'pie'));
-   /* Archivos Javascript JQuery */
-echo $this->Html->css('smoothness/jquery-ui-1.9.2.custom');
-echo $this->Html->script('jquery-1.8.3.js');
-echo $this->Html->script('jquery-ui-1.9.2.js');/*
-   echo $this->Html->script(array('jquery-fluid16.js', 'jquery.simpledialog.0.1'));*/
-
-
-   /* Copia de scripts */
-echo $this->fetch('script');
-//   echo $scripts_for_layout;
+   /* Archivos varios de jQuery UI */
+   echo $this->Html->css('smoothness/jquery-ui-1.10.2.custom');
+   echo $this->Html->script('jquery-1.9.1.js');
+   echo $this->Html->script('jquery-ui-1.10.2.js');
+   /* Pulgin de jQuery UI para formularios */
+   echo $this->Html->script('jquery.sheepItPlugin.js');
   ?>
-  <?php
-/*    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-	*/ ?>
-<?php
-echo $this->Html->script('jquery.sheepItPlugin.js');
-?>
+  
   <script>
-   /* Inicializaciones globales */
+   /* Inicializaciones globales de jQuery UI */
    jQuery(function($){
      /* Inicialización en español para 'UI datepicker' para jQuery. */
      $.datepicker.regional['es'] = {
@@ -54,6 +47,115 @@ echo $this->Html->script('jquery.sheepItPlugin.js');
    });
   </script>
   
+  <script>
+   jQuery(function($){
+     /* Establecer opciones de 'UI button' para jQuery */
+     $(".boton_aceptar").button({
+       icons: {
+         primary: "icono-aceptar"
+       },
+       text: true
+     });
+     $(".boton_cancelar").button({
+       icons: {
+         primary: "icono-cancelar"
+       },
+       text: true
+     });
+     $(".boton_mas").button({
+       icons: {
+         primary: "icono-aniadir"
+       },
+       text: true
+     });
+     $(".boton_borrar").button({
+       icons: {
+         primary: "icono-borrar"
+       },
+       text: true
+     });
+     $(".boton_limpiar").button({
+       icons: {
+         primary: "icono-limpiar"
+       },
+       text: true
+     });
+     $(".boton_guardar").button({
+       icons: {
+         primary: "icono-guardar"
+       },
+       text: true
+     });
+     $(".boton_guardar_nuevo").button({
+       icons: {
+         primary: "icono-guardar-nuevo"
+       },
+       text: true
+     });
+     $(".boton_anterior").button({
+       icons: {
+         primary: "icono-anterior"
+       },
+       text: true
+     });
+     $(".boton_siguiente").button({
+       icons: {
+         secondary: "icono-siguiente"
+       },
+       text: true
+     });
+     $(".boton_volver").button({
+       icons: {
+         secondary: "icono-volver"
+       },
+       text: true
+     });
+     
+     /* Establecer opciones de 'UI dialog' para jQuery */
+     $("#dialogo").dialog({
+       autoOpen: false,
+       buttons: [{
+         text: "Aceptar",
+         click: function() {
+           $(this).dialog("close");
+         }
+       }],
+       height: 250,
+       hide: {
+         effect: "explode",
+         duration: 500
+       },
+       modal: true,
+       resizable: false,
+       show: {
+         effect: "explode",
+         duration: 500
+       },
+       width: 500
+     });
+     
+     /* Establecer opciones para el enlace para abrir 'UI dialog' para jQuery */
+     $("#abrir_dialogo").click(function(event) {
+       $("#dialogo").dialog("open");
+       event.preventDefault();
+     });
+     
+     /* Establecer opciones de 'UI tooltip' para jQuery */
+     /* NOTA: Se mostrará lo que esté dentro del atributo 'title' */
+     $(document).tooltip({ // Habilitar 'UI tooltip' en todo el documento
+       hide: {
+         effect: "explode",
+         delay: 250
+       },
+       show: {
+         effect: "explode",
+         delay: 250
+       },
+       track: true
+     });
+   });
+  </script>
+
  </head>
  <body>
   <!-- Contenedor de basura azul para cartón -->
@@ -170,20 +272,6 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
       </ul>
      </li>
-     <li><!-- Funerarias -->
-      <?php echo $this->Html->link(__('Funerarias'), array('controller' => 'funerarias', 'action' => 'index')); ?>
-      <ul>
-       <li>
-        <?php echo $this->Html->link(__('Listado'), array('controller' => 'funerarias', 'action' => 'index')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'funerarias', 'action' => 'nuevo')); ?>
-       </li>
-       <li>
-        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'funerarias', 'action' => 'buscar')); ?>
-       </li>
-      </ul>
-     </li>
      <li><!-- Forenses -->
       <?php echo $this->Html->link(__('Forenses'), array('controller' => 'forenses', 'action' => 'index')); ?>
       <ul>
@@ -195,6 +283,20 @@ echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search 
        </li>
        <li>
         <?php echo $this->Html->link(__('Buscar'), array('controller' => 'forenses', 'action' => 'buscar')); ?>
+       </li>
+      </ul>
+     </li>
+     <li><!-- Funerarias -->
+      <?php echo $this->Html->link(__('Funerarias'), array('controller' => 'funerarias', 'action' => 'index')); ?>
+      <ul>
+       <li>
+        <?php echo $this->Html->link(__('Listado'), array('controller' => 'funerarias', 'action' => 'index')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Nuevo'), array('controller' => 'funerarias', 'action' => 'nuevo')); ?>
+       </li>
+       <li>
+        <?php echo $this->Html->link(__('Buscar'), array('controller' => 'funerarias', 'action' => 'buscar')); ?>
        </li>
       </ul>
      </li>
@@ -309,7 +411,7 @@ Los datos personales aquí guardados forman parte de un fichero titularidad del 
      </div>
      <div class="grid_4"> <!-- Enlaces y varios -->
       <ul>
-       <li><a href="#" id="acerca" rel="olo"> Acerca de</a></li>
+       <li><a href="#" id="abrir_dialogo"> Acerca de</a></li>
        <li><a href="http://www.motril.es">Motril</a></li>
       </ul>
      </div>
@@ -324,10 +426,10 @@ Los datos personales aquí guardados forman parte de un fichero titularidad del 
   </div>
   
   <!-- Cuadro "Acerca de" -->
-  <div style="display:none;" id="olo">
+  <div id="dialogo" title="Acerca de">
    <h2> Gestión Municipal de Cementerios (GMC) </h2>
    <p> Registro informatizado para la gestión de cementerios. </p>
-   <p style="font-style:italic;"> LaBellotaSoft - Khabal 2012. </p>
+   <p style="font-style:italic;"> LaBellotaSoft - Khabal 2013. </p>
   </div>
   
   <!-- Volcado de la consula SQL a la base de datos -->

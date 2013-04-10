@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * Pago Model
  *
  * @property ArrendatarioPago $ArrendatarioPago
+ * @property FunerariaPago $FunerariaPago
  * @property PagoTasa $PagoTasa
  */
 class Pago extends AppModel {
@@ -92,6 +93,10 @@ class Pago extends AppModel {
      * @var array
      */
     public $virtualFields = array(
+        'fecha' => 'Pago.fecha',
+        'total' => 'Pago.total',
+        'entregado' => 'Pago.entregado',
+        'moneda' => 'Pago.moneda',
         'fecha_pago' => 'DATE_FORMAT(Pago.fecha,"%d/%m/%Y")'
     );
     
@@ -161,6 +166,22 @@ class Pago extends AppModel {
                 'message' => 'El total sólo puede contener caracteres numéricos.',
             ),
         ),
+        'entregado' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La cantidad entregada no se puede dejar en blanco.',
+            ),
+            'numero_real' => array(
+                'rule' => '/^([0-9]\.[0-9]{3}|[0-9]{1,4})(\,[0-9]{0,2}){0,1}$/',
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La cantidad entregada sólo puede contener caracteres numéricos.',
+            ),
+        ),
         'moneda' => array(
             'novacio' => array(
                 'rule' => array('notempty'),
@@ -221,6 +242,17 @@ class Pago extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
+        'FunerariaPago' => array(
+            'className' => 'FunerariaPago',
+            'foreignKey' => 'pago_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => true,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
         'PagoTasa' => array(
             'className' => 'PagoTasa',
             'foreignKey' => 'pago_id',
@@ -256,6 +288,12 @@ class Pago extends AppModel {
             'Euros' => __('Euros (€)', true)
         );
         
+        //Vector con las distintos tipos de pagadores aceptados en los pagos
+        $this->pagador = array(
+            'Particular' => __('Particular', true),
+            'Funeraria' => __('Funeraria', true)
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -273,6 +311,10 @@ class Pago extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
+        'fecha' => array('type' => 'like'),
+        'total' => array('type' => 'like'),
+        'entregado' => array('type' => 'like'),
+        'moneda' => array('type' => 'value'),
         'clave' => array('type' => 'query', 'method' => 'buscarPago'),
     );
     

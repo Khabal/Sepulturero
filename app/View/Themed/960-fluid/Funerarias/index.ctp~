@@ -22,7 +22,8 @@
     <th><?php echo $this->Paginator->sort('Funeraria.cif', 'C.I.F.'); ?></th>
     <th><?php echo $this->Paginator->sort('Funeraria.nombre', 'Nombre'); ?></th>
     <th><?php echo $this->Paginator->sort('Funeraria.direccion', 'Dirección'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.telefono', 'Teléfono'); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.telefono_fijo', 'Teléfono fijo'); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.telefono_movil', 'Teléfono móvil'); ?></th>
     <th><?php echo $this->Paginator->sort('Funeraria.fax', 'Fax'); ?></th>
     <th><?php echo $this->Paginator->sort('Funeraria.correo_electronico', 'Correo electrónico'); ?></th>
     <th><?php echo $this->Paginator->sort('Funeraria.pagina_web', 'Página web'); ?></th>
