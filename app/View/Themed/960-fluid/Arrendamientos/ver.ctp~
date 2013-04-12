@@ -109,7 +109,7 @@
       ?>&nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendamiento']['arrendatario_id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendamiento']['arrendatario_id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>
@@ -157,7 +157,7 @@
      </td>
      <td><?php echo h($arrendamiento['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Arrendamiento']['tumba_id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Arrendamiento']['tumba_id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>
@@ -165,4 +165,5 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>

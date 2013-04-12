@@ -148,7 +148,7 @@ class ConcesionesController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Concesion' => array('id', 'tipo', 'anos_concesion', 'observaciones'),
+            'Concesion' => array('id', 'tipo', 'duracion', 'unidad_tiempo', 'observaciones'),
         ),
         'validate' => false,
     );

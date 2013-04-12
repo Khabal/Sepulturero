@@ -173,8 +173,8 @@
    ?>
   </fieldset>
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
+  echo $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton_buscar'));
   echo $this->Form->end();
  ?>
 </div>

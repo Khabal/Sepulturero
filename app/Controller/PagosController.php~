@@ -176,10 +176,22 @@ class PagosController extends AppController {
         $this->paginate = array( 
          'conditions' => $this->Pago->parseCriteria($this->params->query),
          'contain' => array(
-          'PagoTasa' => array(
-           'Tasa' => array(
+          'ArrendatarioPago' => array(
+           'Arrendatario' => array(
             'fields' => array(
-             'Tasa.id', 'Tasa.tipo'
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
+             ),
+            ),
+           ),
+          ),
+          'FunerariaPago' => array(
+           'Funeraria' => array(
+            'fields' => array(
+             'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
             ),
            ),
           ),
@@ -353,11 +365,6 @@ class PagosController extends AppController {
               'Tasa' => array(
                'fields' => array(
                 'Tasa.id', 'Tasa.tipo', 'Tasa.cantidad', 'Tasa.moneda'
-               ),
-              ),
-              'Documento' => array(
-               'fields' => array(
-                'Documento.id', 'Documento.traslado_id', 'Documento.nombre', 'Documento.tipo'
                ),
               ),
              ),

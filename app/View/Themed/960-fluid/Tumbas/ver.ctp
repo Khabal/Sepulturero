@@ -141,7 +141,7 @@
       ?>&nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>
@@ -219,7 +219,7 @@
      </td>
      <td><?php echo h($difunto['certificado_defuncion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'difuntos', 'action' => 'ver', $difunto['id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'difuntos', 'action' => 'ver', $difunto['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    <?php endforeach; ?>
@@ -337,7 +337,7 @@ else{
 ?>
       <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['Movimiento']['id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['Movimiento']['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    <?php endforeach; ?>

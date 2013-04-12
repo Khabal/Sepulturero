@@ -229,6 +229,13 @@ class Arrendamiento extends AppModel {
                 'on' => null,
                 'message' => 'En base a la fecha de arrendamiento y los años de concesión ya habría caducado.',
             ),
+            'obsolescencia_fecha' => array(
+                'rule' => array('valida_obsolescencia'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'En base a la fecha de arrendamiento y los años de concesión todavía estaría vigente.',
+            ),
         ),
         'arrendatario_bonito' => array(
             'uuid' => array(
@@ -381,6 +388,72 @@ class Arrendamiento extends AppModel {
             date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['anos_concesion'] . 'years'));
             $hoy = new DateTime();
             if ($fecha < $hoy) {
+                //Devolver error
+                return false;
+            }
+            else {
+                //Devolver válido
+                return true;
+            }
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+    }
+    
+    /**
+     * valida_obsolescencia method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_obsolescencia($check) {
+        
+        //Extraer la fecha del arrendamiento del vector
+        $fecha = date_create_from_format('d/m/Y', (string) $check['fecha_bonita']);
+        
+        //Extraer el estado del arrendamiento
+        if (!empty($this->data['Arrendamiento']['estado'])) {
+            $estado = $this->data['Arrendamiento']['estado'];
+        }
+        else {
+            $estado = '';
+        }
+        
+        //Comprobar si el estado del arrendamiento es "Vigente"
+        if (($estado == "Antiguo") || ($estado == "Caducado")) {
+            
+            //Extraer el ID de la concesión
+            if (!empty($this->data['Arrendamiento']['concesion_id'])) {
+                $id = $this->data['Arrendamiento']['concesion_id'];
+            }
+            else {
+                $id = '';
+            }
+            
+            //Buscar si hay existe una concesión con el ID especificado
+            $concesion = $this->Concesion->find('first', array(
+             'conditions' => array(
+              'Concesion.id' => $id,
+             ),
+             'fields' => array(
+              'Concesion.id', 'Concesion.anos_concesion'
+             ),
+              'contain' => array(
+             ),
+            ));
+            
+            if (empty($concesion)) {
+                //Devolver error
+                return false;
+            }
+            
+            //Comprobar si realmente está vigente
+            date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['anos_concesion'] . 'years'));
+            $hoy = new DateTime();
+            if ($fecha > $hoy) {
                 //Devolver error
                 return false;
             }
@@ -681,7 +754,8 @@ class Arrendamiento extends AppModel {
         return array(
          'OR'  => array(
           'Concesion.tipo LIKE' => $comodin,
-          'Concesion.anos_concesion LIKE' => $comodin,
+          'Concesion.duracion LIKE' => $comodin,
+          'CONCAT(Concesion.duracion, Concesion.unidad_tiempo) LIKE' => $comodin,
          )
         );
         

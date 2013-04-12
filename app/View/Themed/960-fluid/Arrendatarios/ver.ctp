@@ -167,7 +167,7 @@
        ?>&nbsp;
       </td>
       <td class="actions">
-       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'funerarias', 'action' => 'ver', $funeraria['Funeraria']['id']), array('escape' => false)); ?>
+       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'funerarias', 'action' => 'ver', $funeraria['Funeraria']['id']), array('escape' => false, 'title' => 'Ver')); ?>
       </td>
      </tr>
     <?php endforeach; ?>
@@ -206,7 +206,7 @@
       <td><?php echo h($tumba['Tumba'][$tumba['Tumba']['tipo']]['localizacion']); ?>&nbsp;</td>
       <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
       <td class="actions">
-       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id']), array('escape' => false)); ?>
+       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id']), array('escape' => false, 'title' => 'Ver')); ?>
       </td>
      </tr>
     <?php endforeach; ?>
@@ -217,4 +217,4 @@
  <?php endif; ?>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)', array('escape' => false, 'class' => 'boton_volver')); ?>

@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu(strtolower($this->name)); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendamientos'); ?>
 </div>
 
 <?php
@@ -20,7 +20,7 @@
    $("#ArrendamientoFechaBonita").datepicker({
      altField: "#ArrendamientoFechaArrendamiento",
      altFormat: "yy-mm-dd",
-     buttonImage: "calendario.gif",
+     buttonImage: "<?php echo $this->Html->url(calendario.gif); ?>",
      changeMonth: true,
      changeYear: true,
      selectOtherMonths: true,
@@ -154,9 +154,9 @@
    ?>
   </fieldset>
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
+  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
+  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton_guardar'));
+  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton_guardar_nuevo'));
   echo $this->Form->end();
  ?>
 </div>

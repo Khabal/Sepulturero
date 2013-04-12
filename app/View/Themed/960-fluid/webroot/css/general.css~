@@ -158,4 +158,59 @@ color:#777;
 
 .email {color: blue;}
 
-.resaltado {font-size:200%; color:#04B404;}
+.resaltado {font-weight:bold; color:#04B404;}
+
+.icono-buscar {
+    background-image: url("../img/limpiar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-aceptar {
+    background-image: url("../img/limpiar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-cancelar {
+    background-image: url("../img/limpiar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-anadir {
+    background-image: url("../img/limpiar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-borrar {
+    background-image: url("../img/limpiar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-limpiar {
+    background-image: url("../img/limpiar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-guardar {
+    background-image: url("../img/guardar.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-guardar-nuevo {
+    background-image: url("../img/guardarNuevo.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-anterior {
+    background-image: url("../img/anterior.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-siguiente {
+    background-image: url("../img/siguiente.png") !important;
+    background-size: 16px 16px;
+}
+
+.icono-volver {
+    background-image: url("../img/volver.png") !important;
+    background-size: 16px 16px;
+}

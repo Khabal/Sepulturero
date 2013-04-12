@@ -93,15 +93,15 @@ class GuarritasEnergeticasHelper extends AppHelper {
      */
     public function guarrita_acciones($controlador, $id, $texto_borrado) {
         
-        $ver = $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'Ver', 'style' => 'height:16px; width:16px;')) . '<span> Ver </span>'), array('controller' => $controlador, 'action' => 'ver', $id), array('escape' => false/*, 'class' => 'tooltip'*/,'title' => 'Ver'));
+        $ver = $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'Ver', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'ver', $id), array('escape' => false, 'title' => 'Ver'));
         
-        $editar = $this->Html->link(__($this->Html->image('editar.png', array('alt' => 'Editar', 'style' => 'height:16px; width:16px;')) . '<span> Editar </span>'), array('controller' => $controlador, 'action' => 'editar', $id), array('escape' => false, 'class' => 'tooltip'));
+        $editar = $this->Html->link(__($this->Html->image('editar.png', array('alt' => 'Editar', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'editar', $id), array('escape' => false, 'title' => 'Editar'));
         
-        $imprimir = $this->Html->link(__($this->Html->image('imprimir.png', array('alt' => 'Imprimir', 'style' => 'height:16px; width:16px;')) . '<span> Imprimir </span>'), array('controller' => $controlador, 'action' => 'imprimir', $id . '.pdf'), array('escape' => false, 'class' => 'tooltip'));
+        $imprimir = $this->Html->link(__($this->Html->image('imprimir.png', array('alt' => 'Imprimir', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'imprimir', $id . '.pdf'), array('escape' => false, 'title' => 'Imprimir'));
         
-        $exportar_pdf = $this->Html->link(__($this->Html->image('pdf.png', array('alt' => 'Exportar a PDF', 'style' => 'height:16px; width:16px;')) . '<span> Exportar a PDF </span>'), array('controller' => $controlador, 'action' => 'exportar_pdf', $id . '.pdf'), array('escape' => false, 'class' => 'tooltip'));
+        $exportar_pdf = $this->Html->link(__($this->Html->image('pdf.png', array('alt' => 'Exportar a PDF', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'exportar_pdf', $id . '.pdf'), array('escape' => false, 'title' => 'Exportar a PDF'));
         
-        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'Borar', 'style' => 'height:16px; width:16px;')) . '<span> Borrar </span>'), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false, 'class' => 'tooltip'), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
+        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'Borar', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false, 'title' => 'Borrar'), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
         
         return $ver . $editar . $imprimir . $exportar_pdf . $borrar;
         
@@ -117,11 +117,11 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $numero_paginas = $this->Paginator->counter(array('format' => __('Página {:page} de {:pages}. Mostrando {:current} registros de un total de {:count}, empezando en el registro {:start} y terminando en el {:end}.')));
         
-        $anterior = $this->Paginator->prev($this->Html->image('anterior.png', array('alt' => '_', 'style' => 'height:24px; width:24px; position:relative; top:8px;')) . __('Anterior '), array('escape' => false), null, array('class' => 'prev disabled', 'escape' => false));
+        $anterior = $this->Paginator->prev($this->Html->image('anterior.png', array('alt' => 'anterior', 'style' => 'height:24px; width:24px; position:relative; top:8px;')) . __('Anterior '), array('escape' => false), null, array('class' => 'prev disabled', 'escape' => false, 'title' => 'Anterior'));
         
         $separador = $this->Paginator->numbers(array('separator' => ' - '));
         
-        $siguiente = $this->Paginator->next(__(' Siguiente') . $this->Html->image('siguiente.png', array('alt' => '_', 'style' => 'height:24px; width:24px; position:relative; top:8px;', 'escape' => false)), array('escape' => false), null, array('class' => 'next disabled', 'escape' => false));
+        $siguiente = $this->Paginator->next(__(' Siguiente') . $this->Html->image('siguiente.png', array('alt' => 'siguiente', 'style' => 'height:24px; width:24px; position:relative; top:8px;', 'escape' => false)), array('escape' => false), null, array('class' => 'next disabled', 'escape' => false, 'title' => 'Siguiente'));
         
         return '<p>' . $numero_paginas . '</p><div class="paging">' . $anterior . $separador . $siguiente . '</div>';
         

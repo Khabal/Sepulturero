@@ -135,7 +135,8 @@
     echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:'));
     echo $this->Form->input('Arrendatario.pais', array('label' => 'País:'));
     echo $this->Form->input('Arrendatario.codigo_postal', array('label' => 'Código postal:'));
-    echo $this->Form->input('Arrendatario.telefono', array('label' => 'Teléfono:'));
+    echo $this->Form->input('Arrendatario.telefono_fijo', array('label' => 'Teléfono fijo:'));
+    echo $this->Form->input('Arrendatario.telefono_movil', array('label' => 'Teléfono móvil:'));
     echo $this->Form->input('Arrendatario.correo_electronico', array('label' => 'Correo electrónico:'));
     echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
    ?>

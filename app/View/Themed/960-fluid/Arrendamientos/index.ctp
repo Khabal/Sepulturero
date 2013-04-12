@@ -19,13 +19,12 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario'); ?></th>
-    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
-    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión'); ?></th>
-    <th><?php echo $this->Paginator->sort('Concesion.anos_concesion', 'Tiempo de concesión'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Fecha de arrendamiento'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Estado del arrendamiento'); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.tipo_arrendatario', 'Tipo de arrendatario'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario', array('escape' => false, 'title' => 'Ordenar por arrendatario')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba', array('escape' => false, 'title' => 'Ordenar por tumba')); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Concesión', array('escape' => false, 'title' => 'Ordenar por concesión')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Fecha de arrendamiento', array('escape' => false, 'title' => 'Ordenar por fecha de arrendamiento')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Estado del arrendamiento', array('escape' => false, 'title' => 'Ordenar por estado de arrendamiento')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
@@ -69,9 +68,8 @@
       ?>&nbsp;
      </td>
      <td>
-      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
+      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'] . " - " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_duracion'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
      </td>
-     <td><?php echo h($arrendamiento['Concesion']['anos_concesion'] . " años"); ?>&nbsp;</td>
      <td><?php echo h(date('d/m/Y', strtotime($arrendamiento['Arrendamiento']['fecha_arrendamiento']))); ?>&nbsp;</td>
      <?php
       $colorico = null;

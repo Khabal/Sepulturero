@@ -90,8 +90,18 @@
      <td><?php echo h($arrendamiento['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono'])) {
-        echo h($arrendatario['Arrendatario']['telefono']);
+       if (!empty($arrendatario['Arrendatario']['telefono_fijo'])) {
+        echo h($arrendatario['Arrendatario']['telefono_fijo']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['telefono_movil'])) {
+        echo h($arrendatario['Arrendatario']['telefono_movil']);
        }
        else {
         echo h("Desconocido");
@@ -109,7 +119,7 @@
       ?>&nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendamiento']['arrendatario_id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendamiento']['arrendatario_id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>
@@ -157,7 +167,7 @@
      </td>
      <td><?php echo h($arrendamiento['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Arrendamiento']['tumba_id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'tumbas', 'action' => 'ver', $arrendamiento['Arrendamiento']['tumba_id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>

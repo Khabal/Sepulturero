@@ -12,14 +12,14 @@
    echo $scripts_for_layout;
    /* Archivos CSS de 960 Grid System */
    echo $this->Html->css(array('reset', 'text', 'grid', 'layout', 'nav'));
-   /* Archivos CSS particulares */
-   echo $this->Html->css(array('general', 'cabeza', 'pie'));
    /* Archivos varios de jQuery UI */
    echo $this->Html->css('smoothness/jquery-ui-1.10.2.custom');
    echo $this->Html->script('jquery-1.9.1.js');
    echo $this->Html->script('jquery-ui-1.10.2.js');
    /* Pulgin de jQuery UI para formularios */
    echo $this->Html->script('jquery.sheepItPlugin.js');
+   /* Archivos CSS particulares */
+   echo $this->Html->css(array('general', 'cabeza', 'pie'));
   ?>
   
   <script>
@@ -43,13 +43,17 @@
        showMonthAfterYear: false,
        yearSuffix: ''
      };
+     
+     /* Establecer opciones en español como por defecto para 'UI datepicker' */
      $.datepicker.setDefaults($.datepicker.regional['es']);
-   });
-  </script>
-  
-  <script>
-   jQuery(function($){
+     
      /* Establecer opciones de 'UI button' para jQuery */
+     $(".boton_buscar").button({
+       icons: {
+         primary: "icono-buscar"
+       },
+       text: true
+     });
      $(".boton_aceptar").button({
        icons: {
          primary: "icono-aceptar"
@@ -64,7 +68,7 @@
      });
      $(".boton_mas").button({
        icons: {
-         primary: "icono-aniadir"
+         primary: "icono-anadir"
        },
        text: true
      });
@@ -199,7 +203,7 @@ echo $this->Form->create('User', array(
 
     
 echo $this->Form->input('clave', array('label' => '', 'type' => 'text', 'class' => 'search text'));
-echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'search button'));
+echo $this->Form->submit(__('Buscar'), array('div' => false, 'class' => 'boton_buscar'));
  echo $this->Form->end(); ?>
         </div>
        </div>
@@ -426,7 +430,7 @@ Los datos personales aquí guardados forman parte de un fichero titularidad del 
   </div>
   
   <!-- Cuadro "Acerca de" -->
-  <div id="dialogo" title="Acerca de">
+  <div id="dialogo">
    <h2> Gestión Municipal de Cementerios (GMC) </h2>
    <p> Registro informatizado para la gestión de cementerios. </p>
    <p style="font-style:italic;"> LaBellotaSoft - Khabal 2013. </p>

@@ -185,7 +185,7 @@ class ArrendamientosController extends AppController {
           ),
           'Concesion' => array(
            'fields' => array(
-            'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
+            'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
            ),
           ),
           'Tumba' => array(
@@ -294,12 +294,12 @@ class ArrendamientosController extends AppController {
             ),
            ),
            'fields' => array(
-            'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono', 'Arrendatario.correo_electronico'
+            'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono_fijo', 'Arrendatario.telefono_movil', 'Arrendatario.correo_electronico'
             ),
           ),
           'Concesion' => array(
            'fields' => array(
-            'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion', 'Concesion.observaciones'
+            'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
            ),
           ),
           'Tumba' => array(
@@ -419,7 +419,7 @@ class ArrendamientosController extends AppController {
               ),
               'Concesion' => array(
                'fields' => array(
-                'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
+                'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
                ),
               ),
               'Tumba' => array(
@@ -453,7 +453,8 @@ class ArrendamientosController extends AppController {
             //Devolver nombres bonitos para entidades relacionadas
             $this->request->data['Arrendamiento']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Arrendamiento']['fecha_arrendamiento']));
             $this->request->data['Arrendamiento']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
-            $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'] . " - " . $this->request->data['Concesion']['anos_concesion'] . " años";
+            $this->request->data['Arrendamiento']['concesion_bonita'] = $this->request->data['Concesion']['tipo'] . " - " . $this->request->data['Concesion']['duracion'] . " " . $this->request->data['Concesion']['unidad_tiempo'];
+            
             //Devolver nombre bonito para la tumba
             $localizacion = "";
             if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
@@ -472,7 +473,7 @@ class ArrendamientosController extends AppController {
             
             //Guardar los datos de sesión del arrendatario
             $this->Session->write('Arrendamiento.id', $this->request->data['Arrendamiento']['id']);
-            $this->Session->write('Arrendamiento.identificador', $this->request->data['Tumba']['tipo'] . " - " . $this->request->data['Tumba'][$this->request->data['Tumba']['tipo']]['localizacion'] . " por " . $this->request->data['Concesion']['anos_concesion'] . "años.");
+            $this->Session->write('Arrendamiento.identificador', $this->request->data['Tumba']['tipo'] . " - " . $this->request->data['Tumba'][$this->request->data['Tumba']['tipo']]['localizacion'] . " por " . $this->request->data['Concesion']['duracion'] . " " . $this->request->data['Concesion']['unidad_tiempo']);
         }
         
     }
@@ -508,12 +509,12 @@ class ArrendamientosController extends AppController {
             ),
            ),
            'fields' => array(
-            'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono', 'Arrendatario.correo_electronico'
+            'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono_fijo', 'Arrendatario.telefono_movil', 'Arrendatario.correo_electronico'
             ),
           ),
           'Concesion' => array(
            'fields' => array(
-            'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion', 'Concesion.observaciones'
+            'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
            ),
           ),
           'Tumba' => array(
@@ -538,14 +539,14 @@ class ArrendamientosController extends AppController {
             ),
            ),
            'fields' => array(
-            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion', 'Tumba.observaciones'
+            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
            ),
           ),
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años.";
+        $this->pdfConfig['title'] = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['duracion'] . " " . $this->request->data['Concesion']['unidad_tiempo'];
         $this->pdfConfig['filename'] = "Arrendamiento_" . $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . ".pdf";
         
         //Comprobar el sistema operativo
@@ -594,12 +595,12 @@ class ArrendamientosController extends AppController {
             ),
            ),
            'fields' => array(
-            'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono', 'Arrendatario.correo_electronico'
+            'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono_fijo', 'Arrendatario.telefono_movil', 'Arrendatario.correo_electronico'
             ),
           ),
           'Concesion' => array(
            'fields' => array(
-            'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion', 'Concesion.observaciones'
+            'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
            ),
           ),
           'Tumba' => array(
@@ -624,14 +625,14 @@ class ArrendamientosController extends AppController {
             ),
            ),
            'fields' => array(
-            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion', 'Tumba.observaciones'
+            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
            ),
           ),
          ),
         ));
         
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años.";
+        $this->pdfConfig['title'] = $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['duracion'] . " " . $this->request->data['Concesion']['unidad_tiempo'];
         $this->pdfConfig['filename'] = "Arrendamiento_" . $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . ".pdf";
         $this->pdfConfig['download'] = true;
         

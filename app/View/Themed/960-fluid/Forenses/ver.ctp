@@ -53,4 +53,4 @@
  </dl>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)', array('escape' => false, 'class' => 'boton_volver')); ?>

@@ -154,8 +154,8 @@
    ?>
   </fieldset>
  <?php /* Botones */
-  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton_guardar'));
+  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton_limpiar'));
   echo $this->Form->end();
  ?>
 </div>

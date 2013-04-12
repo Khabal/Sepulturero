@@ -122,7 +122,7 @@
      <td><?php echo h($localizacion); ?>&nbsp;</td>
      <td><?php echo h($difunto['Tumba']['poblacion']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'tumbas', 'action' => 'ver', $difunto['Difunto']['tumba_id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>
@@ -237,7 +237,7 @@ else{
 ?>
      <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
       <td class="actions">
-       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['movimiento_id']), array('escape' => false)); ?>
+       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['movimiento_id']), array('escape' => false, 'title' => 'Ver')); ?>
       </td>
      </tr>
     <?php endforeach; ?>

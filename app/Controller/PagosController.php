@@ -176,10 +176,22 @@ class PagosController extends AppController {
         $this->paginate = array( 
          'conditions' => $this->Pago->parseCriteria($this->params->query),
          'contain' => array(
-          'PagoTasa' => array(
-           'Tasa' => array(
+          'ArrendatarioPago' => array(
+           'Arrendatario' => array(
             'fields' => array(
-             'Tasa.id', 'Tasa.tipo'
+             'Arrendatario.id', 'Arrendatario.persona_id'
+            ),
+            'Persona' => array(
+             'fields' => array(
+              'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
+             ),
+            ),
+           ),
+          ),
+          'FunerariaPago' => array(
+           'Funeraria' => array(
+            'fields' => array(
+             'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
             ),
            ),
           ),
@@ -201,6 +213,9 @@ class PagosController extends AppController {
         
         //Devolver las opciones de selección de monedas
         $this->set('monedas', $this->Pago->moneda);
+        
+        //Devolver las opciones de selección de tipos de pagadores
+        $this->set('pagadores', $this->Pago->pagador);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
