@@ -95,7 +95,7 @@ class PagosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Pago', 'ArrendatarioPago', 'FunerariaPago', 'PagoTasa', 'Sanitize');
+    public $uses = array('Pago', 'Arrendatario', 'Funeraria', 'PagoTasa', 'Sanitize');
     
     /**
      * ---------------------------
@@ -148,9 +148,7 @@ class PagosController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Pago' => array('id', 'fecha', 'total', 'entregado', 'moneda', 'observaciones'),
-            'ArrendatarioPago' => array('id', 'arrendatario_id', 'pago_id'),
-            'FunerariaPago' => array('id', 'funeraria_id', 'pago_id'),
+            'Pago' => array('id', 'arrendatario_id', 'funeraria_id', 'tumba_id', 'fecha', 'total', 'entregado', 'moneda', 'observaciones'),
             'PagoTasa' => array('id', 'pago_id', 'tasa_id', 'detalle'),
         ),
         'validate' => false,
@@ -176,23 +174,19 @@ class PagosController extends AppController {
         $this->paginate = array( 
          'conditions' => $this->Pago->parseCriteria($this->params->query),
          'contain' => array(
-          'ArrendatarioPago' => array(
-           'Arrendatario' => array(
+          'Arrendatario' => array(
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+           'Persona' => array(
             'fields' => array(
-             'Arrendatario.id', 'Arrendatario.persona_id'
-            ),
-            'Persona' => array(
-             'fields' => array(
-              'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
-             ),
+             'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
             ),
            ),
           ),
-          'FunerariaPago' => array(
-           'Funeraria' => array(
-            'fields' => array(
-             'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
-            ),
+          'Funeraria' => array(
+           'fields' => array(
+            'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
            ),
           ),
          ),
@@ -225,6 +219,20 @@ class PagosController extends AppController {
             
             //Crear nuevo pago con id único
             $this->Pago->create();
+            
+            //Comprobar si el tipo de pagador es un particular
+            if ($this->request->data['Pago']['tipo_pagador'] == "Particular") {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Pago']['funeraria_id'] = null;
+            }
+            //Comprobar si el tipo de pagador es una funeraria
+            elseif ($this->request->data['Pago']['tipo_pagador'] == "Funeraria") {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Pago']['arrendatario_id'] = null;
+            }
+            //En otro caso
+            else {
+            }
             
             //Validar los datos introducidos
             if ($this->Pago->saveAll($this->request->data, array('validate' => 'only'))) {
@@ -274,29 +282,25 @@ class PagosController extends AppController {
           'Pago.id' => $id
          ),
          'contain' => array(
-          'ArrendatarioPago' => array(
-           'Arrendatario' => array(
+          'Arrendatario' => array(
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+           'Persona' => array(
             'fields' => array(
-             'Arrendatario.id', 'Arrendatario.persona_id'
-            ),
-            'Persona' => array(
-             'fields' => array(
-              'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
-             ),
+             'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
             ),
            ),
           ),
-          'FunerariaPago' => array(
-           'Funeraria' => array(
-            'fields' => array(
-             'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
-            ),
+          'Funeraria' => array(
+           'fields' => array(
+            'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
            ),
           ),
           'PagoTasa' => array(
            'Tasa' => array(
             'fields' => array(
-             'Tasa.id', 'Tasa.tipo', 'Tasa.cantidad', 'Tasa.moneda'
+             'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad', 'Tasa.moneda'
             ),
            ),
           ),
@@ -317,10 +321,13 @@ class PagosController extends AppController {
     public function buscar() {
         
         //Devolver las opciones de selección de monedas
-        $this->set('monedas', $this->Tasa->moneda);
+        $this->set('monedas', $this->Pago->moneda);
+        
+        //Devolver las opciones de selección de tipos de pagadores
+        $this->set('pagadores', $this->Pago->pagador);
         
         //Eliminar reglas de validación
-        unset($this->Tasa->validate);
+        unset($this->Pago->validate);
         
     }
     

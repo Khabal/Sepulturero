@@ -110,7 +110,7 @@
      });
      $(".boton_volver").button({
        icons: {
-         secondary: "icono-volver"
+         primary: "icono-volver"
        },
        text: true
      });

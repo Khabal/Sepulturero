@@ -19,9 +19,9 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Tumba.tipo', 'Tipo de tumba'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Localicación'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba.poblacion', 'Población'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.tipo', 'Tipo de tumba', array('escape' => false, 'title' => 'Ordenar por tipo de tumba')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Localicación', array('escape' => false, 'title' => 'Ordenar por localicación de la tumba')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.poblacion', 'Población', array('escape' => false, 'title' => 'Ordenar por población de la tumba')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>

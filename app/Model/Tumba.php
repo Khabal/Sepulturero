@@ -89,7 +89,7 @@ class Tumba extends AppModel {
      *
      * @var array
      */
-    //public $order = array();
+    public $order = array();
     
     /**
      * Virtual fields
@@ -277,6 +277,17 @@ class Tumba extends AppModel {
         'MovimientoTumba' => array(
             'className' => 'MovimientoTumba',
             'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => 0,
+            'dependent' => true,
+            'exclusive' => false,
+            'finderQuery' => '',
+        ),
+        'Pago' => array(
+            'className' => 'Pago',
+            'foreignKey' => 'pago_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',

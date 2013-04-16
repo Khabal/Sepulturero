@@ -12,7 +12,7 @@
  */
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver() ?>
 
 <?php /* Datos funeraria */ ?>
 <div class="view box">
@@ -72,7 +72,7 @@
   <dd class="enlace">
    <?php
     if (!empty($funeraria['Funeraria']['pagina_web'])) {
-     echo $this->Html->link(__($funeraria['Funeraria']['pagina_web']), $funeraria['Funeraria']['pagina_web'], array('escape' => false, 'target' => '_blank'));
+     echo $this->Html->link(__($funeraria['Funeraria']['pagina_web']), $funeraria['Funeraria']['pagina_web'], array('escape' => false, 'target' => '_blank', 'title' => 'Abrir web de la funeraria en una nueva ventana'));
     }
     else {
      echo h("Desconocido");
@@ -82,5 +82,6 @@
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($funeraria['Funeraria']['observaciones']); ?>&nbsp;</dd>
  </dl>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->GuarritasEnergeticas->burton_volver() ?>

@@ -22,14 +22,6 @@
    echo $this->Html->css(array('general', 'cabeza', 'pie'));
   ?>
   
-  <style>
-  .icono-guardar {
-    background: url("<?php echo $this->webroot; ?>theme/<?php echo $this->theme; ?>/img/guardar.png");
-    width: 32px;
-    height: 32px;
-}
-  </style>
-  
   <script>
    /* Inicializaciones globales de jQuery UI */
    jQuery(function($){

@@ -12,7 +12,7 @@
  */
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver() ?>
 
 <?php /* Datos médico forense */ ?>
 <div class="view box">
@@ -53,4 +53,4 @@
  </dl>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver() ?>

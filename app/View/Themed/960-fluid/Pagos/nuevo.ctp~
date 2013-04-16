@@ -15,7 +15,6 @@
 
 <?php
  /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
- /* Arrendatarios */
  if (isset($this->request->data['ArrendatarioPago'])) {
   $ini_a = sizeof($this->request->data['ArrendatarioPago']);
   $data_a = array();
@@ -28,22 +27,8 @@
   $ini_a = 0;
   $data_a = "[]";
  }
- /* Funerarias */
- if (isset($this->request->data['FunerariaPago'])) {
-  $ini_f = sizeof($this->request->data['FunerariaPago']);
-  $data_f = array();
-  foreach($this->request->data['FunerariaPago'] as $funeraria) {
-   array_push($data_f, array("FunerariaPago#index#FunerariaBonita" => $funeraria['funeraria_bonita'], "FunerariaPago#index#FunerariaId" => $funeraria['funeraria_id']));
-  }
-  $data_f = json_encode($data_f);
- }
- else {
-  $ini_f = 0;
-  $data_f = "[]";
- }
  
  /* Cargar mensajes de error para los campos generados con sheepIt */
- /* Arrendatarios */
  if (isset($this->validationErrors['ArrendatarioPago'])) {
   $tam_a = count($this->validationErrors['ArrendatarioPago']);
   $mensajes_error_a = array();
@@ -61,35 +46,15 @@
  else {
   $mensajes_error_a = "[]";
  }
- /* Funerarias */
- if (isset($this->validationErrors['FunerariaPago'])) {
-  $tam_f = count($this->validationErrors['FunerariaPago']);
-  $mensajes_error_f = array();
-  for ($i = 0; $tam_f > 0; $i++) {
-   if (isset($this->validationErrors['FunerariaPago'][$i])) {
-    array_push($mensajes_error_f, array($i + 1 => $this->validationErrors['FunerariaPago'][$i]['funeraria_bonita'][0]));
-    $tam_f--;
-   }
-   else {
-    array_push($mensajes_error_f, array($i + 1 => ""));
-   }
-  }
-  $mensajes_error_f = json_encode($mensajes_error_f);
- }
- else {
-  $mensajes_error_f = "[]";
- }
 ?>
 
 <script>
- var errores_arre = <?php echo $mensajes_error_a; ?>;
- var num_arre = 0;
- var errores_fune = <?php echo $mensajes_error_f; ?>;
- var num_fune = 0;
+ var errores = <?php echo $mensajes_error; ?>;
+ var num = 0;
  
  $(function() {
    /* Formulario sheepIt para agregar tasas */
-   $("#SubFormularioFuneraria").sheepIt({
+   $("#SubFormularioTasa").sheepIt({
      separator: '',
      allowRemoveLast: true,
      allowRemoveCurrent: true,
@@ -99,19 +64,19 @@
      maxFormsCount: 100,
      minFormsCount: 0,
      continuousIndex: false,
-     iniFormsCount: <?php echo h($ini_f); ?>,
-     removeAllConfirmationMsg: '¿Eliminar todas las funerarias asociadas?',
-     data: <?php echo $data_f; ?>,
+     iniFormsCount: <?php echo h($ini_t); ?>,
+     removeAllConfirmationMsg: '¿Eliminar todas las tasas del pago?',
+     data: <?php echo $data_t; ?>,
      afterAdd: function(source, newForm) {
        /* Obtener identificadores de campos */
-       var auto = "#" + $(newForm).children("div").children("input[id$='FunerariaBonita']").attr("id");
+       var auto = "#" + $(newForm).children("div").children("input[id$='TasaBonita']").attr("id");
        var auto_oc = auto.replace("Bonita", "Id");
        
        /* Establecer opciones de 'UI Autocomplete' para jQuery */
        $(auto).autocomplete({
          source: function(request, response) {
            $.ajax({
-             url: "<?php echo $this->Html->url(array('controller' => 'funerarias', 'action' => 'autocomplete')); ?>",
+             url: "<?php echo $this->Html->url(array('controller' => 'tasas', 'action' => 'autocomplete')); ?>",
              dataType: "json",
              type: "GET",
              data: {
@@ -291,40 +256,32 @@
      if (seleccionado != $("#PagoTipoPagador").val()) {
        seleccionado = $("#PagoTipoPagador").val();
        if (seleccionado == "Particular") {
-         $("#Columbario").show(),
-         $("#Panteon").hide()
+         $("#Particular").show(),
+         $("#Funeraria").hide()
        }
        else if (seleccionado == "Funeraria") {
-         $("#Columbario").hide(),
-         $("#Panteon").hide()
+         $("#Particular").hide(),
+         $("#Funeraria").show()
        }
        else {
-         $("#Columbario").hide(),
-         $("#Panteon").hide()
+         $("#Particular").hide(),
+         $("#Funeraria").hide()
        }
      }
    });
    
    /* Mostrar campos adecuados si se recarga */
-   if (seleccionado == "Columbario") {
-     $("#Columbario").show(),
-     $("#Nicho").hide(),
-     $("#Panteon").hide()
+   if (seleccionado == "Particular") {
+     $("#Particular").show(),
+     $("#Funeraria").hide()
    }
-   else if (seleccionado == "Nicho") {
-     $("#Columbario").hide(),
-     $("#Nicho").show(),
-     $("#Panteon").hide()
-   }
-   else if (seleccionado == "Panteón") {
-     $("#Columbario").hide(),
-     $("#Nicho").hide(),
-     $("#Panteon").show()
+   else if (seleccionado == "Funeraria") {
+     $("#Particular").hide(),
+     $("#Funeraria").show()
    }
    else {
-     $("#Columbario").hide(),
-     $("#Nicho").hide(),
-     $("#Panteon").hide()
+     $("#Particular").hide(),
+     $("#Funeraria").hide()
    }
    
  });
@@ -336,7 +293,25 @@
   <fieldset>
    <legend><?php echo __('Datos del pago'); ?></legend>
    <?php /* Campos */
-    echo $this->Form->input('Pago.tipo_pagador', array('label' => 'Estado del arrendamiento:', 'type' => 'select', 'options' => $pagadores, 'empty' => ''));
+    echo $this->Form->input('Pago.tipo_pagador', array('label' => 'Tipo de pagador:', 'type' => 'select', 'options' => $pagadores, 'empty' => ''));
+?>
+   <div id="Particular" style="display:none;">
+    <?php
+     /* Campos arrendatario */
+    echo $this->Form->input('Pago.arrendatario_bonito', array('label' => 'Particular:')); //Campo imaginario
+    echo $this->Form->input('Pago.arrendatario_id', array('type' => 'hidden'));
+    ?>
+   </div>
+   <div id="Funeraria" style="display:none;">
+    <?php
+     /* Campos funeraria */
+    echo $this->Form->input('Pago.funeraria_bonita', array('label' => 'Funeraria:')); //Campo imaginario
+    echo $this->Form->input('Pago.funeraria_id', array('type' => 'hidden'));
+    ?>
+   </div>
+    <?php
+    echo $this->Form->input('Pago.tumba_bonita', array('label' => 'Particular:')); //Campo imaginario
+    echo $this->Form->input('Pago.tumba_id', array('type' => 'hidden'));
     echo $this->Form->input('Pago.fecha_bonita', array('label' => 'Fecha de pago:')); //Campo imaginario
     echo $this->Form->input('Pago.fecha', array('type' => 'hidden'));
     echo $this->Form->input('Pago.moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
@@ -344,18 +319,28 @@
    ?>
   </fieldset>
   <fieldset>
-   <legend><?php echo __('Tasa asociada'); ?></legend>
-   <?php /* Campos */ ?>
-   <div class="input text required">
-    <label for="tasa">Tasa:</label>
-    <input id="tasa" name="data[Pago][tasa_nombre]" value="<?php if ($this->request->data) { echo $this->request->data['Pago']['tasa_nombre']; } ?>"/>
+   <legend><?php echo __('Tasas pagadas'); ?></legend>
+   <div id="SubFormularioTasa">
+    <div id="SubFormularioTasa_template">
+     <?php /* Campos */
+      echo $this->Form->input('PagoTasa.#index#.tasa_bonita', array('label' => 'Tasa:')); //Campo imaginario
+      echo $this->Form->input('PagoTasa.#index#.tasa_id', array('type' => 'hidden'));
+      echo $this->Form->input('PagoTasa.#index#.detalle', array('label' => 'Detalle:'));
+     ?>
+     <a id="SubFormularioTasa_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
+    </div>
+    <div id="SubFormularioTasa_noforms_template">No hay funerarias contratadas</div>
+    <div id="SubFormularioTasa_controls">
+     <a id="SubFormularioTasa_add" class="boton"> <?php echo $this->Html->image('nuevo.png', array('alt' => 'nuevo', 'style' => 'height:24px; width:24px;')) . ' Añadir tasa'; ?> </a>
+     <a id="SubFormularioTasa_remove_last" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'style' => 'height:24px; width:24px;')) . ' Eliminar última tasa'; ?> </a>
+     <a id="SubFormularioTasa_remove_all" class="boton"> <?php echo $this->Html->image('limpiar.png', array('alt' => 'limpiar', 'style' => 'height:24px; width:24px;')) . ' Eliminar todas las tasas'; ?> </a>
+    </div>
    </div>
-   <?php echo $this->Form->input('Pago.tasa_id', array('type' => 'hidden')); ?>
   </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('value' => 'guardar_y_nuevo', 'type' => 'submit', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_nuevo();
   echo $this->Form->end();
  ?>
+ 
 </div>

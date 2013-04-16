@@ -101,7 +101,7 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $exportar_pdf = $this->Html->link(__($this->Html->image('pdf.png', array('alt' => 'Exportar a PDF', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'exportar_pdf', $id . '.pdf'), array('escape' => false, 'title' => 'Exportar a PDF'));
         
-        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'Borar', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false, 'title' => 'Borrar'), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
+        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'Borar', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false, 'title' => 'Borrar'), __('Esto borrará de forma pe        rmanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
         
         return $ver . $editar . $imprimir . $exportar_pdf . $borrar;
         
@@ -124,6 +124,70 @@ class GuarritasEnergeticasHelper extends AppHelper {
         $siguiente = $this->Paginator->next(__(' Siguiente') . $this->Html->image('siguiente.png', array('alt' => 'siguiente', 'style' => 'height:24px; width:24px; position:relative; top:8px;', 'escape' => false)), array('escape' => false), null, array('class' => 'next disabled', 'escape' => false, 'title' => 'Siguiente'));
         
         return '<p>' . $numero_paginas . '</p><div class="paging">' . $anterior . $separador . $siguiente . '</div>';
+        
+    }
+    
+    /**
+     * burtones_nuevo method
+     *
+     * @throws nothing or canned shit in odd days
+     * @return HTML string
+     */
+    public function burtones_nuevo() {
+        
+        $limpiar = $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
+
+        $guardar = $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton_guardar'));
+        
+        $guardar_y_nuevo = $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton_guardar_nuevo'));
+        
+        return $limpiar . $guardar . $guardar_y_nuevo;
+        
+    }
+    
+    /**
+     * burtones_editar method
+     *
+     * @throws nothing or canned shit in odd days
+     * @return HTML string
+     */
+    public function burtones_editar() {
+        
+        $modificar = $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton_guardar'));
+        
+        $descartar = $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton_limpiar'));
+        
+        return $modificar . $descartar;
+        
+    }
+    
+    /**
+     * burtones_buscar method
+     *
+     * @throws nothing or canned shit in odd days
+     * @return HTML string
+     */
+    public function burtones_buscar() {
+        
+        $limpiar = $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
+        
+        $buscar = $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton_buscar'));
+        
+        return $limpiar . $buscar;
+        
+    }
+    
+    /**
+     * burton_volver method
+     *
+     * @throws nothing or canned shit in odd days
+     * @return HTML string
+     */
+    public function burton_volver() {
+        
+        $volver = $this->Html->link('Volver a la página anterior','javascript:history.go(-1)', array('escape' => false, 'class' => 'boton_volver'));
+        
+        return $volver;
         
     }
     

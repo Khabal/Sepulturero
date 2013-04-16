@@ -11,22 +11,23 @@
     'type' => 'get'
   ));
  ?>
-  <fieldset>
-  <legend><?php echo __('Información sobre la funeraria'); ?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('cif', array('label' => 'C.I.F.:'));
-    echo $this->Form->input('nombre', array('label' => 'Nombre:'));
-    echo $this->Form->input('direccion', array('label' => 'Dirección:'));
-    echo $this->Form->input('telefono_fijo', array('label' => 'Teléfono:'));
-    echo $this->Form->input('telefono_movil', array('label' => 'Teléfono móvil:'));
-    echo $this->Form->input('fax', array('label' => 'Fax:'));
-    echo $this->Form->input('correo_electronico', array('label' => 'Correo electrónico:'));
-    echo $this->Form->input('pagina_web', array('label' => 'Página web:'));
-   ?>
-  </fieldset>
+ <fieldset>
+ <legend><?php echo __('Información sobre la funeraria'); ?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('cif', array('label' => 'C.I.F.:'));
+   echo $this->Form->input('nombre', array('label' => 'Nombre:'));
+   echo $this->Form->input('direccion', array('label' => 'Dirección:'));
+   echo $this->Form->input('telefono_fijo', array('label' => 'Teléfono:'));
+   echo $this->Form->input('telefono_movil', array('label' => 'Teléfono móvil:'));
+   echo $this->Form->input('fax', array('label' => 'Fax:'));
+   echo $this->Form->input('correo_electronico', array('label' => 'Correo electrónico:'));
+   echo $this->Form->input('pagina_web', array('label' => 'Página web:'));
+  ?>
+ </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_buscar();
   echo $this->Form->end();
  ?>
+ 
 </div>

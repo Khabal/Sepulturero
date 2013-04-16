@@ -73,45 +73,45 @@
 <?php /* Formulario nueva tumba */ ?>
 <div class="add form">
  <?php echo $this->Form->create('Tumba'); ?>
-  <fieldset>
-   <legend><?php echo __('Datos de la tumba'); ?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('Tumba.tipo', array('label' => 'Tipo de tumba:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
-   ?>
-   <div id="Columbario" style="display:none;">
-    <?php
-     /* Campos nuevo columbario */
-     echo $this->Form->input('Columbario.numero_columbario', array('label' => 'Número de columbario:', 'required' => false));
-     echo $this->Form->input('Columbario.letra', array('label' => 'Letra:', 'required' => false));
-     echo $this->Form->input('Columbario.fila', array('label' => 'Fila:', 'required' => false));
-     echo $this->Form->input('Columbario.patio', array('label' => 'Patio:', 'required' => false));
-    ?>
-   </div>
-   <div id="Nicho" style="display:none;">
-    <?php
-     /* Campos nuevo nicho */
-     echo $this->Form->input('Nicho.numero_nicho', array('label' => 'Número de nicho:', 'required' => false));
-     echo $this->Form->input('Nicho.letra', array('label' => 'Letra:', 'required' => false));
-     echo $this->Form->input('Nicho.fila', array('label' => 'Fila:', 'required' => false));
-     echo $this->Form->input('Nicho.patio', array('label' => 'Patio:', 'required' => false));
-    ?>
-   </div>
-   <div id="Panteon" style="display:none;">
-    <?php
-     /* Campos nuevo panteón */
-     echo $this->Form->input('Panteon.numero_panteon', array('label' => 'Número de panteón:', 'required' => false));
-     echo $this->Form->input('Panteon.familia', array('label' => 'Familia:', 'required' => false));
-     echo $this->Form->input('Panteon.patio', array('label' => 'Patio:', 'required' => false));
-    ?>
-   </div>
+ <fieldset>
+  <legend><?php echo __('Datos de la tumba'); ?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('Tumba.tipo', array('label' => 'Tipo de tumba:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
+  ?>
+  <div id="Columbario" style="display:none;">
    <?php
-    echo $this->Form->input('Tumba.observaciones', array('label' => 'Anotaciones:'));
+    /* Campos nuevo columbario */
+    echo $this->Form->input('Columbario.numero_columbario', array('label' => 'Número de columbario:', 'required' => false));
+    echo $this->Form->input('Columbario.letra', array('label' => 'Letra:', 'required' => false));
+    echo $this->Form->input('Columbario.fila', array('label' => 'Fila:', 'required' => false));
+    echo $this->Form->input('Columbario.patio', array('label' => 'Patio:', 'required' => false));
    ?>
-  </fieldset>
+  </div>
+  <div id="Nicho" style="display:none;">
+   <?php
+    /* Campos nuevo nicho */
+    echo $this->Form->input('Nicho.numero_nicho', array('label' => 'Número de nicho:', 'required' => false));
+    echo $this->Form->input('Nicho.letra', array('label' => 'Letra:', 'required' => false));
+    echo $this->Form->input('Nicho.fila', array('label' => 'Fila:', 'required' => false));
+    echo $this->Form->input('Nicho.patio', array('label' => 'Patio:', 'required' => false));
+   ?>
+  </div>
+  <div id="Panteon" style="display:none;">
+   <?php
+    /* Campos nuevo panteón */
+    echo $this->Form->input('Panteon.numero_panteon', array('label' => 'Número de panteón:', 'required' => false));
+    echo $this->Form->input('Panteon.familia', array('label' => 'Familia:', 'required' => false));
+    echo $this->Form->input('Panteon.patio', array('label' => 'Patio:', 'required' => false));
+   ?>
+  </div>
+  <?php
+   echo $this->Form->input('Tumba.observaciones', array('label' => 'Anotaciones:'));
+  ?>
+ </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_nuevo();
   echo $this->Form->end();
  ?>
+ 
 </div>

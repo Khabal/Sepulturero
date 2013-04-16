@@ -475,7 +475,7 @@ class FunerariasController extends AppController {
           'Funeraria.nombre LIKE' => $palabro,
          ),
          'fields' => array(
-          'Funeraria.id', 'Funeraria.nombre'
+          'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
          ),
          'limit' => 20,
         ));
@@ -488,7 +488,7 @@ class FunerariasController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Funeraria']['nombre'], "value" => $resultado['Funeraria']['id']));
+                array_push($items, array("label" => $resultado['Funeraria']['nombre'] . " " . $resultado['Funeraria']['cif'], "value" => $resultado['Funeraria']['id']));
             }
         }
         

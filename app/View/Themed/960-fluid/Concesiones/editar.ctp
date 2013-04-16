@@ -17,17 +17,19 @@
 <?php /* Formulario editar concesión */ ?>
 <div class="edit form">
  <?php echo $this->Form->create('Concesion'); ?>
-  <fieldset>
-   <legend><?php echo __('Datos de la concesión');?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('Concesion.tipo', array('label' => 'Tipo de concesión:'));
-    echo $this->Form->input('Concesion.anos_concesion', array('label' => 'Años de concesión:'));
-    echo $this->Form->input('Concesion.observaciones', array('label' => 'Anotaciones:'));
-   ?>
-  </fieldset>
+ <fieldset>
+  <legend><?php echo __('Datos de la concesión');?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('Concesion.tipo', array('label' => 'Tipo de concesión:'));
+   echo $this->Form->input('Concesion.duracion', array('label' => 'Años de concesión:'));
+   echo $this->Form->input('Concesion.unidad_tiempo', array('label' => 'Unidad de tiempo:', 'type' => 'select', 'options' => $tiempo, 'empty' => ''));
+   echo $this->Form->input('Concesion.observaciones', array('label' => 'Anotaciones:'));
+  ?>
+ </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_editar();
   echo $this->Form->end();
  ?>
+ 
 </div>

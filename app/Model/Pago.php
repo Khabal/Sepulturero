@@ -231,28 +231,6 @@ class Pago extends AppModel {
      * @var array
      */
     public $hasMany = array(
-        'ArrendatarioPago' => array(
-            'className' => 'ArrendatarioPago',
-            'foreignKey' => 'pago_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => true,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
-        'FunerariaPago' => array(
-            'className' => 'FunerariaPago',
-            'foreignKey' => 'pago_id',
-            'conditions' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => 0,
-            'dependent' => true,
-            'exclusive' => false,
-            'finderQuery' => '',
-        ),
         'PagoTasa' => array(
             'className' => 'PagoTasa',
             'foreignKey' => 'pago_id',
@@ -263,6 +241,44 @@ class Pago extends AppModel {
             'dependent' => true,
             'exclusive' => false,
             'finderQuery' => '',
+        ),
+    );
+    
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Arrendatario' => array(
+            'className' => 'Arrendatario',
+            'foreignKey' => 'arrendatario_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+        'Funeraria' => array(
+            'className' => 'Funeraria',
+            'foreignKey' => 'funeraria_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
+        ),
+        'Tumba' => array(
+            'className' => 'Tumba',
+            'foreignKey' => 'tumba_id',
+            'conditions' => '',
+            'type' => 'left',
+            'fields' => '',
+            'order' => '',
+            'counterCache' => '',
+            'counterScope' => '',
         ),
     );
     
@@ -339,7 +355,7 @@ class Pago extends AppModel {
         return array(
          'OR'  => array(
           'DATE_FORMAT(Pago.fecha,"%d/%m/%Y") LIKE' => $comodin,
-          'Tasa.tipo LIKE' => $comodin,
+          'Tasa.concepto LIKE' => $comodin,
          )
         );
         

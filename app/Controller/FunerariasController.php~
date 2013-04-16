@@ -147,7 +147,7 @@ class FunerariasController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Funeraria' => array('id', 'cif', 'nombre', 'direccion', 'telefono', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
+            'Funeraria' => array('id', 'cif', 'nombre', 'direccion', 'telefono_fijo', 'telefono_movil', 'fax', 'correo_electronico', 'pagina_web', 'observaciones'),
         ),
         'validate' => false,
     );

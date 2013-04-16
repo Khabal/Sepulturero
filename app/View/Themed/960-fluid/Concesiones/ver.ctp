@@ -12,7 +12,7 @@
  */
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
 
 <?php /* Datos concesión */ ?>
 <div class="view box">
@@ -20,11 +20,11 @@
  <dl>
   <dt><?php echo __('Tipo de concesión'); ?>:</dt>
   <dd><?php echo h($concesion['Concesion']['tipo']); ?>&nbsp;</dd>
-  <dt><?php echo __('Años de concesión'); ?>:</dt>
-  <dd><?php echo h($concesion['Concesion']['anos_concesion']); ?>&nbsp;</dd>
+  <dt><?php echo __('Duración de la concesión'); ?>:</dt>
+  <dd><?php echo h($concesion['Concesion']['duracion'] . " " . $concesion['Concesion']['unidad_tiempo']); ?>&nbsp;</dd>
   <dt><?php echo __('Anotaciones'); ?>:</dt>
   <dd><?php echo h($concesion['Concesion']['observaciones']); ?>&nbsp;</dd>
  </dl>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>

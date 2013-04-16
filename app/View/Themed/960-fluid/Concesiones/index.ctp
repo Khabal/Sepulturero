@@ -19,8 +19,9 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión'); ?></th>
-    <th><?php echo $this->Paginator->sort('Concesion.anos_concesion', 'Años de concesión'); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Tipo de concesión', array('escape' => false, 'title' => 'Ordenar por tipo de concesión')); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.duracion', 'Duración de la concesión', array('escape' => false, 'title' => 'Ordenar por duración de la concesión')); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.unidad_tiempo', 'Unidad de tiempo', array('escape' => false, 'title' => 'Ordenar por unidad de tiempo')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
@@ -33,7 +34,8 @@
      <td>
       <?php echo $this->Html->link($concesion['Concesion']['tipo'], array('controller' => 'concesiones', 'action' => 'ver', $concesion['Concesion']['id'])); ?>&nbsp;
      </td>
-     <td><?php echo $concesion['Concesion']['anos_concesion']; ?>&nbsp;</td>
+     <td><?php echo h($concesion['Concesion']['duracion']); ?>&nbsp;</td>
+     <td><?php echo h($concesion['Concesion']['unidad_tiempo']); ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->GuarritasEnergeticas->guarrita_acciones('concesiones', $concesion['Concesion']['id'], $concesion['Concesion']['tipo'], false, true); ?>
      </td>

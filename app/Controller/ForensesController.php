@@ -235,8 +235,14 @@ class ForensesController extends AppController {
             //Validar los datos introducidos
             if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                if (!empty($this->request->data['Persona']['dni'])){
+                    //Convertir a mayúsculas el carácter del DNI
+                    $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Persona']['dni'] = null;
+                }
                 
                 //Guardar y comprobar éxito
                 if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -342,8 +348,14 @@ class ForensesController extends AppController {
             //Validar los datos introducidos
             if ($this->Forense->saveAll($this->request->data, array('validate' => 'only'))) {
                 
-                //Convertir a mayúsculas el carácter del DNI
-                $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                if (!empty($this->request->data['Persona']['dni'])){
+                    //Convertir a mayúsculas el carácter del DNI
+                    $this->request->data['Persona']['dni'] = strtoupper($this->request->data['Persona']['dni']);
+                }
+                else {
+                    //Truco del almendruco para evitar errores de validación
+                    $this->request->data['Persona']['dni'] = null;
+                }
                 
                 //Guardar y comprobar éxito
                 if ($this->Forense->saveAssociated($this->request->data, $this->opciones_guardado)) {

@@ -90,8 +90,18 @@
      <td><?php echo h($arrendamiento['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono'])) {
-        echo h($arrendatario['Arrendatario']['telefono']);
+       if (!empty($arrendatario['Arrendatario']['telefono_fijo'])) {
+        echo h($arrendatario['Arrendatario']['telefono_fijo']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['telefono_movil'])) {
+        echo h($arrendatario['Arrendatario']['telefono_movil']);
        }
        else {
         echo h("Desconocido");

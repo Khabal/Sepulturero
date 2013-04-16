@@ -50,7 +50,7 @@
      <td><?php echo $this->Number->format($pago['Tasa']['cantidad'], array('places' => 2, 'before' => '', 'escape' => false, 'decimals' => ',', 'thousands' => '.')); ?>&nbsp;</td>
      <td><?php echo h($pago['Tasa']['moneda']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;')) . ' Ver'), array('controller' => 'tasas', 'action' => 'ver', $pago['Pago']['tasa_id']), array('escape' => false)); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'tasas', 'action' => 'ver', $pago['Pago']['tasa_id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>

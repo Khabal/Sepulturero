@@ -19,12 +19,12 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
-    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Forense.numero_colegiado', 'Número de colegiado'); ?></th>
-    <th><?php echo $this->Paginator->sort('Forense.colegio', 'Colegio'); ?></th>
-    <th><?php echo $this->Paginator->sort('Forense.telefono', 'Teléfono'); ?></th>
-    <th><?php echo $this->Paginator->sort('Forense.correo_electronico', 'Correo electrónico'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre', array('escape' => false, 'title' => 'Ordenar por nombre del médico forense')); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.', array('escape' => false, 'title' => 'Ordenar por D.N.I. del médico forense')); ?></th>
+    <th><?php echo $this->Paginator->sort('Forense.numero_colegiado', 'Número de colegiado', array('escape' => false, 'title' => 'Ordenar por número de colegiado')); ?></th>
+    <th><?php echo $this->Paginator->sort('Forense.colegio', 'Colegio', array('escape' => false, 'title' => 'Ordenar por colegio')); ?></th>
+    <th><?php echo $this->Paginator->sort('Forense.telefono', 'Teléfono', array('escape' => false, 'title' => 'Ordenar por teléfono')); ?></th>
+    <th><?php echo $this->Paginator->sort('Forense.correo_electronico', 'Correo electrónico', array('escape' => false, 'title' => 'Ordenar por correo electrónico')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>

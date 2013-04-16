@@ -19,14 +19,14 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Funeraria.cif', 'C.I.F.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.nombre', 'Nombre'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.direccion', 'Dirección'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.telefono_fijo', 'Teléfono fijo'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.telefono_movil', 'Teléfono móvil'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.fax', 'Fax'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.correo_electronico', 'Correo electrónico'); ?></th>
-    <th><?php echo $this->Paginator->sort('Funeraria.pagina_web', 'Página web'); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.cif', 'C.I.F.', array('escape' => false, 'title' => 'Ordenar por C.I.F.')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.nombre', 'Nombre', array('escape' => false, 'title' => 'Ordenar por nombre')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.direccion', 'Dirección', array('escape' => false, 'title' => 'Ordenar por dirección')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.telefono_fijo', 'Teléfono fijo', array('escape' => false, 'title' => 'Ordenar por teléfono fijo')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.telefono_movil', 'Teléfono móvil', array('escape' => false, 'title' => 'Ordenar por teléfono móvil')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.fax', 'Fax', array('escape' => false, 'title' => 'Ordenar por fax')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.correo_electronico', 'Correo electrónico', array('escape' => false, 'title' => 'Ordenar por correo electrónico')); ?></th>
+    <th><?php echo $this->Paginator->sort('Funeraria.pagina_web', 'Página web', array('escape' => false, 'title' => 'Ordenar por página web')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>

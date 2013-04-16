@@ -175,5 +175,5 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+ <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)', array('class' => 'boton_volver')); ?>
 </div>

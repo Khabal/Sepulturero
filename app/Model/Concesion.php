@@ -295,7 +295,7 @@ class Concesion extends AppModel {
         return array(
          'OR'  => array(
           'Concesion.tipo LIKE' => $comodin,
-          'Concesion.anos_concesion LIKE' => $comodin,
+          'CONCAT(Concesion.duracion," ",Concesion.unidad_tiempo) LIKE' => $comodin,
          )
         );
         

@@ -244,6 +244,13 @@ class Concesion extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
+        //Vector de estados de arrendamiento de una tumba
+        $this->tiempo = array(
+            'Años' => __('Años', true),
+            'Meses' => __('Meses', true),
+            'Días' => __('Días', true),
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -288,7 +295,7 @@ class Concesion extends AppModel {
         return array(
          'OR'  => array(
           'Concesion.tipo LIKE' => $comodin,
-          'Concesion.anos_concesion LIKE' => $comodin,
+          'CONCAT(Concesion.duracion," ",Persona.unidad_tiempo) LIKE' => $comodin,
          )
         );
         

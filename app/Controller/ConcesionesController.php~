@@ -130,7 +130,6 @@ class ConcesionesController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    //public $presetVars = true; //Using the model configuration
     public $presetVars = array( //Overriding and extending the model defaults
         'clave'=> array(
             'encode' => true,
@@ -148,7 +147,7 @@ class ConcesionesController extends AppController {
         'atomic' => true,
         'deep' => false,
         'fieldList' => array(
-            'Concesion' => array('id', 'tipo', 'anos_concesion', 'observaciones'),
+            'Concesion' => array('id', 'tipo', 'duracion', 'unidad_tiempo', 'observaciones'),
         ),
         'validate' => false,
     );
@@ -186,6 +185,9 @@ class ConcesionesController extends AppController {
      * @return void
      */
     public function nuevo() {
+        
+        //Devolver las opciones de selección de unidades de tiempo
+        $this->set('tiempo', $this->Concesion->tiempo);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
@@ -260,6 +262,9 @@ class ConcesionesController extends AppController {
      */
     public function buscar() {
         
+        //Devolver las opciones de selección de unidades de tiempo
+        $this->set('tiempo', $this->Concesion->tiempo);
+        
         //Eliminar reglas de validación
         unset($this->Concesion->validate);
         
@@ -272,6 +277,9 @@ class ConcesionesController extends AppController {
      * @return void
      */
     public function editar($id = null) {
+        
+        //Devolver las opciones de selección de unidades de tiempo
+        $this->set('tiempo', $this->Concesion->tiempo);
         
         //Asignar id
         $this->Concesion->id = $id;
@@ -355,7 +363,7 @@ class ConcesionesController extends AppController {
         
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
-        $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
+        $this->pdfConfig['filename'] = $concesion['Concesion']['duracion'] . $concesion['Concesion']['unidad_tiempo'] . ".pdf";
         
         //Comprobar el sistema operativo
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -400,7 +408,7 @@ class ConcesionesController extends AppController {
         
         //Establecer parámetros específicos para la generación del documento .pdf
         $this->pdfConfig['title'] = $concesion['Concesion']['tipo'];
-        $this->pdfConfig['filename'] = "TipoConcesión_" . $concesion['Concesion']['anos_concesion'] . "años" . ".pdf";
+        $this->pdfConfig['filename'] = $concesion['Concesion']['duracion'] . $concesion['Concesion']['unidad_tiempo'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
         //Comprobar el sistema operativo
@@ -492,7 +500,8 @@ class ConcesionesController extends AppController {
          'conditions' => array(
           'OR' =>  array(
            'Concesion.tipo LIKE' => $palabro,
-           'Concesion.anos_concesion LIKE' => $palabro,
+           'Concesion.duracion' => $palabro,
+           'Concesion.unidad_tiempo' => $palabro,
           ),
          ),
          'limit' => 20,
