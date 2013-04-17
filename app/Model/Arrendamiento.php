@@ -373,7 +373,7 @@ class Arrendamiento extends AppModel {
               'Concesion.id' => $id,
              ),
              'fields' => array(
-              'Concesion.id', 'Concesion.anos_concesion'
+              'Concesion.id', 'Concesion.duracion', 'Concesion.unidad_tiempo'
              ),
               'contain' => array(
              ),
@@ -384,8 +384,20 @@ class Arrendamiento extends AppModel {
                 return false;
             }
             
+            //Obtener la unidad de tiempo en pirata
+            $intervalo = '';
+            if ($concesion['Concesion']['unidad_tiempo'] == "Años") {
+                $intervalo = 'years';
+            }
+            elseif ($concesion['Concesion']['unidad_tiempo'] == "Meses") {
+                $intervalo = 'months';
+            }
+            elseif ($concesion['Concesion']['unidad_tiempo'] == "Días") {
+                $intervalo = 'days';
+            }
+            
             //Comprobar si realmente está vigente
-            date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['anos_concesion'] . 'years'));
+            date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['duracion'] . $intervalo));
             $hoy = new DateTime();
             if ($fecha < $hoy) {
                 //Devolver error
@@ -439,7 +451,7 @@ class Arrendamiento extends AppModel {
               'Concesion.id' => $id,
              ),
              'fields' => array(
-              'Concesion.id', 'Concesion.anos_concesion'
+              'Concesion.id', 'Concesion.duracion', 'Concesion.unidad_tiempo'
              ),
               'contain' => array(
              ),
@@ -450,8 +462,20 @@ class Arrendamiento extends AppModel {
                 return false;
             }
             
+            //Obtener la unidad de tiempo en pirata
+            $intervalo = '';
+            if ($concesion['Concesion']['unidad_tiempo'] == "Años") {
+                $intervalo = 'years';
+            }
+            elseif ($concesion['Concesion']['unidad_tiempo'] == "Meses") {
+                $intervalo = 'months';
+            }
+            elseif ($concesion['Concesion']['unidad_tiempo'] == "Días") {
+                $intervalo = 'days';
+            }
+            
             //Comprobar si realmente está vigente
-            date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['anos_concesion'] . 'years'));
+            date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['duracion'] . $intervalo));
             $hoy = new DateTime();
             if ($fecha > $hoy) {
                 //Devolver error

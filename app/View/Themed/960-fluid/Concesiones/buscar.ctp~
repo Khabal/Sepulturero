@@ -11,14 +11,14 @@
     'type' => 'get'
   ));
  ?>
-  <fieldset>
-   <legend><?php echo __('Información sobre la concesión'); ?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('tipo', array('label' => 'Tipo de concesión:'));
-    echo $this->Form->input('duracion', array('label' => 'Duración de la concesión:'));
-    echo $this->Form->input('unidad_tiempo', array('label' => 'Unidad de tiempo:', 'type' => 'select', 'options' => $tiempo, 'empty' => ''));
-   ?>
-  </fieldset>
+ <fieldset>
+  <legend><?php echo __('Información sobre la concesión'); ?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('tipo', array('label' => 'Tipo de concesión:'));
+   echo $this->Form->input('duracion', array('label' => 'Duración de la concesión:'));
+   echo $this->Form->input('unidad_tiempo', array('label' => 'Unidad de tiempo:', 'type' => 'select', 'options' => $tiempo, 'empty' => ''));
+  ?>
+ </fieldset>
  
  <?php /* Botones */
   echo $this->GuarritasEnergeticas->burtones_buscar();

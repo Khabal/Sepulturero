@@ -101,7 +101,7 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $exportar_pdf = $this->Html->link(__($this->Html->image('pdf.png', array('alt' => 'Exportar a PDF', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'exportar_pdf', $id . '.pdf'), array('escape' => false, 'title' => 'Exportar a PDF'));
         
-        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'Borar', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false, 'title' => 'Borrar'), __('Esto borrará de forma pe        rmanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
+        $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'Borar', 'style' => 'height:16px; width:16px;'))), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false, 'title' => 'Borrar'), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
         
         return $ver . $editar . $imprimir . $exportar_pdf . $borrar;
         

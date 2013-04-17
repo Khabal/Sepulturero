@@ -15,41 +15,41 @@
 
 <?php
  /* Cambiar el número iniFormsCount de sheepIt si hay datos para que los muestre */
- if (isset($this->request->data['ArrendatarioPago'])) {
-  $ini_a = sizeof($this->request->data['ArrendatarioPago']);
-  $data_a = array();
-  foreach($this->request->data['ArrendatarioPago'] as $arrendatario) {
-   array_push($data_f, array("ArrendatarioPago#index#ArrendatarioBonito" => $arrendatario['funeraria_bonita'], "ArrendatarioPago#index#ArrendatarioId" => $arrendatario['arrendatario_id']));
+ if (isset($this->request->data['PagoTasa'])) {
+  $ini_t = sizeof($this->request->data['PagoTasa']);
+  $data_t = array();
+  foreach($this->request->data['PagoTasa'] as $tasa) {
+   array_push($data_t, array("PagoTasa#index#TasaBonita" => $tasa['tasa_bonita'], "PagoTasa#index#TasaId" => $tasa['tasa_id']));
   }
-  $data_a = json_encode($data_a);
+  $data_t = json_encode($data_t);
  }
  else {
-  $ini_a = 0;
-  $data_a = "[]";
+  $ini_t = 0;
+  $data_t = "[]";
  }
  
  /* Cargar mensajes de error para los campos generados con sheepIt */
- if (isset($this->validationErrors['ArrendatarioPago'])) {
-  $tam_a = count($this->validationErrors['ArrendatarioPago']);
-  $mensajes_error_a = array();
-  for ($i = 0; $tam_a > 0; $i++) {
-   if (isset($this->validationErrors['ArrendatarioPago'][$i])) {
-    array_push($mensajes_error_a, array($i + 1 => $this->validationErrors['ArrendatarioPago'][$i]['arrendatario_bonito'][0]));
-    $tam_a--;
+ if (isset($this->validationErrors['PagoTasa'])) {
+  $tam_t = count($this->validationErrors['PagoTasa']);
+  $mensajes_error_t = array();
+  for ($i = 0; $tam_t > 0; $i++) {
+   if (isset($this->validationErrors['PagoTasa'][$i])) {
+    array_push($mensajes_error_t, array($i + 1 => $this->validationErrors['PagoTasa'][$i]['tasa_bonita'][0]));
+    $tam_t--;
    }
    else {
-    array_push($mensajes_error_a, array($i + 1 => ""));
+    array_push($mensajes_error_t, array($i + 1 => ""));
    }
   }
-  $mensajes_error_a = json_encode($mensajes_error_a);
+  $mensajes_error_t = json_encode($mensajes_error_t);
  }
  else {
-  $mensajes_error_a = "[]";
+  $mensajes_error_t = "[]";
  }
 ?>
 
 <script>
- var errores = <?php echo $mensajes_error; ?>;
+ var errores = <?php echo $mensajes_error_t; ?>;
  var num = 0;
  
  $(function() {
@@ -97,7 +97,10 @@
          select: function(event, ui) {
            event.preventDefault(),
            $(auto).val(ui.item.label),
-           $(auto_oc).val(ui.item.value)
+           $(auto_oc).val(ui.item.value),
+alert(parseFloat($("#PagoTotal").val())),
+alert(ui.item.dinero),
+           $("#PagoTotal").val(parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero))
          },
          open: function() {
            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -138,7 +141,7 @@
    });
    
    /* Establecer opciones de 'UI autocomplete' para JQuery */
-   $("#ArrendatarioPagoArrendatarioBonito").autocomplete({
+   $("#PagoArrendatarioBonito").autocomplete({
      source: function(request, response) {
        $.ajax({
          url: "<?php echo $this->Html->url(array('controller' => 'arrendatarios', 'action' => 'autocomplete')); ?>",
@@ -160,11 +163,11 @@
      minLength: 2,
      select: function(event, ui) {
        event.preventDefault(),
-       $("#ArrendatarioPagoArrendatarioBonito").val(ui.item.label),
-       $("#ArrendatarioPagoArrendatarioId").val(ui.item.value),
+       $("#PagoArrendatarioBonito").val(ui.item.label),
+       $("#PagoArrendatarioId").val(ui.item.value),
        /* Borrar contenido de funeraria pagadora */
-       $("#FunerariaPagoFunerariaBonita").val(""),
-       $("#FunerariaPagoFunerariaId").val("")
+       $("#PagoFunerariaBonita").val(""),
+       $("#PagoFunerariaId").val("")
      },
      open: function() {
        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -175,7 +178,7 @@
    });
    
    /* Establecer opciones de 'UI autocomplete' para JQuery */
-   $("#FunerariaPagoFunerariaBonita").autocomplete({
+   $("#PagoFunerariaBonita").autocomplete({
      source: function(request, response) {
        $.ajax({
          url: "<?php echo $this->Html->url(array('controller' => 'funerarias', 'action' => 'autocomplete')); ?>",
@@ -197,11 +200,11 @@
      minLength: 2,
      select: function(event, ui) {
        event.preventDefault(),
-       $("#FunerariaPagoFunerariaBonita").val(ui.item.label),
-       $("#FunerariaPagoFunerariaId").val(ui.item.value),
+       $("#PagoFunerariaBonita").val(ui.item.label),
+       $("#PagoFunerariaId").val(ui.item.value),
        /* Borrar contenido de arrendatario pagador */
-       $("#ArrendatarioPagoArrendatarioBonito").val(""),
-       $("#ArrendatarioPagoArrendatarioId").val("")
+       $("#PagoArrendatarioBonito").val(""),
+       $("#PagoArrendatarioId").val("")
      },
      open: function() {
        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -210,11 +213,12 @@
        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
      }
    });
-
-   $("#tasa").autocomplete({
+   
+   /* Establecer opciones de 'UI autocomplete' para JQuery */
+   $("#PagoTumbaBonita").autocomplete({
      source: function(request, response) {
        $.ajax({
-         url: "<?php echo $this->Html->url(array('controller' => 'tasas', 'action' => 'autocomplete')); ?>",
+         url: "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'autocomplete')); ?>",
          dataType: "json",
          type: "GET",
          data: {
@@ -230,19 +234,20 @@
          }
        });
      },
-     minLength: 1,
+     minLength: 2,
      select: function(event, ui) {
        event.preventDefault(),
-       $("#tasa").val(ui.item.label),
-       $("#PagoTasaId").val(ui.item.value)
+       $("#PagoTumbaBonita").val(ui.item.label),
+       $("#PagoTumbaId").val(ui.item.value)
      },
      open: function() {
-       $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+       $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
      },
      close: function() {
-       $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+       $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
      }
    });
+   
  });
 </script>
 
@@ -310,10 +315,11 @@
     ?>
    </div>
     <?php
-    echo $this->Form->input('Pago.tumba_bonita', array('label' => 'Particular:')); //Campo imaginario
+    echo $this->Form->input('Pago.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
     echo $this->Form->input('Pago.tumba_id', array('type' => 'hidden'));
     echo $this->Form->input('Pago.fecha_bonita', array('label' => 'Fecha de pago:')); //Campo imaginario
     echo $this->Form->input('Pago.fecha', array('type' => 'hidden'));
+    echo $this->Form->input('Pago.total', array('label' => 'Total:', 'default' => '0.0', 'readonly' => 'readonly'));
     echo $this->Form->input('Pago.moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
     echo $this->Form->input('Pago.observaciones', array('label' => 'Anotaciones:'));
    ?>
@@ -329,7 +335,7 @@
      ?>
      <a id="SubFormularioTasa_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
     </div>
-    <div id="SubFormularioTasa_noforms_template">No hay funerarias contratadas</div>
+    <div id="SubFormularioTasa_noforms_template">No hay tasas a pagar</div>
     <div id="SubFormularioTasa_controls">
      <a id="SubFormularioTasa_add" class="boton"> <?php echo $this->Html->image('nuevo.png', array('alt' => 'nuevo', 'style' => 'height:24px; width:24px;')) . ' Añadir tasa'; ?> </a>
      <a id="SubFormularioTasa_remove_last" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'style' => 'height:24px; width:24px;')) . ' Eliminar última tasa'; ?> </a>

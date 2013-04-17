@@ -130,7 +130,14 @@ class TasasController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    public $presetVars = true; //Using the model configuration
+    //public $presetVars = true; //Using the model configuration
+    public $presetVars = array( //Overriding and extending the model defaults
+        'clave'=> array(
+            'encode' => true,
+            'model' => 'Tasa',
+            'type' => 'method',
+        ),
+    );
     
     /**
      * Opciones de guardado específicas de este controlador
@@ -165,8 +172,7 @@ class TasasController extends AppController {
         //Establecer parámetros de paginación
         $this->paginate = array( 
          'conditions' => $this->Tasa->parseCriteria($this->params->query),
-         'contain' => array(
-         ),
+         'paramType' => 'querystring',
         );
         
         //Devolver paginación
@@ -494,7 +500,7 @@ class TasasController extends AppController {
           'Tasa.concepto LIKE' => $palabro,
          ),
          'fields' => array(
-          'Tasa.id', 'Tasa.concepto'
+          'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad'
          ),
          'limit' => 20,
         ));
@@ -507,7 +513,7 @@ class TasasController extends AppController {
         }
         else {
          foreach($resultados as $resultado) {
-          array_push($items, array("label" => $resultado['Tasa']['concepto'], "value" => $resultado['Tasa']['id']));
+          array_push($items, array("label" => $resultado['Tasa']['concepto'], "value" => $resultado['Tasa']['id'], "label" => $resultado['Tasa']['cantidad']));
          }
         }
         

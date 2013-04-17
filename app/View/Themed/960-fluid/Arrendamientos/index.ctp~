@@ -68,9 +68,8 @@
       ?>&nbsp;
      </td>
      <td>
-      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
+      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'] . " - " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_tiempo'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
      </td>
-     <td><?php echo h($arrendamiento['Concesion']['anos_concesion'] . " años"); ?>&nbsp;</td>
      <td><?php echo h(date('d/m/Y', strtotime($arrendamiento['Arrendamiento']['fecha_arrendamiento']))); ?>&nbsp;</td>
      <?php
       $colorico = null;

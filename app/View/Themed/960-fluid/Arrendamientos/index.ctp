@@ -68,7 +68,7 @@
       ?>&nbsp;
      </td>
      <td>
-      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'] . " - " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_duracion'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
+      <?php echo $this->Html->link($arrendamiento['Concesion']['tipo'] . " - " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_tiempo'], array('controller' => 'concesiones', 'action' => 'ver', $arrendamiento['Concesion']['id'])); ?>&nbsp;
      </td>
      <td><?php echo h(date('d/m/Y', strtotime($arrendamiento['Arrendamiento']['fecha_arrendamiento']))); ?>&nbsp;</td>
      <?php
@@ -82,7 +82,7 @@
      ?>
      <td<?php echo $colorico; ?>><?php echo h($arrendamiento['Arrendamiento']['estado']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('arrendamientos', $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('arrendamientos', $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_tiempo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>

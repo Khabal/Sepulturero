@@ -321,13 +321,13 @@ class PagosController extends AppController {
     public function buscar() {
         
         //Devolver las opciones de selección de monedas
-        $this->set('monedas', $this->Tasa->moneda);
+        $this->set('monedas', $this->Pago->moneda);
         
         //Devolver las opciones de selección de tipos de pagadores
         $this->set('pagadores', $this->Pago->pagador);
         
         //Eliminar reglas de validación
-        unset($this->Tasa->validate);
+        unset($this->Pago->validate);
         
     }
     

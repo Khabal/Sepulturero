@@ -141,6 +141,33 @@ class Pago extends AppModel {
                 'message' => 'Error inesperado al generar ID de pago.',
             ),
         ),
+        'arrendatario_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de arrendatario.',
+            ),
+        ),
+        'funeraria_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de funeraria.',
+            ),
+        ),
+        'tumba_id' => array(
+            'uuid' => array(
+                'rule' => array('uuid'),
+                'required' => false,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Error inesperado al asociar ID de tumba.',
+            ),
+        ),
         'fecha' => array(
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
@@ -208,6 +235,33 @@ class Pago extends AppModel {
             ),
         ),
         //Campos imaginarios
+        'arrendatario_bonito' => array(
+            'existe_arrendatario' => array(
+                'rule' => array('valida_arrendatario'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'El arrendatario especificado no existe.',
+            ),
+        ),
+        'funeraria_bonita' => array(
+            'existe_funeraria' => array(
+                'rule' => array('valida_funeraria'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La funeraria especificado no existe.',
+            ),
+        ),
+        'tumba_bonita' => array(
+            'existe_funeraria' => array(
+                'rule' => array('valida_tumba'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La tumba especificado no existe.',
+            ),
+        ),
         'fecha_bonita' => array(
             'formato_fecha' => array(
                 'rule' => array('date', 'dmy'),
@@ -312,6 +366,138 @@ class Pago extends AppModel {
         
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
+    }
+    
+    /**
+     * valida_arrendatario method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_arrendatario($check) {
+        
+        //Extraer el ID del arrendatario
+        if (!empty($this->data['Pago']['arrendatario_id'])) {
+            $id = $this->data['Pago']['arrendatario_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe un arrendatario con el ID especificado
+        $arrendatario = $this->Arrendatario->find('first', array(
+         'conditions' => array(
+          'Arrendatario.id' => $id,
+         ),
+         'fields' => array(
+          'Arrendatario.id'
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe el arrendatario especificado
+        if (empty($arrendatario['Arrendatario']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_funeraria method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_funeraria($check) {
+        
+        //Extraer el ID de la funeraria
+        if (!empty($this->data['Pago']['funeraria_id'])) {
+            $id = $this->data['Pago']['funeraria_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una funeraria con el ID especificado
+        $funeraria = $this->Funeraria->find('first', array(
+         'conditions' => array(
+          'Funeraria.id' => $id,
+         ),
+         'fields' => array(
+          'Funeraria.id'
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la funeraria especificada
+        if (empty($funeraria['Funeraria']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_tumba method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_tumba($check) {
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['Pago']['tumba_id'])) {
+            $id = $this->data['Pago']['tumba_id'];
+        }
+        else {
+            //Devolver error
+            return false;
+        }
+        
+        //Buscar si hay existe una tumba con el ID especificado
+        $tumba = $this->Tumba->find('first', array(
+         'conditions' => array(
+          'Tumba.id' => $id,
+         ),
+         'fields' => array(
+          'Tumba.id'
+         ),
+         'contain' => array(
+         ),
+        ));
+        
+        //Comprobar si existe la tumba especificada
+        if (empty($tumba['Tumba']['id'])) {
+            //Devolver error
+            return false;
+        }
+        else{
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
     }
     
     /**

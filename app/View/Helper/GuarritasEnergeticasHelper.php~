@@ -185,11 +185,9 @@ class GuarritasEnergeticasHelper extends AppHelper {
      */
     public function burton_volver() {
         
-        $limpiar = $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
+        $volver = $this->Html->link('Volver a la página anterior','javascript:history.go(-1)', array('escape' => false, 'class' => 'boton_volver'));
         
-        $buscar = $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton_buscar'));
-        
-        return $limpiar . $buscar;
+        return $volver;
         
     }
     

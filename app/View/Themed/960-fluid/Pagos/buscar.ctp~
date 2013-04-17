@@ -10,7 +10,7 @@
   echo $this->Form->create('Pago', array('url' => array('controller' => 'pagos', 'action' => 'index'), 'type' => 'get'));
  ?>
  <fieldset>
-  <legend><?php echo __('Información sobre el pago'); ?></legend>
+  <legend><?php echo __('Información sobre la concesión'); ?></legend>
   <?php /* Campos */
    echo $this->Form->input('tipo', array('label' => 'Tipo de concesión:'));
    echo $this->Form->input('duracion', array('label' => 'Duración de la concesión:'));

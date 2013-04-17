@@ -58,7 +58,7 @@
 
 <?php /* Formulario editar pago */ ?>
 <div class="edit form">
- <?php echo $this->Form->create('Pago'); ?>
+ <?php echo $this->Form->create('Pago', array('type' => 'post')); ?>
   <fieldset>
    <legend><?php echo __('Datos del pago');?></legend>
    <div class="input text required">

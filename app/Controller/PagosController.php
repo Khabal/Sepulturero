@@ -234,6 +234,9 @@ class PagosController extends AppController {
             else {
             }
             
+            //Establecer la cantidad entregada a la cantidad total
+            $this->request->data['Pago']['entregado'] = $this->request->data['Pago']['total'];
+            
             //Validar los datos introducidos
             if ($this->Pago->saveAll($this->request->data, array('validate' => 'only'))) {
                 
