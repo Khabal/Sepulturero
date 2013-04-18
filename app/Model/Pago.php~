@@ -145,7 +145,7 @@ class Pago extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de arrendatario.',
             ),
@@ -154,7 +154,7 @@ class Pago extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de funeraria.',
             ),
@@ -163,12 +163,19 @@ class Pago extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de tumba.',
             ),
         ),
         'fecha' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de pago no se puede dejar en blanco.',
+            ),
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
                 'required' => true,
@@ -476,17 +483,17 @@ class Pago extends AppModel {
         //Buscar si hay existe una tumba con el ID especificado
         $tumba = $this->Tumba->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id,
+          'Tumba.id' => $id,
          ),
          'fields' => array(
-          'Funeraria.id'
+          'Tumba.id'
          ),
          'contain' => array(
          ),
         ));
         
         //Comprobar si existe la tumba especificada
-        if (empty($tumba['Funeraria']['id'])) {
+        if (empty($tumba['Tumba']['id'])) {
             //Devolver error
             return false;
         }

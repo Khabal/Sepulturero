@@ -241,10 +241,13 @@ class MovimientosController extends AppController {
                 if (!empty($this->request->data['DifuntoMovimiento'])) {
                     $i = 0;
                     foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
-                        if (!empty($morido['difunto_id'])) {//Controlar documental
+                        if (!empty($morido['difunto_id'])) {
                             $this->request->data['DifuntoMovimiento'][$i]['tipo'] = $this->request->data['Movimiento']['tipo'];
+//Si un movimiento de mentira(documental) no se cambian los datos de los difuntos
+if ($this->request->data['Movimiento']['documental'] > 0) {
                             $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
                             $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = null;
+}
                             $i++;
                         }
                     }
@@ -257,8 +260,11 @@ class MovimientosController extends AppController {
                 //Controlar la población de la tumba de origen
 //Controlar documental
                 $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
+//Si un movimiento de mentira(documental) no se cambian la población de las tumbas
+if ($this->request->data['Movimiento']['documental'] > 0) {
                 $this->request->data['MovimientoTumba'][0]['Tumba']['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
                 $this->request->data['MovimientoTumba'][0]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][0]['tumba_id'])) - $numero_muertos;
+}
                 unset($this->request->data['Tumba'][0]);
                 
                 //Controlar la población de la tumba de destino
@@ -294,8 +300,11 @@ class MovimientosController extends AppController {
                     foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
                         if (!empty($morido['difunto_id'])) {
                             $this->request->data['DifuntoMovimiento'][$i]['tipo'] = $this->request->data['Movimiento']['tipo'];
+//Si un movimiento de mentira(documental) no se cambian los datos de los difuntos
+if ($this->request->data['Movimiento']['documental'] > 0) {
                             $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
                             $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+}
                             $i++;
                         }
                     }
@@ -312,8 +321,11 @@ class MovimientosController extends AppController {
                 
                 //Controlar la población de la tumba de destino
                 $this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+//Si un movimiento de mentira(documental) no se cambian la población de las tumbas
+if ($this->request->data['Movimiento']['documental'] > 0) {
                 $this->request->data['MovimientoTumba'][1]['Tumba']['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
                 $this->request->data['MovimientoTumba'][1]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
+}
                 unset($this->request->data['Tumba'][1]);
                 
             }
@@ -327,8 +339,11 @@ class MovimientosController extends AppController {
                     foreach ($this->request->data['DifuntoMovimiento'] as $morido) {
                         if (!empty($morido['difunto_id'])) {
                             $this->request->data['DifuntoMovimiento'][$i]['tipo'] = $this->request->data['Movimiento']['tipo'];
+//Si un movimiento de mentira(documental) no se cambian los datos de los difuntos
+if ($this->request->data['Movimiento']['documental'] > 0) {
                             $this->request->data['DifuntoMovimiento'][$i]['Difunto']['id'] = $morido['difunto_id'];
                             $this->request->data['DifuntoMovimiento'][$i]['Difunto']['tumba_id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
+}
                             $i++;
                         }
                     }
@@ -340,13 +355,19 @@ class MovimientosController extends AppController {
                 
                 //Controlar la población de la tumba de origen
                 $this->request->data['MovimientoTumba'][0]['origen_destino'] = "Origen";
+//Si un movimiento de mentira(documental) no se cambian la población de las tumbas
+if ($this->request->data['Movimiento']['documental'] > 0) {
                 $this->request->data['MovimientoTumba'][0]['Tumba']['id'] = $this->request->data['MovimientoTumba'][0]['tumba_id'];
                 $this->request->data['MovimientoTumba'][0]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][0]['tumba_id'])) - $numero_muertos;
+}
                 
                 //Controlar la población de la tumba de destino
                 $this->request->data['MovimientoTumba'][1]['origen_destino'] = "Destino";
+//Si un movimiento de mentira(documental) no se cambian la población de las tumbas
+if ($this->request->data['Movimiento']['documental'] > 0) {
                 $this->request->data['MovimientoTumba'][1]['Tumba']['id'] = $this->request->data['MovimientoTumba'][1]['tumba_id'];
                 $this->request->data['MovimientoTumba'][1]['Tumba']['poblacion'] = $this->Movimiento->MovimientoTumba->Tumba->field('poblacion', array('Tumba.id' => $this->request->data['MovimientoTumba'][1]['tumba_id'])) + $numero_muertos;
+}
                 
             }
             

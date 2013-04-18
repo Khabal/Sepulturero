@@ -19,14 +19,14 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Movimiento.fecha', 'Fecha');?></th>
-    <th><?php echo $this->Paginator->sort('Movimiento.tipo', 'Tipo');?></th>
-    <th><?php echo $this->Paginator->sort('Movimiento.viajeros', 'Difuntos');?></th>
-    <th><?php echo $this->Paginator->sort('Movimiento.cementerio_origen', 'Cementerio de origen');?></th>
-    <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba.localizacion', 'Tumba de origen');?></th>
-    <th><?php echo $this->Paginator->sort('Movimiento.cementerio_destino', 'Cementerio de destino');?></th>
-    <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba.localizacion', 'Tumba de destino');?></th>
-    <th><?php echo $this->Paginator->sort('Movimiento.motivo', 'Motivo');?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.fecha', 'Fecha', array('escape' => false, 'title' => 'Ordenar por fecha de movimiento'));?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.tipo', 'Tipo', array('escape' => false, 'title' => 'Ordenar por tipo de movimiento'));?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.motivo', 'Motivo', array('escape' => false, 'title' => 'Ordenar por motivo de movimiento'));?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.viajeros', 'Difuntos', array('escape' => false, 'title' => 'Ordenar por número de difuntos movidos'));?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.cementerio_origen', 'Cementerio de origen', array('escape' => false, 'title' => 'Ordenar por cementerio de origen'));?></th>
+    <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba.localizacion', 'Tumba de origen', array('escape' => false, 'title' => 'Ordenar por tumba de origen'));?></th>
+    <th><?php echo $this->Paginator->sort('Movimiento.cementerio_destino', 'Cementerio de destino', array('escape' => false, 'title' => 'Ordenar por cementerio de destino'));?></th>
+    <th><?php echo $this->Paginator->sort('MovimientoTumba.Tumba.localizacion', 'Tumba de destino', array('escape' => false, 'title' => 'Ordenar por tumba de destino'));?></th>
     <th class="actions"><?php echo __('Acciones');?></th>
    </tr>
   </thead>
@@ -117,7 +117,7 @@
      
      <td><?php echo $movimiento['Movimiento']['motivo']; ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('movimientos', $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('movimientos', $movimiento['Movimiento']['id'], $movimiento['Movimiento']['tipo'] . " - " . date('d/m/Y', strtotime($movimiento['Movimiento']['fecha']))); ?>
      </td>
     </tr>
    <?php endforeach; ?>

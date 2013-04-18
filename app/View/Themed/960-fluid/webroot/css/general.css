@@ -214,3 +214,31 @@ color:#777;
     background-image: url("../img/volver.png") !important;
     background-size: 16px 16px;
 }
+
+.input label {
+width: 150px;
+text-align: right;
+display: block;
+float: left;
+margin: 0px 10px 0px 0px;
+padding: 2px 0px 0px 0px;
+}
+
+.fecha{
+width: 20px;}
+
+.texto{
+width: 150px;}
+
+.anotaciones{width: 250px;}
+
+dt {
+	font-weight: bold;
+	padding-left: 8px;
+	vertical-align: top;
+}
+dd {
+	margin-left: 20em;
+	margin-top: -2em;
+	vertical-align: top;
+}

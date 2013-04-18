@@ -369,9 +369,10 @@ $.each(respuesta, function (iteration, item) {
    ?>
    </div>
   </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_editar();
   echo $this->Form->end();
  ?>
+ 
 </div>

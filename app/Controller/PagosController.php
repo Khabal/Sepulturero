@@ -210,6 +210,7 @@ class PagosController extends AppController {
         
         //Devolver las opciones de selección de tipos de pagadores
         $this->set('pagadores', $this->Pago->pagador);
+unset($this->Pago->validate['entregado']);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {

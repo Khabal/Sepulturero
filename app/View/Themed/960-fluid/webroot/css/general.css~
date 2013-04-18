@@ -161,27 +161,27 @@ color:#777;
 .resaltado {font-weight:bold; color:#04B404;}
 
 .icono-buscar {
-    background-image: url("../img/limpiar.png") !important;
+    background-image: url("../img/buscar.png") !important;
     background-size: 16px 16px;
 }
 
 .icono-aceptar {
-    background-image: url("../img/limpiar.png") !important;
+    background-image: url("../img/aceptar.png") !important;
     background-size: 16px 16px;
 }
 
 .icono-cancelar {
-    background-image: url("../img/limpiar.png") !important;
+    background-image: url("../img/cancelar.png") !important;
     background-size: 16px 16px;
 }
 
 .icono-anadir {
-    background-image: url("../img/limpiar.png") !important;
+    background-image: url("../img/añadir.png") !important;
     background-size: 16px 16px;
 }
 
 .icono-borrar {
-    background-image: url("../img/limpiar.png") !important;
+    background-image: url("../img/borrar.png") !important;
     background-size: 16px 16px;
 }
 
@@ -213,4 +213,32 @@ color:#777;
 .icono-volver {
     background-image: url("../img/volver.png") !important;
     background-size: 16px 16px;
+}
+
+.input label {
+width: 150px;
+text-align: right;
+display: block;
+float: left;
+margin: 0px 10px 0px 0px;
+padding: 2px 0px 0px 0px;
+}
+
+.input fecha{
+width: 20px;}
+
+.texto{
+width: 145px;}
+
+.anotaciones{width: 250px;}
+
+dt {
+	font-weight: bold;
+	padding-left: 8px;
+	vertical-align: top;
+}
+dd {
+	margin-left: 20em;
+	margin-top: -2em;
+	vertical-align: top;
 }

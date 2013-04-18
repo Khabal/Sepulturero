@@ -145,7 +145,7 @@ class Pago extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de arrendatario.',
             ),
@@ -154,7 +154,7 @@ class Pago extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de funeraria.',
             ),
@@ -163,12 +163,19 @@ class Pago extends AppModel {
             'uuid' => array(
                 'rule' => array('uuid'),
                 'required' => false,
-                'allowEmpty' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'Error inesperado al asociar ID de tumba.',
             ),
         ),
         'fecha' => array(
+            'novacio' => array(
+                'rule' => array('notempty'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'La fecha de pago no se puede dejar en blanco.',
+            ),
             'formato_fecha' => array(
                 'rule' => array('date', 'ymd'),
                 'required' => true,
@@ -238,8 +245,8 @@ class Pago extends AppModel {
         'arrendatario_bonito' => array(
             'existe_arrendatario' => array(
                 'rule' => array('valida_arrendatario'),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'El arrendatario especificado no existe.',
             ),
@@ -247,8 +254,8 @@ class Pago extends AppModel {
         'funeraria_bonita' => array(
             'existe_funeraria' => array(
                 'rule' => array('valida_funeraria'),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'La funeraria especificado no existe.',
             ),
@@ -256,8 +263,8 @@ class Pago extends AppModel {
         'tumba_bonita' => array(
             'existe_funeraria' => array(
                 'rule' => array('valida_tumba'),
-                'required' => true,
-                'allowEmpty' => false,
+                'required' => false,
+                'allowEmpty' => true,
                 'on' => null,
                 'message' => 'La tumba especificado no existe.',
             ),

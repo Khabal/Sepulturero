@@ -227,14 +227,14 @@ class Arrendamiento extends AppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'En base a la fecha de arrendamiento y los años de concesión ya habría caducado.',
+                'message' => 'En base a la fecha de arrendamiento y al tiempo de concesión ya habría caducado.',
             ),
             'obsolescencia_fecha' => array(
                 'rule' => array('valida_obsolescencia'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
-                'message' => 'En base a la fecha de arrendamiento y los años de concesión todavía estaría vigente.',
+                'message' => 'En base a la fecha de arrendamiento y al tiempo de concesión todavía estaría vigente.',
             ),
         ),
         'arrendatario_bonito' => array(
@@ -399,7 +399,7 @@ class Arrendamiento extends AppModel {
             //Comprobar si realmente está vigente
             date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['duracion'] . $intervalo));
             $hoy = new DateTime();
-            if ($fecha < $hoy) {
+            if ($fecha <= $hoy) {
                 //Devolver error
                 return false;
             }

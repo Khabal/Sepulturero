@@ -51,6 +51,7 @@
 <script>
  var errores = <?php echo $mensajes_error_t; ?>;
  var num = 0;
+var dineuros = 0;
  
  $(function() {
    /* Formulario sheepIt para agregar tasas */
@@ -101,7 +102,9 @@
            $(auto_oc).val(ui.item.value),
 alert(parseFloat($("#PagoTotal").val())),
 alert(ui.item.dinero),
-           $("#PagoTotal").val(parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero))
+dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero);
+
+           $("#PagoTotal").val(dineuros.toString().replace(/\./g,','))
          },
          open: function() {
            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -304,25 +307,25 @@ alert(ui.item.dinero),
    <div id="Particular" style="display:none;">
     <?php
      /* Campos arrendatario */
-    echo $this->Form->input('Pago.arrendatario_bonito', array('label' => 'Particular:')); //Campo imaginario
+    echo $this->Form->input('Pago.arrendatario_bonito', array('label' => 'Particular:', 'class' => 'texto')); //Campo imaginario
     echo $this->Form->input('Pago.arrendatario_id', array('type' => 'hidden'));
     ?>
    </div>
    <div id="Funeraria" style="display:none;">
     <?php
      /* Campos funeraria */
-    echo $this->Form->input('Pago.funeraria_bonita', array('label' => 'Funeraria:')); //Campo imaginario
+    echo $this->Form->input('Pago.funeraria_bonita', array('label' => 'Funeraria:', 'class' => 'texto')); //Campo imaginario
     echo $this->Form->input('Pago.funeraria_id', array('type' => 'hidden'));
     ?>
    </div>
     <?php
     echo $this->Form->input('Pago.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
     echo $this->Form->input('Pago.tumba_id', array('type' => 'hidden'));
-    echo $this->Form->input('Pago.fecha_bonita', array('label' => 'Fecha de pago:')); //Campo imaginario
+    echo $this->Form->input('Pago.fecha_bonita', array('label' => 'Fecha de pago:', 'class' => 'fecha')); //Campo imaginario
     echo $this->Form->input('Pago.fecha', array('type' => 'hidden'));
-    echo $this->Form->input('Pago.total', array('label' => 'Total:', 'default' => '0.0', 'readonly' => 'readonly'));
+    echo $this->Form->input('Pago.total', array('label' => 'Total:', 'default' => '0', 'readonly' => 'readonly'));
     echo $this->Form->input('Pago.moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
-    echo $this->Form->input('Pago.observaciones', array('label' => 'Anotaciones:'));
+    echo $this->Form->input('Pago.observaciones', array('label' => 'Anotaciones:', 'class' => 'anotaciones'));
    ?>
   </fieldset>
   <fieldset>

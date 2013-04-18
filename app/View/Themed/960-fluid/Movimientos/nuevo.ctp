@@ -5,12 +5,12 @@
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
  print_r($this->request->data);
  print_r($this->validationErrors);
  echo '</pre>';
- */
+ 
 ?>
 
 <?php
@@ -61,7 +61,22 @@
  
  $(function() {
    var seleccionado = $("#MovimientoTipo").val();
+   var falso = $("#MovimientoDocumental").val();
    
+$("#MovimientoDocumental").change(function(){
+    falso = this.checked ? '1' : '0';
+if (falso > 0) {
+         $("#FormularioDifuntos").show(),
+         $("#ListaDifuntos").hide()
+}
+else {
+         $("#FormularioDifuntos").hide(),
+         $("#ListaDifuntos").show()
+}
+alert(falso);
+    //$('p').css('color', c);
+});
+
    /* Mostrar campos del formulario adecuados a cada tipo de movimiento */
    $("#MovimientoTipo").change(function(event, ui) {
      event.preventDefault();
@@ -70,7 +85,7 @@
        if (seleccionado == "Exhumación") {
          $("#Origen").show(),
          $("#FormularioDifuntos").hide(),
-         $("#ListaDifuntos").show(),
+         $("#ListaDifuntos").show()
          $("#Destino").hide()
        }
        else if (seleccionado == "Inhumación") {
@@ -80,9 +95,15 @@
          $("#Destino").show()
        }
        else if (seleccionado == "Traslado") {
-         $("#Origen").show(),
+         $("#Origen").show()
+if (falso > 0) {
+         $("#FormularioDifuntos").show(),
+         $("#ListaDifuntos").hide()
+}
+else {
          $("#FormularioDifuntos").hide(),
-         $("#ListaDifuntos").show(),
+         $("#ListaDifuntos").show()
+}
          $("#Destino").show()
        }
        else {
@@ -320,7 +341,7 @@ $.each(respuesta, function (iteration, item) {
   <fieldset>
    <legend><?php echo __('Datos del movimiento'); ?></legend>
    <?php
-    echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
+    echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox', 'hiddenField' => false));
     echo $this->Form->input('Movimiento.tipo', array('label' => 'Clase de movimiento:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
     echo $this->Form->input('Movimiento.fecha_bonita', array('label' => 'Fecha de movimiento:')); //Campo imaginario
     echo $this->Form->input('Movimiento.fecha', array('type' => 'hidden'));
@@ -369,10 +390,10 @@ $.each(respuesta, function (iteration, item) {
    ?>
    </div>
   </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_nuevo();
   echo $this->Form->end();
  ?>
+ 
 </div>
