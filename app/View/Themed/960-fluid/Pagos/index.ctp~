@@ -49,7 +49,6 @@
      <td><?php echo date('d/m/Y', strtotime($pago['Pago']['fecha'])); ?>&nbsp;</td>
      <td><?php echo $this->Number->format($pago['Pago']['total'], array('places' => 2, 'before' => '', 'escape' => false, 'decimals' => ',', 'thousands' => '.')); ?>&nbsp;</td>
      <td><?php echo $pago['Pago']['moneda']; ?>&nbsp;</td>
-     <td><?php echo $pago['Pago']['concepto']; ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->GuarritasEnergeticas->guarrita_acciones('pagos', $pago['Pago']['id'], date('d/m/Y', strtotime($pago['Pago']['fecha']))); ?>
      </td>

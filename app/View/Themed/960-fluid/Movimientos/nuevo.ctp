@@ -63,19 +63,18 @@
    var seleccionado = $("#MovimientoTipo").val();
    var falso = $("#MovimientoDocumental").val();
    
-$("#MovimientoDocumental").change(function(){
-    falso = this.checked ? '1' : '0';
-if (falso > 0) {
-         $("#FormularioDifuntos").show(),
-         $("#ListaDifuntos").hide()
-}
-else {
-         $("#FormularioDifuntos").hide(),
-         $("#ListaDifuntos").show()
-}
-alert(falso);
-    //$('p').css('color', c);
-});
+   /* Poder añadir los difuntos que se quieran si el movimiento es documental */
+   $("#MovimientoDocumental").change(function() {
+     falso = this.checked ? '1' : '0';
+     if (falso > 0) {
+       $("#FormularioDifuntos").show(),
+       $("#ListaDifuntos").hide()
+     }
+     else {
+       $("#FormularioDifuntos").hide(),
+       $("#ListaDifuntos").show()
+     }
+   });
 
    /* Mostrar campos del formulario adecuados a cada tipo de movimiento */
    $("#MovimientoTipo").change(function(event, ui) {
@@ -83,9 +82,15 @@ alert(falso);
      if (seleccionado != $("#MovimientoTipo").val()) {
        seleccionado = $("#MovimientoTipo").val();
        if (seleccionado == "Exhumación") {
-         $("#Origen").show(),
-         $("#FormularioDifuntos").hide(),
-         $("#ListaDifuntos").show()
+         $("#Origen").show()
+         if (falso > 0) {
+           $("#FormularioDifuntos").show(),
+           $("#ListaDifuntos").hide()
+         }
+         else {
+           $("#FormularioDifuntos").hide(),
+           $("#ListaDifuntos").show()
+         }
          $("#Destino").hide()
        }
        else if (seleccionado == "Inhumación") {
@@ -96,14 +101,14 @@ alert(falso);
        }
        else if (seleccionado == "Traslado") {
          $("#Origen").show()
-if (falso > 0) {
-         $("#FormularioDifuntos").show(),
-         $("#ListaDifuntos").hide()
-}
-else {
-         $("#FormularioDifuntos").hide(),
-         $("#ListaDifuntos").show()
-}
+         if (falso > 0) {
+           $("#FormularioDifuntos").show(),
+           $("#ListaDifuntos").hide()
+         }
+         else {
+           $("#FormularioDifuntos").hide(),
+           $("#ListaDifuntos").show()
+         }
          $("#Destino").show()
        }
        else {

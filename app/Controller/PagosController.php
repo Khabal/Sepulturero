@@ -95,7 +95,7 @@ class PagosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Pago', 'Arrendatario', 'Funeraria', 'PagoTasa', 'Sanitize');
+    public $uses = array('Pago', 'Arrendatario', 'Funeraria', 'PagoTasa', 'Tasa', 'Sanitize');
     
     /**
      * ---------------------------
@@ -308,6 +308,31 @@ unset($this->Pago->validate['entregado']);
             ),
            ),
           ),
+          'Tumba' => array(
+           'Columbario' => array(
+            'fields' => array(
+             'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+            ),
+           ),
+           'Exterior' => array(
+            'fields' => array(
+             'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+            ),
+           ),
+           'Nicho' => array(
+            'fields' => array(
+             'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+            ),
+           ),
+           'Panteon' => array(
+            'fields' => array(
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+            ),
+           ),
+           'fields' => array(
+            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+           ),
+          ),
          ),
         ));
         
@@ -408,18 +433,68 @@ unset($this->Pago->validate['entregado']);
              $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la funeraria
-        $funeraria = $this->Funeraria->find('first', array(
+        //Cargar toda la información relevante relacionada con el pago
+        $pago = $this->Pago->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id
+          'Pago.id' => $id
          ),
          'contain' => array(
+          'Arrendatario' => array(
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
+            ),
+           ),
+          ),
+          'Funeraria' => array(
+           'fields' => array(
+            'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
+           ),
+          ),
+          'PagoTasa' => array(
+           'Tasa' => array(
+            'fields' => array(
+             'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad', 'Tasa.moneda'
+            ),
+           ),
+          ),
+          'Tumba' => array(
+           'Columbario' => array(
+            'fields' => array(
+             'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+            ),
+           ),
+           'Exterior' => array(
+            'fields' => array(
+             'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+            ),
+           ),
+           'Nicho' => array(
+            'fields' => array(
+             'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+            ),
+           ),
+           'Panteon' => array(
+            'fields' => array(
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+            ),
+           ),
+           'fields' => array(
+            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+           ),
+          ),
          ),
         ));
         
+        //Convertir la cantidad total al formato numérico normal
+        $pago['Pago']['total'] = number_format($pago['Pago']['total'], 2, ',', '.');
+        
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
-        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
+        $this->pdfConfig['title'] = date('d/m/Y', strtotime($pago['Pago']['fecha'])) . " - " . $pago['Pago']['total'] . $pago['Pago']['moneda'];
+        $this->pdfConfig['filename'] = "Pago_" . $pago['Pago']['id'] . ".pdf";
         
         //Comprobar el sistema operativo
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -453,18 +528,68 @@ unset($this->Pago->validate['entregado']);
              $this->redirect(array('action' => 'index'));
         }
         
-        //Cargar toda la información relevante relacionada con la funeraria
-        $funeraria = $this->Funeraria->find('first', array(
+        //Cargar toda la información relevante relacionada con el pago
+        $pago = $this->Pago->find('first', array(
          'conditions' => array(
-          'Funeraria.id' => $id
+          'Pago.id' => $id
          ),
          'contain' => array(
+          'Arrendatario' => array(
+           'fields' => array(
+            'Arrendatario.id', 'Arrendatario.persona_id'
+           ),
+           'Persona' => array(
+            'fields' => array(
+             'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
+            ),
+           ),
+          ),
+          'Funeraria' => array(
+           'fields' => array(
+            'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
+           ),
+          ),
+          'PagoTasa' => array(
+           'Tasa' => array(
+            'fields' => array(
+             'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad', 'Tasa.moneda'
+            ),
+           ),
+          ),
+          'Tumba' => array(
+           'Columbario' => array(
+            'fields' => array(
+             'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+            ),
+           ),
+           'Exterior' => array(
+            'fields' => array(
+             'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+            ),
+           ),
+           'Nicho' => array(
+            'fields' => array(
+             'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+            ),
+           ),
+           'Panteon' => array(
+            'fields' => array(
+             'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+            ),
+           ),
+           'fields' => array(
+            'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
+           ),
+          ),
          ),
         ));
         
+        //Convertir la cantidad total al formato numérico normal
+        $pago['Pago']['total'] = number_format($pago['Pago']['total'], 2, ',', '.');
+        
         //Establecer parámetros específicos para la generación del documento .pdf
-        $this->pdfConfig['title'] = $funeraria['Funeraria']['nombre'] . " - " . $funeraria['Funeraria']['cif'];
-        $this->pdfConfig['filename'] = "Funeraria_" . $funeraria['Funeraria']['cif'] . ".pdf";
+        $this->pdfConfig['title'] = date('d/m/Y', strtotime($pago['Pago']['fecha'])) . " - " . $pago['Pago']['total'] . $pago['Pago']['moneda'];
+        $this->pdfConfig['filename'] = "Pago_" . $pago['Pago']['id'] . ".pdf";
         $this->pdfConfig['download'] = true;
         
         //Comprobar el sistema operativo
@@ -539,8 +664,6 @@ unset($this->Pago->validate['entregado']);
          'conditions' => array(
           'OR' =>  array(
            'DATE_FORMAT(Pago.fecha, "%d/%m/%Y") LIKE' => $palabro,
-           'Pago.motivo LIKE' => $palabro,
-           'CONCAT(DATE_FORMAT(Pago.fecha, "%d/%m/%Y")," ",Pago.motivo) LIKE' => $palabro,
           ),
          ),
          'fields' => array(

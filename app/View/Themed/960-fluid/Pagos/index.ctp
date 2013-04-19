@@ -5,11 +5,11 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($pagos);
  echo '</pre>';
- 
+ */
 ?>
 
 <?php /* Tabla pagos */ ?>

@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * Funeraria Model
  *
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
+ * @property Pago $Pago
  */
 class Funeraria extends AppModel {
     
@@ -332,14 +333,14 @@ class Funeraria extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-        'FunerariaPago' => array(
-            'className' => 'FunerariaPago',
+        'Pago' => array(
+            'className' => 'Pago',
             'foreignKey' => 'funeraria_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => true,
+            'dependent' => false,
             'exclusive' => false,
             'finderQuery' => '',
         ),

@@ -548,7 +548,6 @@ class Pago extends AppModel {
         return array(
          'OR'  => array(
           'DATE_FORMAT(Pago.fecha,"%d/%m/%Y") LIKE' => $comodin,
-          'Tasa.concepto LIKE' => $comodin,
          )
         );
         

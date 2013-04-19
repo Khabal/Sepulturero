@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
+    public $uses = array('Arrendatario', 'ArrendatarioFuneraria', 'Arrendamiento', 'Pago', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -130,7 +130,6 @@ class ArrendatariosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    //public $presetVars = true; //Using the model configuration
     public $presetVars = array( //Overriding and extending the model defaults
         'clave'=> array(
             'encode' => true,
@@ -360,7 +359,7 @@ class ArrendatariosController extends AppController {
            ),
            'Concesion' => array(
             'fields' => array(
-             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
+             'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
             ),
            ),
            'order' => array(

@@ -172,9 +172,10 @@
     echo $this->Form->input('estado', array('label' => 'Estado del arrendamiento:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
    ?>
   </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
-  echo $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton_buscar'));
+  echo $this->GuarritasEnergeticas->burtones_buscar();
   echo $this->Form->end();
  ?>
+ 
 </div>

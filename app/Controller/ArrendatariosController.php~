@@ -95,7 +95,7 @@ class ArrendatariosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Arrendatario', 'Arrendamiento', 'ArrendatarioFuneraria', 'ArrendatarioPago', 'Funeraria', 'Persona', 'Sanitize');
+    public $uses = array('Arrendatario', 'ArrendatarioFuneraria', 'Arrendamiento', 'Pago', 'Persona', 'Sanitize');
     
     /**
      * ---------------------------
@@ -130,7 +130,6 @@ class ArrendatariosController extends AppController {
      *
      * @var mixed (boolean/array)
      */
-    //public $presetVars = true; //Using the model configuration
     public $presetVars = array( //Overriding and extending the model defaults
         'clave'=> array(
             'encode' => true,
@@ -249,8 +248,6 @@ class ArrendatariosController extends AppController {
                 //Comprobar si hay funerarias repetidas y eliminarlas
                 if (!empty($this->request->data['ArrendatarioFuneraria'])) {
                     $this->request->data['ArrendatarioFuneraria'] = array_map("unserialize", array_unique(array_map("serialize", $this->request->data['ArrendatarioFuneraria'])));
-//$input = array_map("unserialize", array_unique(array_map("serialize", $input)));
-print_r($this->request->data['ArrendatarioFuneraria']);
                     $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
                 }
             
@@ -431,8 +428,10 @@ print_r($this->request->data['ArrendatarioFuneraria']);
                 }
                 
                 //Comprobar si hay funerarias repetidas y eliminarlas
-                $this->request->data['ArrendatarioFuneraria'] = array_unique($this->request->data['ArrendatarioFuneraria']);
-                $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+                if (!empty($this->request->data['ArrendatarioFuneraria'])) {
+                    $this->request->data['ArrendatarioFuneraria'] = array_map("unserialize", array_unique(array_map("serialize", $this->request->data['ArrendatarioFuneraria'])));
+                    $this->request->data['ArrendatarioFuneraria'] = array_values($this->request->data['ArrendatarioFuneraria']);
+                }
             
             }
             

@@ -95,7 +95,7 @@ class FunerariasController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Funeraria', 'ArrendatarioFuneraria', 'Sanitize');
+    public $uses = array('Funeraria', 'ArrendatarioFuneraria', 'Pago', 'Sanitize');
     
     /**
      * ---------------------------
@@ -303,7 +303,7 @@ class FunerariasController extends AppController {
                 }
                 else {
                     $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser actualizada.'));
-                            }
+                }
             }
             else {
                $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));

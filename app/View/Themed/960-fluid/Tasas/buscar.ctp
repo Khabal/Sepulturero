@@ -63,8 +63,10 @@
     echo $this->Form->input('Tasa.fin_validez', array('type' => 'hidden'));
    ?>
   </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton'));
-  echo $this->Form->button(__('Buscar'), array('type' => 'submit', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_buscar();
   echo $this->Form->end();
  ?>
+ 
+</div>

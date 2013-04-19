@@ -325,7 +325,7 @@ dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero);
     echo $this->Form->input('Pago.fecha', array('type' => 'hidden'));
     echo $this->Form->input('Pago.total', array('label' => 'Total:', 'default' => '0', 'readonly' => 'readonly'));
     echo $this->Form->input('Pago.moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
-    echo $this->Form->input('Pago.observaciones', array('label' => 'Anotaciones:'));
+    echo $this->Form->input('Pago.observaciones', array('label' => 'Anotaciones:', 'class' => 'anotaciones'));
    ?>
   </fieldset>
   <fieldset>

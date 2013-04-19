@@ -88,7 +88,7 @@ class MovimientosController extends AppController {
      *
      * @var array
      */
-    public $methods = array('index', 'nuevo', 'ver', 'buscar', 'editar', 'imprimir', 'pdf');
+    public $methods = array('index', 'nuevo', 'ver', 'buscar', 'editar', 'imprimir', 'exportar_pdf');
     
     /**
      * Uses
@@ -850,7 +850,7 @@ if(isset($t1)){
     }
     
     /**
-     * export pdf method
+     * export_pdf method
      *
      * @param string $id
      * @return void

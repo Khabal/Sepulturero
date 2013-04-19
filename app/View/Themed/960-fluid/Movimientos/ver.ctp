@@ -12,7 +12,7 @@
  */
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
 
 <?php /* Datos movimiento */ ?>
 <div class="view box">
@@ -186,4 +186,4 @@
  <?php endif; ?>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>

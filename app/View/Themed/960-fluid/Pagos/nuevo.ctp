@@ -100,10 +100,7 @@ var dineuros = 0;
            event.preventDefault(),
            $(auto).val(ui.item.label),
            $(auto_oc).val(ui.item.value),
-alert(parseFloat($("#PagoTotal").val())),
-alert(ui.item.dinero),
-dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero);
-
+           dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero),
            $("#PagoTotal").val(dineuros.toString().replace(/\./g,','))
          },
          open: function() {

@@ -332,14 +332,14 @@ class Arrendatario extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-        'ArrendatarioPago' => array(
-            'className' => 'ArrendatarioPago',
+        'Pago' => array(
+            'className' => 'Pago',
             'foreignKey' => 'arrendatario_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => true,
+            'dependent' => false,
             'exclusive' => false,
             'finderQuery' => '',
         ),
@@ -405,7 +405,8 @@ class Arrendatario extends AppModel {
         'provincia' => array('type' => 'like'),
         'pais' => array('type' => 'like'),
         'codigo_postal' => array('type' => 'like'),
-        'telefono' => array('type' => 'like'),
+        'telefono_fijo' => array('type' => 'like'),
+        'telefono_movil' => array('type' => 'like'),
         'correo_electronico' => array('type' => 'like'),
         'clave' => array('type' => 'query', 'method' => 'buscarArrendatario'),
     );

@@ -7,7 +7,7 @@ App::uses('AppModel', 'Model');
  *
  * @property Arrendamiento $Arrendamiento
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
- * @property ArrendatarioPago $ArrendatarioPago
+ * @property Pago $Pago
  * @property Persona $Persona
  */
 class Arrendatario extends AppModel {
@@ -332,14 +332,14 @@ class Arrendatario extends AppModel {
             'exclusive' => false,
             'finderQuery' => '',
         ),
-        'ArrendatarioPago' => array(
-            'className' => 'ArrendatarioPago',
+        'Pago' => array(
+            'className' => 'Pago',
             'foreignKey' => 'arrendatario_id',
             'conditions' => '',
             'order' => '',
             'limit' => '',
             'offset' => 0,
-            'dependent' => true,
+            'dependent' => false,
             'exclusive' => false,
             'finderQuery' => '',
         ),

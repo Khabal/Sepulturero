@@ -19,8 +19,8 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Arrendamiento.tipo_arrendatario', 'Tipo de arrendatario'); ?></th>
-    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario', array('escape' => false, 'title' => 'Ordenar por arrendatario')); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario (Nombre)', array('escape' => false, 'title' => 'Ordenar por nombre del arrendatario')); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.dni', 'Arrendatario (D.N.I.)', array('escape' => false, 'title' => 'Ordenar por D.N.I. del arrendatario')); ?></th>
     <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba', array('escape' => false, 'title' => 'Ordenar por tumba')); ?></th>
     <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Concesión', array('escape' => false, 'title' => 'Ordenar por concesión')); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Fecha de arrendamiento', array('escape' => false, 'title' => 'Ordenar por fecha de arrendamiento')); ?></th>
@@ -82,7 +82,7 @@
      ?>
      <td<?php echo $colorico; ?>><?php echo h($arrendamiento['Arrendamiento']['estado']); ?>&nbsp;</td>
      <td class="actions">
-      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('arrendamientos', $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
+      <?php echo $this->GuarritasEnergeticas->guarrita_acciones('arrendamientos', $arrendamiento['Arrendamiento']['id'], $tumba . " por " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_tiempo']); ?>
      </td>
     </tr>
    <?php endforeach; ?>
