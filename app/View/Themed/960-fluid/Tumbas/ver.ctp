@@ -164,7 +164,7 @@
      <th><?php echo __('Estado del cuerpo'); ?></th>
      <th><?php echo __('Fecha de defunción'); ?></th>
      <th><?php echo __('Edad'); ?></th>
-     <th><?php echo __('Causa de fallecimiento'); ?></th>
+     <th><?php echo __('Causa fundamental de fallecimiento'); ?></th>
      <th><?php echo __('Certificado de defunción'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
@@ -200,7 +200,7 @@
      <td>
       <?php
        if (!empty($difunto['Difunto']['edad'])) {
-        echo h($difunto['Difunto']['edad']);
+        echo h($difunto['Difunto']['edad'] . " " . $difunto['Difunto']['unidad_tiempo']);
        }
        else {
         echo h("Desconocida");
@@ -209,15 +209,24 @@
      </td>
      <td>
       <?php
-       if (!empty($difunto['Difunto']['causa_fallecimiento'])) {
-        echo h($difunto['Difunto']['causa_fallecimiento']);
+       if (!empty($difunto['Difunto']['causa_fundamental'])) {
+        echo h($difunto['Difunto']['causa_fundamental']);
        }
        else {
         echo h("Desconocida");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($difunto['certificado_defuncion']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($difunto['Difunto']['certificado_defuncion'])) {
+        echo h($difunto['Difunto']['certificado_defuncion']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'difuntos', 'action' => 'ver', $difunto['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>

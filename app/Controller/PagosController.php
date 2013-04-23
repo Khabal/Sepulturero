@@ -210,7 +210,9 @@ class PagosController extends AppController {
         
         //Devolver las opciones de selección de tipos de pagadores
         $this->set('pagadores', $this->Pago->pagador);
-unset($this->Pago->validate['entregado']);
+        
+        //Truco del almendruco para evitar errores de validación
+        unset($this->Pago->validate['entregado']);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
@@ -371,6 +373,12 @@ unset($this->Pago->validate['entregado']);
         //Devolver las opciones de selección de monedas
         $this->set('monedas', $this->Pago->moneda);
         
+        //Devolver las opciones de selección de tipos de pagadores
+        $this->set('pagadores', $this->Pago->pagador);
+        
+        //Truco del almendruco para evitar errores de validación
+        unset($this->Pago->validate['entregado']);
+        
         //Asignar id
         $this->Pago->id = $id;
         
@@ -382,16 +390,47 @@ unset($this->Pago->validate['entregado']);
         
         //Comprobar si se está enviando el formulario
         if ($this->request->is('post') || $this->request->is('put')) {
-            //Guardar y comprobar éxito
-            if ($this->Pago->save($this->request->data)) {
-                $this->Session->setFlash(__('El pago ha sido actualizado correctamente.'));
-                //Borrar datos de sesión
-                $this->Session->delete('Pago');
-                //Redireccionar a index
-                $this->redirect(array('action' => 'index'));
+            
+            //Desinfectar los datos recibidos del formulario
+            Sanitize::clean($this->request->data);
+            
+            //Cargar datos de la sesión
+            $this->request->data['Pago']['id'] = $id;
+            
+            //Comprobar si el tipo de pagador es un particular
+            if ($this->request->data['Pago']['tipo_pagador'] == "Particular") {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Pago']['funeraria_id'] = null;
+            }
+            //Comprobar si el tipo de pagador es una funeraria
+            elseif ($this->request->data['Pago']['tipo_pagador'] == "Funeraria") {
+                //Truco del almendruco para evitar errores de validación
+                $this->request->data['Pago']['arrendatario_id'] = null;
+            }
+            //En otro caso
+            else {
+            }
+            
+            //Establecer la cantidad entregada a la cantidad total
+            $this->request->data['Pago']['entregado'] = $this->request->data['Pago']['total'];
+            
+            //Validar los datos introducidos
+            if ($this->Pago->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Guardar y comprobar éxito
+                if ($this->Pago->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                    $this->Session->setFlash(__('El pago ha sido actualizado correctamente.'));
+                    //Borrar datos de sesión
+                    $this->Session->delete('Pago');
+                    //Redireccionar a index
+                    $this->redirect(array('action' => 'index'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser actualizado.'));
+                }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El pago no ha podido ser actualizado.'));
+               $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));
             }
         }
         else {
@@ -401,13 +440,98 @@ unset($this->Pago->validate['entregado']);
               'Pago.id' => $id
              ),
              'contain' => array(
-              'Tasa' => array(
+              'Arrendatario' => array(
                'fields' => array(
-                'Tasa.id', 'Tasa.tipo', 'Tasa.cantidad', 'Tasa.moneda'
+                'Arrendatario.id', 'Arrendatario.persona_id'
+               ),
+               'Persona' => array(
+                'fields' => array(
+                 'Persona.id', 'Persona.nombre_completo', 'Persona.dni'
+                ),
+               ),
+              ),
+              'Funeraria' => array(
+               'fields' => array(
+                'Funeraria.id', 'Funeraria.cif', 'Funeraria.nombre'
+               ),
+              ),
+              'PagoTasa' => array(
+               'Tasa' => array(
+                'fields' => array(
+                 'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad', 'Tasa.moneda'
+                ),
+               ),
+              ),
+              'Tumba' => array(
+               'Columbario' => array(
+                'fields' => array(
+                 'Columbario.id', 'Columbario.tumba_id', 'Columbario.localizacion'
+                ),
+               ),
+               'Exterior' => array(
+                'fields' => array(
+                 'Exterior.id', 'Exterior.tumba_id', 'Exterior.localizacion'
+                ),
+               ),
+               'Nicho' => array(
+                'fields' => array(
+                 'Nicho.id', 'Nicho.tumba_id', 'Nicho.localizacion'
+                ),
+               ),
+               'Panteon' => array(
+                'fields' => array(
+                 'Panteon.id', 'Panteon.tumba_id', 'Panteon.localizacion'
+                ),
+               ),
+               'fields' => array(
+                'Tumba.id', 'Tumba.tipo', 'Tumba.poblacion'
                ),
               ),
              ),
             ));
+            
+            //Devolver nombres bonitos para entidades relacionadas
+            if (!empty($this->request->data['Arrendatario'])) {
+                $this->request->data['Pago']['tipo_pagador'] = "Particular";
+                $this->request->data['Pago']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
+                unset($this->request->data['Arrendatario']);
+            }
+            elseif (!empty($this->request->data['Funeraria'])) {
+                $this->request->data['Pago']['funeraria_bonita'] = $this->request->data['Funeraria']['nombre'] . " - " . $this->request->data['Funeraria']['cif'];
+                unset($this->request->data['Funeraria']);
+            }
+            
+            if (!empty($this->request->data['Pago']['fecha'])) {
+                $this->request->data['Pago']['fecha_bonita'] = date('d/m/Y', strtotime($this->request->data['Pago']['fecha']));
+            }
+            
+            if (!empty($this->request->data['Tumba'])) {
+                $localizacion = "";
+                if (!empty($this->request->data['Tumba']['Columbario']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Columbario']['localizacion'];
+                }
+                elseif(!empty($this->request->data['Tumba']['Exterior']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Exterior']['localizacion'];
+                }
+                elseif(!empty($this->request->data['Tumba']['Nicho']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Nicho']['localizacion'];
+                }
+                elseif(!empty($this->request->data['Tumba']['Panteon']['localizacion'])) {
+                    $localizacion = $this->request->data['Tumba']['Panteon']['localizacion'];
+                }
+                $this->request->data['Pago']['tumba_bonita'] = $this->request->data['Tumba']['tipo'] . " - " . $localizacion;
+                unset($this->request->data['Tumba']);
+            }
+            
+            if (!empty($this->request->data['PagoTasa'])) {
+                $i = 0;
+                foreach ($this->request->data['PagoTasa'] as $tasa) {
+                    $this->request->data['PagoTasa'][$i]['tasa_bonita'] = $tasa['Tasa']['concepto'];
+                    $this->request->data['PagoTasa'][$i]['tasa_id'] = $tasa['tasa_id'];
+                    unset($this->request->data['PagoTasa'][$i]['Tasa']);
+                    $i++;
+                }
+            }
             
             //Guardar los datos de sesión del pago
             $this->Session->write('Pago.id', $this->request->data['Pago']['id']);

@@ -214,25 +214,25 @@
     echo $this->Form->input('funeraria_id', array('type' => 'hidden'));
    ?>
   </div>
-   <?php /* Resto de campos */
-    echo $this->Form->input('tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
-    echo $this->Form->input('tumba_id', array('type' => 'hidden'));
-    echo '<div class="intervalo">';
+  <?php /* Resto de campos */
+   echo $this->Form->input('tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
+   echo $this->Form->input('tumba_id', array('type' => 'hidden'));
+   echo '<div class="intervalo">';
     echo $this->Form->label('fecha', 'Fecha de arrendamiento:');
     echo $this->Form->input('fecha_desde', array('label' => 'desde:')); //Campo imaginario
     echo $this->Form->input('desde', array('type' => 'hidden'));
     echo $this->Form->input('fecha_hasta', array('label' => 'hasta:')); //Campo imaginario
     echo $this->Form->input('hasta', array('type' => 'hidden'));
-    echo '</div>';
-    echo '<div class="intervalo">';
+   echo '</div>';
+   echo '<div class="intervalo">';
     echo $this->Form->label('total', 'Cantidad total:');
     echo $this->Form->input('total_min', array('label' => 'mínimo:', 'default' => '0')); //Campo imaginario
     echo $this->Form->input('total_max', array('label' => 'máximo:')); //Campo imaginario
-    echo '</div>';
-    echo $this->Form->input('moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
-    echo $this->Form->input('observaciones', array('label' => 'Anotaciones:'));
-   ?>
-  </fieldset>
+   echo '</div>';
+   echo $this->Form->input('moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
+   echo $this->Form->input('observaciones', array('label' => 'Anotaciones:'));
+  ?>
+ </fieldset>
  
  <?php /* Botones */
   echo $this->GuarritasEnergeticas->burtones_buscar();

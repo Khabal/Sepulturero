@@ -244,7 +244,7 @@ class Concesion extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Vector de estados de arrendamiento de una tumba
+        //Vector de unidades de tiempo para una conseción
         $this->tiempo = array(
             'Años' => __('Años', true),
             'Meses' => __('Meses', true),

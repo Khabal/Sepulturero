@@ -368,7 +368,7 @@ class TumbasController extends AppController {
             ),
            ),
            'fields' => array(
-            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.unidad_tiempo', 'Difunto.causa_fundamental', 'Difunto.causa_inmediata', 'Difunto.certificado_defuncion'
            ),
           ),
           'MovimientoTumba' => array(
@@ -401,7 +401,7 @@ class TumbasController extends AppController {
              ),
             ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino'
             ),
            ),
            'fields' => array(
@@ -613,7 +613,7 @@ class TumbasController extends AppController {
             ),
            ),
            'fields' => array(
-            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.unidad_tiempo', 'Difunto.causa_fundamental', 'Difunto.causa_inmediata', 'Difunto.certificado_defuncion'
            ),
           ),
           'MovimientoTumba' => array(
@@ -646,7 +646,7 @@ class TumbasController extends AppController {
              ),
             ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino'
             ),
            ),
            'fields' => array(
@@ -733,7 +733,7 @@ class TumbasController extends AppController {
             ),
            ),
            'fields' => array(
-            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.causa_fallecimiento', 'Difunto.certificado_defuncion'
+            'Difunto.id', 'Difunto.persona_id', 'Difunto.estado', 'Difunto.fecha_defuncion', 'Difunto.edad', 'Difunto.unidad_tiempo', 'Difunto.causa_fundamental', 'Difunto.causa_inmediata', 'Difunto.certificado_defuncion'
            ),
           ),
           'MovimientoTumba' => array(
@@ -766,7 +766,7 @@ class TumbasController extends AppController {
              ),
             ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino'
             ),
            ),
            'fields' => array(

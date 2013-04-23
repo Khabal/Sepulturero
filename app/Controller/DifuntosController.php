@@ -226,6 +226,9 @@ class DifuntosController extends AppController {
         //Devolver las opciones de selección de sexo
         $this->set('sexo', $this->Difunto->Persona->sexo);
         
+        //Devolver las opciones de selección de sexo
+        $this->set('tiempo', $this->Difunto->tiempo);
+        
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
             

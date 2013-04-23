@@ -303,7 +303,7 @@ class FunerariasController extends AppController {
                 }
                 else {
                     $this->Session->setFlash(__('Ha ocurrido un error mágico. La funeraria no ha podido ser actualizada.'));
-                            }
+                }
             }
             else {
                $this->Session->setFlash(__('Error al validar los datos introducidos. Revise el formulario.'));

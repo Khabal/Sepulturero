@@ -524,17 +524,17 @@ class Tumba extends AppModel {
      */
     public $filterArgs = array(
         'tipo' => array('type' => 'value'),
-        'Columbario.numero_columbario' => array('type' => 'value', 'field' => 'Columbario.numero_columbario'),
-        'Columbario.letra' => array('type' => 'like', 'field' => 'Columbario.letra'),
-        'Columbario.fila' => array('type' => 'value', 'field' => 'Columbario.fila'),
-        'Columbario.patio' => array('type' => 'value', 'field' => 'Columbario.patio'),
-        'Nicho.numero_nicho' => array('type' => 'value', 'field' => 'Nicho.numero_nicho'),
-        'Nicho.letra' => array('type' => 'like', 'field' => 'Nicho.letra'),
-        'Nicho.fila' => array('type' => 'value', 'field' => 'Nicho.fila'),
-        'Nicho.patio' => array('type' => 'value', 'field' => 'Nicho.patio'),
-        'Panteon.numero_panteon' => array('type' => 'like', 'field' => 'Panteon.numero_panteon'),
-        'Panteon.familia' => array('type' => 'like', 'field' => 'Panteon.familia'),
-        'Panteon.patio' => array('type' => 'value', 'field' => 'Panteon.patio'),
+        'numero_columbario' => array('type' => 'value', 'field' => 'Columbario.numero_columbario'),
+        'letra_columbario' => array('type' => 'value', 'field' => 'Columbario.letra'),
+        'fila_columbario' => array('type' => 'value', 'field' => 'Columbario.fila'),
+        'patio_columbario' => array('type' => 'value', 'field' => 'Columbario.patio'),
+        'numero_nicho' => array('type' => 'value', 'field' => 'Nicho.numero_nicho'),
+        'letra_nicho' => array('type' => 'value', 'field' => 'Nicho.letra'),
+        'fila_nicho' => array('type' => 'value', 'field' => 'Nicho.fila'),
+        'patio_nicho' => array('type' => 'value', 'field' => 'Nicho.patio'),
+        'numero_panteon' => array('type' => 'value', 'field' => 'Panteon.numero_panteon'),
+        'familia_panteon' => array('type' => 'like', 'field' => 'Panteon.familia'),
+        'patio_panteon' => array('type' => 'value', 'field' => 'Panteon.patio'),
         'clave' => array('type' => 'query', 'method' => 'buscarTumba'),
     );
     

@@ -244,7 +244,7 @@ class Concesion extends AppModel {
      */
     public function __construct ($id = false, $table = null, $ds = null) {
         
-        //Vector de estados de arrendamiento de una tumba
+        //Vector de unidades de tiempo para una conseción
         $this->tiempo = array(
             'Años' => __('Años', true),
             'Meses' => __('Meses', true),
@@ -267,10 +267,10 @@ class Concesion extends AppModel {
      * @var array
      * @see SearchableBehavior
      */
-    public $filterArgs = array(
+    public $filterArgs = array('kk'=>array(
         'tipo' => array('type' => 'like'),
         'duracion' => array('type' => 'value'),
-        'unidad_tiempo' => array('type' => 'value'),
+        'unidad_tiempo' => array('type' => 'value'),),
         'clave' => array('type' => 'query', 'method' => 'buscarConcesion'),
     );
     
@@ -295,7 +295,7 @@ class Concesion extends AppModel {
         return array(
          'OR'  => array(
           'Concesion.tipo LIKE' => $comodin,
-          'CONCAT(Concesion.duracion," ",Persona.unidad_tiempo) LIKE' => $comodin,
+          'CONCAT(Concesion.duracion," ",Concesion.unidad_tiempo) LIKE' => $comodin,
          )
         );
         

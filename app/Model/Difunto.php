@@ -365,6 +365,13 @@ class Difunto extends AppModel {
             'Restos' => __('Restos', true),
         );
         
+        //Vector de unidades de tiempo para la edad
+        $this->tiempo = array(
+            'Años' => __('Años', true),
+            'Meses' => __('Meses', true),
+            'Días' => __('Días', true),
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }

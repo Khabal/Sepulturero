@@ -87,7 +87,7 @@
      <td>
       <?php
        if (!empty($difunto['Difunto']['edad'])) {
-        echo h($difunto['Difunto']['edad']);
+        echo h($difunto['Difunto']['edad'] . " " . $difunto['Difunto']['unidad_tiempo']);
        }
        else {
         echo h("Desconocida");

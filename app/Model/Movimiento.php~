@@ -571,7 +571,7 @@ class Movimiento extends AppModel {
      * @var array
      * @see SearchableBehavior
      */
-    public $filterArgs = array(
+    public $filterArgs = array('AND'=>array(
         'tipo' => array('type' => 'value'),
         'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
         'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
@@ -582,7 +582,9 @@ class Movimiento extends AppModel {
         'cementerio_destino' => array('type' => 'like'),
         'tumba_destino' => array('type' => 'query', 'method' => 'consultaTumbaDes'),
         'tumba_destino_id' => array('type' => 'query', 'method' => 'consultaTumbaDesID'),
+        'documental' => array('type' => 'value'),
         'clave' => array('type' => 'query', 'method' => 'buscarMovimiento'),
+)
     );
 
     /**

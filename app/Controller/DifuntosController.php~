@@ -226,6 +226,9 @@ class DifuntosController extends AppController {
         //Devolver las opciones de selección de sexo
         $this->set('sexo', $this->Difunto->Persona->sexo);
         
+        //Devolver las opciones de selección de sexo
+        $this->set('tiempo', $this->Difunto->Persona->sexo);
+        
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
             
@@ -547,9 +550,6 @@ class DifuntosController extends AppController {
                 //Truco del almendruco para evitar errores de validación
                 $this->request->data['Difunto']['certificado_defuncion'] = null;
             }
-            
-            //Indicar que se trata de un difunto
-            $this->request->data['Persona']['difunto_id'] = $id;
             
             //Validar los datos introducidos
             if ($this->Difunto->saveAll($this->request->data, array('validate' => 'only'))) {

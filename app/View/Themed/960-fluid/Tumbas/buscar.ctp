@@ -76,27 +76,27 @@
   <div id="Columbario" style="display:none;">
    <?php
     /* Campos nuevo columbario */
-    echo $this->Form->input('Columbario.numero_columbario', array('label' => 'Número de columbario:', 'required' => false));
-    echo $this->Form->input('Columbario.letra', array('label' => 'Letra:', 'required' => false));
-    echo $this->Form->input('Columbario.fila', array('label' => 'Fila:', 'required' => false));
-    echo $this->Form->input('Columbario.patio', array('label' => 'Patio:', 'required' => false));
+    echo $this->Form->input('numero_columbario', array('label' => 'Número de columbario:'));
+    echo $this->Form->input('letra_columbario', array('label' => 'Letra:'));
+    echo $this->Form->input('fila_columbario', array('label' => 'Fila:'));
+    echo $this->Form->input('patio_columbario', array('label' => 'Patio:'));
    ?>
   </div>
   <div id="Nicho" style="display:none;">
    <?php
     /* Campos nuevo nicho */
-    echo $this->Form->input('Nicho.numero_nicho', array('label' => 'Número de nicho:', 'required' => false));
-    echo $this->Form->input('Nicho.letra', array('label' => 'Letra:', 'required' => false));
-    echo $this->Form->input('Nicho.fila', array('label' => 'Fila:', 'required' => false));
-    echo $this->Form->input('Nicho.patio', array('label' => 'Patio:', 'required' => false));
+    echo $this->Form->input('numero_nicho', array('label' => 'Número de nicho:'));
+    echo $this->Form->input('letra_nicho', array('label' => 'Letra:'));
+    echo $this->Form->input('fila_nicho', array('label' => 'Fila:'));
+    echo $this->Form->input('patio_nicho', array('label' => 'Patio:'));
    ?>
   </div>
   <div id="Panteon" style="display:none;">
    <?php
     /* Campos nuevo panteón */
-    echo $this->Form->input('Panteon.numero_panteon', array('label' => 'Número de panteón:', 'required' => false));
-    echo $this->Form->input('Panteon.familia', array('label' => 'Familia:', 'required' => false));
-    echo $this->Form->input('Panteon.patio', array('label' => 'Patio:', 'required' => false));
+    echo $this->Form->input('numero_panteon', array('label' => 'Número de panteón:'));
+    echo $this->Form->input('familia_panteon', array('label' => 'Familia:'));
+    echo $this->Form->input('patio_panteon', array('label' => 'Patio:'));
    ?>
   </div>
  </fieldset>

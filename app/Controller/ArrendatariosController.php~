@@ -359,7 +359,7 @@ class ArrendatariosController extends AppController {
            ),
            'Concesion' => array(
             'fields' => array(
-             'Concesion.id', 'Concesion.tipo', 'Concesion.anos_concesion'
+             'Concesion.id', 'Concesion.tipo', 'Concesion.duracion', 'Concesion.unidad_tiempo'
             ),
            ),
            'order' => array(
@@ -708,6 +708,12 @@ class ArrendatariosController extends AppController {
         //Comprobar si existe el arrendatario
         if (!$this->Arrendatario->exists()) {
             throw new NotFoundException(__('El arrendatario especificado no existe.'));
+        }
+        
+        //Comprobar si el arrendatario está asociado con algún pago y actualizar clave externa
+        $pago = $this->Arrendatario->Pago->field('arrendatario_id', array('Pago.arrendatario_id' => $id));
+        if (!empty($difunto)) {
+            $this->Arrendatario->Pago->query("UPDATE pagos SET arrendatario_id = null WHERE arrendatario_id = '" . $id . "'");
         }
         
         //Comprobar si la persona está asociada con algún difunto o médico forense para en caso contrario eliminarlo también

@@ -1,7 +1,7 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
  <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('pagos', $pago['Pago']['id'], date('d/m/Y', strtotime($pago['Pago']['fecha']))); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('pagos', $this->Session->read('Pago.id'), $this->Session->read('Pago.fecha')); ?>
 </div>
 
 <?php
@@ -293,7 +293,7 @@ var dineuros = 0;
  });
 </script>
 
-<?php /* Formulario nuevo pago */ ?>
+<?php /* Formulario editar pago */ ?>
 <div class="edit form">
  <?php echo $this->Form->create('Pago');?>
   <fieldset>

@@ -96,8 +96,8 @@
      </td>
      <td>
       <?php
-       if (!empty($difunto['Difunto']['causa_fallecimiento'])) {
-        echo h($difunto['Difunto']['causa_fallecimiento']);
+       if (!empty($difunto['Difunto']['causa_fundamental'])) {
+        echo h($difunto['Difunto']['causa_fundamental']);
        }
        else {
         echo h("Desconocida");

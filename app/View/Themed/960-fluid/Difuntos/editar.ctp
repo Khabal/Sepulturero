@@ -119,6 +119,7 @@
     echo $this->Form->input('Difunto.fecha_bonita', array('label' => 'Fecha de defunción:')); //Campo imaginario
     echo $this->Form->input('Difunto.fecha_defuncion', array('type' => 'hidden'));
     echo $this->Form->input('Difunto.edad', array('label' => 'Edad:'));
+    echo $this->Form->input('Difunto.unidad_tiempo', array('label' => 'Unidad de tiempo:', 'type' => 'select', 'options' => $tiempo, 'empty' => ''));
     echo $this->Form->input('Difunto.causa_fundamental', array('label' => 'Causa fundamental de fallecimiento:'));
     echo $this->Form->input('Difunto.causa_inmediata', array('label' => 'Causa inmediata de fallecimiento:', 'default' => ' Parada cardiorrespiratoria'));
     echo $this->Form->input('Difunto.forense_bonito', array('label' => 'Médico forense:')); //Campo imaginario

@@ -5,7 +5,7 @@
 </div>
 
 <script>
-   
+ $(function() {
    /* Establecer opciones de 'UI datepicker' para JQuery */
    $("#PagoFechaDesde").datepicker({
      altField: "#PagoDesde",
