@@ -35,6 +35,8 @@ class GuarritasEnergeticasHelper extends AppHelper {
      */
     public function guarrita_menu($controlador) {
         
+        $cabecera = '<h2>' . __('Menú de acciones') . '</h2>';
+        
         $inicio = $this->Html->link(__($this->Html->image('inicio.png', array('alt' => 'inicio', 'style' => 'height:24px; width:24px;')) . ' Inicio'), array('controller' => 'pages', 'action' => 'index'), array('escape' => false));
         
         $lista = $this->Html->link(__($this->Html->image('listado.png', array('alt' => 'listado', 'style' => 'height:24px; width:24px;')) . ' Listado'), array('controller' => $controlador, 'action' => 'index'), array('escape' => false));
@@ -43,7 +45,7 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $buscar = $this->Html->link(__($this->Html->image('buscar.png', array('alt' => 'buscar', 'style' => 'height:24px; width:24px;')) . ' Buscar'), array('controller' => $controlador, 'action' => 'buscar'), array('escape' => false));
         
-        return '<ul class="nav"><li>' . $inicio . '</li><li>' . $lista . '</li><li>' . $nuevo . '</li><li>' . $buscar . '</li></ul>';
+        return $cabecera . '<ul class="nav"><li>' . $inicio . '</li><li>' . $lista . '</li><li>' . $nuevo . '</li><li>' . $buscar . '</li></ul>';
         
     }
     
@@ -57,6 +59,8 @@ class GuarritasEnergeticasHelper extends AppHelper {
      * @return HTML string
      */
     public function guarrita_menu_extendido($controlador, $id, $texto_borrado) {
+        
+        $cabecera = '<h2>' . __('Menú de acciones') . '</h2>';
         
         $inicio = $this->Html->link(__($this->Html->image('inicio.png', array('alt' => 'inicio', 'style' => 'height:24px; width:24px;')) . ' Inicio'), array('controller' => 'pages', 'action' => 'index'), array('escape' => false));
         
@@ -78,7 +82,7 @@ class GuarritasEnergeticasHelper extends AppHelper {
         
         $borrar = $this->Form->postLink(__($this->Html->image('borrar.png', array('alt' => 'borrar', 'style' => 'height:24px; width:24px;')) . ' Borrar'), array('controller' => $controlador, 'action' => 'borrar', $id), array('escape' => false), __('Esto borrará de forma permanente este registro.\n\n ¿Está seguro que desea borrar a %s?', $texto_borrado));
         
-        return '<ul class="nav"><li>' . $inicio . '</li><li>' . $lista . '</li><li>' . $nuevo . '</li><li>' . $buscar . '</li>' . $separador . '<li>' . $ver . '</li><li>' . $editar . '</li><li>' . $imprimir . '</li><li>' . $exportar_pdf . '</li><li>' . $borrar . '</li></ul>';
+        return $cabecera . '<ul class="nav"><li>' . $inicio . '</li><li>' . $lista . '</li><li>' . $nuevo . '</li><li>' . $buscar . '</li>' . $separador . '<li>' . $ver . '</li><li>' . $editar . '</li><li>' . $imprimir . '</li><li>' . $exportar_pdf . '</li><li>' . $borrar . '</li></ul>';
         
     }
     

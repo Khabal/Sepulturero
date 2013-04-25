@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('difuntos'); ?>
 </div>
 
@@ -19,14 +18,13 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
-    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.edad', 'Edad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.causa_fundamental', 'Causa de fallecimiento'); ?></th>
-    <th><?php echo $this->Paginator->sort('Difunto.certificado_defuncion', 'Certificado de defunción'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre', array('escape' => false, 'title' => 'Ordenar por nombre')); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.', array('escape' => false, 'title' => 'Ordenar por D.N.I.')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba', array('escape' => false, 'title' => 'Ordenar por tumba')); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.estado', 'Estado del cuerpo', array('escape' => false, 'title' => 'Ordenar por estado del cuerpo')); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.fecha_defuncion', 'Fecha de defunción', array('escape' => false, 'title' => 'Ordenar por fecha de defunción')); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.edad', 'Edad', array('escape' => false, 'title' => 'Ordenar por edad')); ?></th>
+    <th><?php echo $this->Paginator->sort('Difunto.certificado_defuncion', 'Certificado de defunción', array('escape' => false, 'title' => 'Ordenar por certificado de defunción')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
@@ -88,16 +86,6 @@
       <?php
        if (!empty($difunto['Difunto']['edad'])) {
         echo h($difunto['Difunto']['edad'] . " " . $difunto['Difunto']['unidad_tiempo']);
-       }
-       else {
-        echo h("Desconocida");
-       }
-      ?>&nbsp;
-     </td>
-     <td>
-      <?php
-       if (!empty($difunto['Difunto']['causa_fundamental'])) {
-        echo h($difunto['Difunto']['causa_fundamental']);
        }
        else {
         echo h("Desconocida");

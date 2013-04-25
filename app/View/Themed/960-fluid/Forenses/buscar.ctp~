@@ -12,7 +12,7 @@
   ));
  ?>
  <fieldset>
- <legend><?php echo __('Información sobre el médico forense'); ?></legend>
+  <legend><?php echo __('Información sobre el médico forense'); ?></legend>
   <?php /* Campos */
    echo $this->Form->input('nombre', array('label' => 'Nombre:'));
    echo $this->Form->input('apellido1', array('label' => 'Primer apellido:'));

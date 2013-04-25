@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendamientos'); ?>
 </div>
 
@@ -132,31 +131,32 @@
        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
      }
    });
+   
  });
 </script>
 
 <?php /* Formulario nuevo arrendamiento */ ?>
 <div class="add form">
  <?php echo $this->Form->create('Arrendamiento'); ?>
-  <fieldset>
-   <legend><?php echo __('Datos del arrendamiento'); ?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('Arrendamiento.arrendatario_bonito', array('label' => 'Arrendatario:')); //Campo imaginario
-    echo $this->Form->input('Arrendamiento.arrendatario_id', array('type' => 'hidden'));
-    echo $this->Form->input('Arrendamiento.concesion_bonita', array('label' => 'Tipo de concesión:')); //Campo imaginario
-    echo $this->Form->input('Arrendamiento.concesion_id', array('type' => 'hidden'));
-    echo $this->Form->input('Arrendamiento.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
-    echo $this->Form->input('Arrendamiento.tumba_id', array('type' => 'hidden'));
-    echo $this->Form->input('Arrendamiento.fecha_bonita', array('label' => 'Fecha de arrendamiento:')); //Campo imaginario
-    echo $this->Form->input('Arrendamiento.fecha_arrendamiento', array('type' => 'hidden'));
-    echo $this->Form->input('Arrendamiento.estado', array('label' => 'Estado del arrendamiento:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
-    echo $this->Form->input('Arrendamiento.observaciones', array('label' => 'Anotaciones:'));
-   ?>
-  </fieldset>
+ <fieldset>
+  <legend><?php echo __('Datos del arrendamiento'); ?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('Arrendamiento.arrendatario_bonito', array('label' => 'Arrendatario:')); //Campo imaginario
+   echo $this->Form->input('Arrendamiento.arrendatario_id', array('type' => 'hidden'));
+   echo $this->Form->input('Arrendamiento.concesion_bonita', array('label' => 'Tipo de concesión:')); //Campo imaginario
+   echo $this->Form->input('Arrendamiento.concesion_id', array('type' => 'hidden'));
+   echo $this->Form->input('Arrendamiento.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
+   echo $this->Form->input('Arrendamiento.tumba_id', array('type' => 'hidden'));
+   echo $this->Form->input('Arrendamiento.fecha_bonita', array('label' => 'Fecha de arrendamiento:')); //Campo imaginario
+   echo $this->Form->input('Arrendamiento.fecha_arrendamiento', array('type' => 'hidden'));
+   echo $this->Form->input('Arrendamiento.estado', array('label' => 'Estado del arrendamiento:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
+   echo $this->Form->input('Arrendamiento.observaciones', array('label' => 'Anotaciones:'));
+  ?>
+ </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton_guardar'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton_guardar_nuevo'));
+  echo $this->GuarritasEnergeticas->burtones_nuevo();
   echo $this->Form->end();
  ?>
+ 
 </div>

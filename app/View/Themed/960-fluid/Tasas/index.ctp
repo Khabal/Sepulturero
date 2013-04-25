@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('tasas'); ?>
 </div>
 
@@ -19,11 +18,11 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Tasa.concepto', 'Concepto'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tasa.cantidad', 'Cantidad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tasa.moneda', 'Moneda'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tasa.inicio_validez', 'Inicio de validez'); ?></th>
-    <th><?php echo $this->Paginator->sort('Tasa.fin_validez', 'Fin de validez'); ?></th>
+    <th><?php echo $this->Paginator->sort('Tasa.concepto', 'Concepto', array('escape' => false, 'title' => 'Ordenar por concepto')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tasa.cantidad', 'Cantidad', array('escape' => false, 'title' => 'Ordenar por cantidad')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tasa.moneda', 'Moneda', array('escape' => false, 'title' => 'Ordenar por moneda')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tasa.inicio_validez', 'Inicio de validez', array('escape' => false, 'title' => 'Ordenar por inicio de validez')); ?></th>
+    <th><?php echo $this->Paginator->sort('Tasa.fin_validez', 'Fin de validez', array('escape' => false, 'title' => 'Ordenar por fin de validez')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>

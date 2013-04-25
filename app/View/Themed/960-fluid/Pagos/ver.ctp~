@@ -5,11 +5,11 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($pago);
  echo '</pre>';
- 
+ */
 ?>
 
 <?php echo $this->GuarritasEnergeticas->burton_volver(); ?>

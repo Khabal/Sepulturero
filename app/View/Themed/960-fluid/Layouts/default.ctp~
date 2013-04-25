@@ -11,7 +11,8 @@
    /* JavaScript */
    echo $scripts_for_layout;
    /* Archivos CSS de 960 Grid System */
-   echo $this->Html->css(array('reset', 'text', 'grid', 'layout', 'nav'));
+   //echo $this->Html->css(array('reset', 'text', 'grid', 'layout', 'nav'));
+echo $this->Html->css(array('reset', 'text', 'grid', 'layout'));
    /* Archivos varios de jQuery UI */
    echo $this->Html->css('smoothness/jquery-ui-1.10.2.custom');
    echo $this->Html->script('jquery-1.9.1.js');
@@ -110,7 +111,7 @@
      });
      $(".boton_volver").button({
        icons: {
-         secondary: "icono-volver"
+         primary: "icono-volver"
        },
        text: true
      });

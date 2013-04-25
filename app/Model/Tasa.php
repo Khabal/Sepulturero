@@ -299,11 +299,11 @@ class Tasa extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'concepto' => array('type' => 'like'),
-        'cantidad' => array('type' => 'like'),
-        'moneda' => array('type' => 'value'),
-        'inicio_validez' => array('type' => 'like'),
-        'fin_validez' => array('type' => 'like'),
+        'concepto' => array('type' => 'like', 'field' => 'Tasa.concepto'),
+        'cantidad' => array('type' => 'like', 'field' => 'Tasa.cantidad'),
+        'moneda' => array('type' => 'value', 'field' => 'Tasa.moneda'),
+        'inicio_validez' => array('type' => 'like', 'field' => 'Tasa.inicio_validez'),
+        'fin_validez' => array('type' => 'like', 'field' => 'Tasa.fin_validez'),
         'clave' => array('type' => 'query', 'method' => 'buscarTasa'),
     );
     

@@ -32,7 +32,7 @@
  </fieldset>
  
  <?php /* Botones */
-  echo $this->GuarritasEnergeticas->burtones_buscar();
+  echo $this->GuarritasEnergeticas->burtones_editar();
   echo $this->Form->end();
  ?>
  

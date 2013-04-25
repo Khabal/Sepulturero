@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendatarios', $arrendatario['Arrendatario']['id'], $arrendatario['Persona']['nombre_completo']); ?>
 </div>
 
@@ -21,7 +20,16 @@
   <dt><?php echo __('Nombre'); ?>:</dt>
   <dd><?php echo h($arrendatario['Persona']['nombre_completo']); ?>&nbsp;</dd>
   <dt><?php echo __('D.N.I.'); ?>:</dt>
-  <dd><?php echo h($arrendatario['Persona']['dni']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Persona']['dni'])) {
+     echo h($arrendatario['Persona']['dni']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Nacionalidad'); ?>:</dt>
   <dd>
    <?php
@@ -34,9 +42,27 @@
    ?>&nbsp;
   </dd>
   <dt><?php echo __('Dirección'); ?>:</dt>
-  <dd><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Arrendatario']['direccion'])) {
+     echo h($arrendatario['Arrendatario']['direccion']);
+    }
+    else {
+     echo h("Desconocida");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Localidad'); ?>:</dt>
-  <dd><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Arrendatario']['localidad'])) {
+     echo h($arrendatario['Arrendatario']['localidad']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Provincia'); ?>:</dt>
   <dd>
    <?php
@@ -49,9 +75,27 @@
    ?>&nbsp;
   </dd>
   <dt><?php echo __('País'); ?>:</dt>
-  <dd><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Arrendatario']['pais'])) {
+     echo h($arrendatario['Arrendatario']['pais']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Código postal'); ?>:</dt>
-  <dd><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if (!empty($arrendatario['Arrendatario']['codigo_postal'])) {
+     echo h($arrendatario['Arrendatario']['codigo_postal']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Teléfono fijo'); ?>:</dt>
   <dd>
    <?php
@@ -201,9 +245,33 @@
      <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
      <tr<?php echo $class; ?>>
       <td><?php echo date('d/m/Y', strtotime($tumba['fecha_arrendamiento'])); ?>&nbsp;</td>
-      <td><?php echo h($tumba['estado']); ?>&nbsp;</td>
+      <?php
+       $colorico = null;
+       if ($tumba['estado'] == "Caducado") {
+        $colorico = ' style="color:#FF0000;font-weight:bold;"';
+       }
+       elseif($tumba['estado'] == "Vigente") {
+        $colorico = ' style="color:#04B404;font-weight:bold;"';
+       }
+      ?>
+      <td<?php echo $colorico; ?>><?php echo h($tumba['estado']); ?>&nbsp;</td>
       <td><?php echo h($tumba['Tumba']['tipo']); ?>&nbsp;</td>
-      <td><?php echo h($tumba['Tumba'][$tumba['Tumba']['tipo']]['localizacion']); ?>&nbsp;</td>
+      <?php /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($tumba['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $tumba['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($tumba['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $tumba['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($tumba['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $tumba['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($tumba['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $tumba['Tumba']['Panteon']['localizacion'];
+       }
+      ?>
+      <td><?php echo h($localizacion); ?>&nbsp;</td>
       <td><?php echo h($tumba['Tumba']['poblacion']); ?>&nbsp;</td>
       <td class="actions">
        <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'tumbas', 'action' => 'ver', $tumba['Tumba']['id']), array('escape' => false, 'title' => 'Ver')); ?>

@@ -427,14 +427,14 @@ class Funeraria extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'cif' => array('type' => 'like'),
-        'nombre' => array('type' => 'like'),
-        'direccion' => array('type' => 'like'),
-        'telefono_fijo' => array('type' => 'like'),
-        'telefono_movil' => array('type' => 'like'),
-        'fax' => array('type' => 'like'),
-        'correo_electronico' => array('type' => 'like'),
-        'pagina_web' => array('type' => 'like'),
+        'cif' => array('type' => 'like', 'field' => 'Funeraria.cif'),
+        'nombre' => array('type' => 'like', 'field' => 'Funeraria.nombre'),
+        'direccion' => array('type' => 'like', 'field' => 'Funeraria.direccion'),
+        'telefono_fijo' => array('type' => 'like', 'field' => 'Funeraria.telefono_fijo'),
+        'telefono_movil' => array('type' => 'like', 'field' => 'Funeraria.telefono_movil'),
+        'fax' => array('type' => 'like', 'field' => 'Funeraria.fax'),
+        'correo_electronico' => array('type' => 'like', 'field' => 'Funeraria.correo_electronico'),
+        'pagina_web' => array('type' => 'like', 'field' => 'Funeraria.pagina_web'),
         'clave' => array('type' => 'query', 'method' => 'buscarFuneraria'),
     );
     

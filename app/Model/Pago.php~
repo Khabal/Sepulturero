@@ -8,6 +8,7 @@ App::uses('AppModel', 'Model');
  * @property ArrendatarioPago $ArrendatarioPago
  * @property FunerariaPago $FunerariaPago
  * @property PagoTasa $PagoTasa
+ * @property Tumba $Tumba
  */
 class Pago extends AppModel {
     
@@ -548,7 +549,6 @@ class Pago extends AppModel {
         return array(
          'OR'  => array(
           'DATE_FORMAT(Pago.fecha,"%d/%m/%Y") LIKE' => $comodin,
-          'Tasa.concepto LIKE' => $comodin,
          )
         );
         

@@ -190,11 +190,18 @@ class Arrendamiento extends AppModel {
                 'message' => 'El estado del arrendamiento no se encuentra dentro de las opciones posibles.',
             ),
             'solo_un_vigente' => array(
-                'rule' => array('valida_arrendamiento'),
+                'rule' => array('valida_arrendamiento_vigente'),
                 'required' => true,
                 'allowEmpty' => false,
                 'on' => null,
                 'message' => 'Ya hay un arrendamiento vigente para esta tumba.',
+            ),
+            'solo_un_caducado' => array(
+                'rule' => array('valida_arrendamiento_caducado'),
+                'required' => true,
+                'allowEmpty' => false,
+                'on' => null,
+                'message' => 'Ya hay un arrendamiento caducado para esta tumba.',
             ),
         ),
         'observaciones' => array(
@@ -399,7 +406,7 @@ class Arrendamiento extends AppModel {
             //Comprobar si realmente está vigente
             date_add($fecha, date_interval_create_from_date_string($concesion['Concesion']['duracion'] . $intervalo));
             $hoy = new DateTime();
-            if ($fecha < $hoy) {
+            if ($fecha <= $hoy) {
                 //Devolver error
                 return false;
             }
@@ -494,12 +501,12 @@ class Arrendamiento extends AppModel {
     }
     
     /**
-     * valida_arrendamiento method
+     * valida_arrendamiento_vigente method
      *
      * @param array $check elements for validate
      * @return boolean
      */
-    public function valida_arrendamiento($check) {
+    public function valida_arrendamiento_vigente($check) {
         
         //Extraer el estado del arrendamiento del vector
         $estado = (string) $check['estado'];
@@ -522,7 +529,7 @@ class Arrendamiento extends AppModel {
         
         //Comprobar si el estado del arrendamiento es "Vigente"
         if ($estado == "Vigente") {
-            //Buscar si ya había otro arrendatario "Vigente" para esta tumba
+            //Buscar si ya había otro arrendamiento "Vigente" para esta tumba
             $arrendador = $this->find('count', array(
              'conditions' => array(
               'Arrendamiento.id !=' => $id,
@@ -536,7 +543,71 @@ class Arrendamiento extends AppModel {
              ),
             ));
             
-            //Comprobar si existe otro arrendatario "Vigente" para esta tumba
+            //Comprobar si existe otro arrendamiento "Vigente" para esta tumba
+            if ($arrendador > 0) {
+                //Devolver error
+                return false;
+            }
+            else{
+                //Devolver válido
+                return true;
+            }
+            
+        }
+        else {
+            //Devolver válido
+            return true;
+        }
+        
+        //Devolver error
+        return false;
+        
+    }
+    
+    /**
+     * valida_arrendamiento_caducado method
+     *
+     * @param array $check elements for validate
+     * @return boolean
+     */
+    public function valida_arrendamiento_caducado($check) {
+        
+        //Extraer el estado del arrendamiento del vector
+        $estado = (string) $check['estado'];
+        
+        //Extraer el ID del arrendamiento
+        if (!empty($this->data['Arrendamiento']['id'])) {
+            $id = $this->data['Arrendamiento']['id'];
+        }
+        else {
+            $id = '';
+        }
+        
+        //Extraer el ID de la tumba
+        if (!empty($this->data['Arrendamiento']['tumba_id'])) {
+            $tumba = $this->data['Arrendamiento']['tumba_id'];
+        }
+        else {
+            $tumba = '';
+        }
+        
+        //Comprobar si el estado del arrendamiento es "Caducado"
+        if ($estado == "Caducado") {
+            //Buscar si ya había otro arrendamiento "Caducado" para esta tumba
+            $arrendador = $this->find('count', array(
+             'conditions' => array(
+              'Arrendamiento.id !=' => $id,
+              'Arrendamiento.tumba_id' => $tumba,
+              'Arrendamiento.estado' => "Caducado",
+             ),
+             'fields' => array(
+              'Arrendamiento.id'
+             ),
+             'contain' => array(
+             ),
+            ));
+            
+            //Comprobar si existe otro arrendamiento "Caducado" para esta tumba
             if ($arrendador > 0) {
                 //Devolver error
                 return false;
@@ -703,14 +774,14 @@ class Arrendamiento extends AppModel {
      */
     public $filterArgs = array(
         'arrendatario' => array('type' => 'query', 'method' => 'consultaArrendatario'),
-        'arrendatario_id' => array('type' => 'value'),
+        'arrendatario_id' => array('type' => 'value', 'field' => 'Arrendamiento.arrendatario_id'),
         'concesion' => array('type' => 'query', 'method' => 'consultaConcesion'),
-        'concesion_id' => array('type' => 'value'),
+        'concesion_id' => array('type' => 'value', 'field' => 'Arrendamiento.nombre'),
         'tumba' => array('type' => 'query', 'method' => 'consultaTumba'),
-        'tumba_id' => array('type' => 'value'),
+        'tumba_id' => array('type' => 'value', 'field' => 'Arrendamiento.tumba_id'),
         'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
         'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
-        'estado' => array('type' => 'value'),
+        'estado' => array('type' => 'value', 'field' => 'Arrendamiento.estado'),
         'clave' => array('type' => 'query', 'method' => 'buscarArrendamiento'),
     );
     

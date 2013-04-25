@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('tumbas'); ?>
 </div>
 
@@ -63,8 +62,7 @@
 
 <?php /* Formulario buscar tumbas */ ?>
 <div class="find form">
- <?php echo $this->Form->create('Tumba', array(
-    'url' => array('controller' => strtolower($this->name), 'action' => 'index'),
+ <?php echo $this->Form->create('Tumba', array('url' => array('controller' => 'tumbas', 'action' => 'index'),
     'type' => 'get'
   ));
  ?>
@@ -94,9 +92,9 @@
   <div id="Panteon" style="display:none;">
    <?php
     /* Campos nuevo panteón */
-    echo $this->Form->input('Panteon.numero_panteon', array('label' => 'Número de panteón:', 'required' => false));
-    echo $this->Form->input('Panteon.familia', array('label' => 'Familia:', 'required' => false));
-    echo $this->Form->input('Panteon.patio', array('label' => 'Patio:', 'required' => false));
+    echo $this->Form->input('numero_panteon', array('label' => 'Número de panteón:'));
+    echo $this->Form->input('familia_panteon', array('label' => 'Familia:'));
+    echo $this->Form->input('patio_panteon', array('label' => 'Patio:'));
    ?>
   </div>
  </fieldset>

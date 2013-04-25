@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendatarios', $this->Session->read('Arrendatario.id'), $this->Session->read('Arrendatario.nombre_completo')); ?>
 </div>
 
@@ -159,9 +158,10 @@
     </div>
    </div>
  </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_editar();
   echo $this->Form->end();
  ?>
+ 
 </div>

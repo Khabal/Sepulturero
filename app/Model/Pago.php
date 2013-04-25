@@ -8,6 +8,7 @@ App::uses('AppModel', 'Model');
  * @property ArrendatarioPago $ArrendatarioPago
  * @property FunerariaPago $FunerariaPago
  * @property PagoTasa $PagoTasa
+ * @property Tumba $Tumba
  */
 class Pago extends AppModel {
     
@@ -520,10 +521,10 @@ class Pago extends AppModel {
      * @see SearchableBehavior
      */
     public $filterArgs = array(
-        'fecha' => array('type' => 'like'),
-        'total' => array('type' => 'like'),
-        'entregado' => array('type' => 'like'),
-        'moneda' => array('type' => 'value'),
+        'fecha' => array('type' => 'like', 'field' => 'Pago.fecha'),
+        'total' => array('type' => 'like', 'field' => 'Pago.total'),
+        'entregado' => array('type' => 'like', 'field' => 'Pago.entregado'),
+        'moneda' => array('type' => 'value', 'field' => 'Pago.moneda'),
         'clave' => array('type' => 'query', 'method' => 'buscarPago'),
     );
     

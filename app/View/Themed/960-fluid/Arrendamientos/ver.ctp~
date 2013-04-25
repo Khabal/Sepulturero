@@ -1,18 +1,33 @@
+<?php /* Obtener la localización de tumba */
+ $localizacion = "";
+ if (!empty($arrendamiento['Tumba']['Columbario']['localizacion'])) {
+  $localizacion = $arrendamiento['Tumba']['Columbario']['localizacion'];
+ }
+ elseif(!empty($arrendamiento['Tumba']['Exterior']['localizacion'])) {
+  $localizacion = $arrendamiento['Tumba']['Exterior']['localizacion'];
+ }
+ elseif(!empty($arrendamiento['Tumba']['Nicho']['localizacion'])) {
+  $localizacion = $arrendamiento['Tumba']['Nicho']['localizacion'];
+ }
+ elseif(!empty($arrendamiento['Tumba']['Panteon']['localizacion'])) {
+  $localizacion = $arrendamiento['Tumba']['Panteon']['localizacion'];
+ }
+?>
+
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendamientos', $arrendamiento['Arrendamiento']['id'], $arrendamiento['Tumba']['tipo'] . " - " . $arrendamiento['Tumba'][$arrendamiento['Tumba']['tipo']]['localizacion'] . " por " . $arrendamiento['Concesion']['anos_concesion'] . "años."); ?>
+ <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('arrendamientos', $arrendamiento['Arrendamiento']['id'], $arrendamiento['Tumba']['tipo'] . " - " . $localizacion . " por " . $arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_tiempo']); ?>
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
  print_r($arrendamiento);
  echo '</pre>';
- */
+ 
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
 
 <?php /* Datos arrendamiento y concesión */ ?>
 <div class="view box">
@@ -20,8 +35,8 @@
  <dl>
   <dt><?php echo __('Tipo de concesión'); ?>:</dt>
   <dd><?php echo h($arrendamiento['Concesion']['tipo']); ?>&nbsp;</dd>
-  <dt><?php echo __('Años de concesión'); ?>:</dt>
-  <dd><?php echo h($arrendamiento['Concesion']['anos_concesion']); ?>&nbsp;</dd>
+  <dt><?php echo __('Duración de la concesión'); ?>:</dt>
+  <dd><?php echo h($arrendamiento['Concesion']['duracion'] . " " . $arrendamiento['Concesion']['unidad_tiempo']); ?>&nbsp;</dd>
   <dt><?php echo __('Fecha de arrendamiento'); ?>:</dt>
   <dd><?php echo h(date('d/m/Y', strtotime($arrendamiento['Arrendamiento']['fecha_arrendamiento']))); ?>&nbsp;</dd>
   <dt><?php echo __('Estado de la concesión'); ?>:</dt>
@@ -55,7 +70,8 @@
      <th><?php echo __('Provincia'); ?></th>
      <th><?php echo __('País'); ?></th>
      <th><?php echo __('Código postal'); ?></th>
-     <th><?php echo __('Teléfono'); ?></th>
+     <th><?php echo __('Teléfono fijo'); ?></th>
+     <th><?php echo __('Teléfono móvil'); ?></th>
      <th><?php echo __('Correo electrónico'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
@@ -66,32 +82,48 @@
      <td><?php echo h($arrendamiento['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Persona']['dni'])) {
-        echo h($arrendatario['Persona']['dni']);
+       if (!empty($arrendamiento['Arrendatario']['Persona']['dni'])) {
+        echo h($arrendamiento['Arrendatario']['Persona']['dni']);
        }
        else {
         echo h("Desconocido");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendamiento['Arrendatario']['direccion']); ?>&nbsp;</td>
-     <td><?php echo h($arrendamiento['Arrendatario']['localidad']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['provincia'])) {
-        echo h($arrendatario['Arrendatario']['provincia']);
+       if (!empty($arrendamiento['Arrendatario']['direccion'])) {
+        echo h($arrendamiento['Arrendatario']['direccion']);
        }
        else {
         echo h("Desconocida");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendamiento['Arrendatario']['pais']); ?>&nbsp;</td>
-     <td><?php echo h($arrendamiento['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono_fijo'])) {
-        echo h($arrendatario['Arrendatario']['telefono_fijo']);
+       if (!empty($arrendamiento['Arrendatario']['localidad'])) {
+        echo h($arrendamiento['Arrendatario']['localidad']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['provincia'])) {
+        echo h($arrendamiento['Arrendatario']['provincia']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['pais'])) {
+        echo h($arrendamiento['Arrendatario']['pais']);
        }
        else {
         echo h("Desconocido");
@@ -100,8 +132,28 @@
      </td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono_movil'])) {
-        echo h($arrendatario['Arrendatario']['telefono_movil']);
+       if (!empty($arrendamiento['Arrendatario']['codigo_postal'])) {
+        echo h($arrendamiento['Arrendatario']['codigo_postal']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['telefono_fijo'])) {
+        echo h($arrendamiento['Arrendatario']['telefono_fijo']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['telefono_movil'])) {
+        echo h($arrendamiento['Arrendatario']['telefono_movil']);
        }
        else {
         echo h("Desconocido");
@@ -110,8 +162,8 @@
      </td>
      <td class="email">
       <?php
-       if (!empty($arrendatario['Arrendatario']['correo_electronico'])) {
-        echo h($arrendatario['Arrendatario']['correo_electronico']);
+       if (!empty($arrendamiento['Arrendatario']['correo_electronico'])) {
+        echo h($arrendamiento['Arrendatario']['correo_electronico']);
        }
        else {
         echo h("Desconocido");
@@ -175,5 +227,6 @@
  <?php else: ?>
   <p> No hay información disponible </p>
  <?php endif; ?>
- <?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
 </div>
+
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>

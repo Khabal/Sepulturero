@@ -1,7 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
- <?php $tasa = $this->request->data; ?>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tasas', $this->Session->read('Tasa.id'), $this->Session->read('Tasa.concepto')); ?>
 </div>
 
@@ -16,6 +14,7 @@
 
 <script>
  $(function() {
+   
    /* Establecer opciones de 'UI datepicker' para JQuery */
    $("#TasaInicioBonito").datepicker({
      altField: "#TasaInicioValidez",
@@ -70,9 +69,10 @@
     echo $this->Form->input('Tasa.observaciones', array('label' => 'Anotaciones:'));
    ?>
   </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_editar();
   echo $this->Form->end();
  ?>
+ 
 </div>

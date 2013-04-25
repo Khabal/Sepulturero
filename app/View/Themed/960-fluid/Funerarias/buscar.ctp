@@ -1,16 +1,11 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('funerarias'); ?>
 </div>
 
 <?php /* Formulario buscar médico forense */ ?>
 <div class="find form">
- <?php echo $this->Form->create('Funeraria', array(
-    'url' => array('controller' => 'funerarias', 'action' => 'index'),
-    'type' => 'get'
-  ));
- ?>
+ <?php echo $this->Form->create('Funeraria', array('url' => array('controller' => 'funerarias', 'action' => 'index'), 'type' => 'get')); ?>
  <fieldset>
  <legend><?php echo __('Información sobre la funeraria'); ?></legend>
   <?php /* Campos */

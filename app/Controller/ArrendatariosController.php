@@ -710,34 +710,43 @@ class ArrendatariosController extends AppController {
             throw new NotFoundException(__('El arrendatario especificado no existe.'));
         }
         
-        //Comprobar si el arrendatario está asociado con algún pago y actualizar clave externa
-        $pago = $this->Arrendatario->Pago->field('arrendatario_id', array('Pago.arrendatario_id' => $id));
-        if (!empty($pago)) {
-            $this->Arrendatario->Pago->query("UPDATE pagos SET arrendatario_id = null WHERE arrendatario_id = '" . $id . "'");
-        }
-        
-        //Comprobar si la persona está asociada con algún difunto o médico forense para en caso contrario eliminarlo también
-        $persona = $this->Arrendatario->field('persona_id', array('Arrendatario.id' => $id));
-        $difunto = $this->Arrendatario->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
-        $forense = $this->Arrendatario->Persona->Forense->field('id', array('Forense.persona_id' => $persona));
-        
-        if (empty($difunto) && empty($forense)) {
-            //Borrar y comprobar éxito (Persona y Arrendatario)
-            if ($this->Arrendatario->Persona->delete($persona)) {
-                $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
-            }
-            else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
-            }
+        //Comprobar si el arrendatario está asociado con algún arrendamiento
+        $arrendamiento = $this->Arrendatario->Arrendamiento->field('arrendatario_id', array('Arrendamiento.arrendatario_id' => $id));
+        if (!empty($arrendamiento)) {
+            $this->Session->setFlash(__('El arrendatario no ha podido ser eliminado porque es el titular de una tumba arrendada.'));
         }
         else {
-            //Borrar y comprobar éxito (Arrendatario)
-            if ($this->Arrendatario->delete()) {
-                $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+            
+            //Comprobar si el arrendatario está asociado con algún pago y actualizar clave externa
+            $pago = $this->Arrendatario->Pago->field('arrendatario_id', array('Pago.arrendatario_id' => $id));
+            if (!empty($pago)) {
+                $this->Arrendatario->Pago->query("UPDATE pagos SET arrendatario_id = null WHERE arrendatario_id = '" . $id . "'");
+            }
+            
+            //Comprobar si la persona está asociada con algún difunto o médico forense para en caso contrario eliminarlo también
+            $persona = $this->Arrendatario->field('persona_id', array('Arrendatario.id' => $id));
+            $difunto = $this->Arrendatario->Persona->Difunto->field('id', array('Difunto.persona_id' => $persona));
+            $forense = $this->Arrendatario->Persona->Forense->field('id', array('Forense.persona_id' => $persona));
+            
+            if (empty($difunto) && empty($forense)) {
+                //Borrar y comprobar éxito (Persona y Arrendatario)
+                if ($this->Arrendatario->Persona->delete($persona)) {
+                    $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+                }
             }
             else {
-                $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+                //Borrar y comprobar éxito (Arrendatario)
+                if ($this->Arrendatario->delete()) {
+                    $this->Session->setFlash(__('El arrendatario ha sido eliminado correctamente.'));
+                }
+                else {
+                    $this->Session->setFlash(__('Ha ocurrido un error mágico. El arrendatario no ha podido ser eliminado.'));
+                }
             }
+            
         }
         
         //Redireccionar a index

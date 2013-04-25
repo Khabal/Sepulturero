@@ -296,6 +296,7 @@ var dineuros = 0;
 <?php /* Formulario editar pago */ ?>
 <div class="edit form">
  <?php echo $this->Form->create('Pago');?>
+  <fieldset>
    <legend><?php echo __('Datos del pago'); ?></legend>
    <?php /* Campos */
     echo $this->Form->input('Pago.tipo_pagador', array('label' => 'Tipo de pagador:', 'type' => 'select', 'options' => $pagadores, 'empty' => ''));

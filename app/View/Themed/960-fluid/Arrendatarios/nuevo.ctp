@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendatarios'); ?>
 </div>
 
@@ -53,6 +52,7 @@
  var num = 0;
  
  $(function() {
+   
    /* Formulario sheepIt para agregar funerarias */
    $("#SubFormularioFuneraria").sheepIt({
      separator: '',
@@ -117,53 +117,54 @@
        
      }
    });
+   
  });
 </script>
 
 <?php /* Formulario nuevo arrendatario */ ?>
 <div class="add form">
  <?php echo $this->Form->create('Arrendatario'); ?>
-  <fieldset>
-   <legend><?php echo __('Datos del arrendatario'); ?></legend>
-   <?php
-    echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
-    echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
-    echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
-    echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
-    echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
-    echo $this->Form->input('Arrendatario.direccion', array('label' => 'Dirección:'));
-    echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:', 'default' => 'Motril'));
-    echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:', 'default' => 'Granada'));
-    echo $this->Form->input('Arrendatario.pais', array('label' => 'País:', 'default' => 'España'));
-    echo $this->Form->input('Arrendatario.codigo_postal', array('label' => 'Código postal:', 'default' => '18600'));
-    echo $this->Form->input('Arrendatario.telefono_fijo', array('label' => 'Teléfono fijo:'));
-    echo $this->Form->input('Arrendatario.telefono_movil', array('label' => 'Teléfono móvil:'));
-    echo $this->Form->input('Arrendatario.correo_electronico', array('label' => 'Correo electrónico:'));
-    echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
-   ?>
-  </fieldset>
-  <fieldset>
-   <legend><?php echo __('Funerarias contratadas'); ?></legend>
-   <div id="SubFormularioFuneraria">
-    <div id="SubFormularioFuneraria_template">
-     <?php /* Campos */
-      echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_bonita', array('label' => 'Funeraria:')); //Campo imaginario
-      echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_id', array('type' => 'hidden'));
-     ?>
-     <a id="SubFormularioFuneraria_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
-    </div>
-    <div id="SubFormularioFuneraria_noforms_template">No hay funerarias contratadas</div>
-    <div id="SubFormularioFuneraria_controls">
-     <a id="SubFormularioFuneraria_add" class="boton"> <?php echo $this->Html->image('nuevo.png', array('alt' => 'nuevo', 'style' => 'height:24px; width:24px;')) . ' Añadir funeraria'; ?> </a>
-     <a id="SubFormularioFuneraria_remove_last" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'style' => 'height:24px; width:24px;')) . ' Eliminar última funeraria'; ?> </a>
-     <a id="SubFormularioFuneraria_remove_all" class="boton"> <?php echo $this->Html->image('limpiar.png', array('alt' => 'limpiar', 'style' => 'height:24px; width:24px;')) . ' Eliminar todas las funerarias'; ?> </a>
-    </div>
+ <fieldset>
+  <legend><?php echo __('Datos del arrendatario'); ?></legend>
+  <?php
+   echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
+   echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
+   echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
+   echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:'));
+   echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
+   echo $this->Form->input('Arrendatario.direccion', array('label' => 'Dirección:'));
+   echo $this->Form->input('Arrendatario.localidad', array('label' => 'Localidad:', 'default' => 'Motril'));
+   echo $this->Form->input('Arrendatario.provincia', array('label' => 'Provincia:', 'default' => 'Granada'));
+   echo $this->Form->input('Arrendatario.pais', array('label' => 'País:', 'default' => 'España'));
+   echo $this->Form->input('Arrendatario.codigo_postal', array('label' => 'Código postal:', 'default' => '18600'));
+   echo $this->Form->input('Arrendatario.telefono_fijo', array('label' => 'Teléfono fijo:'));
+   echo $this->Form->input('Arrendatario.telefono_movil', array('label' => 'Teléfono móvil:'));
+   echo $this->Form->input('Arrendatario.correo_electronico', array('label' => 'Correo electrónico:'));
+   echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
+  ?>
+ </fieldset>
+ <fieldset>
+  <legend><?php echo __('Funerarias contratadas'); ?></legend>
+  <div id="SubFormularioFuneraria">
+   <div id="SubFormularioFuneraria_template">
+    <?php /* Campos */
+     echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_bonita', array('label' => 'Funeraria:')); //Campo imaginario
+     echo $this->Form->input('ArrendatarioFuneraria.#index#.funeraria_id', array('type' => 'hidden'));
+    ?>
+    <a id="SubFormularioFuneraria_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>
    </div>
-  </fieldset>
+   <div id="SubFormularioFuneraria_noforms_template">No hay funerarias contratadas</div>
+   <div id="SubFormularioFuneraria_controls">
+    <a id="SubFormularioFuneraria_add" class="boton"> <?php echo $this->Html->image('nuevo.png', array('alt' => 'nuevo', 'style' => 'height:24px; width:24px;')) . ' Añadir funeraria'; ?> </a>
+    <a id="SubFormularioFuneraria_remove_last" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'style' => 'height:24px; width:24px;')) . ' Eliminar última funeraria'; ?> </a>
+    <a id="SubFormularioFuneraria_remove_all" class="boton"> <?php echo $this->Html->image('limpiar.png', array('alt' => 'limpiar', 'style' => 'height:24px; width:24px;')) . ' Eliminar todas las funerarias'; ?> </a>
+   </div>
+  </div>
+ </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Limpiar'), array('type' => 'reset', 'class' => 'boton_limpiar'));
-  echo $this->Form->button(__('Guardar'), array('type' => 'submit', 'name' => 'guardar', 'class' => 'boton_guardar'));
-  echo $this->Form->button(__('Guardar y Nuevo'), array('type' => 'submit', 'name' => 'guardar_y_nuevo', 'class' => 'boton_guardar_nuevo'));
+  echo $this->GuarritasEnergeticas->burtones_nuevo();
   echo $this->Form->end();
  ?>
+ 
 </div>

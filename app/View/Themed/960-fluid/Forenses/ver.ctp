@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('forenses', $forense['Forense']['id'], $forense['Persona']['nombre_completo']); ?>
 </div>
 
@@ -21,7 +20,16 @@
   <dt><?php echo __('Nombre'); ?>:</dt>
   <dd><?php echo h($forense['Persona']['nombre_completo']); ?>&nbsp;</dd>
   <dt><?php echo __('D.N.I.'); ?>:</dt>
-  <dd><?php echo h($forense['Persona']['dni']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if (!empty($forense['Persona']['dni'])) {
+     echo h($forense['Persona']['dni']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Número de colegiado'); ?>:</dt>
   <dd><?php echo h($forense['Forense']['numero_colegiado']); ?>&nbsp;</dd>
   <dt><?php echo __('Colegio'); ?>:</dt>

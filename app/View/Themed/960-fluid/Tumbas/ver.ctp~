@@ -16,7 +16,6 @@
 
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('tumbas', $tumba['Tumba']['id'], $tumba['Tumba']['tipo'] . " - " . $localizacion); ?>
 </div>
 
@@ -69,15 +68,64 @@
  </dl>
 </div>
 
-<?php /* Arrendatario relacionado */ ?>
+<?php /* Buscar el arrendamiento vigente o caducado */
+ foreach ($tumba['Arrendamiento'] as $arrendamiento) {
+  if (($arrendamiento['estado'] == "Vigente") || ($arrendamiento['estado'] == "Caducado")) {
+   break;
+  }
+}
+?>
+
+<?php /* Arrendamiento relacionado no antiguo */ ?>
 <div class="related box">
- <h2><?php echo __('Arrendatario actual'); ?></h2>
-  <?php if (!empty($tumba['Arrendamiento']['Arrendatario'])): ?>
+ <h2><?php echo __('Datos del arrendamiento'); ?></h2>
+  <?php if (!empty($arrendamiento)): ?>
   <table cellpadding = "0" cellspacing = "0">
    <?php /* Cabecera de la tabla */ ?>
    <thead>
     <tr>
-     <th><?php echo __('Fecha de arrendamiento'); ?></th>
+     <th><?php echo __('Tipo de concesión'); ?>:</th>
+     <th><?php echo __('Duración de concesión'); ?>:</th>
+     <th><?php echo __('Fecha de arrendamiento'); ?>:</th>
+     <th><?php echo __('Estado de la concesión'); ?>:</th>
+     <th class="actions">&nbsp;</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr class="altrow">
+     <td><?php echo h($arrendamiento['Concesion']['tipo']); ?>&nbsp;</td>
+     <td><?php echo h($arrendamiento['Concesion']['duracion'] . " - " . $arrendamiento['Concesion']['unidad_tiempo']); ?>&nbsp;</td>
+     <td><?php echo h(date('d/m/Y', strtotime($arrendamiento['fecha_arrendamiento']))); ?>&nbsp;</td>
+  <?php
+   $colorico = null;
+   if ($arrendamiento['estado'] == "Caducado") {
+    $colorico = ' style="color:#FF0000;font-weight:bold;"';
+   }
+   elseif($arrendamiento['estado'] == "Vigente") {
+    $colorico = ' style="color:#04B404;font-weight:bold;"';
+   }
+  ?>
+  <td<?php echo $colorico; ?>><?php echo h($arrendamiento['estado']); ?>&nbsp;</td>
+     <td class="actions">
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'arrendamientos', 'action' => 'ver', $arrendamiento['id']), array('escape' => false, 'title' => 'Ver')); ?>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+ <?php else: ?>
+  <p> No hay información disponible </p>
+ <?php endif; ?>
+</div>
+
+
+<?php /* Arrendatario relacionado */ ?>
+<div class="related box">
+ <h2><?php echo __('Arrendatario actual'); ?></h2>
+  <?php if (!empty($arrendamiento['Arrendatario'])): ?>
+  <table cellpadding = "0" cellspacing = "0">
+   <?php /* Cabecera de la tabla */ ?>
+   <thead>
+    <tr>
      <th><?php echo __('Nombre'); ?></th>
      <th><?php echo __('D.N.I.'); ?></th>
      <th><?php echo __('Dirección'); ?></th>
@@ -85,7 +133,8 @@
      <th><?php echo __('Provincia'); ?></th>
      <th><?php echo __('País'); ?></th>
      <th><?php echo __('Código postal'); ?></th>
-     <th><?php echo __('Teléfono'); ?></th>
+     <th><?php echo __('Teléfono fijo'); ?></th>
+     <th><?php echo __('Teléfono móvil'); ?></th>
      <th><?php echo __('Correo electrónico'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
@@ -94,36 +143,81 @@
    <tbody>
     <?php $arrendatario = $tumba['Arrendamiento'][0]; ?>
     <tr class="altrow">
-     <td><?php echo date('d/m/Y', strtotime($arrendatario['fecha_arrendamiento'])); ?></td>
-     <td><?php echo h($arrendatario['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</td>
+     <td><?php echo h($arrendamiento['Arrendatario']['Persona']['nombre_completo']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['Persona']['dni'])) {
-        echo h($arrendatario['Arrendatario']['Persona']['dni']);
+       if (!empty($arrendamiento['Arrendatario']['Persona']['dni'])) {
+        echo h($arrendamiento['Arrendatario']['Persona']['dni']);
        }
        else {
         echo h("Desconocido");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['provincia'])) {
-        echo h($arrendatario['Arrendatario']['provincia']);
+       if (!empty($arrendamiento['Arrendatario']['direccion'])) {
+        echo h($arrendamiento['Arrendatario']['direccion']);
        }
        else {
         echo h("Desconocida");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($arrendatario['Arrendatario']['telefono'])) {
-        echo h($arrendatario['Arrendatario']['telefono']);
+       if (!empty($arrendamiento['Arrendatario']['localidad'])) {
+        echo h($arrendamiento['Arrendatario']['localidad']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['provincia'])) {
+        echo h($arrendamiento['Arrendatario']['provincia']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['pais'])) {
+        echo h($arrendamiento['Arrendatario']['pais']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['codigo_postal'])) {
+        echo h($arrendamiento['Arrendatario']['codigo_postal']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['telefono_fijo'])) {
+        echo h($arrendamiento['Arrendatario']['telefono_fijo']);
+       }
+       else {
+        echo h("Desconocido");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendamiento['Arrendatario']['telefono_movil'])) {
+        echo h($arrendamiento['Arrendatario']['telefono_movil']);
        }
        else {
         echo h("Desconocido");
@@ -132,8 +226,8 @@
      </td>
      <td class="email">
       <?php
-       if (!empty($arrendatario['Arrendatario']['correo_electronico'])) {
-        echo h($arrendatario['Arrendatario']['correo_electronico']);
+       if (!empty($arrendamiento['Arrendatario']['correo_electronico'])) {
+        echo h($arrendamiento['Arrendatario']['correo_electronico']);
        }
        else {
         echo h("Desconocido");
@@ -141,7 +235,7 @@
       ?>&nbsp;
      </td>
      <td class="actions">
-      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendatario['Arrendatario']['id']), array('escape' => false, 'title' => 'Ver')); ?>
+      <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'arrendatarios', 'action' => 'ver', $arrendamiento['Arrendatario']['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
     </tr>
    </tbody>
@@ -164,7 +258,6 @@
      <th><?php echo __('Estado del cuerpo'); ?></th>
      <th><?php echo __('Fecha de defunción'); ?></th>
      <th><?php echo __('Edad'); ?></th>
-     <th><?php echo __('Causa fundamental de fallecimiento'); ?></th>
      <th><?php echo __('Certificado de defunción'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
@@ -209,15 +302,14 @@
      </td>
      <td>
       <?php
-       if (!empty($difunto['Difunto']['causa_fundamental'])) {
-        echo h($difunto['Difunto']['causa_fundamental']);
+       if (!empty($difunto['Difunto']['certificado_defuncion'])) {
+        echo h($difunto['Difunto']['certificado_defuncion']);
        }
        else {
-        echo h("Desconocida");
+        echo h("Desconocido");
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($difunto['certificado_defuncion']); ?>&nbsp;</td>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'difuntos', 'action' => 'ver', $difunto['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>
@@ -240,12 +332,12 @@
     <tr>
      <th><?php echo __('Fecha'); ?></th>
      <th><?php echo __('Tipo'); ?></th>
+     <th><?php echo __('Motivo'); ?></th>
      <th><?php echo __('Viajeros'); ?></th>
      <th><?php echo __('Cementerio de origen'); ?></th>
      <th><?php echo __('Tumba de origen'); ?></th>
      <th><?php echo __('Cementerio de destino'); ?></th>
      <th><?php echo __('Tumba de destino'); ?></th>
-     <th><?php echo __('Motivo'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
    </thead>
@@ -269,73 +361,69 @@
      ?>
      <td><?php echo date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])); ?>&nbsp;</td>
      <td><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
      <td><?php echo h($movimiento['Movimiento']['viajeros']); ?>&nbsp;</td>
-<?php /*Quitar infor si el mov no tiene origen */
-if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
-echo '<td>' . '-----' . '&nbsp;</td>';
-echo '<td>' . '-----' . '&nbsp;</td>';
-
-}
-else{
-      echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
-      /* Obtener la localización de tumba */
-      $localizacion = "";
-      if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+     <?php /* Mostrar información si el movimiento tiene origen */
+      if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
+       echo '<td>' . '-----' . '&nbsp;</td>';
+       echo '<td>' . '-----' . '&nbsp;</td>';
       }
-      elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Exterior']['localizacion'];
-      }
-      elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Nicho']['localizacion'];
-      }
-      elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Panteon']['localizacion'];
-      }
-
-
-     
- if (!empty($localizacion)){
+      else {
+       echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Panteon']['localizacion'];
+       }
+       
+       if (!empty($localizacion)) {
         echo '<td>'. $this->Html->link($origen['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])) . '&nbsp;</td>';
-}
-      else{
-      echo '<td>'. 'Sin información' . '&nbsp;</td>';
-     } 
-}
-?>
-<?php /*Quitar infor si el mov no tiene destino */
-if ($movimiento['Movimiento']['tipo'] == "Exhumación"){
-echo '<td>' . '-----' . '&nbsp;</td>';
-echo '<td>' . '-----' . '&nbsp;</td>';
-
-}
-else{
-      echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
- /* Obtener la localización de tumba */
-      $localizacion = "";
-      if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+       }
+       else {
+        echo '<td>'. 'Sin información' . '&nbsp;</td>';
+       }
       }
-      elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Exterior']['localizacion'];
-      }
-      elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Nicho']['localizacion'];
-      }
-      elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Panteon']['localizacion'];
-      }
-
+     ?>
      
- if (!empty($localizacion)){
+     <?php /* Mostrar información si el movimiento tiene destino */
+      if ($movimiento['Movimiento']['tipo'] == "Exhumación") {
+       echo '<td>' . '-----' . '&nbsp;</td>';
+       echo '<td>' . '-----' . '&nbsp;</td>';
+      }
+      else {
+       echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Panteon']['localizacion'];
+       }
+       
+       if (!empty($localizacion)) {
         echo '<td>'. $this->Html->link($destino['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])) . '&nbsp;</td>';
-}
-      else{
-      echo '<td>'. 'Sin información' . '&nbsp;</td>';
-     } 
-}
-?>
-      <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
+       }
+       else {
+        echo '<td>'. 'Sin información' . '&nbsp;</td>';
+      } 
+     }
+    ?>
      <td class="actions">
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['Movimiento']['id']), array('escape' => false, 'title' => 'Ver')); ?>
      </td>

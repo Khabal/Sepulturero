@@ -315,10 +315,10 @@ class Forense extends AppModel {
         'apellido1' => array('type' => 'like', 'field' => 'Persona.apellido1'),
         'apellido2' => array('type' => 'like', 'field' => 'Persona.apellido2'),
         'dni' => array('type' => 'like', 'field' => 'Persona.dni'),
-        'numero_colegiado' => array('type' => 'like'),
-        'colegio' => array('type' => 'like'),
-        'telefono' => array('type' => 'like'),
-        'correo_electronico' => array('type' => 'like'),
+        'numero_colegiado' => array('type' => 'like', 'field' => 'Forense.numero_colegiado'),
+        'colegio' => array('type' => 'like', 'field' => 'Forense.colegio'),
+        'telefono' => array('type' => 'like', 'field' => 'Forense.telefono'),
+        'correo_electronico' => array('type' => 'like', 'field' => 'Forense.correo_electronico'),
         'clave' => array('type' => 'query', 'method' => 'buscarForense'),
     );
     

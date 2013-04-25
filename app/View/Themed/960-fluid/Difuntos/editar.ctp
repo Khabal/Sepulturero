@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('difuntos', $this->Session->read('Difunto.id'), $this->Session->read('Difunto.nombre_completo')); ?>
 </div>
 
@@ -15,6 +14,7 @@
 
 <script>
  $(function() {
+   
    /* Establecer opciones de 'UI datepicker' para JQuery */
    $("#DifuntoFechaBonita").datepicker({
      altField: "#DifuntoFechaDefuncion",
@@ -100,44 +100,46 @@
        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
      }
    });
+   
  });
 </script>
 
 <?php /* Formulario editar difunto */ ?>
 <div class="edit form">
  <?php echo $this->Form->create('Difunto');?>
-  <fieldset>
-   <legend><?php echo __('Datos del difunto'); ?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
-    echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
-    echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
-    echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:', 'required' => false));
-    echo $this->Form->input('Persona.sexo', array('label' => 'Sexo:', 'type' => 'select', 'options' => $sexo));
-    echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
-    echo $this->Form->input('Difunto.estado', array('label' => 'Estado del cuerpo:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
-    echo $this->Form->input('Difunto.fecha_bonita', array('label' => 'Fecha de defunción:')); //Campo imaginario
-    echo $this->Form->input('Difunto.fecha_defuncion', array('type' => 'hidden'));
-    echo $this->Form->input('Difunto.edad', array('label' => 'Edad:'));
-    echo $this->Form->input('Difunto.unidad_tiempo', array('label' => 'Unidad de tiempo:', 'type' => 'select', 'options' => $tiempo, 'empty' => ''));
-    echo $this->Form->input('Difunto.causa_fundamental', array('label' => 'Causa fundamental de fallecimiento:'));
-    echo $this->Form->input('Difunto.causa_inmediata', array('label' => 'Causa inmediata de fallecimiento:', 'default' => ' Parada cardiorrespiratoria'));
-    echo $this->Form->input('Difunto.forense_bonito', array('label' => 'Médico forense:')); //Campo imaginario
-    echo $this->Form->input('Difunto.forense_id', array('type' => 'hidden'));
-    echo $this->Form->input('Difunto.certificado_defuncion', array('label' => 'Certificado de defunción:'));
-    echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
-   ?>
-  </fieldset>
-  <fieldset>
-   <legend><?php echo __('Tumba de descanso actual (Opcional)'); ?></legend>
-   <?php /* Campos */
-    echo $this->Form->input('Difunto.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
-    echo $this->Form->input('Difunto.tumba_id', array('type' => 'hidden'));
-   ?>
-  </fieldset>
+ <fieldset>
+  <legend><?php echo __('Datos del difunto'); ?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('Persona.nombre', array('label' => 'Nombre:'));
+   echo $this->Form->input('Persona.apellido1', array('label' => 'Primer apellido:'));
+   echo $this->Form->input('Persona.apellido2', array('label' => 'Segundo apellido:'));
+   echo $this->Form->input('Persona.dni', array('label' => 'D.N.I.:', 'required' => false));
+   echo $this->Form->input('Persona.sexo', array('label' => 'Sexo:', 'type' => 'select', 'options' => $sexo));
+   echo $this->Form->input('Persona.nacionalidad', array('label' => 'Nacionalidad:'));
+   echo $this->Form->input('Difunto.estado', array('label' => 'Estado del cuerpo:', 'type' => 'select', 'options' => $estado, 'empty' => ''));
+   echo $this->Form->input('Difunto.fecha_bonita', array('label' => 'Fecha de defunción:')); //Campo imaginario
+   echo $this->Form->input('Difunto.fecha_defuncion', array('type' => 'hidden'));
+   echo $this->Form->input('Difunto.edad', array('label' => 'Edad:'));
+   echo $this->Form->input('Difunto.unidad_tiempo', array('label' => 'Unidad de tiempo:', 'type' => 'select', 'options' => $tiempo, 'empty' => ''));
+   echo $this->Form->input('Difunto.causa_fundamental', array('label' => 'Causa fundamental de fallecimiento:'));
+   echo $this->Form->input('Difunto.causa_inmediata', array('label' => 'Causa inmediata de fallecimiento:', 'default' => ' Parada cardiorrespiratoria'));
+   echo $this->Form->input('Difunto.forense_bonito', array('label' => 'Médico forense:')); //Campo imaginario
+   echo $this->Form->input('Difunto.forense_id', array('type' => 'hidden'));
+   echo $this->Form->input('Difunto.certificado_defuncion', array('label' => 'Certificado de defunción:'));
+   echo $this->Form->input('Persona.observaciones', array('label' => 'Anotaciones:'));
+  ?>
+ </fieldset>
+ <fieldset>
+  <legend><?php echo __('Tumba de descanso actual (Opcional)'); ?></legend>
+  <?php /* Campos */
+   echo $this->Form->input('Difunto.tumba_bonita', array('label' => 'Tumba:')); //Campo imaginario
+   echo $this->Form->input('Difunto.tumba_id', array('type' => 'hidden'));
+  ?>
+ </fieldset>
+ 
  <?php /* Botones */
-  echo $this->Form->button(__('Modificar'), array('type' => 'submit', 'class' => 'boton'));
-  echo $this->Form->button(__('Descartar cambios'), array('type' => 'reset', 'class' => 'boton'));
+  echo $this->GuarritasEnergeticas->burtones_editar();
   echo $this->Form->end();
  ?>
+ 
 </div>

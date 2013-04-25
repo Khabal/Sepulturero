@@ -6,10 +6,8 @@
 
 <?php /* Formulario buscar concesión */ ?>
 <div class="find form">
- <?php echo $this->Form->create('Concesión', array(
-    'url' => array('controller' => 'concesiones', 'action' => 'index'),
-    'type' => 'get'
-  ));
+ <?php
+  echo $this->Form->create('Concesión', array('url' => array('controller' => 'concesiones', 'action' => 'index'), 'type' => 'get'));
  ?>
  <fieldset>
   <legend><?php echo __('Información sobre la concesión'); ?></legend>

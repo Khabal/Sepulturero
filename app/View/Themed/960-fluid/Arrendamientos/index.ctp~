@@ -22,7 +22,7 @@
     <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Arrendatario (Nombre)', array('escape' => false, 'title' => 'Ordenar por nombre del arrendatario')); ?></th>
     <th><?php echo $this->Paginator->sort('Persona.dni', 'Arrendatario (D.N.I.)', array('escape' => false, 'title' => 'Ordenar por D.N.I. del arrendatario')); ?></th>
     <th><?php echo $this->Paginator->sort('Tumba.localizacion', 'Tumba', array('escape' => false, 'title' => 'Ordenar por tumba')); ?></th>
-    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Concesión', array('escape' => false, 'title' => 'Ordenar por concesión')); ?></th>
+    <th><?php echo $this->Paginator->sort('Concesion.tipo', 'Concesión', array('escape' => false, 'title' => 'Ordenar por tipo de concesión')); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendamiento.fecha_arrendamiento', 'Fecha de arrendamiento', array('escape' => false, 'title' => 'Ordenar por fecha de arrendamiento')); ?></th>
     <th><?php echo $this->Paginator->sort('Arrendamiento.estado', 'Estado del arrendamiento', array('escape' => false, 'title' => 'Ordenar por estado de arrendamiento')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>

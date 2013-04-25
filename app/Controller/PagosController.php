@@ -95,7 +95,7 @@ class PagosController extends AppController {
      *
      * @var array
      */
-    public $uses = array('Pago', 'Arrendatario', 'Funeraria', 'PagoTasa', 'Tasa', 'Sanitize');
+    public $uses = array('Pago', 'Arrendatario', 'Funeraria', 'PagoTasa', 'Tasa', 'Tumba', 'Sanitize');
     
     /**
      * ---------------------------
@@ -237,11 +237,16 @@ class PagosController extends AppController {
             else {
             }
             
-            //Establecer la cantidad entregada a la cantidad total
-            $this->request->data['Pago']['entregado'] = $this->request->data['Pago']['total'];
-            
             //Validar los datos introducidos
             if ($this->Pago->saveAll($this->request->data, array('validate' => 'only'))) {
+                
+                //Convertir la cantidad al formato numérico pirata
+                $this->request->data['Pago']['total'] = str_replace('.', '', $this->request->data['Pago']['total']);
+                $this->request->data['Pago']['total'] = str_replace(',', '.', $this->request->data['Pago']['total']);
+                $this->request->data['Pago']['total'] = number_format($this->request->data['Pago']['total'], 2, '.', '');
+                
+                //Establecer la cantidad entregada a la cantidad total
+                $this->request->data['Pago']['entregado'] = $this->request->data['Pago']['total'];
                 
                 //Guardar y comprobar éxito
                 if ($this->Pago->saveAssociated($this->request->data, $this->opciones_guardado)) {
@@ -417,6 +422,14 @@ class PagosController extends AppController {
             //Validar los datos introducidos
             if ($this->Pago->saveAll($this->request->data, array('validate' => 'only'))) {
                 
+                //Convertir la cantidad al formato numérico pirata
+                $this->request->data['Pago']['total'] = str_replace('.', '', $this->request->data['Pago']['total']);
+                $this->request->data['Pago']['total'] = str_replace(',', '.', $this->request->data['Pago']['total']);
+                $this->request->data['Pago']['total'] = number_format($this->request->data['Pago']['total'], 2, '.', '');
+                
+                //Establecer la cantidad entregada a la cantidad total
+                $this->request->data['Pago']['entregado'] = $this->request->data['Pago']['total'];
+                
                 //Guardar y comprobar éxito
                 if ($this->Pago->saveAssociated($this->request->data, $this->opciones_guardado)) {
                     $this->Session->setFlash(__('El pago ha sido actualizado correctamente.'));
@@ -491,6 +504,8 @@ class PagosController extends AppController {
             ));
             
             //Devolver nombres bonitos para entidades relacionadas
+            $this->request->data['Pago']['total'] = number_format($this->request->data['Pago']['total'], 2, ',', '.');
+            
             if (!empty($this->request->data['Arrendatario'])) {
                 $this->request->data['Pago']['tipo_pagador'] = "Particular";
                 $this->request->data['Pago']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];

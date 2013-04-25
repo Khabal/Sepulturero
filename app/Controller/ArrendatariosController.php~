@@ -710,9 +710,15 @@ class ArrendatariosController extends AppController {
             throw new NotFoundException(__('El arrendatario especificado no existe.'));
         }
         
+        //Comprobar si el arrendatario está asociado con algún arrendamiento
+        $arrendamiento = $this->Arrendatario->Arrendamiento->field('arrendatario_id', array('Arrendamiento.arrendatario_id' => $id));
+        if (!empty($arrendamiento)) {
+$this->Session->setFlash(__('El arrendatario no ha podido ser eliminado porque es el titular de una tumba arrendada.'));
+        }
+        
         //Comprobar si el arrendatario está asociado con algún pago y actualizar clave externa
         $pago = $this->Arrendatario->Pago->field('arrendatario_id', array('Pago.arrendatario_id' => $id));
-        if (!empty($difunto)) {
+        if (!empty($pago)) {
             $this->Arrendatario->Pago->query("UPDATE pagos SET arrendatario_id = null WHERE arrendatario_id = '" . $id . "'");
         }
         

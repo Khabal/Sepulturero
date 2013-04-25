@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('pagos'); ?>
 </div>
 
@@ -51,7 +50,7 @@
 <script>
  var errores = <?php echo $mensajes_error_t; ?>;
  var num = 0;
-var dineuros = 0;
+ var dineuros = 0;
  
  $(function() {
    /* Formulario sheepIt para agregar tasas */

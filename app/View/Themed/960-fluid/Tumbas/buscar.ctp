@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('tumbas'); ?>
 </div>
 
@@ -63,11 +62,7 @@
 
 <?php /* Formulario buscar tumbas */ ?>
 <div class="find form">
- <?php echo $this->Form->create('Tumba', array(
-    'url' => array('controller' => strtolower($this->name), 'action' => 'index'),
-    'type' => 'get'
-  ));
- ?>
+ <?php echo $this->Form->create('Tumba', array('url' => array('controller' => 'tumbas', 'action' => 'index'), 'type' => 'get')); ?>
  <fieldset>
  <legend><?php echo __('Información sobre la tumba'); ?></legend>
   <?php /* Campos */

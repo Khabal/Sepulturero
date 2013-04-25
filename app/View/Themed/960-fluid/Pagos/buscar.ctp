@@ -1,11 +1,11 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('pagos'); ?>
 </div>
 
 <script>
  $(function() {
+   
    /* Establecer opciones de 'UI datepicker' para JQuery */
    $("#PagoFechaDesde").datepicker({
      altField: "#PagoDesde",
@@ -194,7 +194,7 @@
  });
 </script>
 
-<?php /* Formulario nuevo pago */ ?>
+<?php /* Formulario buscar pago */ ?>
 <div class="find form">
  <?php echo $this->Form->create('Pago', array('url' => array('controller' => 'pagos', 'action' => 'index'), 'type' => 'get'));?>
  <fieldset>

@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('difuntos', $difunto['Difunto']['id'], $difunto['Persona']['nombre_completo']); ?>
 </div>
 
@@ -12,7 +11,7 @@
  */
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
 
 <?php /* Datos difunto */ ?>
 <div class="view box">
@@ -21,7 +20,16 @@
   <dt><?php echo __('Nombre'); ?>:</dt>
   <dd><?php echo h($difunto['Persona']['nombre_completo']); ?>&nbsp;</dd>
   <dt><?php echo __('D.N.I.'); ?>:</dt>
-  <dd><?php echo h($difunto['Persona']['dni']); ?>&nbsp;</dd>
+  <dd>
+   <?php
+    if ($difunto['Persona']['dni']) {
+     echo h($difunto['Persona']['dni']);
+    }
+    else {
+     echo h("Desconocido");
+    }
+   ?>&nbsp;
+  </dd>
   <dt><?php echo __('Nacionalidad'); ?>:</dt>
   <dd>
    <?php
@@ -170,71 +178,66 @@
      ?>
      <td><?php echo date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])); ?>&nbsp;</td>
      <td><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</td>
-<?php /*Quitar infor si el mov no tiene origen */
-if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
-echo '<td>' . '-----' . '&nbsp;</td>';
-echo '<td>' . '-----' . '&nbsp;</td>';
-
-}
-else{
-      echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
-      /* Obtener la localización de tumba */
-      $localizacion = "";
-      if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+     <?php /* Mostrar información si el movimiento tiene origen */
+      if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
+       echo '<td>' . '-----' . '&nbsp;</td>';
+       echo '<td>' . '-----' . '&nbsp;</td>';
       }
-      elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Exterior']['localizacion'];
-      }
-      elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Nicho']['localizacion'];
-      }
-      elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
-       $localizacion = $origen['Tumba']['Panteon']['localizacion'];
-      }
-
-
-     
- if (!empty($localizacion)){
+      else {
+       echo '<td>'. h($movimiento['Movimiento']['cementerio_origen']) . '&nbsp;</td>';
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($origen['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($origen['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $origen['Tumba']['Panteon']['localizacion'];
+       }
+       
+       if (!empty($localizacion)) {
         echo '<td>'. $this->Html->link($origen['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $origen['tumba_id'])) . '&nbsp;</td>';
-}
-      else{
-      echo '<td>'. 'Sin información' . '&nbsp;</td>';
-     } 
-}
-?>
-<?php /*Quitar infor si el mov no tiene destino */
-if ($movimiento['Movimiento']['tipo'] == "Exhumación"){
-echo '<td>' . '-----' . '&nbsp;</td>';
-echo '<td>' . '-----' . '&nbsp;</td>';
-
-}
-else{
-      echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
- /* Obtener la localización de tumba */
-      $localizacion = "";
-      if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+       }
+       else {
+        echo '<td>'. 'Sin información' . '&nbsp;</td>';
+       } 
       }
-      elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Exterior']['localizacion'];
+     ?>
+     <?php /* Mostrar información si el movimiento tiene destino */
+      if ($movimiento['Movimiento']['tipo'] == "Exhumación"){
+       echo '<td>' . '-----' . '&nbsp;</td>';
+       echo '<td>' . '-----' . '&nbsp;</td>';
       }
-      elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Nicho']['localizacion'];
-      }
-      elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
-       $localizacion = $destino['Tumba']['Panteon']['localizacion'];
-      }
-
-     
- if (!empty($localizacion)){
+      else {
+       echo '<td>'. h($movimiento['Movimiento']['cementerio_destino']) . '&nbsp;</td>';
+       /* Obtener la localización de tumba */
+       $localizacion = "";
+       if (!empty($destino['Tumba']['Columbario']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Columbario']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Exterior']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Exterior']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Nicho']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Nicho']['localizacion'];
+       }
+       elseif(!empty($destino['Tumba']['Panteon']['localizacion'])) {
+        $localizacion = $destino['Tumba']['Panteon']['localizacion'];
+       }
+       
+       if (!empty($localizacion)) {
         echo '<td>'. $this->Html->link($destino['Tumba']['tipo'] . " - " . $localizacion, array('controller' => 'tumbas', 'action' => 'ver', $destino['tumba_id'])) . '&nbsp;</td>';
-}
-      else{
-      echo '<td>'. 'Sin información' . '&nbsp;</td>';
-     } 
-}
-?>
+       }
+       else {
+        echo '<td>'. 'Sin información' . '&nbsp;</td>';
+       } 
+      }
+     ?>
      <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
       <td class="actions">
        <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['movimiento_id']), array('escape' => false, 'title' => 'Ver')); ?>
@@ -248,4 +251,4 @@ else{
  <?php endif; ?>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>

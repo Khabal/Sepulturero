@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('pagos'); ?>
 </div>
 
@@ -19,8 +18,8 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Pago.tipo_pagador', 'Tipo de pagador'/*, array('escape' => false, 'title' => 'Ordenar por tipo de pagador')*/); ?></th>
-    <th><?php echo $this->Paginator->sort('Pago.pagador', 'Pagador'/*, array('escape' => false, 'title' => 'Ordenar por pagador')*/); ?></th>
+    <th><?php echo $this->Paginator->sort('Pago.tipo_pagador', 'Tipo de pagador', array('escape' => false, 'title' => 'Ordenar por tipo de pagador')); ?></th>
+    <th><?php echo $this->Paginator->sort('Pago.pagador', 'Pagador', array('escape' => false, 'title' => 'Ordenar por pagador')); ?></th>
     <th><?php echo $this->Paginator->sort('Pago.fecha', 'Fecha', array('escape' => false, 'title' => 'Ordenar por fecha')); ?></th>
     <th><?php echo $this->Paginator->sort('Pago.total', 'Total', array('escape' => false, 'title' => 'Ordenar por cantidad total')); ?></th>
     <th><?php echo $this->Paginator->sort('Pago.moneda', 'Moneda', array('escape' => false, 'title' => 'Ordenar por moneda')); ?></th>

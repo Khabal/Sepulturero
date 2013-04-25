@@ -365,6 +365,13 @@ class Difunto extends AppModel {
             'Restos' => __('Restos', true),
         );
         
+        //Vector de unidades de tiempo para la edad
+        $this->tiempo = array(
+            'Años' => __('Años', true),
+            'Meses' => __('Meses', true),
+            'Días' => __('Días', true),
+        );
+        
         //Llamar al constructor de la clase padre
         parent::__construct($id, $table, $ds);
     }
@@ -478,14 +485,14 @@ class Difunto extends AppModel {
         'sexo' => array('type' => 'value', 'field' => 'Persona.sexo'),
         'nacionalidad' => array('type' => 'like', 'field' => 'Persona.nacionalidad'),
         'tumba' => array('type' => 'query', 'method' => 'consultaTumba'),
-        'tumba_id' => array('type' => 'value'),
-        'estado' => array('type' => 'value'),
+        'tumba_id' => array('type' => 'value', 'field' => 'Difunto.nacionalidad'),
+        'estado' => array('type' => 'value', 'field' => 'Difunto.tumba_id'),
         'desde' => array('type' => 'query', 'method' => 'consultaFecha'),
         'hasta' => array('type' => 'query', 'method' => 'consultaFecha'),
-        'edad' => array('type' => 'value'),
-        'causa_fundamental' => array('type' => 'like'),
-        'causa_inmediata' => array('type' => 'like'),
-        'certificado_defuncion' => array('type' => 'like'),
+        'edad' => array('type' => 'value', 'field' => 'Difunto.edad'),
+        'causa_fundamental' => array('type' => 'like', 'field' => 'Difunto.causa_fundamental'),
+        'causa_inmediata' => array('type' => 'like', 'field' => 'Difunto.causa_inmediata'),
+        'certificado_defuncion' => array('type' => 'like', 'field' => 'Difunto.certificado_defuncion'),
         'clave' => array('type' => 'query', 'method' => 'buscarDifunto'),
     );
     

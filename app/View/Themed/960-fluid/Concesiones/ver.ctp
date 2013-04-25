@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('concesiones', $concesion['Concesion']['id'], $concesion['Concesion']['tipo']); ?>
 </div>
 

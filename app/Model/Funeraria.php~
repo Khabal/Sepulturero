@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * Funeraria Model
  *
  * @property ArrendatarioFuneraria $ArrendatarioFuneraria
+ * @property Pago $Pago
  */
 class Funeraria extends AppModel {
     

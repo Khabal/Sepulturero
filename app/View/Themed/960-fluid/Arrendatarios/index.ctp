@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('arrendatarios'); ?>
 </div>
 
@@ -19,16 +18,16 @@
   <?php /* Cabecera de la tabla */ ?>
   <thead>
    <tr>
-    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre'); ?></th>
-    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.direccion', 'Dirección'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.localidad', 'Localidad'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.provincia', 'Provincia'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.pais', 'País'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.codigo_postal', 'Código postal'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.telefono_fijo', 'Teléfono fijo'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.telefono_movil', 'Teléfono móvil'); ?></th>
-    <th><?php echo $this->Paginator->sort('Arrendatario.correo_electronico', 'Correo electrónico'); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.nombre_completo', 'Nombre', array('escape' => false, 'title' => 'Ordenar por nombre')); ?></th>
+    <th><?php echo $this->Paginator->sort('Persona.dni', 'D.N.I.', array('escape' => false, 'title' => 'Ordenar por D.N.I.')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.direccion', 'Dirección', array('escape' => false, 'title' => 'Ordenar por dirección')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.localidad', 'Localidad', array('escape' => false, 'title' => 'Ordenar por localidad')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.provincia', 'Provincia', array('escape' => false, 'title' => 'Ordenar por provincia')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.pais', 'País', array('escape' => false, 'title' => 'Ordenar por país')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.codigo_postal', 'Código postal', array('escape' => false, 'title' => 'Ordenar por código postal')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.telefono_fijo', 'Teléfono fijo', array('escape' => false, 'title' => 'Ordenar por teléfono fijo')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.telefono_movil', 'Teléfono móvil', array('escape' => false, 'title' => 'Ordenar por teléfono móvil')); ?></th>
+    <th><?php echo $this->Paginator->sort('Arrendatario.correo_electronico', 'Correo electrónico', array('escape' => false, 'title' => 'Ordenar por correo electrónico')); ?></th>
     <th class="actions"><?php echo __('Acciones'); ?></th>
    </tr>
   </thead>
@@ -51,8 +50,26 @@
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Arrendatario']['direccion']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['localidad']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['direccion'])) {
+        echo h($arrendatario['Arrendatario']['direccion']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['localidad'])) {
+        echo h($arrendatario['Arrendatario']['localidad']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
      <td>
       <?php
        if (!empty($arrendatario['Arrendatario']['provincia'])) {
@@ -63,8 +80,26 @@
        }
       ?>&nbsp;
      </td>
-     <td><?php echo h($arrendatario['Arrendatario']['pais']); ?>&nbsp;</td>
-     <td><?php echo h($arrendatario['Arrendatario']['codigo_postal']); ?>&nbsp;</td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['pais'])) {
+        echo h($arrendatario['Arrendatario']['pais']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
+     <td>
+      <?php
+       if (!empty($arrendatario['Arrendatario']['codigo_postal'])) {
+        echo h($arrendatario['Arrendatario']['codigo_postal']);
+       }
+       else {
+        echo h("Desconocida");
+       }
+      ?>&nbsp;
+     </td>
      <td>
       <?php
        if (!empty($arrendatario['Arrendatario']['telefono_fijo'])) {
