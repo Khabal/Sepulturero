@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu('movimientos'); ?>
 </div>
 
@@ -82,9 +81,15 @@
      if (seleccionado != $("#MovimientoTipo").val()) {
        seleccionado = $("#MovimientoTipo").val();
        if (seleccionado == "Exhumación") {
-         $("#Origen").show(),
-         $("#FormularioDifuntos").hide(),
-         $("#ListaDifuntos").show()
+         $("#Origen").show()
+         if (falso > 0) {
+           $("#FormularioDifuntos").show(),
+           $("#ListaDifuntos").hide()
+         }
+         else {
+           $("#FormularioDifuntos").hide(),
+           $("#ListaDifuntos").show()
+         }
          $("#Destino").hide()
        }
        else if (seleccionado == "Inhumación") {

@@ -148,7 +148,7 @@ class DifuntosController extends AppController {
         'deep' => true,
         'fieldList' => array(
             'Persona' => array('id', 'dni', 'nombre', 'apellido1', 'apellido2', 'sexo', 'nacionalidad', 'observaciones'),
-            'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'causa_fundamental', 'causa_inmediata', 'certificado_defuncion'),
+            'Difunto' => array('id', 'persona_id', 'forense_id', 'tumba_id', 'estado', 'fecha_defuncion', 'edad', 'unidad_tiempo', 'causa_fundamental', 'causa_inmediata', 'certificado_defuncion'),
             'Tumba' => array('id', 'poblacion'),
         ),
         'validate' => false,
@@ -226,8 +226,8 @@ class DifuntosController extends AppController {
         //Devolver las opciones de selección de sexo
         $this->set('sexo', $this->Difunto->Persona->sexo);
         
-        //Devolver las opciones de selección de sexo
-        $this->set('tiempo', $this->Difunto->Persona->sexo);
+        //Devolver las opciones de selección de unidad de tiempo para la edad
+        $this->set('tiempo', $this->Difunto->tiempo);
         
         //Comprobar si está enviando el formulario
         if ($this->request->is('post')) {
@@ -435,7 +435,7 @@ class DifuntosController extends AppController {
              ),
             ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.fecha', 'Movimiento.tipo', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.motivo', 'Movimiento.documental'
             ),
            ),
           ),
@@ -464,6 +464,9 @@ class DifuntosController extends AppController {
         //Devolver las opciones de selección de sexo
         $this->set('sexo', $this->Difunto->Persona->sexo);
         
+        //Devolver las opciones de selección de unidad de tiempo para la edad
+        $this->set('tiempo', $this->Difunto->tiempo);
+        
         //Eliminar reglas de validación
         unset($this->Difunto->validate);
         
@@ -482,6 +485,9 @@ class DifuntosController extends AppController {
         
         //Devolver las opciones de selección de sexo
         $this->set('sexo', $this->Difunto->Persona->sexo);
+        
+        //Devolver las opciones de selección de unidad de tiempo para la edad
+        $this->set('tiempo', $this->Difunto->tiempo);
         
         //Asignar id
         $this->Difunto->id = $id;

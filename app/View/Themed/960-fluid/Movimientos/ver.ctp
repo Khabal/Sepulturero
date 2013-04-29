@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('movimientos', $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>
 </div>
 
@@ -19,10 +18,10 @@
  <h2><?php echo __('Datos del movimiento');?></h2>
  <dl>
   <?php /* Comprobar si se trata de un movimiento documental */
-   $estilo = '';
+   $estilo = null;
    if ($movimiento['Movimiento']['documental']) {
-    echo "<dt>Este tipo de movimiento no tiene nigún tipo de validez ni de rigor.</dt><dd></dd>";
-    $estilo = ' style="color:#FF0000;"'; 
+    $estilo = ' style="color:#FF0000;"';
+    echo "<dt>Este tipo de movimiento no tiene nigún tipo de validez ni de rigor por ser documental.</dt>";
    }
   ?>
   <dt><?php echo __('Tipo de movimiento'); ?>:</dt>

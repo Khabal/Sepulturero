@@ -282,8 +282,8 @@
      <td><?php echo h($difunto['estado']); ?>&nbsp;</td>
      <td>
       <?php
-       if (!empty($difunto['Difunto']['fecha_defuncion'])) {
-        echo h(date('d/m/Y', strtotime($difunto['Difunto']['fecha_defuncion'])));
+       if (!empty($difunto['fecha_defuncion'])) {
+        echo h(date('d/m/Y', strtotime($difunto['fecha_defuncion'])));
        }
        else {
         echo h("Desconocida");
@@ -292,8 +292,8 @@
      </td>
      <td>
       <?php
-       if (!empty($difunto['Difunto']['edad'])) {
-        echo h($difunto['Difunto']['edad'] . " " . $difunto['Difunto']['unidad_tiempo']);
+       if (!empty($difunto['edad'])) {
+        echo h($difunto['edad'] . " " . $difunto['unidad_tiempo']);
        }
        else {
         echo h("Desconocida");
@@ -302,8 +302,8 @@
      </td>
      <td>
       <?php
-       if (!empty($difunto['Difunto']['certificado_defuncion'])) {
-        echo h($difunto['Difunto']['certificado_defuncion']);
+       if (!empty($difunto['certificado_defuncion'])) {
+        echo h($difunto['certificado_defuncion']);
        }
        else {
         echo h("Desconocido");
@@ -346,7 +346,8 @@
     <?php $i = 0; ?>
     <?php foreach ($tumba['MovimientoTumba'] as $movimiento): ?>
      <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
-     <tr<?php echo $class; ?>>
+     <?php $estilo = null; if ($movimiento['Movimiento']['documental'] > 0) { $estilo = ' style="color:#FF0000;"'; } ?>
+     <tr<?php echo $class; echo $estilo;?>>
      <?php /* Obtener identificadores de tumbas de origen y destino */
       $origen = null;
       $destino = null;

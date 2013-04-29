@@ -71,6 +71,7 @@
        /* Obtener identificadores de campos */
        var auto = "#" + $(newForm).children("div").children("input[id$='TasaBonita']").attr("id");
        var auto_oc = auto.replace("Bonita", "Id");
+       var auto_din = auto.replace("TasaBonita", "Cantidad");
        
        /* Establecer opciones de 'UI Autocomplete' para jQuery */
        $(auto).autocomplete({
@@ -88,7 +89,8 @@
                  return {
                    label: x.label,
                    value: x.value,
-                   dinero: x.dinero
+                   dinero: x.dinero,
+                   moneda: x.moneda
                  }
                }));
              }
@@ -100,6 +102,7 @@
            $(auto).val(ui.item.label),
            $(auto_oc).val(ui.item.value),
            dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero),
+           $(auto_din).val(ui.item.dinero.toString().replace(/\./g,',') + " " + ui.item.moneda),
            $("#PagoTotal").val(dineuros.toString().replace(/\./g,','))
          },
          open: function() {
@@ -319,7 +322,7 @@
     echo $this->Form->input('Pago.tumba_id', array('type' => 'hidden'));
     echo $this->Form->input('Pago.fecha_bonita', array('label' => 'Fecha de pago:', 'class' => 'fecha')); //Campo imaginario
     echo $this->Form->input('Pago.fecha', array('type' => 'hidden'));
-    echo $this->Form->input('Pago.total', array('label' => 'Total:', 'default' => '0', 'readonly' => 'readonly'));
+    echo $this->Form->input('Pago.total', array('label' => 'Total:', 'default' => '0,00', 'readonly' => 'readonly'));
     echo $this->Form->input('Pago.moneda', array('label' => 'Moneda:', 'type' => 'select', 'options' => $monedas, 'empty' => ''));
     echo $this->Form->input('Pago.observaciones', array('label' => 'Anotaciones:', 'class' => 'anotaciones'));
    ?>
@@ -331,6 +334,7 @@
      <?php /* Campos */
       echo $this->Form->input('PagoTasa.#index#.tasa_bonita', array('label' => 'Tasa:')); //Campo imaginario
       echo $this->Form->input('PagoTasa.#index#.tasa_id', array('type' => 'hidden'));
+      echo $this->Form->input('PagoTasa.#index#.cantidad', array('label' => 'Cantidad:', 'readonly' => 'readonly'));
       echo $this->Form->input('PagoTasa.#index#.detalle', array('label' => 'Detalle:'));
      ?>
      <a id="SubFormularioTasa_remove_current" class="boton"> <?php echo $this->Html->image('cancelar.png', array('alt' => 'cancelar', 'class' => 'delete', 'style' => 'height:16px; width:16px;')); ?> </a>

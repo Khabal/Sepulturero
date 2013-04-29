@@ -406,7 +406,7 @@ class TumbasController extends AppController {
              ),
             ),
             'fields' => array(
-             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino'
+             'Movimiento.id', 'Movimiento.tipo', 'Movimiento.fecha', 'Movimiento.motivo', 'Movimiento.viajeros', 'Movimiento.cementerio_origen', 'Movimiento.cementerio_destino', 'Movimiento.documental'
             ),
            ),
            'fields' => array(

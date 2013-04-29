@@ -500,7 +500,7 @@ class TasasController extends AppController {
           'Tasa.concepto LIKE' => $palabro,
          ),
          'fields' => array(
-          'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad'
+          'Tasa.id', 'Tasa.concepto', 'Tasa.cantidad', 'Tasa.moneda'
          ),
          'limit' => 20,
         ));
@@ -513,7 +513,7 @@ class TasasController extends AppController {
         }
         else {
          foreach($resultados as $resultado) {
-          array_push($items, array("label" => $resultado['Tasa']['concepto'], "value" => $resultado['Tasa']['id'], "dinero" => $resultado['Tasa']['cantidad']));
+          array_push($items, array("label" => $resultado['Tasa']['concepto'], "value" => $resultado['Tasa']['id'], "dinero" => $resultado['Tasa']['cantidad'], "moneda" => $resultado['Tasa']['moneda']));
          }
         }
         

@@ -494,7 +494,7 @@ class FunerariasController extends AppController {
         }
         else {
             foreach($resultados as $resultado) {
-                array_push($items, array("label" => $resultado['Funeraria']['nombre'] . " " . $resultado['Funeraria']['cif'], "value" => $resultado['Funeraria']['id']));
+                array_push($items, array("label" => $resultado['Funeraria']['nombre'] . " - " . $resultado['Funeraria']['cif'], "value" => $resultado['Funeraria']['id']));
             }
         }
         

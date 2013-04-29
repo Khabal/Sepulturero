@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('movimientos', $this->Session->read('Movimiento.id'), $this->Session->read('Movimiento.fecha_motivo')); ?>
 </div>
 
@@ -320,7 +319,13 @@ $.each(respuesta, function (iteration, item) {
   <fieldset>
    <legend><?php echo __('Datos del movimiento'); ?></legend>
    <?php
-    echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
+    //Si el movimiento es real no se va a permitir convertirlo en documental
+    if ($this->request->data['Movimiento']['documental'] > 0) {
+     echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
+    }
+    else {
+     echo $this->Form->input('Movimiento.documental', array('type' => 'hidden'));
+    }
     echo $this->Form->input('Movimiento.tipo', array('label' => 'Clase de movimiento:', 'readonly' => 'readonly'));
     echo $this->Form->input('Movimiento.fecha_bonita', array('label' => 'Fecha de movimiento:')); //Campo imaginario
     echo $this->Form->input('Movimiento.fecha', array('type' => 'hidden'));
@@ -363,10 +368,10 @@ $.each(respuesta, function (iteration, item) {
    <legend><?php echo __('Datos de destino'); ?></legend>
    <div id="Destino" style="display:none;">
     <?php /* Campos */
-    echo $this->Form->input('Movimiento.cementerio_destino', array('label' => 'Cementerio de destino:', 'default' => 'Motril'));
-    echo $this->Form->input('Movimiento.tumba_destino', array('label' => 'Tumba de destino:')); //Campo imaginario
-    echo $this->Form->input('MovimientoTumba.1.tumba_id', array('type' => 'hidden'));
-   ?>
+     echo $this->Form->input('Movimiento.cementerio_destino', array('label' => 'Cementerio de destino:', 'default' => 'Motril'));
+     echo $this->Form->input('Movimiento.tumba_destino', array('label' => 'Tumba de destino:')); //Campo imaginario
+     echo $this->Form->input('MovimientoTumba.1.tumba_id', array('type' => 'hidden'));
+    ?>
    </div>
   </fieldset>
  

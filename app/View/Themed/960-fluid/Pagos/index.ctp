@@ -39,7 +39,7 @@
       }
       elseif (!empty($pago['Pago']['funeraria_id'])) {
        echo "<td> Funeraria &nbsp;</td>";
-       echo "<td>" . $this->Html->link($pago['Pago']['Funeraria']['nombre'] . " - " . $pago['Pago']['Funeraria']['cif'], array('controller' => 'funerarias', 'action' => 'ver', $pago['Pago']['funeraria_id'])) . "&nbsp;</td>";
+       echo "<td>" . $this->Html->link($pago['Funeraria']['nombre'] . " - " . $pago['Funeraria']['cif'], array('controller' => 'funerarias', 'action' => 'ver', $pago['Pago']['funeraria_id'])) . "&nbsp;</td>";
       }
       else {
        echo "Sin información";

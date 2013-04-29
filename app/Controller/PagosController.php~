@@ -431,7 +431,7 @@ class PagosController extends AppController {
                 $this->request->data['Pago']['entregado'] = $this->request->data['Pago']['total'];
                 
                 //Guardar y comprobar éxito
-                if ($this->Pago->saveAssociated($this->request->data, $this->opciones_guardado)) {
+                if ($this->Pago->saveAssociated($this->Pago->PagoTasa->deleteAll(array('PagoTasa.pago_id' => $id), false, false) && $this->request->data, $this->opciones_guardado)) {
                     $this->Session->setFlash(__('El pago ha sido actualizado correctamente.'));
                     //Borrar datos de sesión
                     $this->Session->delete('Pago');
@@ -504,14 +504,15 @@ class PagosController extends AppController {
             ));
             
             //Devolver nombres bonitos para entidades relacionadas
-            $this->request->data['Pago']['total'] = number_format($this->request->data['Tasa']['cantidad'], 2, ',', '.');
+            $this->request->data['Pago']['total'] = number_format($this->request->data['Pago']['total'], 2, ',', '.');
             
-            if (!empty($this->request->data['Arrendatario'])) {
+            if (!empty($this->request->data['Pago']['arrendatario_id'])) {
                 $this->request->data['Pago']['tipo_pagador'] = "Particular";
                 $this->request->data['Pago']['arrendatario_bonito'] = $this->request->data['Arrendatario']['Persona']['nombre_completo'] . " - " . $this->request->data['Arrendatario']['Persona']['dni'];
                 unset($this->request->data['Arrendatario']);
             }
-            elseif (!empty($this->request->data['Funeraria'])) {
+            elseif (!empty($this->request->data['Pago']['funeraria_id'])) {
+                $this->request->data['Pago']['tipo_pagador'] = "Funeraria";
                 $this->request->data['Pago']['funeraria_bonita'] = $this->request->data['Funeraria']['nombre'] . " - " . $this->request->data['Funeraria']['cif'];
                 unset($this->request->data['Funeraria']);
             }

@@ -80,6 +80,7 @@
      <td><?php echo h("Funeraria"); ?>&nbsp;</td>
      <td><?php echo h($pago['Funeraria']['nombre']); ?>&nbsp;</td>
      <td><?php echo h($pago['Funeraria']['cif']); ?>&nbsp;</td>
+     <td>
       <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'funerarias', 'action' => 'ver', $pago['Pago']['funeraria_id']), array('escape' => false, 'title' => 'Ver funeraria')); ?>
      </td>
     </tr>

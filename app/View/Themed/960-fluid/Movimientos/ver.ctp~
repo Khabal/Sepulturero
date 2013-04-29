@@ -1,6 +1,5 @@
 <?php /* Menú de accciones */ ?>
 <div class="actions box">
- <h2><?php echo __('Menú de accciones'); ?></h2>
  <?php echo $this->GuarritasEnergeticas->guarrita_menu_extendido('movimientos', $movimiento['Movimiento']['id'], date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])) . " - " . $movimiento['Movimiento']['motivo']); ?>
 </div>
 
@@ -12,17 +11,17 @@
  */
 ?>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
 
 <?php /* Datos movimiento */ ?>
 <div class="view box">
  <h2><?php echo __('Datos del movimiento');?></h2>
  <dl>
   <?php /* Comprobar si se trata de un movimiento documental */
-   $estilo = '';
+   $estilo = null;
    if ($movimiento['Movimiento']['documental']) {
-    echo "<dt>Este tipo de movimiento no tiene nigún tipo de validez ni de rigor.</dt><dd></dd>";
-    $estilo = ' style="color:#FF0000;"'; 
+    $estilo = ' style="color:#FF0000;"';
+    echo "<dt>Este tipo de movimiento no tiene nigún tipo de validez ni de rigor.</dt>";
    }
   ?>
   <dt><?php echo __('Tipo de movimiento'); ?>:</dt>
@@ -186,4 +185,4 @@
  <?php endif; ?>
 </div>
 
-<?php echo $this->Html->link('Volver a la página anterior','javascript:history.go(-1)'); ?>
+<?php echo $this->GuarritasEnergeticas->burton_volver(); ?>

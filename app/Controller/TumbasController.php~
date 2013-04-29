@@ -357,7 +357,7 @@ class TumbasController extends AppController {
              ),
             ),
             'fields' => array(
-             'Arrendatario.id', 'Arrendatario.persona_id'
+             'Arrendatario.id', 'Arrendatario.persona_id', 'Arrendatario.direccion', 'Arrendatario.localidad', 'Arrendatario.provincia', 'Arrendatario.pais', 'Arrendatario.codigo_postal', 'Arrendatario.telefono_fijo', 'Arrendatario.telefono_movil', 'Arrendatario.correo_electronico'
             ),
            ),
            'Concesion' => array(

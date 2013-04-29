@@ -49,7 +49,7 @@
   <dd>
    <?php
     if ($difunto['Difunto']['fecha_defuncion']) {
-     echo h($difunto['Difunto']['fecha_defuncion']);
+     echo h(date('d/m/Y', strtotime($difunto['Difunto']['fecha_defuncion'])));
     }
     else {
      echo h("Desconocida");
@@ -150,11 +150,12 @@
     <tr>
      <th><?php echo __('Fecha'); ?></th>
      <th><?php echo __('Tipo'); ?></th>
+     <th><?php echo __('Motivo'); ?></th>
+     <th><?php echo __('Viajeros'); ?></th>
      <th><?php echo __('Cementerio de origen'); ?></th>
      <th><?php echo __('Tumba de origen'); ?></th>
      <th><?php echo __('Cementerio de destino'); ?></th>
      <th><?php echo __('Tumba de destino'); ?></th>
-     <th><?php echo __('Motivo'); ?></th>
      <th class="actions">&nbsp;</th>
     </tr>
    </thead>
@@ -163,7 +164,8 @@
     <?php $i = 0; ?>
     <?php foreach ($difunto['DifuntoMovimiento'] as $movimiento): ?>
      <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
-     <tr<?php echo $class; ?>>
+     <?php $estilo = null; if ($movimiento['Movimiento']['documental'] > 0) { $estilo = ' style="color:#FF0000;"'; } ?>
+     <tr<?php echo $class; echo $estilo;?>>
      <?php /* Obtener identificadores de tumbas de origen y destino */
       $origen = null;
       $destino = null;
@@ -178,6 +180,8 @@
      ?>
      <td><?php echo date('d/m/Y', strtotime($movimiento['Movimiento']['fecha'])); ?>&nbsp;</td>
      <td><?php echo h($movimiento['Movimiento']['tipo']); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
+     <td><?php echo h($movimiento['Movimiento']['viajeros']); ?>&nbsp;</td>
      <?php /* Mostrar información si el movimiento tiene origen */
       if ($movimiento['Movimiento']['tipo'] == "Inhumación"){
        echo '<td>' . '-----' . '&nbsp;</td>';
@@ -238,7 +242,6 @@
        } 
       }
      ?>
-     <td><?php echo h($movimiento['Movimiento']['motivo']); ?>&nbsp;</td>
       <td class="actions">
        <?php echo $this->Html->link(__($this->Html->image('ver.png', array('alt' => 'ver', 'style' => 'height:16px; width:16px;'))), array('controller' => 'movimientos', 'action' => 'ver', $movimiento['movimiento_id']), array('escape' => false, 'title' => 'Ver')); ?>
       </td>

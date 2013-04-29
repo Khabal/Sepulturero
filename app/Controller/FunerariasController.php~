@@ -440,6 +440,12 @@ class FunerariasController extends AppController {
             throw new NotFoundException(__('La funeraria especificada no existe.'));
         }
         
+        //Comprobar si la funeraria está asociada con algún pago y actualizar clave externa
+        $pago = $this->Funeraria->Pago->field('funeraria_id', array('Pago.funeraria_id' => $id));
+        if (!empty($pago)) {
+            $this->Funeraria->Pago->query("UPDATE pagos SET funeraria_id = null WHERE funeraria_id = '" . $id . "'");
+        }
+        
         //Borrar y comprobar éxito
         if ($this->Funeraria->delete()) {
             $this->Session->setFlash(__('La funeraria ha sido eliminada correctamente.'));

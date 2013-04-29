@@ -285,7 +285,7 @@ class DifuntoMovimiento extends AppModel {
     public function valida_ex($check) {
         
         //Comprobar si el tipo de movimiento es una exhumación o traslado
-        if (($this->data['DifuntoMovimiento']['tipo'] == "Exhumación") || ($this->data['DifuntoMovimiento']['tipo'] == "Traslado")) {
+        if ((($this->data['DifuntoMovimiento']['tipo'] == "Exhumación") || ($this->data['DifuntoMovimiento']['tipo'] == "Traslado")) && ($this->data['DifuntoMovimiento']['documental'] == 0)) {
             
             //Extraer el ID de la difunto
             if (!empty($this->data['DifuntoMovimiento']['difunto_id'])) {
@@ -338,7 +338,7 @@ class DifuntoMovimiento extends AppModel {
     public function valida_in($check) {
         
         //Comprobar si el tipo de movimiento es una inhumación
-        if ($this->data['DifuntoMovimiento']['tipo'] == "Inhumación") {
+        if (($this->data['DifuntoMovimiento']['tipo'] == "Inhumación") && ($this->data['DifuntoMovimiento']['documental'] == 0)) {
             
             //Extraer el ID de la difunto
             if (!empty($this->data['DifuntoMovimiento']['difunto_id'])) {
