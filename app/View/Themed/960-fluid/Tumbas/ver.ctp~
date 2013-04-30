@@ -20,11 +20,11 @@
 </div>
 
 <?php
- /*
+ 
  echo '<pre>';
  print_r($tumba);
  echo '</pre>';
- */
+ 
 ?>
 
 <?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
@@ -346,7 +346,7 @@
     <?php $i = 0; ?>
     <?php foreach ($tumba['MovimientoTumba'] as $movimiento): ?>
      <?php $class = null; if ($i++ % 2 == 0) { $class = ' class="altrow"'; } ?>
-     <?php if ($movimiento['Movimiento']['documental'] > 0) { $estilo = ' style="color:#FF0000;"'; } ?>
+     <?php $estilo = null; if ($movimiento['Movimiento']['documental'] > 0) { $estilo = ' style="color:#FF0000;"'; } ?>
      <tr<?php echo $class; echo $estilo;?>>
      <?php /* Obtener identificadores de tumbas de origen y destino */
       $origen = null;

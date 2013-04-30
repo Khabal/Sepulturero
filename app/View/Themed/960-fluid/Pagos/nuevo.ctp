@@ -99,6 +99,8 @@
          minLength: 2,
          select: function(event, ui) {
            event.preventDefault(),
+//Comprobar si vacio oc y en caso contrario restar cantidad
+//al borrar restar dinero al total
            $(auto).val(ui.item.label),
            $(auto_oc).val(ui.item.value),
            dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero),
@@ -122,6 +124,10 @@
        }
        
      }
+afterRemoveCurrent: function(source) {
+dineuros = parseFloat($("#PagoTotal").val()) + parseFloat(ui.item.dinero),
+$("#PagoTotal").val(dineuros.toString().replace(/\./g,','))
+}
    });
  });
 </script>

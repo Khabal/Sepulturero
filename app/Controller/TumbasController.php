@@ -350,6 +350,12 @@ class TumbasController extends AppController {
          'contain' => array(
           'Columbario', 'Exterior', 'Nicho', 'Panteon',
           'Arrendamiento' => array(
+/*           'conditions' => array(
+            'OR' => array (
+             'Arrendamiento.estado' => 'Vigente',
+             'Arrendamiento.estado' => 'Caducado',
+            ),
+           ),*/
            'Arrendatario' => array(
             'Persona' => array(
              'fields' => array(
