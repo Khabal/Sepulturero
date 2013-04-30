@@ -69,9 +69,13 @@
 </div>
 
 <?php /* Buscar el arrendamiento vigente o caducado */
+ $arrendamiento = null;
  foreach ($tumba['Arrendamiento'] as $arrendamiento) {
   if (($arrendamiento['estado'] == "Vigente") || ($arrendamiento['estado'] == "Caducado")) {
    break;
+  }
+  else {
+   $arrendamiento = null;
   }
 }
 ?>

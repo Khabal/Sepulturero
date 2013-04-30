@@ -64,6 +64,8 @@
    
    /* Poder añadir los difuntos que se quieran si el movimiento es documental */
    $("#MovimientoDocumental").change(function() {
+     event.preventDefault();
+     if (falso != $("#MovimientoDocumental").val()) {
      falso = this.checked ? '1' : '0';
      if (falso > 0) {
        $("#FormularioDifuntos").show(),
@@ -139,15 +141,22 @@
      $("#Destino").show()
    }
    else if (seleccionado == "Traslado") {
-     $("#Origen").show(),
+     $("#Origen").show()
+     if (falso > 0) {
+           $("#FormularioDifuntos").show(),
+           $("#ListaDifuntos").hide()
+     }
+     else {
      $("#FormularioDifuntos").hide(),
+
      $("#ListaDifuntos").show(),
      $.get(
        "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'muertos_tumba')); ?>",
        {term: tum_org},
        function(respuesta){
          $("#ListaDifuntos").html(respuesta);
-       }),
+       })
+     }
      $("#Destino").show()
    }
    else {
@@ -345,7 +354,7 @@ $.each(respuesta, function (iteration, item) {
   <fieldset>
    <legend><?php echo __('Datos del movimiento'); ?></legend>
    <?php
-    echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox', 'hiddenField' => false));
+    echo $this->Form->input('Movimiento.documental', array('label' => '¿Documental?', 'type' => 'checkbox'));
     echo $this->Form->input('Movimiento.tipo', array('label' => 'Clase de movimiento:', 'type' => 'select', 'options' => $tipo, 'empty' => ''));
     echo $this->Form->input('Movimiento.fecha_bonita', array('label' => 'Fecha de movimiento:')); //Campo imaginario
     echo $this->Form->input('Movimiento.fecha', array('type' => 'hidden'));

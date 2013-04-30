@@ -64,6 +64,8 @@
    
    /* Poder añadir los difuntos que se quieran si el movimiento es documental */
    $("#MovimientoDocumental").change(function() {
+     event.preventDefault();
+     if (falso != $("#MovimientoDocumental").val()) {
      falso = this.checked ? '1' : '0';
      if (falso > 0) {
        $("#FormularioDifuntos").show(),
@@ -73,6 +75,7 @@
        $("#FormularioDifuntos").hide(),
        $("#ListaDifuntos").show()
      }
+}
    });
 
    /* Mostrar campos del formulario adecuados a cada tipo de movimiento */
@@ -139,15 +142,22 @@
      $("#Destino").show()
    }
    else if (seleccionado == "Traslado") {
-     $("#Origen").show(),
+     $("#Origen").show()
+     if (falso > 0) {
+           $("#FormularioDifuntos").show(),
+           $("#ListaDifuntos").hide()
+     }
+     else {
      $("#FormularioDifuntos").hide(),
+
      $("#ListaDifuntos").show(),
      $.get(
        "<?php echo $this->Html->url(array('controller' => 'tumbas', 'action' => 'muertos_tumba')); ?>",
        {term: tum_org},
        function(respuesta){
          $("#ListaDifuntos").html(respuesta);
-       }),
+       })
+     }
      $("#Destino").show()
    }
    else {

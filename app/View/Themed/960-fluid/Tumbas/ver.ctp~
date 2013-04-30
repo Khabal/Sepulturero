@@ -20,11 +20,11 @@
 </div>
 
 <?php
- 
+ /*
  echo '<pre>';
  print_r($tumba);
  echo '</pre>';
- 
+ */
 ?>
 
 <?php echo $this->GuarritasEnergeticas->burton_volver(); ?>
@@ -69,9 +69,13 @@
 </div>
 
 <?php /* Buscar el arrendamiento vigente o caducado */
+ $arrendamiento = null;
  foreach ($tumba['Arrendamiento'] as $arrendamiento) {
   if (($arrendamiento['estado'] == "Vigente") || ($arrendamiento['estado'] == "Caducado")) {
    break;
+  }
+  else {
+   $arrendamiento = null;
   }
 }
 ?>
